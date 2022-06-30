@@ -2,6 +2,7 @@
 #files
 *.xml
 *.png
+_*
 
 # folder
 wandb/
