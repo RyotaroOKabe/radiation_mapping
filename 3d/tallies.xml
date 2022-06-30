@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <tallies>
   <mesh id="1">
-    <dimension>5 5 5</dimension>
-    <lower_left>-2.5 -2.5 -2.5</lower_left>
+    <dimension>10 10 10</dimension>
+    <lower_left>-5.0 -5.0 -5.0</lower_left>
     <width>1 1 1</width>
   </mesh>
-  <filter id="7" type="mesh">
+  <filter id="10" type="mesh">
     <bins>1</bins>
   </filter>
-  <tally id="9" name="mesh tally">
-    <filters>7</filters>
+  <tally id="13" name="mesh tally">
+    <filters>10</filters>
     <scores>absorption</scores>
   </tally>
 </tallies>

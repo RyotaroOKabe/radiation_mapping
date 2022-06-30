@@ -31,11 +31,11 @@ USE_CPU = False
 ###=================Input parameter======================
 
 rad_source_x= [50, 7, 55]
-
+#a_num = 6
 ###=======================================
 #%%
 #def gen_materials_geometry_tallies():
-def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
+def gen_materials_geometry_tallies(a_num, panel_density, e_filter, *energy):
     # 1.6 enriched fuel
     panel = openmc.Material(name='CdZnTe')  #!20220302
     #panel.set_density('g/cm3', 5.8)
@@ -94,12 +94,12 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     max_z2 = openmc.ZPlane(z0=+0.5, boundary_type='transmission')
 
     #for S3 layer
-    min_x3 = openmc.XPlane(x0=-2.5, boundary_type='transmission')
-    max_x3 = openmc.XPlane(x0=+2.5, boundary_type='transmission')
-    min_y3 = openmc.YPlane(y0=-2.5, boundary_type='transmission')
-    max_y3 = openmc.YPlane(y0=+2.5, boundary_type='transmission')
-    min_z3 = openmc.ZPlane(z0=-2.5, boundary_type='transmission')   #!20220628
-    max_z3 = openmc.ZPlane(z0=+2.5, boundary_type='transmission')
+    min_x3 = openmc.XPlane(x0=-a_num/2, boundary_type='transmission')   #!20220629 #!a_num
+    max_x3 = openmc.XPlane(x0=+a_num/2, boundary_type='transmission')
+    min_y3 = openmc.YPlane(y0=-a_num/2, boundary_type='transmission')
+    max_y3 = openmc.YPlane(y0=+a_num/2, boundary_type='transmission')
+    min_z3 = openmc.ZPlane(z0=-a_num/2, boundary_type='transmission')
+    max_z3 = openmc.ZPlane(z0=+a_num/2, boundary_type='transmission')
     
     #for outer insulator cell
     #min_xx = openmc.XPlane(x0=-100100, boundary_type='vacuum')
@@ -141,8 +141,8 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     # Create fuel assembly Lattice
     assembly = openmc.RectLattice(name='detector arrays')
     assembly.pitch = (1, 1, 1) #(1, 1)   #!20220628
-    assembly.lower_left = [-2.5, -2.5, -2.5] #[[-1 * 5 / 2.0] * 2 ] * 2   #!20220628
-    assembly.universes = [[[cell_universe] * 5] * 5 ] * 5
+    assembly.lower_left = [-a_num/2, -a_num/2, -a_num/2] #[[-1 * 5 / 2.0] * 2 ] * 2   #!20220629 #! a_num
+    assembly.universes = [[[cell_universe] * a_num] * a_num] * a_num
 
     #print(assembly)
 
@@ -186,8 +186,8 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
 
     # Instantiate a tally Mesh
     mesh = openmc.RegularMesh(mesh_id=1)    #!20220628
-    mesh.dimension = [5, 5, 5] #[10, 10]
-    mesh.lower_left = [-2.5, -2.5, -2.5] #[-5, -5]  #[-10, -10]
+    mesh.dimension = [a_num, a_num, a_num] #[10, 10]
+    mesh.lower_left = [-a_num/2, -a_num/2, -a_num/2] #[-5, -5]  #[-10, -10] #!20220629 #!a_num
     mesh.width = [1, 1, 1] #[2, 2]
 
     # Instantiate tally Filter
@@ -291,7 +291,7 @@ def run_openmc():
     openmc.run()
 
 
-def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_20220118.txt', \
+def process_aft_openmc_v1(a_num, folder1='random_savearray/', file1='detector_1source_20220118.txt', \
                         folder2='random_savefig/', file2='detector_1source_20220118.png',\
                             source_x=100, source_y=100, source_z=100, norm=True):
     # We do not know how many batches were needed to satisfy the
@@ -342,7 +342,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
 
     # Extract mean and reshape as 2D NumPy arrays
     #mean = fiss['mean'].values.reshape((10,10)) # numpy array   #!20220118
-    mean = fiss['mean'].values.reshape((5,5,5)) # numpy array   #!20220628
+    mean = fiss['mean'].values.reshape((a_num,a_num,a_num)) # numpy array   #!20220628
     mean = np.transpose(mean)   #!20220502 Adjust the incorrect axis setting!
     max = mean.max()        #!20220629
     min = mean.min()        #!20220629
@@ -368,12 +368,14 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     #print(absorb.shape)
     #print("std_dev")
     #stdev = absorb.std_dev.reshape((10,10))
-    stdev = absorb.std_dev.reshape((5,5,5))   #!20220628
+    stdev = absorb.std_dev.reshape((a_num,a_num,a_num))   #!20220628
     stdev_max = stdev.max()
     #print(stdev)
+    output_ph, output_th = get_output([source_x, source_y, source_z])
+    output_mtrx = np.einsum('ij,jk->ik', output_th.reshape(-1, 1), output_ph.reshape(1, -1))
 
     #==================================
-        
+    
     data_json={} #!20220119
     data_json['source']=[source_x, source_y, source_z]
     #print('source: ' + str(type([source_x, source_y])))
@@ -381,11 +383,14 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     data_json['miu_detector']=0.3   #!20220119 constant!
     data_json['miu_medium']=1.2   #!20220119 constant!
     data_json['miu_air']=0.00018   #!20220119 constant!
-    data_json['output']=get_output([source_x, source_y, source_z]).tolist()
+    #data_json['output']=get_output([source_x, source_y, source_z]).tolist()
+    data_json['output_ph']=output_ph.tolist()
+    data_json['output_th']=output_th.tolist()
+    data_json['output_mtrx']=output_mtrx.tolist()   #!20220629
     #print('output: ' + str(type(data_json['output'])))
     data_json['miu_de']=0.5   #!20220119 constant!
     #mean_list=mean.T.reshape((1, 100)).tolist()
-    mean_list=mean.T.reshape((1, 125)).tolist()   #!20220628
+    mean_list=mean.T.reshape((1, a_num**3)).tolist()   #!20220629 #!a_num
     #print('mean_list: ' + str(type(mean_list)))
     data_json['input']=mean_list[0]  #!20220119 Notice!!!
     data_json['bean_num']=0.5   #!20220119 constant!
@@ -418,14 +423,14 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     minmin = mean.min()
 
     axes=[]
-    fig, axs = plt.subplots(3, 5, figsize=(24,15), constrained_layout=True)
+    fig, axs = plt.subplots(3, a_num, figsize=(a_num*5,15), constrained_layout=True)  #!20220629 #!a_num
     fs_label = 20
     fs_title = 22
     fs_tick = 18
     #fig.set_figheight(15)
     #fig.set_figwidth(22)
     #fig=plt.figure(figsize=[20, 14]) #!20220628
-    for xa in range(5):
+    for xa in range(a_num): #!20220629 #!a_num
         ax = axs[0, xa]
         #axes.append(fig.add_subplot(3, 5, xa+1) )
         xslice = ax.imshow(mean[xa, :, :], vmin=minmin, vmax=maxmax, interpolation='nearest', cmap="plasma")       #!20220118
@@ -435,7 +440,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
         ax.tick_params(axis='y', labelsize=fs_tick)
         #plt.colorbar()
         ax.set_title("X=" + str(xa), fontsize = fs_title)
-    for ya in range(5):
+    for ya in range(a_num):
         ax = axs[1, ya]
         #axes.append(fig.add_subplot(3, 5, ya+6) )
         yslice = ax.imshow(mean[:, ya, :], vmin=minmin, vmax=maxmax, interpolation='nearest', cmap="plasma")       #!20220118
@@ -445,7 +450,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
         ax.tick_params(axis='y', labelsize=fs_tick)
         #plt.colorbar()
         ax.set_title("Y=" + str(ya), fontsize = fs_title)
-    for za in range(5):
+    for za in range(a_num):
         ax = axs[2, za]
         #axes.append(fig.add_subplot(3, 5, za+11) )
         zslice = ax.imshow(mean[:, :, za], vmin=minmin, vmax=maxmax, interpolation='nearest', cmap="plasma")       #!20220118
@@ -457,7 +462,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
         ax.set_title("Z=" + str(za), fontsize = fs_title)
         
     #plt.title('absorption rate')
-    ds, ph, th = file2[:-5].split('_')
+    ds, ph, th = file2[:-5].split('_')[1:]
     #?plt.title('dist: ' + ds + ',  angle: ' + ag + '\nMean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max))
     #plt.xlabel('y')  #!20220502 Adjust the incorrect axis setting!
     #plt.ylabel('x')  #!20220502 Adjust the incorrect axis setting!
@@ -482,6 +487,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     fig.colorbar(zslice, ax=axs[:, -1], cax=cbar_ax)#, location='right', cax=cbar_ax)#, shrink=0.6)
     #fig.colorbar(zslice, ax=axs[:, -1], location='right')#, shrink=0.6)
     #fig.colorbar(zslice, location='right')#, shrink=0.6)
+    fig.suptitle('dist: ' + ds + ',  \u03C6: ' + ph + ',  \u03B8: ' + th + '\nMean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max))
     fig.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.close()
     
@@ -493,7 +499,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     return mean #!20220331
 
 
-def get_output(source):
+def get_output0(source):
     sec_center=np.linspace(-np.pi,np.pi,41)
     output=np.zeros(40)
     sec_dis=2*np.pi/40.
@@ -515,7 +521,49 @@ def get_output(source):
     # raw_input()
     return output
 
-def before_openmc(rad_dist, rad_phi, rad_th, num_particles):
+def get_output(source):
+    sec_center=np.linspace(-np.pi,np.pi,41)
+    sec_th=np.linspace(np.pi/36,np.pi*35/36,18)
+    output_ph=np.zeros(40)
+    output_th=np.zeros(18)
+    sec_dis_ph=2*np.pi/40.
+    sec_dis_th=np.pi/18.
+    angle_ph=np.arctan2(source[1],source[0])
+    angle_th=np.arctan2(np.sqrt(source[0]**2+source[1]**2), source[2])
+    before_indx=int((angle_ph+np.pi)/sec_dis_ph)
+    if before_indx>=40: #!20220430 (actually no need to add these two lines..)
+        before_indx-=40
+    after_indx=before_indx+1
+    if after_indx>=40:
+        after_indx-=40
+    w1=abs(angle_ph-sec_center[before_indx])
+    w2=abs(angle_ph-sec_center[after_indx])
+    if w2>sec_dis_ph:
+        w2=abs(angle_ph-(sec_center[after_indx]+2*np.pi))
+        #print w2
+    output_ph[before_indx]+=w2/(w1+w2)
+    output_ph[after_indx]+=w1/(w1+w2)
+    
+    before_indx_th=int(angle_th/sec_dis_th)
+    if before_indx_th>=18: #!20220430 (actually no need to add these two lines..)
+        before_indx_th=18-(before_indx_th-17)
+    after_indx_th=before_indx_th+1
+    if after_indx_th>=18:
+        after_indx_th=18-(after_indx_th-16)
+    w1_th=abs(angle_th-sec_th[before_indx_th])
+    w2_th=abs(angle_th-sec_th[after_indx_th])
+    if w2_th>sec_dis_th:
+        w2_th=abs(angle_th-(sec_th[after_indx_th]+2*np.pi))
+        #print w2
+    output_th[before_indx_th]+=w2_th/(w1_th+w2_th)
+    output_th[after_indx_th]+=w1_th/(w1_th+w2_th)
+    # print before_indx,output[before_indx],after_indx,output[after_indx],angle/np.pi*180
+    # raw_input()
+    #print(before_indx_th)
+    #print(after_indx_th)
+    return output_ph, output_th
+
+def before_openmc(a_num, rad_dist, rad_phi, rad_th, num_particles):
 #if __name__ == '__main__':
     ###=================Input parameter======================
     #num_data = 100
@@ -539,7 +587,7 @@ def before_openmc(rad_dist, rad_phi, rad_th, num_particles):
     start = timeit.timeit()
     start_time = datetime.now()
     
-    gen_materials_geometry_tallies(panel_density, e_filter_tf, energy_filter_range)     #!20220205
+    gen_materials_geometry_tallies(a_num, panel_density, e_filter_tf, energy_filter_range)     #!20220205
     j=batches
     #for j in range(10,batches, 10):
     #for i in range(num_data):
@@ -552,7 +600,8 @@ def before_openmc(rad_dist, rad_phi, rad_th, num_particles):
         #rad_source=[float(rad_dist*np.cos(theta)), float(rad_dist*np.sin(theta))]
     rad_x, rad_y, rad_z=[float(rad_dist*np.cos(phi)*np.sin(theta)), float(rad_dist*np.sin(phi)*np.sin(theta)), float(rad_dist*np.cos(theta))]   #!20220628
     print([rad_x, rad_y, rad_z])
-    get_output([rad_x, rad_y, rad_z])   #!20220628
+    #?get_output([rad_x, rad_y, rad_z])   #!20220628
+    output_ph, output_th = get_output([rad_x, rad_y, rad_z])   #!20220629
     
         #gen_settings(rad_sources1=rad_source)
     gen_settings(src_energy=src_E, src_strength=src_Str,  en_source=source_energy, en_prob=energy_prob, num_particles=num_particles, batch_size=j, source_x=rad_x, source_y=rad_y, source_z=rad_z)    #!20220224
@@ -563,7 +612,7 @@ def before_openmc(rad_dist, rad_phi, rad_th, num_particles):
         #openmc.run(mpi_args=['mpiexec', '-n', '4', "-s", '11'])
         #openmc.run(threads=11)
 
-def after_openmc(rad_dist, rad_phi, rad_th, folder1, folder2):      
+def after_openmc(a_num, rad_dist, rad_phi, rad_th, folder1, folder2, header):      
         #folder1='random_savearray/'
         #file1=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.json'
         #file1=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(j)+ '.json'
@@ -574,10 +623,10 @@ def after_openmc(rad_dist, rad_phi, rad_th, folder1, folder2):
         #file2=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(num_particles)+ '.png'
     #folder1='openmc/discrete_data_20220507_v1.1/'
     #file1=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.json'
-    file1=str(round(rad_dist, 5)) + '_' + str(round(rad_phi, 5)) + '_' + str(round(rad_th, 5)) +  '.json'
+    file1=header + "_" + str(round(rad_dist, 5)) + '_' + str(round(rad_phi, 5)) + '_' + str(round(rad_th, 5)) +  '.json'
     #folder2='openmc/discrete_fig_20220507_v1.1/'
     #file2=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.png'
-    file2=str(round(rad_dist, 5)) + '_' + str(round(rad_phi, 5)) + '_' + str(round(rad_th, 5)) + '.png'
+    file2=header + "_" + str(round(rad_dist, 5)) + '_' + str(round(rad_phi, 5)) + '_' + str(round(rad_th, 5)) + '.png'
 
     # Check whether the specified path exists or not
     isExist1 = os.path.exists(folder1)
@@ -597,7 +646,7 @@ def after_openmc(rad_dist, rad_phi, rad_th, folder1, folder2):
     theta=rad_th*np.pi/180
     rad_x, rad_y, rad_z=[float(rad_dist*np.cos(phi)*np.sin(theta)), float(rad_dist*np.sin(phi)*np.sin(theta)), float(rad_dist*np.cos(theta))]   #!20220119
             
-    mm = process_aft_openmc_v1(folder1, file1, folder2, file2, rad_x, rad_y, rad_z, norm=True)  #!20220201 #!20220119
+    mm = process_aft_openmc_v1(a_num, folder1, file1, folder2, file2, rad_x, rad_y, rad_z, norm=True)  #!20220201 #!20220119
     
         #file11=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.json'
         #file22=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.png'
@@ -615,13 +664,15 @@ def after_openmc(rad_dist, rad_phi, rad_th, folder1, folder2):
 
 #%%
 if __name__ == '__main__':
-    num_data = 1000
+    a_num = 10
+    num_data = 3500
     dist = 50
     num_particles =100000 #500000
     dist_min = 100
     dist_max = 100
-    folder1='openmc/discrete_data_20220629_5^3_v3/'
-    folder2='openmc/discrete_fig_20220629_5^3_v3/'
+    folder1=f'openmc/disc_filter_data_20220630_{a_num}^3_v2/'
+    folder2=f'openmc/disc_filter_fig_20220630_{a_num}^3_v2/'
+    header = "data"
 
     for i in range(num_data):
         #?rad_dist=np.random.randint(dist_min, dist_max)# + np.random.random(1)
@@ -632,9 +683,9 @@ if __name__ == '__main__':
         #?print("dist: " + str(rad_dist))
         print("dist: " + str(dist))
         print("angle: " + str(rad_phi))
-        before_openmc(dist, rad_phi, rad_th, num_particles)
+        before_openmc(a_num, dist, rad_phi, rad_th, num_particles)  #!20220629 #!a_num
         openmc.run()
-        mm = after_openmc(dist, rad_phi, rad_th, folder1, folder2)
+        mm = after_openmc(a_num, dist, rad_phi, rad_th, folder1, folder2, header)
         #after_openmc(dist, rad_angle)
 
 # %%

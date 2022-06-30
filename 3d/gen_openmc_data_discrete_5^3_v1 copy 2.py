@@ -344,8 +344,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     #mean = fiss['mean'].values.reshape((10,10)) # numpy array   #!20220118
     mean = fiss['mean'].values.reshape((5,5,5)) # numpy array   #!20220628
     mean = np.transpose(mean)   #!20220502 Adjust the incorrect axis setting!
-    max = mean.max()        #!20220629
-    min = mean.min()        #!20220629
+    max = mean.max()        #!20220205
     if norm:    #!20220201
         #max = mean.max()       #!20220205
         mean_me = mean.mean()   #!20220227
@@ -413,48 +412,30 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     print(stdev_max)
     print("mean/stdev ratio:")
     print(max/stdev_max)
-    
-    maxmax = mean.max()
-    minmin = mean.min()
 
     axes=[]
-    fig, axs = plt.subplots(3, 5, figsize=(24,15), constrained_layout=True)
-    fs_label = 20
-    fs_title = 22
-    fs_tick = 18
-    #fig.set_figheight(15)
-    #fig.set_figwidth(22)
-    #fig=plt.figure(figsize=[20, 14]) #!20220628
+    fig=plt.figure(figsize=[20, 14]) #!20220628
     for xa in range(5):
-        ax = axs[0, xa]
-        #axes.append(fig.add_subplot(3, 5, xa+1) )
-        xslice = ax.imshow(mean[xa, :, :], vmin=minmin, vmax=maxmax, interpolation='nearest', cmap="plasma")       #!20220118
-        ax.set_xlabel('z', fontsize = fs_label)  #!20220502 Adjust the incorrect axis setting!
-        ax.set_ylabel('y', fontsize = fs_label)  #!20220502 Adjust the incorrect axis setting!
-        ax.tick_params(axis='x', labelsize=fs_tick)
-        ax.tick_params(axis='y', labelsize=fs_tick)
-        #plt.colorbar()
-        ax.set_title("X=" + str(xa), fontsize = fs_title)
+        axes.append(fig.add_subplot(3, 5, xa+1) )
+        plt.imshow(mean[xa, :, :], interpolation='nearest', cmap="plasma")       #!20220118
+        plt.xlabel('z')  #!20220502 Adjust the incorrect axis setting!
+        plt.ylabel('y')  #!20220502 Adjust the incorrect axis setting!
+        plt.colorbar()
+        plt.title("X" + str(xa))
     for ya in range(5):
-        ax = axs[1, ya]
-        #axes.append(fig.add_subplot(3, 5, ya+6) )
-        yslice = ax.imshow(mean[:, ya, :], vmin=minmin, vmax=maxmax, interpolation='nearest', cmap="plasma")       #!20220118
-        ax.set_xlabel('z', fontsize = fs_label)  #!20220502 Adjust the incorrect axis setting!
-        ax.set_ylabel('x', fontsize = fs_label)  #!20220502 Adjust the incorrect axis setting!
-        ax.tick_params(axis='x', labelsize=fs_tick)
-        ax.tick_params(axis='y', labelsize=fs_tick)
-        #plt.colorbar()
-        ax.set_title("Y=" + str(ya), fontsize = fs_title)
+        axes.append(fig.add_subplot(3, 5, ya+6) )
+        plt.imshow(mean[:, ya, :], interpolation='nearest', cmap="plasma")       #!20220118
+        plt.xlabel('z')  #!20220502 Adjust the incorrect axis setting!
+        plt.ylabel('x')  #!20220502 Adjust the incorrect axis setting!
+        plt.colorbar()
+        plt.title("Y=" + str(ya))
     for za in range(5):
-        ax = axs[2, za]
-        #axes.append(fig.add_subplot(3, 5, za+11) )
-        zslice = ax.imshow(mean[:, :, za], vmin=minmin, vmax=maxmax, interpolation='nearest', cmap="plasma")       #!20220118
-        ax.set_xlabel('y', fontsize = fs_label)  #!20220502 Adjust the incorrect axis setting!
-        ax.set_ylabel('x', fontsize = fs_label)  #!20220502 Adjust the incorrect axis setting!
-        ax.tick_params(axis='x', labelsize=fs_tick)
-        ax.tick_params(axis='y', labelsize=fs_tick)
-        #plt.colorbar()
-        ax.set_title("Z=" + str(za), fontsize = fs_title)
+        axes.append(fig.add_subplot(3, 5, za+11) )
+        plt.imshow(mean[:, :, za], interpolation='nearest', cmap="plasma")       #!20220118
+        plt.xlabel('y')  #!20220502 Adjust the incorrect axis setting!
+        plt.ylabel('x')  #!20220502 Adjust the incorrect axis setting!
+        plt.colorbar()
+        plt.title("Z=" + str(za))
         
     #plt.title('absorption rate')
     ds, ph, th = file2[:-5].split('_')
@@ -464,25 +445,7 @@ def process_aft_openmc_v1(folder1='random_savearray/', file1='detector_1source_2
     #?plt.colorbar()
     #plt.show()   #!20220117
     #plt.savefig('random_savefig/abs_rate_20220118_6.png')   #!20220117
-    #fig.subplots_adjust(right=0.8)
-    #cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
-    #fig.colorbar(mean[:, :, -1], cax=cbar_ax)
-    #fig.colorbar(zslice, ax=axs[:, -1], location='right')#, shrink=0.6)
-    #?cbar_ax = fig.add_axes([0.95, 0.15, 0.05, 0.82])
-    #?fig.colorbar(zslice, ax=axs[:, -1], cax=cbar_ax)#, location='right', cax=cbar_ax)#, shrink=0.6)
-    
-    fig.subplots_adjust(left=0.1,
-                    bottom=0.1, 
-                    right=0.8, 
-                    top=0.9, 
-                    wspace=0.3, 
-                    hspace=0.3)
-    
-    cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
-    fig.colorbar(zslice, ax=axs[:, -1], cax=cbar_ax)#, location='right', cax=cbar_ax)#, shrink=0.6)
-    #fig.colorbar(zslice, ax=axs[:, -1], location='right')#, shrink=0.6)
-    #fig.colorbar(zslice, location='right')#, shrink=0.6)
-    fig.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
+    plt.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.close()
     
     print('json dir')
@@ -615,13 +578,13 @@ def after_openmc(rad_dist, rad_phi, rad_th, folder1, folder2):
 
 #%%
 if __name__ == '__main__':
-    num_data = 1000
+    num_data = 10
     dist = 50
-    num_particles =100000 #500000
+    num_particles =50000 #500000
     dist_min = 100
     dist_max = 100
-    folder1='openmc/discrete_data_20220629_5^3_v3/'
-    folder2='openmc/discrete_fig_20220629_5^3_v3/'
+    folder1='openmc/discrete_data_20220629_5^3_v2/'
+    folder2='openmc/discrete_fig_20220629_5^3_v2/'
 
     for i in range(num_data):
         #?rad_dist=np.random.randint(dist_min, dist_max)# + np.random.random(1)
