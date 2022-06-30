@@ -1,153 +1,115 @@
 <?xml version='1.0' encoding='utf-8'?>
 <geometry>
-  <cell id="16" material="10" name="s1 cell" region="97 -98 99 -100 101 -102" universe="10" />
-  <cell id="17" material="11" name="s2 cell" region="~(97 -98 99 -100 101 -102) (103 -104 105 -106 107 -108)" universe="10" />
-  <cell fill="11" id="18" name="arrays cell" region="109 -110 111 -112 113 -114" universe="12" />
-  <cell id="19" material="void" name="root cell" region="~(109 -110 111 -112 113 -114) (91 -92 93 -94 95 -96)" universe="12" />
-  <cell id="20" material="void" name="outer cell" region="~(91 -92 93 -94 95 -96) (115 -116 117 -118 119 -120)" universe="12" />
-  <lattice id="11" name="detector arrays">
+  <cell id="31" material="19" name="s1 cell" region="187 -188 189 -190 191 -192" universe="19" />
+  <cell id="32" material="20" name="s2 cell" region="~(187 -188 189 -190 191 -192) (193 -194 195 -196 197 -198)" universe="19" />
+  <cell fill="20" id="33" name="arrays cell" region="199 -200 201 -202 203 -204" universe="21" />
+  <cell id="34" material="void" name="root cell" region="~(199 -200 201 -202 203 -204) (181 -182 183 -184 185 -186)" universe="21" />
+  <cell id="35" material="void" name="outer cell" region="~(181 -182 183 -184 185 -186) (205 -206 207 -208 209 -210)" universe="21" />
+  <lattice id="20" name="detector arrays">
     <pitch>1 1 1</pitch>
-    <dimension>10 10 10</dimension>
-    <lower_left>-5.0 -5.0 -5.0</lower_left>
+    <dimension>8 8 8</dimension>
+    <lower_left>-4.0 -4.0 -4.0</lower_left>
     <universes>
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 
-10 10 10 10 10 10 10 10 10 10 </universes>
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 </universes>
   </lattice>
-  <surface coeffs="-100000" id="91" type="x-plane" />
-  <surface coeffs="100000" id="92" type="x-plane" />
-  <surface coeffs="-100000" id="93" type="y-plane" />
-  <surface coeffs="100000" id="94" type="y-plane" />
-  <surface coeffs="-100000" id="95" type="z-plane" />
-  <surface coeffs="100000" id="96" type="z-plane" />
-  <surface coeffs="-0.4" id="97" type="x-plane" />
-  <surface coeffs="0.4" id="98" type="x-plane" />
-  <surface coeffs="-0.4" id="99" type="y-plane" />
-  <surface coeffs="0.4" id="100" type="y-plane" />
-  <surface coeffs="-0.4" id="101" type="z-plane" />
-  <surface coeffs="0.4" id="102" type="z-plane" />
-  <surface coeffs="-0.5" id="103" type="x-plane" />
-  <surface coeffs="0.5" id="104" type="x-plane" />
-  <surface coeffs="-0.5" id="105" type="y-plane" />
-  <surface coeffs="0.5" id="106" type="y-plane" />
-  <surface coeffs="-0.5" id="107" type="z-plane" />
-  <surface coeffs="0.5" id="108" type="z-plane" />
-  <surface coeffs="-5.0" id="109" type="x-plane" />
-  <surface coeffs="5.0" id="110" type="x-plane" />
-  <surface coeffs="-5.0" id="111" type="y-plane" />
-  <surface coeffs="5.0" id="112" type="y-plane" />
-  <surface coeffs="-5.0" id="113" type="z-plane" />
-  <surface coeffs="5.0" id="114" type="z-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="115" type="x-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="116" type="x-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="117" type="y-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="118" type="y-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="119" type="z-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="120" type="z-plane" />
+  <surface coeffs="-100000" id="181" type="x-plane" />
+  <surface coeffs="100000" id="182" type="x-plane" />
+  <surface coeffs="-100000" id="183" type="y-plane" />
+  <surface coeffs="100000" id="184" type="y-plane" />
+  <surface coeffs="-100000" id="185" type="z-plane" />
+  <surface coeffs="100000" id="186" type="z-plane" />
+  <surface coeffs="-0.4" id="187" type="x-plane" />
+  <surface coeffs="0.4" id="188" type="x-plane" />
+  <surface coeffs="-0.4" id="189" type="y-plane" />
+  <surface coeffs="0.4" id="190" type="y-plane" />
+  <surface coeffs="-0.4" id="191" type="z-plane" />
+  <surface coeffs="0.4" id="192" type="z-plane" />
+  <surface coeffs="-0.5" id="193" type="x-plane" />
+  <surface coeffs="0.5" id="194" type="x-plane" />
+  <surface coeffs="-0.5" id="195" type="y-plane" />
+  <surface coeffs="0.5" id="196" type="y-plane" />
+  <surface coeffs="-0.5" id="197" type="z-plane" />
+  <surface coeffs="0.5" id="198" type="z-plane" />
+  <surface coeffs="-4.0" id="199" type="x-plane" />
+  <surface coeffs="4.0" id="200" type="x-plane" />
+  <surface coeffs="-4.0" id="201" type="y-plane" />
+  <surface coeffs="4.0" id="202" type="y-plane" />
+  <surface coeffs="-4.0" id="203" type="z-plane" />
+  <surface coeffs="4.0" id="204" type="z-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="205" type="x-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="206" type="x-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="207" type="y-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="208" type="y-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="209" type="z-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="210" type="z-plane" />
 </geometry>

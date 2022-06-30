@@ -487,7 +487,7 @@ def process_aft_openmc_v1(a_num, folder1='random_savearray/', file1='detector_1s
     fig.colorbar(zslice, ax=axs[:, -1], cax=cbar_ax)#, location='right', cax=cbar_ax)#, shrink=0.6)
     #fig.colorbar(zslice, ax=axs[:, -1], location='right')#, shrink=0.6)
     #fig.colorbar(zslice, location='right')#, shrink=0.6)
-    fig.suptitle('dist: ' + ds + ',  \u03C6: ' + ph + ',  \u03B8: ' + th + '\nMean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max))
+    fig.suptitle('dist: ' + ds + ',  \u03C6: ' + ph + ',  \u03B8: ' + th + '\nMean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max), fontsize=25)
     fig.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.close()
     
@@ -664,7 +664,7 @@ def after_openmc(a_num, rad_dist, rad_phi, rad_th, folder1, folder2, header):
 
 #%%
 if __name__ == '__main__':
-    a_num = 10
+    a_num = 8
     num_data = 3500
     dist = 50
     num_particles =100000 #500000

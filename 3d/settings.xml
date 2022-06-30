@@ -6,7 +6,7 @@
   <inactive>10</inactive>
   <source particle="photon" strength="10">
     <space type="point">
-      <parameters>23.970120723592846 -39.8379363411151 18.394894416050462</parameters>
+      <parameters>6.898980995354313 17.88001090610686 46.181265370529196</parameters>
     </space>
     <energy type="discrete">
       <parameters>500000.0 1</parameters>
