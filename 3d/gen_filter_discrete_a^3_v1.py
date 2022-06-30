@@ -487,7 +487,7 @@ def process_aft_openmc_v1(a_num, folder1='random_savearray/', file1='detector_1s
     fig.colorbar(zslice, ax=axs[:, -1], cax=cbar_ax)#, location='right', cax=cbar_ax)#, shrink=0.6)
     #fig.colorbar(zslice, ax=axs[:, -1], location='right')#, shrink=0.6)
     #fig.colorbar(zslice, location='right')#, shrink=0.6)
-    #?fig.suptitle('dist: ' + ds + ',  \u03C6: ' + ph + ',  \u03B8: ' + th + '\nMean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max), fontsize=25)
+    #?fig.suptitle('dist: ' + ds + ',  \u03C6: ' + ph + ',  \u03B8: ' + th + ',   Mean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max), fontsize=30)
     fig.suptitle('r: ' + ds + ' /  \u03C6: ' + ph + ' /  \u03B8: ' + th, fontsize=30)
     fig.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.close()
@@ -532,7 +532,7 @@ def get_output(source):
     angle_ph=np.arctan2(source[1],source[0])
     angle_th=np.arctan2(np.sqrt(source[0]**2+source[1]**2), source[2])
     before_indx=int((angle_ph+np.pi)/sec_dis_ph)
-    if before_indx>=40:
+    if before_indx>=40: #!20220430 (actually no need to add these two lines..)
         before_indx-=40
     after_indx=before_indx+1
     if after_indx>=40:
@@ -541,11 +541,12 @@ def get_output(source):
     w2=abs(angle_ph-sec_center[after_indx])
     if w2>sec_dis_ph:
         w2=abs(angle_ph-(sec_center[after_indx]+2*np.pi))
+        #print w2
     output_ph[before_indx]+=w2/(w1+w2)
     output_ph[after_indx]+=w1/(w1+w2)
     
     before_indx_th=int(angle_th/sec_dis_th)
-    if before_indx_th>=18:
+    if before_indx_th>=18: #!20220430 (actually no need to add these two lines..)
         before_indx_th=18-(before_indx_th-17)
     after_indx_th=before_indx_th+1
     if after_indx_th>=18:
@@ -664,28 +665,41 @@ def after_openmc(a_num, rad_dist, rad_phi, rad_th, folder1, folder2, header):
 
 #%%
 if __name__ == '__main__':
-    a_num = 8
-    num_data = 3500
-    dist = 50
-    num_particles =100000 #500000
-    dist_min = 100
-    dist_max = 100
-    folder1=f'openmc/disc_filter_data_20220630_{a_num}^3_v2/'
-    folder2=f'openmc/disc_filter_fig_20220630_{a_num}^3_v2/'
-    header = "data"
+    a_num = 5
+    phi_num = 40
+    theta_num = 18
+    #?num_data = 3500
+    #?dist = 50
+    #?num_particles =100000 #500000
+    #?dist_min = 100
+    #?dist_max = 100
+    folder1=f'openmc/disc_filter_data_20220630_{a_num}^3_v1/'
+    folder2=f'openmc/disc_filter_fig_20220630_{a_num}^3_v1/'
+    #header = "data"
+    #header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 50000]}
+    header_dist_particles_dict = {'far': [100, 200000]}   #!20220518
+    phi_list = [0.1+a*360/phi_num -180 for a in range(phi_num)]
+    theta_list = [5+b*180/theta_num for b in range(theta_num)]
 
-    for i in range(num_data):
-        #?rad_dist=np.random.randint(dist_min, dist_max)# + np.random.random(1)
-        #rad_angle=angle  #np.random.randint(0, 359) + np.random.random(1)    #!20220128
-        rad_phi=float(np.random.randint(0, 360) + np.random.random(1))
-        rad_th=float(np.random.randint(0, 180) + np.random.random(1))
-        print("]]]]]]]]]]]]]]]]]")
-        #?print("dist: " + str(rad_dist))
-        print("dist: " + str(dist))
-        print("angle: " + str(rad_phi))
-        before_openmc(a_num, dist, rad_phi, rad_th, num_particles)  #!20220629 #!a_num
-        openmc.run()
-        mm = after_openmc(a_num, dist, rad_phi, rad_th, folder1, folder2, header)
-        #after_openmc(dist, rad_angle)
+    for header in header_dist_particles_dict.keys():
+        for i in range(phi_num):
+            for j in range(theta_num):
+                dist = header_dist_particles_dict[header][0]
+                num_particles = header_dist_particles_dict[header][1]
+                rad_phi = phi_list[i]
+                rad_theta = theta_list[j]
+                #?rad_dist=np.random.randint(dist_min, dist_max)# + np.random.random(1)
+                #rad_angle=angle  #np.random.randint(0, 359) + np.random.random(1)    #!20220128
+                #?rad_phi=float(np.random.randint(0, 360) + np.random.random(1))
+                #?rad_th=float(np.random.randint(0, 180) + np.random.random(1))
+                print("]]]]]]]]]]]]]]]]]")
+                #?print("dist: " + str(rad_dist))
+                print("dist: " + str(dist))
+                print("phi: " + str(rad_phi))
+                print("theta: " + str(rad_theta))
+                before_openmc(a_num, dist, rad_phi, rad_theta, num_particles)  #!20220629 #!a_num
+                openmc.run()
+                mm = after_openmc(a_num, dist, rad_phi, rad_theta, folder1, folder2, header)
+                #after_openmc(dist, rad_angle)
 
 # %%
