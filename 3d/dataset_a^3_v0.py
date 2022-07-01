@@ -184,7 +184,7 @@ path = 'openmc/discrete_data_20220630_5^3_v1'    #!20220630
 # print x_size,y_size
 
 
-class Dataset(object):  #!!
+class Dataset(object):
     """docstring for Datasedt"""
     def __init__(self, output_fun=get_output,path=path):
         super(Dataset, self).__init__()
@@ -218,8 +218,6 @@ class Dataset(object):  #!!
 
         xdata=np.array(xdata)
         ydata=np.array(ydata)
-        ydata_ph=np.array(ydata_ph)
-        ydata_th=np.array(ydata_th)
 
         #xx=xdata
         #yy=ydata
@@ -230,23 +228,18 @@ class Dataset(object):  #!!
         self.ydata_ph=ydata_th  #!20220630
         self.data_size=xdata.shape[0]
 
-class Trainset(object): #!!
+class Trainset(object):
     """docstring for Trainset"""
-    #def __init__(self, xdata,ydata,info=None,source_num=[2],prob=[1.]):
-    def __init__(self, xdata,ydata,ydata_ph, ydata_th, info=None,source_num=[2],prob=[1.]): #!20220630
+    def __init__(self, xdata,ydata,info=None,source_num=[2],prob=[1.]):
         super(Trainset, self).__init__()
         #self.arg = arg
         self.info=info
         self.xdata=xdata
         self.ydata=ydata
-        self.ydata_ph=ydata_ph  #!20220630
-        self.ydata_th=ydata_th  #!20220630
         self.ws=xdata.mean(axis=1)
         self.data_size=xdata.shape[0]
         self.x_size=xdata.shape[1]
-        self.y_size=ydata.shape #!20220630
-        self.y_ph_size=ydata_ph.shape[1] #!20220630
-        self.y_th_size=ydata_th.shape[1]
+        self.y_size=ydata.shape[1]
         self.index_list=np.arange(self.data_size)
 
         self.source_num=source_num
@@ -259,25 +252,16 @@ class Trainset(object): #!!
 
         xs=[]
         ys=[]
-        ys_ph=[]    #!20220630
-        ys_th=[]    #!20220630
         for i in range(bs):
-            #x,y=self.get_one_data(source_num,prob)
-            x,y,y_ph,y_th=self.get_one_data(source_num,prob)  #!20220630
+            x,y=self.get_one_data(source_num,prob)
             x=x.reshape(1,-1)
-            #y=y.reshape(1,-1)
-            y_ph=y_ph.reshape(1,-1) #!20220630
-            y_th=y_th.reshape(1,-1) #!20220630
+            y=y.reshape(1,-1)
             xs.append(x)
             ys.append(y)
-            ys_ph.append(y_ph)    #!20220630
-            ys_th.append(y_th)    #!20220630
             pass
 
         xx=np.concatenate(xs)
         yy=np.concatenate(ys)
-        yy_ph=np.concatenate(ys_ph)   #!20220630
-        yy_th=np.concatenate(ys_th)   #!20220630
 
         mm=xx[:,:].mean(axis=1,keepdims=True)
         vv=xx[:,:].var(axis=1,keepdims=True)
@@ -286,8 +270,7 @@ class Trainset(object): #!!
         #mm=mm.reshape((x_data.shape[0],-1))
         xx=(xx-mm)/np.sqrt(vv)
 
-        #return xx,yy    #!20220630
-        return xx,yy,yy_ph,yy_th
+        return xx,yy
 
     def get_batch_fixsource(self,bs,source_num):
         #source_num=self.source_num
@@ -300,28 +283,19 @@ class Trainset(object): #!!
 
         xs=[]
         ys=[]
-        ys_ph=[]   #!20220630
-        ys_th=[]   #!20220630
         while True:
             if len(xs)>=bs:break
-            #x,y=self.get_one_data([source_num],[1.])
-            x,y,y_ph,y_th=self.get_one_data([source_num],[1.])  #!20220630
-            #if np.where(y!=0)[0].shape[0] != source_num*2: #!20220630 out
-            #    continue
+            x,y=self.get_one_data([source_num],[1.])
+            if np.where(y!=0)[0].shape[0] != source_num*2:
+                continue
             x=x.reshape(1,-1)
-            #y=y.reshape(1,-1)  #!20220630
-            y_ph=y_ph.reshape(1,-1)   #!20220630
-            y_th=y_th.reshape(1,-1)   #!20220630
+            y=y.reshape(1,-1)
             xs.append(x)
             ys.append(y)
-            ys_ph.append(y_ph)    #!20220630
-            ys_th.append(y_th)    #!20220630
             pass
 
         xx=np.concatenate(xs)
         yy=np.concatenate(ys)
-        yy_ph=np.concatenate(ys_ph)   #!20220630
-        yy_th=np.concatenate(ys_th)   #!20220630
 
         mm=xx[:,:].mean(axis=1,keepdims=True)
         vv=xx[:,:].var(axis=1,keepdims=True)
@@ -330,8 +304,7 @@ class Trainset(object): #!!
         #mm=mm.reshape((x_data.shape[0],-1))
         xx=(xx-mm)/np.sqrt(vv)
 
-        #return xx,yy    #!20220630
-        return xx,yy,yy_ph,yy_th
+        return xx,yy
 
 
     def get_one_data(self,source_num,prob):
@@ -340,27 +313,20 @@ class Trainset(object): #!!
 
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
-        y_ph=np.zeros(self.y_ph_size)   #!20220630
-        y_th=np.zeros(self.y_th_size)
 
         ws=0.
         for indx in data_indx:
             x+=self.xdata[indx,:]   #!20220119
             ws+=self.ws[indx]
-            y+=self.ws[indx]*self.ydata[indx,:,:] #!220630
-            y_ph+=self.ws[indx]*self.ydata_ph[indx,:] #!220630
-            y_th+=self.ws[indx]*self.ydata_th[indx,:] #!220630
+            y+=self.ws[indx]*self.ydata[indx,:]
 
         #print('ws_point3')   #!20220303
         #y=y/ws   #!20220303
         if ws !=0:
             y=y/ws   #!20220303
-            y_ph=y_ph/ws    #!20220630
-            y_th=y_th/ws    #!20220630
         #print('ws_point3')   #!20220303
         #print y.sum()
-        #return x,y
-        return x,y,y_ph,y_th    #!20220630
+        return x,y
 
     def split(self,split_fold,indx,test_size=None,seed=None):
 
@@ -385,9 +351,6 @@ class Trainset(object): #!!
 
         test_x=self.xdata[start:end,:]
         test_y=self.ydata[start:end,:]
-        test_y_ph=self.ydata_ph[start:end,:]  #!20220630
-        test_y_th=self.ydata_th[start:end,:]  #!20220630
-        
 
         test=Testset(test_x,test_y,test_size,seed,source_num,prob)
 
@@ -413,16 +376,13 @@ class Trainset(object): #!!
         return train,test
 
 
-class Testset(object):  #!!
+class Testset(object):
     """docstring for Testset"""
-    #def __init__(self, xdata,ydata,test_size=None,seed=None,source_num=[2],prob=[1.]):
-    def __init__(self, xdata,ydata,ydata_ph,ydata_th,test_size=None,seed=None,source_num=[2],prob=[1.]):
+    def __init__(self, xdata,ydata,test_size=None,seed=None,source_num=[2],prob=[1.]):
         super(Testset, self).__init__()
         #self.arg = arg
         self.xdata=xdata
         self.ydata=ydata
-        self.ydata_ph=ydata_ph    #!20220630
-        self.ydata_th=ydata_th    #!20220630
         self.ws=xdata.mean(axis=1)
         self.data_size_raw=xdata.shape[0]
         if source_num==[1] or test_size==None:
@@ -430,18 +390,14 @@ class Testset(object):  #!!
         else:
             self.data_size=test_size
         self.x_size=xdata.shape[1]
-        self.y_size=ydata.shape  #!20220630
-        self.y_ph_size=ydata_ph.shape[1]  #!20220630
-        self.y_th_size=ydata_th.shape[1]  #!20220630
+        self.y_size=ydata.shape[1]
         self.index_list=np.arange(self.data_size_raw)
 
 
 
-        xx,yy,yy_ph,yy_th=self.gen_data(source_num,prob,seed=seed)  #!20220630
+        xx,yy=self.gen_data(source_num,prob,seed=seed)
         self.xdata=xx
         self.ydata=yy
-        self.ydata_ph=yy_ph   #!20220630
-        self.ydata_th=yy_th   #!20220630
 
     def gen_data(self,source_num,prob,seed=None):
 
@@ -449,34 +405,24 @@ class Testset(object):  #!!
 
         xs=[]
         ys=[]
-        ys_ph=[]   #!20220630
-        ys_th=[]   #!20220630
 
         if source_num==[1]:# and self.data_size_raw==self.data_size:
             #print 'haha'
 
             xx=self.xdata
             yy=self.ydata
-            yy_ph=self.ydata_ph   #!20220630
-            yy_th=self.ydata_th   #!20220630
 
         else:
             for i in range(self.data_size):
                 x,y=self.get_one_data(source_num,prob)
                 x=x.reshape(1,-1)
-                #y=y.reshape(1,-1)   #!20220630
-                y_ph=y_ph.reshape(1,-1)   #!20220630
-                y_th=y_th.reshape(1,-1)   #!20220630
+                y=y.reshape(1,-1)
                 xs.append(x)
                 ys.append(y)
-                ys_ph.append(y_ph)    #!20220630
-                ys_th.append(y_th)    #!20220630
                 pass
 
             xx=np.concatenate(xs)
             yy=np.concatenate(ys)
-            yy_ph=np.concatenate(ys_ph)   #!20220630
-            yy_th=np.concatenate(ys_th)   #!20220630
 
         mm=xx[:,:].mean(axis=1,keepdims=True)
         vv=xx[:,:].var(axis=1,keepdims=True)
@@ -485,8 +431,7 @@ class Testset(object):  #!!
         #mm=mm.reshape((x_data.shape[0],-1))
         xx=(xx-mm)/np.sqrt(vv)
 
-        #return xx,yy    #!20220630
-        return xx,yy,yy_ph,yy_th    #!20220630
+        return xx,yy
 
 
     def get_one_data(self,source_num,prob):
@@ -495,28 +440,19 @@ class Testset(object):  #!!
 
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
-        y_ph=np.zeros(self.y_ph_size)   #!20220630
-        y_th=np.zeros(self.y_th_size)
 
         ws=0.
         for indx in data_indx:
             x+=self.xdata[indx,:]
             ws+=self.ws[indx]
-            y+=self.ws[indx]*self.ydata[indx,:,:] #!220630
-            y_ph+=self.ws[indx]*self.ydata_ph[indx,:] #!220630
-            y_th+=self.ws[indx]*self.ydata_th[indx,:] #!220630
+            y+=self.ws[indx]*self.ydata[indx,:]
 
-        #print('ws_point3')   #!20220303
-        #y=y/ws   #!20220303
-        if ws !=0:
-            y=y/ws   #!20220303
-            y_ph=y_ph/ws    #!20220630
-            y_th=y_th/ws    #!20220630
-        #print('ws_point3')   #!20220303
+        #print('ws_point4')   #!20220303
+        #y=y/ws  #!20220305
+        if ws != 0:
+            y=y/ws  #!20220305
         #print y.sum()
-        #return x,y
-        return x,y,y_ph,y_th    #!20220630
-
+        return x,y
 
     def get_batch(self,bs,indx):
         start=indx*bs
@@ -524,8 +460,7 @@ class Testset(object):  #!!
 
         if end>self.data_size:
             end=self.data_size
-        #return self.xdata[start:end,:],self.ydata[start:end,:] #!20220630
-        return self.xdata[start:end,:],self.ydata[start:end,:,:],self.ydata_ph[start:end,:],self.ydata_th[start:end,:]  #!20220630
+        return self.xdata[start:end,:],self.ydata[start:end,:]
 
 class FilterData2(object):
     """docstring for FilterData"""
@@ -550,14 +485,14 @@ class FilterData2(object):
                 #names.append(filename)
                 for i,filter_type in enumerate(filter_types):
                     if filter_type in filename:
-                        filter_data[i].append(data['input'])    #!!sort??
+                        filter_data[i].append(data['input'])
                 #ydata.append(data['output'])
                 #source=data['source']
                 #yangle.append(np.arctan2(source[1],source[0]))
                 #sources.append(data['source'])
 
         filter_data=np.array(filter_data)
-        filter_data = filter_data.reshape((-1,filter_data.shape[-1]))   #!! dimension change!
+        filter_data = filter_data.reshape((-1,filter_data.shape[-1]))
         # print filter_data.shape
 
         mm=filter_data[:,:].mean(axis=1,keepdims=True)
@@ -610,7 +545,7 @@ filterpath ='openmc/disc_filter_data_20220630_5^3_v1'    #!20220630
 filterdata=FilterData(filterpath)  
 filterdata2=FilterData2(filterpath)      
 
-def load_data(test_size,train_size=None,test_size_gen=None,output_fun=get_output,path=path,source_num=[1],prob=[1.],seed=None):
+def load_data(test_size,train_size=None,test_size_gen=None,output_fun=get_output,path=path,source_num=[2],prob=[1.],seed=None):
 
 
     if test_size_gen is None:
@@ -649,7 +584,6 @@ def load_data(test_size,train_size=None,test_size_gen=None,output_fun=get_output
 
 #     return train_set,test_set
 
-#%%
 if __name__ == '__main__':
     # train_set,test_set=load_data(600)
     # x,y=train_set.get_batch(10)

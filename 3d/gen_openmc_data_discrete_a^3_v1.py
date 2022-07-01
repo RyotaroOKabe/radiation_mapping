@@ -664,14 +664,14 @@ def after_openmc(a_num, rad_dist, rad_phi, rad_th, folder1, folder2, header):
 
 #%%
 if __name__ == '__main__':
-    a_num = 8
+    a_num = 10
     num_data = 3500
     dist = 50
     num_particles =100000 #500000
     dist_min = 100
     dist_max = 100
-    folder1=f'openmc/disc_filter_data_20220630_{a_num}^3_v2/'
-    folder2=f'openmc/disc_filter_fig_20220630_{a_num}^3_v2/'
+    folder1=f'openmc/discrete_data_20220630_{a_num}^3_v1/'
+    folder2=f'openmc/discrete_fig_20220630_{a_num}^3_v1/'
     header = "data"
 
     for i in range(num_data):

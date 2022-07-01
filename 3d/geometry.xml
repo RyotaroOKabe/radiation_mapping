@@ -1,73 +1,153 @@
 <?xml version='1.0' encoding='utf-8'?>
 <geometry>
-  <cell id="1531" material="919" name="s1 cell" region="9187 -9188 9189 -9190 9191 -9192" universe="919" />
-  <cell id="1532" material="920" name="s2 cell" region="~(9187 -9188 9189 -9190 9191 -9192) (9193 -9194 9195 -9196 9197 -9198)" universe="919" />
-  <cell fill="920" id="1533" name="arrays cell" region="9199 -9200 9201 -9202 9203 -9204" universe="921" />
-  <cell id="1534" material="void" name="root cell" region="~(9199 -9200 9201 -9202 9203 -9204) (9181 -9182 9183 -9184 9185 -9186)" universe="921" />
-  <cell id="1535" material="void" name="outer cell" region="~(9181 -9182 9183 -9184 9185 -9186) (9205 -9206 9207 -9208 9209 -9210)" universe="921" />
-  <lattice id="920" name="detector arrays">
+  <cell id="16" material="10" name="s1 cell" region="97 -98 99 -100 101 -102" universe="10" />
+  <cell id="17" material="11" name="s2 cell" region="~(97 -98 99 -100 101 -102) (103 -104 105 -106 107 -108)" universe="10" />
+  <cell fill="11" id="18" name="arrays cell" region="109 -110 111 -112 113 -114" universe="12" />
+  <cell id="19" material="void" name="root cell" region="~(109 -110 111 -112 113 -114) (91 -92 93 -94 95 -96)" universe="12" />
+  <cell id="20" material="void" name="outer cell" region="~(91 -92 93 -94 95 -96) (115 -116 117 -118 119 -120)" universe="12" />
+  <lattice id="11" name="detector arrays">
     <pitch>1 1 1</pitch>
-    <dimension>5 5 5</dimension>
-    <lower_left>-2.5 -2.5 -2.5</lower_left>
+    <dimension>10 10 10</dimension>
+    <lower_left>-5.0 -5.0 -5.0</lower_left>
     <universes>
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 
-919 919 919 919 919 </universes>
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 
+10 10 10 10 10 10 10 10 10 10 </universes>
   </lattice>
-  <surface coeffs="-100000" id="9181" type="x-plane" />
-  <surface coeffs="100000" id="9182" type="x-plane" />
-  <surface coeffs="-100000" id="9183" type="y-plane" />
-  <surface coeffs="100000" id="9184" type="y-plane" />
-  <surface coeffs="-100000" id="9185" type="z-plane" />
-  <surface coeffs="100000" id="9186" type="z-plane" />
-  <surface coeffs="-0.4" id="9187" type="x-plane" />
-  <surface coeffs="0.4" id="9188" type="x-plane" />
-  <surface coeffs="-0.4" id="9189" type="y-plane" />
-  <surface coeffs="0.4" id="9190" type="y-plane" />
-  <surface coeffs="-0.4" id="9191" type="z-plane" />
-  <surface coeffs="0.4" id="9192" type="z-plane" />
-  <surface coeffs="-0.5" id="9193" type="x-plane" />
-  <surface coeffs="0.5" id="9194" type="x-plane" />
-  <surface coeffs="-0.5" id="9195" type="y-plane" />
-  <surface coeffs="0.5" id="9196" type="y-plane" />
-  <surface coeffs="-0.5" id="9197" type="z-plane" />
-  <surface coeffs="0.5" id="9198" type="z-plane" />
-  <surface coeffs="-2.5" id="9199" type="x-plane" />
-  <surface coeffs="2.5" id="9200" type="x-plane" />
-  <surface coeffs="-2.5" id="9201" type="y-plane" />
-  <surface coeffs="2.5" id="9202" type="y-plane" />
-  <surface coeffs="-2.5" id="9203" type="z-plane" />
-  <surface coeffs="2.5" id="9204" type="z-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="9205" type="x-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="9206" type="x-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="9207" type="y-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="9208" type="y-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="9209" type="z-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="9210" type="z-plane" />
+  <surface coeffs="-100000" id="91" type="x-plane" />
+  <surface coeffs="100000" id="92" type="x-plane" />
+  <surface coeffs="-100000" id="93" type="y-plane" />
+  <surface coeffs="100000" id="94" type="y-plane" />
+  <surface coeffs="-100000" id="95" type="z-plane" />
+  <surface coeffs="100000" id="96" type="z-plane" />
+  <surface coeffs="-0.4" id="97" type="x-plane" />
+  <surface coeffs="0.4" id="98" type="x-plane" />
+  <surface coeffs="-0.4" id="99" type="y-plane" />
+  <surface coeffs="0.4" id="100" type="y-plane" />
+  <surface coeffs="-0.4" id="101" type="z-plane" />
+  <surface coeffs="0.4" id="102" type="z-plane" />
+  <surface coeffs="-0.5" id="103" type="x-plane" />
+  <surface coeffs="0.5" id="104" type="x-plane" />
+  <surface coeffs="-0.5" id="105" type="y-plane" />
+  <surface coeffs="0.5" id="106" type="y-plane" />
+  <surface coeffs="-0.5" id="107" type="z-plane" />
+  <surface coeffs="0.5" id="108" type="z-plane" />
+  <surface coeffs="-5.0" id="109" type="x-plane" />
+  <surface coeffs="5.0" id="110" type="x-plane" />
+  <surface coeffs="-5.0" id="111" type="y-plane" />
+  <surface coeffs="5.0" id="112" type="y-plane" />
+  <surface coeffs="-5.0" id="113" type="z-plane" />
+  <surface coeffs="5.0" id="114" type="z-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="115" type="x-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="116" type="x-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="117" type="y-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="118" type="y-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="119" type="z-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="120" type="z-plane" />
 </geometry>

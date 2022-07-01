@@ -665,7 +665,7 @@ def after_openmc(a_num, rad_dist, rad_phi, rad_th, folder1, folder2, header):
 
 #%%
 if __name__ == '__main__':
-    a_num = 5
+    a_num = 10
     phi_num = 40
     theta_num = 18
     #?num_data = 3500
@@ -676,8 +676,9 @@ if __name__ == '__main__':
     folder1=f'openmc/disc_filter_data_20220630_{a_num}^3_v1/'
     folder2=f'openmc/disc_filter_fig_20220630_{a_num}^3_v1/'
     #header = "data"
-    #header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 50000]}
-    header_dist_particles_dict = {'far': [100, 200000]}   #!20220518
+    header_dist_particles_dict = {'near': [20, 50000], 'far': [100, 250000]}
+    #header_dist_particles_dict = {'far': [100, 200000]}   #!20220518
+    #header_dist_particles_dict = {'far': [100, 250000]}
     phi_list = [0.1+a*360/phi_num -180 for a in range(phi_num)]
     theta_list = [5+b*180/theta_num for b in range(theta_num)]
 
