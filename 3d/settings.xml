@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <settings>
   <run_mode>fixed source</run_mode>
-  <particles>50000</particles>
+  <particles>100000</particles>
   <batches>100</batches>
   <inactive>10</inactive>
   <source particle="photon" strength="10">
     <space type="point">
-      <parameters>-18.126128133026043 -0.03163609377899202 -8.452365234813987</parameters>
+      <parameters>18.488895309714756 46.308781230379985 -3.6956097173826787</parameters>
     </space>
     <energy type="discrete">
       <parameters>500000.0 1</parameters>

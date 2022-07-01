@@ -227,13 +227,13 @@ class Dataset(object):  #!!
         self.xdata=xdata
         self.ydata=ydata
         self.ydata_ph=ydata_ph  #!20220630
-        self.ydata_ph=ydata_th  #!20220630
+        self.ydata_th=ydata_th  #!20220630
         self.data_size=xdata.shape[0]
 
 class Trainset(object): #!!
     """docstring for Trainset"""
     #def __init__(self, xdata,ydata,info=None,source_num=[2],prob=[1.]):
-    def __init__(self, xdata,ydata,ydata_ph, ydata_th, info=None,source_num=[2],prob=[1.]): #!20220630
+    def __init__(self, xdata,ydata,ydata_ph, ydata_th, info=None,source_num=[1],prob=[1.]): #!20220630
         super(Trainset, self).__init__()
         #self.arg = arg
         self.info=info
@@ -367,7 +367,8 @@ class Trainset(object): #!!
         source_num=self.source_num
         prob=self.prob
 
-        sub_size=self.data_size/split_fold
+        #sub_size=self.data_size/split_fold
+        sub_size=int(self.data_size/split_fold)  #!20220701
 
         if test_size is None:
             if source_num==[1]:
@@ -384,16 +385,20 @@ class Trainset(object): #!!
             end=self.data_size
 
         test_x=self.xdata[start:end,:]
-        test_y=self.ydata[start:end,:]
+        #test_y=self.ydata[start:end,:,:]
+        test_y=self.ydata[start:end,:,:]    #!202206701
         test_y_ph=self.ydata_ph[start:end,:]  #!20220630
         test_y_th=self.ydata_th[start:end,:]  #!20220630
         
 
-        test=Testset(test_x,test_y,test_size,seed,source_num,prob)
+        #test=Testset(test_x,test_y,test_size,seed,source_num,prob)
+        test=Testset(test_x,test_y,test_y_ph,test_y_th,test_size,seed,source_num,prob)  #!20220701
 
 
         train_xs=[]
         train_ys=[]
+        train_ys_ph=[] #!20220701
+        train_ys_th=[] #!20220701
         for i in range(split_fold):
             if i == indx: continue
             start=i*sub_size
@@ -402,13 +407,18 @@ class Trainset(object): #!!
                 end=self.data_size
 
             train_xs.append(self.xdata[start:end,:])
-            train_ys.append(self.ydata[start:end,:])
+            #train_ys.append(self.ydata[start:end,:])
+            train_ys.append(self.ydata[start:end,:,:])  #!20220701
+            train_ys_ph.append(self.ydata_ph[start:end,:])  #!20220701
+            train_ys_th.append(self.ydata_th[start:end,:])  #!20220701
 
 
         train_x=np.concatenate(train_xs)
         train_y=np.concatenate(train_ys)
+        train_y_ph=np.concatenate(train_ys_ph)    #!20220701
+        train_y_th=np.concatenate(train_ys_th)    #!20220701
 
-        train=Trainset(train_x,train_y,source_num=source_num,prob=prob)
+        train=Trainset(train_x,train_y,train_y_ph,train_y_th,source_num=source_num,prob=prob)
 
         return train,test
 
@@ -419,10 +429,10 @@ class Testset(object):  #!!
     def __init__(self, xdata,ydata,ydata_ph,ydata_th,test_size=None,seed=None,source_num=[2],prob=[1.]):
         super(Testset, self).__init__()
         #self.arg = arg
-        self.xdata=xdata
-        self.ydata=ydata
-        self.ydata_ph=ydata_ph    #!20220630
-        self.ydata_th=ydata_th    #!20220630
+        self.xdata=xdata    # (test_size, a^3)
+        self.ydata=ydata    # (test_size, 18, 40)
+        self.ydata_ph=ydata_ph  # (test_size, 40)    #!20220630
+        self.ydata_th=ydata_th  # (test_size, 18)    #!20220630
         self.ws=xdata.mean(axis=1)
         self.data_size_raw=xdata.shape[0]
         if source_num==[1] or test_size==None:
@@ -438,10 +448,10 @@ class Testset(object):  #!!
 
 
         xx,yy,yy_ph,yy_th=self.gen_data(source_num,prob,seed=seed)  #!20220630
-        self.xdata=xx
-        self.ydata=yy
-        self.ydata_ph=yy_ph   #!20220630
-        self.ydata_th=yy_th   #!20220630
+        self.xdata=xx   # (test_size, a^3)
+        self.ydata=yy   # (test_size, 18, 40)
+        self.ydata_ph=yy_ph # (test_size, 40)   #!20220630
+        self.ydata_th=yy_th  # (test_size, 18)   #!20220630
 
     def gen_data(self,source_num,prob,seed=None):
 
@@ -455,10 +465,10 @@ class Testset(object):  #!!
         if source_num==[1]:# and self.data_size_raw==self.data_size:
             #print 'haha'
 
-            xx=self.xdata
-            yy=self.ydata
-            yy_ph=self.ydata_ph   #!20220630
-            yy_th=self.ydata_th   #!20220630
+            xx=self.xdata   # (test_size, a^3)
+            yy=self.ydata   # (test_size, 18, 40)
+            yy_ph=self.ydata_ph  # (test_size, 40)  #!20220630
+            yy_th=self.ydata_th  # (test_size, 18)  #!20220630
 
         else:
             for i in range(self.data_size):
@@ -626,9 +636,10 @@ def load_data(test_size,train_size=None,test_size_gen=None,output_fun=get_output
     if train_size is None:
         train_size=data_set.data_size-test_size
 
-    train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:],source_num=source_num,prob=prob)
+    #train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:],source_num=source_num,prob=prob)
+    train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:,:],data_set.ydata_ph[0:train_size,:],data_set.ydata_th[0:train_size,:],source_num=source_num,prob=prob)   #!20220701
     test_set=Testset(data_set.xdata[train_size:data_size,:],
-            data_set.ydata[train_size:data_size,:],
+            data_set.ydata[train_size:data_size,:,:],data_set.ydata_ph[train_size:data_size,:],data_set.ydata_th[train_size:data_size,:],
             test_size_gen,source_num=source_num,prob=prob,seed=seed)
 
     return train_set,test_set
@@ -658,13 +669,14 @@ if __name__ == '__main__':
     # print test_set.data_size
     # print a.get_batch(10)
 
-    train_set,test_set=load_data(600)
+    train_set,test_set=load_data(100)
 
     #print(test_set.data_size)#.get_batch(1,10)
     #print(train_set.data_size)#.get_batch(1))
 
     tt,tt_t=train_set.split(3,1)
 
+    print("finish generating datasets!")
     #print(tt.data_size)
     #print(tt.get_batch_fixsource(6,2))
     # print x.shape,y.shape

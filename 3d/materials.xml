@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <materials>
   <cross_sections>/home/rokabe/data1/openmc/endfb71_hdf5/cross_sections.xml</cross_sections>
-  <material id="34" name="CdZnTe">
+  <material id="7" name="CdZnTe">
     <density units="g/cm3" value="5.76" />
     <nuclide ao="33" name="Cd114" />
     <nuclide ao="33" name="Zn64" />
     <nuclide ao="33" name="Te130" />
   </material>
-  <material id="35" name="Zn">
+  <material id="8" name="Zn">
     <density units="g/cm3" value="1" />
     <nuclide ao="11.35" name="Pb208" />
   </material>
-  <material id="36" name="Outer_CdZnTe">
+  <material id="9" name="Outer_CdZnTe">
     <density units="g/cm3" value="5.76" />
     <nuclide ao="33" name="Cd114" />
     <nuclide ao="33" name="Zn64" />
