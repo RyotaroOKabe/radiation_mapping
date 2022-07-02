@@ -1,153 +1,55 @@
 <?xml version='1.0' encoding='utf-8'?>
 <geometry>
-  <cell id="11" material="7" name="s1 cell" region="67 -68 69 -70 71 -72" universe="7" />
-  <cell id="12" material="8" name="s2 cell" region="~(67 -68 69 -70 71 -72) (73 -74 75 -76 77 -78)" universe="7" />
-  <cell fill="8" id="13" name="arrays cell" region="79 -80 81 -82 83 -84" universe="9" />
-  <cell id="14" material="void" name="root cell" region="~(79 -80 81 -82 83 -84) (61 -62 63 -64 65 -66)" universe="9" />
-  <cell id="15" material="void" name="outer cell" region="~(61 -62 63 -64 65 -66) (85 -86 87 -88 89 -90)" universe="9" />
-  <lattice id="8" name="detector arrays">
+  <cell id="3521" material="2113" name="s1 cell" region="21127 -21128 21129 -21130 21131 -21132" universe="2113" />
+  <cell id="3522" material="2114" name="s2 cell" region="~(21127 -21128 21129 -21130 21131 -21132) (21133 -21134 21135 -21136 21137 -21138)" universe="2113" />
+  <cell fill="2114" id="3523" name="arrays cell" region="21139 -21140 21141 -21142 21143 -21144" universe="2115" />
+  <cell id="3524" material="void" name="root cell" region="~(21139 -21140 21141 -21142 21143 -21144) (21121 -21122 21123 -21124 21125 -21126)" universe="2115" />
+  <cell id="3525" material="void" name="outer cell" region="~(21121 -21122 21123 -21124 21125 -21126) (21145 -21146 21147 -21148 21149 -21150)" universe="2115" />
+  <lattice id="2114" name="detector arrays">
     <pitch>1 1 1</pitch>
-    <dimension>10 10 10</dimension>
-    <lower_left>-5.0 -5.0 -5.0</lower_left>
+    <dimension>3 3 3</dimension>
+    <lower_left>-1.5 -1.5 -1.5</lower_left>
     <universes>
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
+2113 2113 2113 
+2113 2113 2113 
+2113 2113 2113 
 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
+2113 2113 2113 
+2113 2113 2113 
+2113 2113 2113 
 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 7 7 </universes>
+2113 2113 2113 
+2113 2113 2113 
+2113 2113 2113 </universes>
   </lattice>
-  <surface coeffs="-100000" id="61" type="x-plane" />
-  <surface coeffs="100000" id="62" type="x-plane" />
-  <surface coeffs="-100000" id="63" type="y-plane" />
-  <surface coeffs="100000" id="64" type="y-plane" />
-  <surface coeffs="-100000" id="65" type="z-plane" />
-  <surface coeffs="100000" id="66" type="z-plane" />
-  <surface coeffs="-0.4" id="67" type="x-plane" />
-  <surface coeffs="0.4" id="68" type="x-plane" />
-  <surface coeffs="-0.4" id="69" type="y-plane" />
-  <surface coeffs="0.4" id="70" type="y-plane" />
-  <surface coeffs="-0.4" id="71" type="z-plane" />
-  <surface coeffs="0.4" id="72" type="z-plane" />
-  <surface coeffs="-0.5" id="73" type="x-plane" />
-  <surface coeffs="0.5" id="74" type="x-plane" />
-  <surface coeffs="-0.5" id="75" type="y-plane" />
-  <surface coeffs="0.5" id="76" type="y-plane" />
-  <surface coeffs="-0.5" id="77" type="z-plane" />
-  <surface coeffs="0.5" id="78" type="z-plane" />
-  <surface coeffs="-5.0" id="79" type="x-plane" />
-  <surface coeffs="5.0" id="80" type="x-plane" />
-  <surface coeffs="-5.0" id="81" type="y-plane" />
-  <surface coeffs="5.0" id="82" type="y-plane" />
-  <surface coeffs="-5.0" id="83" type="z-plane" />
-  <surface coeffs="5.0" id="84" type="z-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="85" type="x-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="86" type="x-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="87" type="y-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="88" type="y-plane" />
-  <surface boundary="vacuum" coeffs="-100100" id="89" type="z-plane" />
-  <surface boundary="vacuum" coeffs="100100" id="90" type="z-plane" />
+  <surface coeffs="-100000" id="21121" type="x-plane" />
+  <surface coeffs="100000" id="21122" type="x-plane" />
+  <surface coeffs="-100000" id="21123" type="y-plane" />
+  <surface coeffs="100000" id="21124" type="y-plane" />
+  <surface coeffs="-100000" id="21125" type="z-plane" />
+  <surface coeffs="100000" id="21126" type="z-plane" />
+  <surface coeffs="-0.4" id="21127" type="x-plane" />
+  <surface coeffs="0.4" id="21128" type="x-plane" />
+  <surface coeffs="-0.4" id="21129" type="y-plane" />
+  <surface coeffs="0.4" id="21130" type="y-plane" />
+  <surface coeffs="-0.4" id="21131" type="z-plane" />
+  <surface coeffs="0.4" id="21132" type="z-plane" />
+  <surface coeffs="-0.5" id="21133" type="x-plane" />
+  <surface coeffs="0.5" id="21134" type="x-plane" />
+  <surface coeffs="-0.5" id="21135" type="y-plane" />
+  <surface coeffs="0.5" id="21136" type="y-plane" />
+  <surface coeffs="-0.5" id="21137" type="z-plane" />
+  <surface coeffs="0.5" id="21138" type="z-plane" />
+  <surface coeffs="-1.5" id="21139" type="x-plane" />
+  <surface coeffs="1.5" id="21140" type="x-plane" />
+  <surface coeffs="-1.5" id="21141" type="y-plane" />
+  <surface coeffs="1.5" id="21142" type="y-plane" />
+  <surface coeffs="-1.5" id="21143" type="z-plane" />
+  <surface coeffs="1.5" id="21144" type="z-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="21145" type="x-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="21146" type="x-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="21147" type="y-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="21148" type="y-plane" />
+  <surface boundary="vacuum" coeffs="-100100" id="21149" type="z-plane" />
+  <surface boundary="vacuum" coeffs="100100" id="21150" type="z-plane" />
 </geometry>
