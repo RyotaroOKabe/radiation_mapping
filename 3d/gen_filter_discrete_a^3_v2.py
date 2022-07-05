@@ -678,10 +678,10 @@ if __name__ == '__main__':
     #?num_particles =100000 #500000
     #?dist_min = 100
     #?dist_max = 100
-    folder1=f'openmc/disc_filter_data_20220630_{a_num}^3_v1/'
-    folder2=f'openmc/disc_filter_fig_20220630_{a_num}^3_v1/'
+    folder1=f'openmc/disc_filter_data_20220701_{a_num}^3_v1/'
+    folder2=f'openmc/disc_filter_fig_20220701_{a_num}^3_v1/'
     #header = "data"
-    header_dist_particles_dict = {'near': [20, 50000], 'far': [100, 250000]}
+    header_dist_particles_dict = {'near': [20, 50000], 'far': [100, 200000]}
     #header_dist_particles_dict = {'far': [100, 200000]}   #!20220518
     #header_dist_particles_dict = {'far': [100, 250000]}
     phi_list = [0.1+a*360/phi_num -180 for a in range(phi_num)]
