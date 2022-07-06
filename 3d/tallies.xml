@@ -5,11 +5,11 @@
     <lower_left>-2.5 -2.5 -2.5</lower_left>
     <width>1 1 1</width>
   </mesh>
-  <filter id="3130" type="mesh">
+  <filter id="2968" type="mesh">
     <bins>1</bins>
   </filter>
-  <tally id="4173" name="mesh tally">
-    <filters>3130</filters>
+  <tally id="3957" name="mesh tally">
+    <filters>2968</filters>
     <scores>absorption</scores>
   </tally>
 </tallies>
