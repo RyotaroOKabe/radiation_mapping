@@ -233,15 +233,19 @@ def emd_loss_ring_3d(p,p_hat,r=2):
     #p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
     #print(p_hat_m) #!20220330 testing >> This part was no problem
     #if torch.sum(p) > 0:
-    if torch.sum(p) > 1:
-        p=p/torch.sum(p)  #,dim=1,keepdim=True) #!20211229
+    #?if torch.sum(p) > 1:
+        #?p=p/torch.sum(p)  #,dim=1,keepdim=True) #!20211229
+    p_sum12 = torch.sum(torch.sum(p,dim=2,keepdim=True), dim=1, keepdim=True)   #!20220707
+    p=p/p_sum12
     #?p=p/torch.sum(p,dim=1,keepdim=True) #!20220704
     #print(p)
     #p_m=torch.mean(p) #,dim=0) #!20220330 testing
     #print(p_m) #!20220330 testing >> Include nan
     #if torch.sum(p_hat) >0
-    if torch.sum(p_hat) >1:
-        p_hat=p_hat/torch.sum(p_hat) #!20220704
+    #?if torch.sum(p_hat) >1:
+        #?p_hat=p_hat/torch.sum(p_hat) #!20220704
+    p_hat_sum12 = torch.sum(torch.sum(p_hat,dim=2,keepdim=True), dim=1, keepdim=True)   #!20220707
+    p_hat=p/p_hat_sum12
     #?p_hat=p_hat/torch.sum(p_hat,dim=1,keepdim=True) #!20211229
     #print(p_hat)  #!20220303 >> check!
     #p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
