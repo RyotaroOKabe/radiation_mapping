@@ -194,9 +194,71 @@ class Up_3D(nn.Module):    #!20220701
         x = torch.cat([x2, x1], dim=1)         #!20220102
         return self.conv(x)
 
-class UNet_3D(nn.Module):  #!20220701
+class UNet_3D_1(nn.Module):  #!20220701
     def __init__(self,in_channels=2, c1=16):
-        super(UNet_3D, self).__init__()
+        super(UNet_3D_1, self).__init__()
+
+        #self.max_pool = nn.MaxPool1d(2)
+        self.max_pool = nn.MaxPool2d(2)
+        self.down_conv1 = DoubleConv_3D(in_channels, c1)
+        self.down_conv2 = DoubleConv_3D(c1, c1*2)
+        #self.down_conv3 = DoubleConv_3D(c1*2, c1*4)
+
+        #self.bottom_conv = DoubleConv_3D(c1*4, c1*8)
+        self.bottom_conv = DoubleConv_3D(c1*2, c1*4)
+
+        #self.up_conv1 = Up_3D(c1*8, c1*4)
+        self.up_conv1 = Up_3D(c1*4, c1*2)
+        self.up_conv2 = Up_3D(c1*2, c1)
+
+        #self.out_conv = nn.Conv1d(c1, 1, kernel_size=3, padding=2, padding_mode='circular')    #!20211230      #?tentative
+        self.out_conv = nn.Conv2d(c1, 1, kernel_size=3, padding=1, padding_mode='circular')    #!20211230      #?tentative
+
+    def forward(self, x):
+        # print x.size()    #!20220102 
+        #?print("initial; "+ str(x.size()))    #!20220102
+        x1 = self.down_conv1(x)
+        # print x1.size()    #!20220102 
+        #?print("down_conv1; "+ str(x1.size()))    #!20220102
+        x = self.max_pool(x1)
+        # print x.size()    #!20220102 
+        #?print("max_pool; "+ str(x.size()))    #!20220102
+        x2 = self.down_conv2(x)
+        #?print("down_conv2; "+ str(x2.size()))    #!20220102
+        x = self.max_pool(x2)
+        # print x.size()    #!20220102 
+        #?print("max_pool; "+ str(x.size()))    #!20220102
+        #x3 = self.down_conv3(x)
+        # print x.size()    #!20220102 
+        #?print("down_conv3; "+ str(x3.size()))    #!20220102
+        #x = self.max_pool(x3)
+        # print x.size()    #!20220102 
+        #?print("max_pool; "+ str(x.size()))    #!20220102
+        x = self.bottom_conv(x)
+
+        # print x.size()    #!20220102 
+        #?print("bottom_conv; "+ str(x.size()))    #!20220102
+        #x = self.up_conv1(x, x3)
+        #print(x.size())
+        # print x2.size()    #!20220102 
+        #?print("up_conv1; "+ str(x.size()))    #!20220102
+        x = self.up_conv1(x, x2)
+        #?print("up_conv2; "+ str(x.size()))    #!20220102
+        # print x.size()    #!20220102 
+        x = self.up_conv2(x, x1)
+        #?print("up_conv3; "+ str(x.size()))    #!20220102
+
+        x = self.out_conv(x)
+        #?print("out_conv; "+ str(x.size()))    #!20220102
+
+
+        return x
+
+
+
+class UNet_3D_2(nn.Module):  #!20220701
+    def __init__(self,in_channels=2, c1=16):
+        super(UNet_3D_2, self).__init__()
 
         #self.max_pool = nn.MaxPool1d(2)
         self.max_pool = nn.MaxPool2d(2)
@@ -205,13 +267,14 @@ class UNet_3D(nn.Module):  #!20220701
         self.down_conv3 = DoubleConv_3D(c1*2, c1*4)
 
         self.bottom_conv = DoubleConv_3D(c1*4, c1*8)
+        #self.bottom_conv = DoubleConv_3D(c1*2, c1*4)
 
         self.up_conv1 = Up_3D(c1*8, c1*4)
         self.up_conv2 = Up_3D(c1*4, c1*2)
         self.up_conv3 = Up_3D(c1*2, c1)
 
         #self.out_conv = nn.Conv1d(c1, 1, kernel_size=3, padding=2, padding_mode='circular')    #!20211230      #?tentative
-        self.out_conv = nn.Conv1d(c1, 1, kernel_size=3, padding=1, padding_mode='circular')    #!20211230      #?tentative
+        self.out_conv = nn.Conv2d(c1, 1, kernel_size=3, padding=1, padding_mode='circular')    #!20211230      #?tentative
 
     def forward(self, x):
         # print x.size()    #!20220102 
@@ -254,7 +317,6 @@ class UNet_3D(nn.Module):  #!20220701
         return x
 
 
-        pass
 #%%
 if __name__ == '__main__':
     net = UNet()

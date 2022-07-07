@@ -533,7 +533,7 @@ if __name__ == '__main__':
     filterpath ='openmc/disc_filter_data_20220701_3^3_v1'
     filter_data2 = FilterData2(filterpath)
     
-    net = MyNet2(out_features=80, filterdata=filter_data2)  #!20220701
+    net = MyNet2(UNet_3D_2, out_features=80, filterdata=filter_data2)  #!20220701
 
     net = net.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
 
