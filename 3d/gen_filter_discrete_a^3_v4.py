@@ -696,7 +696,7 @@ if __name__ == '__main__':
     #header = "data"
     header_dist_particles_dict = {'near': [20, 50000], 'far': [100, 150000]}
     #header_dist_particles_dict = {'far': [100, 200000]}   #!20220518
-    #header_dist_particles_dict = {'far': [100, 250000]}
+    #header_dist_particles_dict = {'far': [100, 150000]}
     phi_list = [0.1+a*360/ph_num -180 for a in range(ph_num)]
     theta_list = [90/th_num+b*180/th_num for b in range(th_num)]
 
