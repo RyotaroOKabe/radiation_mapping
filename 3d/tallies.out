@@ -1,377 +1,194 @@
- ====================>     TALLY 4093: MESH TALLY     <=====================
+ =====================>     TALLY 825: MESH TALLY     <=====================
 
  Mesh Index (1, 1, 1)
    Total Material
-     Absorption Rate                      3.08817e-05 +/- 7.82711e-06
+     Absorption Rate                      8.48656e-05 +/- 1.22257e-05
  Mesh Index (2, 1, 1)
    Total Material
-     Absorption Rate                      3.37035e-05 +/- 7.21703e-06
+     Absorption Rate                      9.22938e-05 +/- 1.35558e-05
  Mesh Index (3, 1, 1)
    Total Material
-     Absorption Rate                      5.29802e-05 +/- 1.11463e-05
+     Absorption Rate                      9.81346e-05 +/- 1.76618e-05
  Mesh Index (4, 1, 1)
    Total Material
-     Absorption Rate                      5.09954e-05 +/- 9.96773e-06
- Mesh Index (5, 1, 1)
-   Total Material
-     Absorption Rate                      3.03255e-05 +/- 6.76802e-06
+     Absorption Rate                      0.000115927 +/- 1.75772e-05
  Mesh Index (1, 2, 1)
    Total Material
-     Absorption Rate                      3.32408e-05 +/- 6.97139e-06
+     Absorption Rate                      7.81351e-05 +/- 1.03909e-05
  Mesh Index (2, 2, 1)
    Total Material
-     Absorption Rate                      3.63252e-05 +/- 6.78748e-06
+     Absorption Rate                      0.000159253 +/- 2.17206e-05
  Mesh Index (3, 2, 1)
    Total Material
-     Absorption Rate                      1.89772e-05 +/- 3.51811e-06
+     Absorption Rate                      0.000123785 +/- 1.65954e-05
  Mesh Index (4, 2, 1)
    Total Material
-     Absorption Rate                      4.35528e-05 +/- 9.83033e-06
- Mesh Index (5, 2, 1)
-   Total Material
-     Absorption Rate                      2.93994e-05 +/- 7.19765e-06
+     Absorption Rate                      0.000119945 +/- 1.8051e-05
  Mesh Index (1, 3, 1)
    Total Material
-     Absorption Rate                      3.26695e-05 +/- 5.35377e-06
+     Absorption Rate                      0.000137003 +/- 1.90429e-05
  Mesh Index (2, 3, 1)
    Total Material
-     Absorption Rate                      3.81879e-05 +/- 7.52393e-06
+     Absorption Rate                      0.00011811 +/- 1.555e-05
  Mesh Index (3, 3, 1)
    Total Material
-     Absorption Rate                      4.87884e-05 +/- 9.13041e-06
+     Absorption Rate                      9.61415e-05 +/- 1.24841e-05
  Mesh Index (4, 3, 1)
    Total Material
-     Absorption Rate                      5.0987e-05 +/- 1.1347e-05
- Mesh Index (5, 3, 1)
-   Total Material
-     Absorption Rate                      4.06126e-05 +/- 8.57994e-06
+     Absorption Rate                      0.00013019 +/- 1.81158e-05
  Mesh Index (1, 4, 1)
    Total Material
-     Absorption Rate                      3.25757e-05 +/- 7.74078e-06
+     Absorption Rate                      0.00011512 +/- 1.68878e-05
  Mesh Index (2, 4, 1)
    Total Material
-     Absorption Rate                      3.01319e-05 +/- 6.13168e-06
+     Absorption Rate                      0.000204136 +/- 2.67446e-05
  Mesh Index (3, 4, 1)
    Total Material
-     Absorption Rate                      2.14836e-05 +/- 4.05044e-06
+     Absorption Rate                      0.000146552 +/- 1.76731e-05
  Mesh Index (4, 4, 1)
    Total Material
-     Absorption Rate                      2.42479e-05 +/- 4.822e-06
- Mesh Index (5, 4, 1)
-   Total Material
-     Absorption Rate                      3.4561e-05 +/- 7.77245e-06
- Mesh Index (1, 5, 1)
-   Total Material
-     Absorption Rate                      3.83623e-05 +/- 7.50457e-06
- Mesh Index (2, 5, 1)
-   Total Material
-     Absorption Rate                      3.63704e-05 +/- 6.91177e-06
- Mesh Index (3, 5, 1)
-   Total Material
-     Absorption Rate                      3.3333e-05 +/- 7.39261e-06
- Mesh Index (4, 5, 1)
-   Total Material
-     Absorption Rate                      3.2865e-05 +/- 7.44978e-06
- Mesh Index (5, 5, 1)
-   Total Material
-     Absorption Rate                      2.81959e-05 +/- 4.82077e-06
+     Absorption Rate                      0.000154166 +/- 2.18967e-05
  Mesh Index (1, 1, 2)
    Total Material
-     Absorption Rate                      2.57083e-05 +/- 6.29137e-06
+     Absorption Rate                      8.35139e-05 +/- 1.53168e-05
  Mesh Index (2, 1, 2)
    Total Material
-     Absorption Rate                      2.62739e-05 +/- 6.71542e-06
+     Absorption Rate                      7.66261e-05 +/- 1.37109e-05
  Mesh Index (3, 1, 2)
    Total Material
-     Absorption Rate                      3.6072e-05 +/- 9.84546e-06
+     Absorption Rate                      7.38788e-05 +/- 1.16761e-05
  Mesh Index (4, 1, 2)
    Total Material
-     Absorption Rate                      3.41333e-05 +/- 6.68829e-06
- Mesh Index (5, 1, 2)
-   Total Material
-     Absorption Rate                      2.42336e-05 +/- 5.78658e-06
+     Absorption Rate                      5.2164e-05 +/- 9.95987e-06
  Mesh Index (1, 2, 2)
    Total Material
-     Absorption Rate                      4.04393e-05 +/- 9.53317e-06
+     Absorption Rate                      9.22454e-05 +/- 1.52762e-05
  Mesh Index (2, 2, 2)
    Total Material
-     Absorption Rate                      4.29132e-05 +/- 9.73083e-06
+     Absorption Rate                      0.000130971 +/- 1.76879e-05
  Mesh Index (3, 2, 2)
    Total Material
-     Absorption Rate                      4.3684e-05 +/- 1.04142e-05
+     Absorption Rate                      0.000140778 +/- 2.23264e-05
  Mesh Index (4, 2, 2)
    Total Material
-     Absorption Rate                      4.39428e-05 +/- 1.05097e-05
- Mesh Index (5, 2, 2)
-   Total Material
-     Absorption Rate                      3.11061e-05 +/- 6.1926e-06
+     Absorption Rate                      9.32415e-05 +/- 1.41827e-05
  Mesh Index (1, 3, 2)
    Total Material
-     Absorption Rate                      2.88751e-05 +/- 5.68383e-06
+     Absorption Rate                      0.000113052 +/- 1.5404e-05
  Mesh Index (2, 3, 2)
    Total Material
-     Absorption Rate                      2.96787e-05 +/- 7.34647e-06
+     Absorption Rate                      0.000141197 +/- 1.83014e-05
  Mesh Index (3, 3, 2)
    Total Material
-     Absorption Rate                      4.17067e-05 +/- 8.97148e-06
+     Absorption Rate                      0.000130962 +/- 1.68727e-05
  Mesh Index (4, 3, 2)
    Total Material
-     Absorption Rate                      2.51925e-05 +/- 5.60691e-06
- Mesh Index (5, 3, 2)
-   Total Material
-     Absorption Rate                      2.11163e-05 +/- 5.47654e-06
+     Absorption Rate                      0.00012078 +/- 1.67233e-05
  Mesh Index (1, 4, 2)
    Total Material
-     Absorption Rate                      2.54893e-05 +/- 6.65072e-06
+     Absorption Rate                      0.000135242 +/- 1.77371e-05
  Mesh Index (2, 4, 2)
    Total Material
-     Absorption Rate                      3.13144e-05 +/- 8.66985e-06
+     Absorption Rate                      0.000188826 +/- 2.74973e-05
  Mesh Index (3, 4, 2)
    Total Material
-     Absorption Rate                      3.16266e-05 +/- 8.4917e-06
+     Absorption Rate                      0.00019153 +/- 2.86438e-05
  Mesh Index (4, 4, 2)
    Total Material
-     Absorption Rate                      3.22815e-05 +/- 6.67248e-06
- Mesh Index (5, 4, 2)
-   Total Material
-     Absorption Rate                      2.6328e-05 +/- 7.2672e-06
- Mesh Index (1, 5, 2)
-   Total Material
-     Absorption Rate                      1.97638e-05 +/- 4.82448e-06
- Mesh Index (2, 5, 2)
-   Total Material
-     Absorption Rate                      3.09667e-05 +/- 6.81883e-06
- Mesh Index (3, 5, 2)
-   Total Material
-     Absorption Rate                      2.84569e-05 +/- 5.64853e-06
- Mesh Index (4, 5, 2)
-   Total Material
-     Absorption Rate                      3.96823e-05 +/- 9.33452e-06
- Mesh Index (5, 5, 2)
-   Total Material
-     Absorption Rate                      2.31116e-05 +/- 4.91942e-06
+     Absorption Rate                      0.000165042 +/- 2.26051e-05
  Mesh Index (1, 1, 3)
    Total Material
-     Absorption Rate                      1.78032e-05 +/- 4.21195e-06
+     Absorption Rate                      6.94723e-05 +/- 1.32779e-05
  Mesh Index (2, 1, 3)
    Total Material
-     Absorption Rate                      2.70727e-05 +/- 7.38205e-06
+     Absorption Rate                      6.69563e-05 +/- 1.37489e-05
  Mesh Index (3, 1, 3)
    Total Material
-     Absorption Rate                      2.87492e-05 +/- 1.00526e-05
+     Absorption Rate                      5.55391e-05 +/- 1.00367e-05
  Mesh Index (4, 1, 3)
    Total Material
-     Absorption Rate                      2.14155e-05 +/- 6.17635e-06
- Mesh Index (5, 1, 3)
-   Total Material
-     Absorption Rate                      1.861e-05 +/- 5.05927e-06
+     Absorption Rate                      7.93636e-05 +/- 1.44888e-05
  Mesh Index (1, 2, 3)
    Total Material
-     Absorption Rate                      2.64637e-05 +/- 7.1401e-06
+     Absorption Rate                      9.31699e-05 +/- 1.62136e-05
  Mesh Index (2, 2, 3)
    Total Material
-     Absorption Rate                      2.03746e-05 +/- 5.71402e-06
+     Absorption Rate                      9.46735e-05 +/- 1.66692e-05
  Mesh Index (3, 2, 3)
    Total Material
-     Absorption Rate                      3.54465e-05 +/- 7.45733e-06
+     Absorption Rate                      9.86347e-05 +/- 1.38646e-05
  Mesh Index (4, 2, 3)
    Total Material
-     Absorption Rate                      2.76921e-05 +/- 6.13591e-06
- Mesh Index (5, 2, 3)
-   Total Material
-     Absorption Rate                      1.80005e-05 +/- 5.82926e-06
+     Absorption Rate                      0.000101494 +/- 1.52976e-05
  Mesh Index (1, 3, 3)
    Total Material
-     Absorption Rate                      2.37895e-05 +/- 5.32883e-06
+     Absorption Rate                      0.000125014 +/- 1.88647e-05
  Mesh Index (2, 3, 3)
    Total Material
-     Absorption Rate                      2.98513e-05 +/- 7.75149e-06
+     Absorption Rate                      0.000109806 +/- 1.30635e-05
  Mesh Index (3, 3, 3)
    Total Material
-     Absorption Rate                      2.72657e-05 +/- 7.42412e-06
+     Absorption Rate                      0.000127959 +/- 1.72902e-05
  Mesh Index (4, 3, 3)
    Total Material
-     Absorption Rate                      2.34104e-05 +/- 5.42501e-06
- Mesh Index (5, 3, 3)
-   Total Material
-     Absorption Rate                      2.29947e-05 +/- 5.65157e-06
+     Absorption Rate                      0.000105459 +/- 1.50232e-05
  Mesh Index (1, 4, 3)
    Total Material
-     Absorption Rate                      3.38828e-05 +/- 9.15362e-06
+     Absorption Rate                      0.00014437 +/- 2.0284e-05
  Mesh Index (2, 4, 3)
    Total Material
-     Absorption Rate                      2.41695e-05 +/- 6.24874e-06
+     Absorption Rate                      0.000165683 +/- 1.86794e-05
  Mesh Index (3, 4, 3)
    Total Material
-     Absorption Rate                      3.6397e-05 +/- 8.04283e-06
+     Absorption Rate                      0.000169892 +/- 2.25853e-05
  Mesh Index (4, 4, 3)
    Total Material
-     Absorption Rate                      3.62773e-05 +/- 8.40507e-06
- Mesh Index (5, 4, 3)
-   Total Material
-     Absorption Rate                      2.13561e-05 +/- 5.16474e-06
- Mesh Index (1, 5, 3)
-   Total Material
-     Absorption Rate                      2.26327e-05 +/- 6.54948e-06
- Mesh Index (2, 5, 3)
-   Total Material
-     Absorption Rate                      2.01275e-05 +/- 6.39683e-06
- Mesh Index (3, 5, 3)
-   Total Material
-     Absorption Rate                      2.40624e-05 +/- 8.51597e-06
- Mesh Index (4, 5, 3)
-   Total Material
-     Absorption Rate                      2.35137e-05 +/- 5.36433e-06
- Mesh Index (5, 5, 3)
-   Total Material
-     Absorption Rate                      1.47222e-05 +/- 3.88751e-06
+     Absorption Rate                      0.000157978 +/- 2.10549e-05
  Mesh Index (1, 1, 4)
    Total Material
-     Absorption Rate                      2.15124e-05 +/- 5.96657e-06
+     Absorption Rate                      5.60405e-05 +/- 1.12769e-05
  Mesh Index (2, 1, 4)
    Total Material
-     Absorption Rate                      1.17099e-05 +/- 5.61144e-06
+     Absorption Rate                      6.21849e-05 +/- 1.30184e-05
  Mesh Index (3, 1, 4)
    Total Material
-     Absorption Rate                      1.46451e-05 +/- 3.80734e-06
+     Absorption Rate                      7.22695e-05 +/- 1.51453e-05
  Mesh Index (4, 1, 4)
    Total Material
-     Absorption Rate                      2.58997e-05 +/- 6.08733e-06
- Mesh Index (5, 1, 4)
-   Total Material
-     Absorption Rate                      1.1908e-05 +/- 3.49337e-06
+     Absorption Rate                      6.13938e-05 +/- 1.28832e-05
  Mesh Index (1, 2, 4)
    Total Material
-     Absorption Rate                      2.63911e-05 +/- 5.77478e-06
+     Absorption Rate                      8.2746e-05 +/- 1.22122e-05
  Mesh Index (2, 2, 4)
    Total Material
-     Absorption Rate                      1.97358e-05 +/- 5.12387e-06
+     Absorption Rate                      8.41191e-05 +/- 1.43157e-05
  Mesh Index (3, 2, 4)
    Total Material
-     Absorption Rate                      1.25902e-05 +/- 3.59036e-06
+     Absorption Rate                      9.0887e-05 +/- 1.96443e-05
  Mesh Index (4, 2, 4)
    Total Material
-     Absorption Rate                      1.72677e-05 +/- 6.18517e-06
- Mesh Index (5, 2, 4)
-   Total Material
-     Absorption Rate                      1.93646e-05 +/- 5.68594e-06
+     Absorption Rate                      6.11749e-05 +/- 1.26342e-05
  Mesh Index (1, 3, 4)
    Total Material
-     Absorption Rate                      2.00806e-05 +/- 4.70191e-06
+     Absorption Rate                      9.16346e-05 +/- 1.60065e-05
  Mesh Index (2, 3, 4)
    Total Material
-     Absorption Rate                      1.1861e-05 +/- 3.18016e-06
+     Absorption Rate                      0.000134953 +/- 1.97292e-05
  Mesh Index (3, 3, 4)
    Total Material
-     Absorption Rate                      1.93651e-05 +/- 5.02914e-06
+     Absorption Rate                      9.84362e-05 +/- 1.81922e-05
  Mesh Index (4, 3, 4)
    Total Material
-     Absorption Rate                      1.13337e-05 +/- 4.42915e-06
- Mesh Index (5, 3, 4)
-   Total Material
-     Absorption Rate                      1.12847e-05 +/- 3.81336e-06
+     Absorption Rate                      9.43464e-05 +/- 1.35109e-05
  Mesh Index (1, 4, 4)
    Total Material
-     Absorption Rate                      1.77407e-05 +/- 5.2533e-06
+     Absorption Rate                      0.000138152 +/- 1.89147e-05
  Mesh Index (2, 4, 4)
    Total Material
-     Absorption Rate                      1.76734e-05 +/- 3.99193e-06
+     Absorption Rate                      0.00015567 +/- 2.3315e-05
  Mesh Index (3, 4, 4)
    Total Material
-     Absorption Rate                      1.34961e-05 +/- 3.32141e-06
+     Absorption Rate                      0.000148604 +/- 1.87654e-05
  Mesh Index (4, 4, 4)
    Total Material
-     Absorption Rate                      1.93094e-05 +/- 6.08062e-06
- Mesh Index (5, 4, 4)
-   Total Material
-     Absorption Rate                      1.34104e-05 +/- 3.71385e-06
- Mesh Index (1, 5, 4)
-   Total Material
-     Absorption Rate                      2.12994e-05 +/- 6.57464e-06
- Mesh Index (2, 5, 4)
-   Total Material
-     Absorption Rate                      3.0951e-05 +/- 8.01448e-06
- Mesh Index (3, 5, 4)
-   Total Material
-     Absorption Rate                      1.18181e-05 +/- 2.86335e-06
- Mesh Index (4, 5, 4)
-   Total Material
-     Absorption Rate                      1.51741e-05 +/- 4.36785e-06
- Mesh Index (5, 5, 4)
-   Total Material
-     Absorption Rate                      1.87733e-05 +/- 5.18646e-06
- Mesh Index (1, 1, 5)
-   Total Material
-     Absorption Rate                      2.02156e-05 +/- 6.49828e-06
- Mesh Index (2, 1, 5)
-   Total Material
-     Absorption Rate                      1.97764e-05 +/- 6.66605e-06
- Mesh Index (3, 1, 5)
-   Total Material
-     Absorption Rate                      4.29688e-06 +/- 1.30765e-06
- Mesh Index (4, 1, 5)
-   Total Material
-     Absorption Rate                      1.95195e-05 +/- 6.4611e-06
- Mesh Index (5, 1, 5)
-   Total Material
-     Absorption Rate                      1.54205e-05 +/- 3.96505e-06
- Mesh Index (1, 2, 5)
-   Total Material
-     Absorption Rate                      1.30551e-05 +/- 3.90205e-06
- Mesh Index (2, 2, 5)
-   Total Material
-     Absorption Rate                      6.68521e-06 +/- 2.01998e-06
- Mesh Index (3, 2, 5)
-   Total Material
-     Absorption Rate                      1.21661e-05 +/- 3.77931e-06
- Mesh Index (4, 2, 5)
-   Total Material
-     Absorption Rate                      1.14954e-05 +/- 3.6599e-06
- Mesh Index (5, 2, 5)
-   Total Material
-     Absorption Rate                      1.94376e-05 +/- 7.92731e-06
- Mesh Index (1, 3, 5)
-   Total Material
-     Absorption Rate                      1.82663e-05 +/- 5.89835e-06
- Mesh Index (2, 3, 5)
-   Total Material
-     Absorption Rate                      7.68239e-06 +/- 3.06706e-06
- Mesh Index (3, 3, 5)
-   Total Material
-     Absorption Rate                      1.98937e-05 +/- 5.33186e-06
- Mesh Index (4, 3, 5)
-   Total Material
-     Absorption Rate                      5.93996e-06 +/- 1.42691e-06
- Mesh Index (5, 3, 5)
-   Total Material
-     Absorption Rate                      1.19186e-05 +/- 4.07373e-06
- Mesh Index (1, 4, 5)
-   Total Material
-     Absorption Rate                      1.47806e-05 +/- 5.14306e-06
- Mesh Index (2, 4, 5)
-   Total Material
-     Absorption Rate                      6.55637e-06 +/- 2.03511e-06
- Mesh Index (3, 4, 5)
-   Total Material
-     Absorption Rate                      1.05616e-05 +/- 3.40143e-06
- Mesh Index (4, 4, 5)
-   Total Material
-     Absorption Rate                      1.64424e-05 +/- 4.80517e-06
- Mesh Index (5, 4, 5)
-   Total Material
-     Absorption Rate                      9.52502e-06 +/- 3.41685e-06
- Mesh Index (1, 5, 5)
-   Total Material
-     Absorption Rate                      1.19301e-05 +/- 3.62219e-06
- Mesh Index (2, 5, 5)
-   Total Material
-     Absorption Rate                      1.24756e-05 +/- 4.55192e-06
- Mesh Index (3, 5, 5)
-   Total Material
-     Absorption Rate                      1.29121e-05 +/- 3.82481e-06
- Mesh Index (4, 5, 5)
-   Total Material
-     Absorption Rate                      1.28223e-05 +/- 5.81906e-06
- Mesh Index (5, 5, 5)
-   Total Material
-     Absorption Rate                      9.1538e-06 +/- 3.30215e-06
+     Absorption Rate                      0.000151743 +/- 2.22816e-05

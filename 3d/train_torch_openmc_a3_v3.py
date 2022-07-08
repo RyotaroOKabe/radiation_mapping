@@ -66,20 +66,20 @@ class Filterlayer2(nn.Module):
         self.ph_num = ph_num
         self.th_num = th_num
         
-        self.Wn1 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
-        self.Wn2 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
+        self.Wn1 = torch.nn.Parameter(data = torch.ones(1), requires_grad=False)
+        self.Wn2 = torch.nn.Parameter(data = torch.ones(1), requires_grad=False)
 
         temp = torch.torch.from_numpy(filterdata.data.reshape((2,self.th_num,self.ph_num,-1)))
 
-        self.weight1 = torch.nn.Parameter(data=temp[0,:,:,:], requires_grad=True)#self.weight[:,:40] #(18, 40, 125) #!20220701
-        self.weight2 = torch.nn.Parameter(data=temp[1,:,:,:], requires_grad=True)#self.weight[:,40:] #(18, 40, 125) #!20211230
+        self.weight1 = torch.nn.Parameter(data=temp[0,:,:,:], requires_grad=False)#self.weight[:,:40] #(18, 40, 125) #!20220701
+        self.weight2 = torch.nn.Parameter(data=temp[1,:,:,:], requires_grad=False)#self.weight[:,40:] #(18, 40, 125) #!20211230
 
-        self.bias1 = torch.nn.Parameter(data=torch.zeros(1,self.th_num,self.ph_num), requires_grad=True)   # (1, 18, 40)  #!20220701
-        self.bias2 = torch.nn.Parameter(data=torch.zeros(1,self.th_num,self.ph_num), requires_grad=True)
+        self.bias1 = torch.nn.Parameter(data=torch.zeros(1,self.th_num,self.ph_num), requires_grad=False)   # (1, 18, 40)  #!20220701
+        self.bias2 = torch.nn.Parameter(data=torch.zeros(1,self.th_num,self.ph_num), requires_grad=False)
 
         
-        self.Wn1_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True) #!20220305
-        self.Wn2_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True) #!20220305
+        self.Wn1_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=False) #!20220305
+        self.Wn2_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=False) #!20220305
 
 
     def forward(self,x):    # x: (N, 2, 18, 40)? or  (N, 1, 18, 40)? or  (N, 18, 40)? or (N, a^3)? or (N)
@@ -475,7 +475,7 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_5cmxx3_ep100_bs256_20220707_v2.1"      #!20220126
+    save_name = "openmc_5cmxx3_ep100_bs256_20220708_v1.1"      #!20220126
     #=========================================================
     path = 'openmc/discrete_data_20220706_5^3_v1'    #!20220630
     filterpath ='openmc/disc_filter_data_20220706_5^3_v1'
