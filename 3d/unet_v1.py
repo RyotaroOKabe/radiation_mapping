@@ -125,6 +125,8 @@ class UNet(nn.Module):
         x = self.out_conv(x)
         #?print("out_conv; "+ str(x.size()))    #!20220102
 
+        return x
+
 #%%
 
 class DoubleConv_3D(nn.Module):    #!20220701
