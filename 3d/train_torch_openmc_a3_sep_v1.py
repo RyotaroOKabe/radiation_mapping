@@ -89,19 +89,39 @@ class Filterlayer2(nn.Module):
         out1 = torch.einsum('bk,ijk->bij', x,self.weight1)/self.Wn1 + self.bias1   # (N, 18, 40) x (1, 18?, 40?) >> #(N, 18, 40)
         out2 = torch.einsum('bk,ijk->bij', x,self.weight2)/self.Wn2 + self.bias2   #! (N, a^3) * (18, 40, a^3) >> (N, 18, 40)
 
-        out1 = (out1 -  out1.view(out1.shape[0], -1).mean(dim=1))/out1.view(out1.shape[0], -1).std(dim=1)   # (N, 18, 40) #!20220711
-        out2 = (out2 -  out2.view(out2.shape[0], -1).mean(dim=1))/out2.view(out2.shape[0], -1).std(dim=1)
+        print(out1.shape)
+        print((out1.view(out1.shape[0], -1).mean(dim=1, keepdim=True)).shape)
+        print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).shape)
+        print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).reshape((out1.shape[0], 1, 1)).shape)
+        # print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).broadcast_to(out1.shape).shape)
+        # print(((out1.view(out1.shape[0], -1).mean(dim=1)).broadcast_to(out1.shape)).shape)
+        # print((out1 -  (out1.view(out1.shape[0], -1).mean(dim=1)).broadcast_to((out1.shape))).shape)
 
-        out1_ph = np.sum(torch.maximum(out1, 1.1), axis=1) # (N, ph_num)
-        out1_th = np.sum(torch.maximum(out1, 1.1), axis=2) # (N, th_num)
-        out2_ph = np.sum(torch.maximum(out2, 1.1), axis=1)
-        out2_th = np.sum(torch.maximum(out2, 1.1), axis=2)
+        # out1 = (out1 -  out1.view(out1.shape[0], -1).mean(dim=1))/out1.view(out1.shape[0], -1).std(dim=1)   # (N, 18, 40) #!20220711
+        # out2 = (out2 -  out2.view(out2.shape[0], -1).mean(dim=1))/out2.view(out2.shape[0], -1).std(dim=1)
 
-        out1_ph = (out1_ph -  out1_ph.mean(dim=1))/out1_ph.std(dim=1) # (N, ph_num)
-        out1_th = (out1_th -  out1_th.mean(dim=1))/out1_th.std(dim=1) # (N, th_num)
-        out2_ph = (out2_ph -  out2_ph.mean(dim=1))/out2_ph.std(dim=1)
-        out2_th = (out2_th -  out2_th.mean(dim=1))/out2_th.std(dim=1)
+        out1 = (out1 -  out1.view(out1.shape[0], -1).mean(dim=1, keepdim=True).reshape((out1.shape[0], 1, 1)))/out1.view(out1.shape[0], -1).std(dim=1, keepdim=True).reshape((out1.shape[0], 1, 1))   # (N, 18, 40) #!20220711
+        out2 = (out2 -  out2.view(out2.shape[0], -1).mean(dim=1, keepdim=True).reshape((out2.shape[0], 1, 1)))/out2.view(out1.shape[0], -1).std(dim=1, keepdim=True).reshape((out2.shape[0], 1, 1))
         
+        # out1_ph = np.sum(torch.maximum(out1, 1.1), axis=1) # (N, ph_num)
+        # out1_th = np.sum(torch.maximum(out1, 1.1), axis=2) # (N, th_num)
+        # out2_ph = np.sum(torch.maximum(out2, 1.1), axis=1)
+        # out2_th = np.sum(torch.maximum(out2, 1.1), axis=2)
+        out1_ph = torch.sum(torch.maximum(out1, 1.1*torch.ones_like(out1)), dim=1) # (N, ph_num)
+        out1_th = torch.sum(torch.maximum(out1, 1.1*torch.ones_like(out1)), dim=2) # (N, th_num)
+        out2_ph = torch.sum(torch.maximum(out2, 1.1*torch.ones_like(out2)), dim=1)
+        out2_th = torch.sum(torch.maximum(out2, 1.1*torch.ones_like(out2)), dim=2)
+
+        # out1_ph = (out1_ph -  out1_ph.mean(dim=1))/out1_ph.std(dim=1) # (N, ph_num)
+        # out1_th = (out1_th -  out1_th.mean(dim=1))/out1_th.std(dim=1) # (N, th_num)
+        # out2_ph = (out2_ph -  out2_ph.mean(dim=1))/out2_ph.std(dim=1)
+        # out2_th = (out2_th -  out2_th.mean(dim=1))/out2_th.std(dim=1)
+        
+        out1_ph = (out1_ph -  out1_ph.mean(dim=1, keepdim=True).reshape((out1_ph.shape[0], 1)))/out1_ph.std(dim=1, keepdim=True).reshape((out1_ph.shape[0], 1))   # (N, 18, 40) #!20220711
+        out1_th = (out1_th -  out1_th.mean(dim=1, keepdim=True).reshape((out1_th.shape[0], 1)))/out1_th.std(dim=1, keepdim=True).reshape((out1_th.shape[0], 1))   # (N, 18, 40) #!20220711
+        out2_ph = (out2_ph -  out2_ph.mean(dim=1, keepdim=True).reshape((out2_ph.shape[0], 1)))/out2_ph.std(dim=1, keepdim=True).reshape((out2_ph.shape[0], 1))   # (N, 18, 40) #!20220711
+        out2_th = (out2_th -  out2_th.mean(dim=1, keepdim=True).reshape((out2_th.shape[0], 1)))/out2_th.std(dim=1, keepdim=True).reshape((out2_th.shape[0], 1))   # (N, 18, 40) #!20220711
+
         out_ph = torch.cat([out1_ph,out2_ph],dim=1) # (N, 2*ph_num)
         out_th = torch.cat([out1_th,out2_th],dim=1) # (N, 2*th_num)
         
@@ -132,13 +152,19 @@ class MyNet2(nn.Module):
     def __init__(self, UNet_ph, UNet_th, ph_num, th_num, filterdata):   #!20220701
         super(MyNet2, self).__init__()
         self.l1 = Filterlayer2(ph_num, th_num, filterdata)#.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20220701
-        self.unet_ph = UNet_ph(c1 = 32)   #!20220711
-        self.unet_th = UNet_th(c1 = 32)   #!20220711
+        self.unet_ph = UNet_ph(in_channels=2, c1 = 32)   #!20220711
+        self.unet_th = UNet_th(in_channels=2, c1 = 32)   #!20220711
 
     def forward(self, x):
         ph, th = self.l1(x)
+        print(ph.shape)
+        
+        #ph = ph.transpose(1,2)
+        
         ph = self.unet_ph(ph)
         th = self.unet_th(th)
+        print(ph)
+
         ph = ph.squeeze(1)
         th = th.squeeze(1)
         out_ph = F.softmax(ph,dim=1)
