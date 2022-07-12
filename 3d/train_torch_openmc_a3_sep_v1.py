@@ -21,7 +21,7 @@ from torchvision import datasets, transforms
 writer = tbx.SummaryWriter('runs')
 
 #from dataset_20220508 import *  #!20220508
-from dataset_a3_v2 import *  #!20220508
+from dataset_a3_v6 import *  #!20220508
 
 from time_record import Timer
 
@@ -42,7 +42,8 @@ DEFAULT_DEVICE = "cuda"   #!20220704
 
 DEFAULT_DTYPE = torch.double
 
- 
+def relu_cut(x): #!20220711
+    return torch.maximum(x, th=1.1)
 
 class Filterlayer(nn.Module):
     """docstring for Filterlayer"""
@@ -87,25 +88,62 @@ class Filterlayer2(nn.Module):
         #?out2 = torch.matmul(x,self.weight2)/self.Wn2 + self.bias2   #! (N, a^3) * (18, 40, a^3) >> (N, 18, 40)
         out1 = torch.einsum('bk,ijk->bij', x,self.weight1)/self.Wn1 + self.bias1   # (N, 18, 40) x (1, 18?, 40?) >> #(N, 18, 40)
         out2 = torch.einsum('bk,ijk->bij', x,self.weight2)/self.Wn2 + self.bias2   #! (N, a^3) * (18, 40, a^3) >> (N, 18, 40)
-        out = torch.cat([out1,out2],dim=1) #(N, 36, 40) #! (N, 18, 40)(+)(N, 18, 40) >> (N, 36, 40)
-        out = out.view(out.shape[0], 2, self.th_num, self.ph_num) 
-        return out
+
+        out1 = (out1 -  out1.view(out1.shape[0], -1).mean(dim=1))/out1.view(out1.shape[0], -1).std(dim=1)   # (N, 18, 40) #!20220711
+        out2 = (out2 -  out2.view(out2.shape[0], -1).mean(dim=1))/out2.view(out2.shape[0], -1).std(dim=1)
+
+        out1_ph = np.sum(torch.maximum(out1, 1.1), axis=1) # (N, ph_num)
+        out1_th = np.sum(torch.maximum(out1, 1.1), axis=2) # (N, th_num)
+        out2_ph = np.sum(torch.maximum(out2, 1.1), axis=1)
+        out2_th = np.sum(torch.maximum(out2, 1.1), axis=2)
+
+        out1_ph = (out1_ph -  out1_ph.mean(dim=1))/out1_ph.std(dim=1) # (N, ph_num)
+        out1_th = (out1_th -  out1_th.mean(dim=1))/out1_th.std(dim=1) # (N, th_num)
+        out2_ph = (out2_ph -  out2_ph.mean(dim=1))/out2_ph.std(dim=1)
+        out2_th = (out2_th -  out2_th.mean(dim=1))/out2_th.std(dim=1)
+        
+        out_ph = torch.cat([out1_ph,out2_ph],dim=1) # (N, 2*ph_num)
+        out_th = torch.cat([out1_th,out2_th],dim=1) # (N, 2*th_num)
+        
+        out_ph = out_ph.view(out_ph.shape[0], 2, self.ph_num)
+        out_th = out_th.view(out_th.shape[0], 2, self.th_num)
+
+        # out = torch.cat([out1,out2],dim=1) #(N, 36, 40) #! (N, 18, 40)(+)(N, 18, 40) >> (N, 36, 40)
+        # out = out.view(out.shape[0], 2, self.th_num, self.ph_num)
+        # return out
+        return out_ph, out_th
 
 
 
+# class MyNet2(nn.Module):  #!20220711 out
+#     def __init__(self, UNet_option, ph_num, th_num, filterdata):   #!20220701
+#         super(MyNet2, self).__init__()
+#         self.l1 = Filterlayer2(ph_num, th_num, filterdata)#.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20220701
+#         self.unet = UNet_option(c1 = 32)   #!20220701
+
+    # def forward(self, x):   # x: (N, a^3) #!20220711 out
+    #     x = self.l1(x)  # (N, a^3) * (18, 40, a^3) >> (N, 18, 40), (N, 18, 40)(+)(N, 18, 40) >> (N, 36, 40), (N, 36, 40) >> (N, 2, 18, 40)
+    #     x = self.unet(x) # input=x:(N, 2, 18, 40) >> output=x: (N, 18, 40) or input=x:(N, 2, 40, 18) >> output=x: (N, 1, 40, 18)
+    #     x = x.squeeze(1) # x: (N, 1, 40, 18) >> (N, 40, 18)
+    #     out = F.softmax(x,dim=1)    # out: (N, 40, 18) >> (N, 18, 40)
+    #     return out  # (N, 18, 40)
 
 class MyNet2(nn.Module):
-    def __init__(self, UNet_option, ph_num, th_num, filterdata):   #!20220701
+    def __init__(self, UNet_ph, UNet_th, ph_num, th_num, filterdata):   #!20220701
         super(MyNet2, self).__init__()
         self.l1 = Filterlayer2(ph_num, th_num, filterdata)#.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20220701
-        self.unet = UNet_option(c1 = 32)   #!20220701
+        self.unet_ph = UNet_ph(c1 = 32)   #!20220711
+        self.unet_th = UNet_th(c1 = 32)   #!20220711
 
-    def forward(self, x):   # x: (N, a^3)
-        x = self.l1(x)  # (N, a^3) * (18, 40, a^3) >> (N, 18, 40), (N, 18, 40)(+)(N, 18, 40) >> (N, 36, 40), (N, 36, 40) >> (N, 2, 18, 40)
-        x = self.unet(x) # input=x:(N, 2, 18, 40) >> output=x: (N, 18, 40) or input=x:(N, 2, 40, 18) >> output=x: (N, 1, 40, 18)
-        x = x.squeeze(1) # x: (N, 1, 40, 18) >> (N, 40, 18)
-        out = F.softmax(x,dim=1)    # out: (N, 40, 18) >> (N, 18, 40)
-        return out  # (N, 18, 40)
+    def forward(self, x):
+        ph, th = self.l1(x)
+        ph = self.unet_ph(ph)
+        th = self.unet_th(th)
+        ph = ph.squeeze(1)
+        th = th.squeeze(1)
+        out_ph = F.softmax(ph,dim=1)
+        out_th = F.softmax(th,dim=1)
+        return out_ph, out_th
 
 
 class MyNet(nn.Module):
@@ -173,37 +211,66 @@ class MyNet(nn.Module):
         return out
 
 class Model(object):
-    def __init__(self, net, loss_train, loss_val, reg=0.):
+    #def __init__(self, net, loss_train, loss_val, reg=0.): #!20220711 out
+    def __init__(self, net, loss_train_ph, loss_train_th, loss_val_ph, loss_val_th, reg=0.):  #!20220711
         super(Model, self).__init__()
         
         self.net = net
 
-
         self.reg = reg
         
-        self.loss_train = loss_train
-        if loss_val is None:
-            self.loss_val=loss_train
+        #self.loss_train = loss_train
+        self.loss_train_ph = loss_train_ph  #!20220711
+        self.loss_train_th = loss_train_th
+        # if loss_val is None:
+        #     self.loss_val=loss_train
+        # else:
+        #     self.loss_val = loss_val
+        if loss_val_ph is None: #!20220711
+            self.loss_val_ph=loss_train_ph
         else:
-            self.loss_val = loss_val
+            self.loss_val_ph = loss_val_ph
+
+        if loss_val_th is None: #!20220711
+            self.loss_val_th=loss_train_th
+        else:
+            self.loss_val_th = loss_val_th
     
-    def train(self, optim, train, val, epochs,batch_size, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
+    
+    #def train(self, optim, train, val, epochs,batch_size, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
+    def train(self, optim, train, val, epochs,batch_size, acc_func_ph=None, acc_func_th=None, check_overfit_func=None,verbose=10, save_name='output_record'):   #!20220711
         net = self.net
-        loss_train = self.loss_train
-        loss_val = self.loss_val
+        # loss_train = self.loss_train
+        # loss_val = self.loss_val
+        loss_train_ph = self.loss_train_ph  #!20220711
+        loss_val_ph = self.loss_val_ph
+        loss_train_th = self.loss_train_th  #!20220711
+        loss_val_th = self.loss_val_th
         
         t1=time.time()
         
         timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','optimizer step','eval'])    #!20220104
         
-        train_loss_history=[]
-        val_loss_history=[]
+        # train_loss_history=[]
+        # val_loss_history=[]
+        train_loss_history_ph=[]   #!20220711
+        val_loss_history_ph=[]
+        train_loss_history_th=[]   #!20220711
+        val_loss_history_th=[]
 
-        if acc_func is None:
-            evaluation=loss_val
+        # if acc_func is None:
+        #     evaluation=loss_val
+        # else:
+        #     evaluation=acc_func
+        if acc_func_ph is None: #!20220711
+            evaluation_ph=loss_val_ph
         else:
-            evaluation=acc_func
-            
+            evaluation_ph=acc_func_ph
+        if acc_func_th is None: #!20220711
+            evaluation_th=loss_val_th
+        else:
+            evaluation_th=acc_func_th
+
         record_lines = []   #!20220126
 
         for i in range(epochs):
@@ -244,7 +311,8 @@ class Model(object):
                 optim.zero_grad()
 
                 
-                output = net(data_x)
+                #output = net(data_x)    #!20220711 out
+                output_ph, output_th = net(data_x)    #!20220711
                 #print(output)   #!20220305
                 #print(data_y)   #!20220305
                 #print(data_x)   #!20220305
@@ -274,30 +342,53 @@ class Model(object):
                 #=======The dimension check!=========#!20220508
                 
                 #loss = loss_train(data_y, output) 
-                loss = loss_train(data_y.transpose(1,2), output.transpose(1,2))
+                #loss = loss_train(data_y.transpose(1,2), output.transpose(1,2))
+                loss_ph = loss_train_ph(data_y_ph, output_ph)   #!20220711
+                loss_th = loss_train_th(data_y_th, output_th)   #!20220711
                 #loss = loss_train(10*17*data_y.transpose(1,2), 10**17*output.transpose(1,2))   #! Debug this part!!
 
                 
                 timer.end('loss');timer.start('cal reg')    #!20220104
                 #Timer.end('loss');timer.start('cal reg')    #!20220104
 
-                if self.reg:    #!!
-                    reg_loss=0.
-                    nw=0.
+                # if self.reg:    #!!
+                #     reg_loss=0.
+                #     nw=0.
+                #     for param in net.parameters():
+                #         # print param.shape
+                #         # raw_input()
+                #         reg_loss +=  param.norm(2)**2/2.    #! Debug here!!!
+                #         nw+=param.reshape(-1).shape[0]
+
+
+                #     reg_loss = self.reg/2./nw*reg_loss
+                #     loss += reg_loss
+
+                if self.reg:    #!20220711
+                    reg_loss_ph=0.
+                    reg_loss_th=0.
+                    nw_ph=0.
+                    nw_th=0.
                     for param in net.parameters():
                         # print param.shape
                         # raw_input()
-                        reg_loss +=  param.norm(2)**2/2.    #! Debug here!!!
-                        nw+=param.reshape(-1).shape[0]
+                        reg_loss_ph +=  param.norm(2)**2/2.    #! Debug here!!!
+                        reg_loss_th +=  param.norm(2)**2/2.
+                        nw_ph+=param.reshape(-1).shape[0]
+                        nw_th+=param.reshape(-1).shape[0]
 
 
-                    reg_loss = self.reg/2./nw*reg_loss
-                    loss += reg_loss
+                    reg_loss_ph = self.reg/2./nw_ph*reg_loss_ph
+                    reg_loss_th = self.reg/2./nw_th*reg_loss_th
+                    loss_ph += reg_loss_ph
+                    loss_th += reg_loss_th
 
                 
                 timer.end('cal reg');timer.start('backward')    #!20220104
                 #Timer.end('cal reg');timer.start('backward')    #!20220104
 
+                #loss.backward()
+                loss = loss_ph + loss_th
                 loss.backward()
 
                 timer.end('backward');timer.start('optimizer step')    #!20220104
@@ -316,16 +407,23 @@ class Model(object):
                 #Timer.end('optimizer step');    #!20220104
                 
             #t2 = time.time(); print 'train data', t2-t0#; t1 = t2
-            train_loss=0.
-            val_loss=0.
+            # train_loss=0.
+            # val_loss=0.
+            train_loss_ph=0.
+            val_loss_ph=0.
+            train_loss_th=0.
+            val_loss_th=0.
 
             timer.start('eval')    #!20220104
             #Timer.start('eval')    #!20220104
             net.eval()
             with torch.no_grad():
                 for data in datas:
-                    output = net(data[0])
-                    train_loss+=evaluation(data[1],output)*data[0].shape[0]/train.data_size
+                    #output = net(data[0])
+                    output_ph, output_th = net(data[0])   #!20220711
+                    #train_loss+=evaluation(data[1],output)*data[0].shape[0]/train.data_size
+                    train_loss_ph+=evaluation_ph(data[2],output_ph)*data[0].shape[0]/train.data_size    #!20220711
+                    train_loss_th+=evaluation_th(data[3],output_th)*data[0].shape[0]/train.data_size    #!20220711
 
                 times=int(math.ceil(val.data_size/float(batch_size)))
                 #print 'test', times
@@ -334,23 +432,34 @@ class Model(object):
 
                     #data = (torch.as_tensor(data[0]),torch.as_tensor(data[1]))  #!20220701 out
                     data = (torch.as_tensor(data[0]),torch.as_tensor(data[1]),torch.as_tensor(data[2]),torch.as_tensor(data[3]))  #!20220701
-                    output = net(data[0])
+                    #output = net(data[0])
+                    output_ph, output_th = net(data[0])
 
-                    val_loss+=evaluation(data[1],output)*data[0].shape[0]/val.data_size
+                    #val_loss+=evaluation(data[1],output)*data[0].shape[0]/val.data_size
+                    val_loss_ph+=evaluation_ph(data[2],output_ph)*data[0].shape[0]/val.data_size    #!20220711
+                    val_loss_th+=evaluation_th(data[2],output_th)*data[0].shape[0]/val.data_size    #!20220711
             
-            writer.add_scalars('Training vs. Validation Loss', { 'Training' : train_loss, 'Validation' : val_loss }, epochs)     #!20220126__2
+            #writer.add_scalars('Training vs. Validation Loss', { 'Training' : train_loss, 'Validation' : val_loss }, epochs)     #!20220126__2
+            writer.add_scalars('Training vs. Validation Loss', { 'Training_ph' : train_loss_ph, 'Validation_ph' : val_loss_ph,
+                                                                'Training_th' : train_loss_th, 'Validation_th' : val_loss_th }, epochs)     #!20220711
             
             timer.end('eval')    #!20220104
             #Timer.end('eval')    #!20220104
 
-            train_loss_history.append(train_loss)
-            val_loss_history.append(val_loss)
-            
-            record_line = '%d\t%f\t%f'%(i,train_loss,val_loss)    #!20220126
+            # train_loss_history.append(train_loss)
+            # val_loss_history.append(val_loss)
+            train_loss_history_ph.append(train_loss_ph)
+            val_loss_history_ph.append(val_loss_ph)
+            train_loss_history_th.append(train_loss_th)
+            val_loss_history_th.append(val_loss_th)
+
+            #record_line = '%d\t%f\t%f'%(i,train_loss,val_loss)    #!20220126
+            record_line = '%d\t%f\t%f\t%f\t%f'%(i,train_loss_ph,val_loss_ph,train_loss_th,val_loss_th)    #!20220711
             record_lines.append(record_line)
 
             if verbose and i%verbose==0:
-                print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))
+                #print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))
+                print('\t\tSTEP %d\t%f\t%f\t%f\t%f'%(i,train_loss_ph,val_loss_ph,train_loss_th,val_loss_th))    #!20220711
                 # print self.net.l1.Wn
                 #timer.result(ratio=True)
                 #print loss
@@ -362,10 +471,15 @@ class Model(object):
         #writer.flush()       #!20220126__2
 
         t2=time.time()
-        print('\t\tEPOCHS %d\t%f\t%f'%(epochs, train_loss, val_loss))
+        #print('\t\tEPOCHS %d\t%f\t%f'%(epochs, train_loss, val_loss))
+        print('\t\tEPOCHS %d\t%f\t%f\t%f\t%f'%(epochs, train_loss_ph,val_loss_ph,train_loss_th,val_loss_th))    #!20220711
         print('\t\tFinished in %.1fs'%(t2-t1))
-        self.train_loss_history=train_loss_history
-        self.val_loss_history=val_loss_history
+        # self.train_loss_history=train_loss_history
+        # self.val_loss_history=val_loss_history
+        self.train_loss_history_ph=train_loss_history_ph  #!20220711
+        self.val_loss_history_ph=val_loss_history_ph
+        self.train_loss_history_th=train_loss_history_th  #!20220711
+        self.val_loss_history_th=val_loss_history_th
         
         #with open("save_record/" + save_name + ".txt", "w") as text_file:   #!20220126
         text_file = open("save_record/" + save_name + ".txt", "w")
@@ -374,19 +488,40 @@ class Model(object):
         text_file.close()
 
 
-    def plot_train_curve(self):
+    # def plot_train_curve(self):
+    #     #plt.figure()
+    #     plt.figure(facecolor="white")
+    #     plt.plot(self.train_loss_history,label='training')
+    #     plt.plot(self.val_loss_history,label='validation')
+    #     plt.xlabel('Steps')
+    #     plt.ylabel('Error')
+    #     plt.legend()
+
+    def plot_train_curve(self): #!20220711
         #plt.figure()
-        plt.figure(facecolor="white")
-        plt.plot(self.train_loss_history,label='training')
-        plt.plot(self.val_loss_history,label='validation')
-        plt.xlabel('Steps')
-        plt.ylabel('Error')
-        plt.legend()
+        fig = plt.figure(facecolor="white")
+        ax1 = fig.add_subplot(121)
+        ax1.plot(self.train_loss_history_ph,label='training')
+        ax1.plot(self.val_loss_history_ph,label='validation')
+        ax1.set_xlabel('Steps')
+        ax1.set_ylabel('Error')
+        ax1.set_title('\u03C6')
+        ax1.legend()
+        ax2 = fig.add_subplot(122)
+        ax2.plot(self.train_loss_history_th,label='training')
+        ax2.plot(self.val_loss_history_th,label='validation')
+        ax2.set_xlabel('Steps')
+        ax2.set_ylabel('Error')
+        ax2.set_title('\u03B8')
+        ax2.legend()
 
     def save(self,name):
-        data = {"tran_loss_hist":self.train_loss_history,"val_loss_hist":self.val_loss_history}
+        #data = {"tran_loss_hist":self.train_loss_history,"val_loss_hist":self.val_loss_history}
+        data = {"tran_loss_hist_ph":self.train_loss_history_ph,"val_loss_hist_ph":self.val_loss_history_ph,
+                "tran_loss_hist_th":self.train_loss_history_th,"val_loss_hist_th":self.val_loss_history_th} #!20220711
         torch.save(data,name+'_log.pt')
         torch.save(self.net,name+'_model.pt')
+
 
     def plot_test(self,test,indx):
 
@@ -401,35 +536,60 @@ class Model(object):
         #predict_test=sess.run(self.outputs,feed_dict={xs:test_x,ys:test_y})
         self.net.eval()
         with torch.no_grad():
-            predict_test = self.net(torch.as_tensor(test_x)).detach().numpy()
+            #predict_test = self.net(torch.as_tensor(test_x)).detach().numpy()
+            predict_test_ph, predict_test_th = self.net(torch.as_tensor(test_x)).detach().numpy()   #!20220711
 
         #fig = plt.figure(figsize=(50, 14))  #!20220701
-        fig = plt.figure(figsize=(50, 14), facecolor='white')  #!20220707
+        fig = plt.figure(figsize=(50, 25), facecolor='white')  #!20220707
         
         #! 20220701
-        do0 = test_y
-        id_t_0, id_p_0 = [int(np.where(do0==do0.max())[i]) for i in range(2)]
-        ax2 = fig.add_subplot(211)
-        ax2.imshow(do0, extent=[phi_list[0],phi_list[-1],theta_list[-1],theta_list[0]])
-        ax2.set_title(f"[Test Ref]\nPeak: \u03C6 = {phi_list[id_p_0]} deg ({id_p_0}) /  \u03B8 = {theta_list[id_t_0]} deg ({id_t_0})")
-        ax2.set_ylabel('\u03B8 [deg]', fontsize = 16)
+        # do0 = test_y
+        # id_t_0, id_p_0 = [int(np.where(do0==do0.max())[i]) for i in range(2)]
+        # ax2 = fig.add_subplot(211)
+        # ax2.imshow(do0, extent=[phi_list[0],phi_list[-1],theta_list[-1],theta_list[0]])
+        # ax2.set_title(f"[Test Ref]\nPeak: \u03C6 = {phi_list[id_p_0]} deg ({id_p_0}) /  \u03B8 = {theta_list[id_t_0]} deg ({id_t_0})")
+        # ax2.set_ylabel('\u03B8 [deg]', fontsize = 16)
 
-        do1 = predict_test
-        id_t_1, id_p_1 = [int(np.where(do1==do1.max())[i]) for i in range(2)]
-        ax3 = fig.add_subplot(212)
-        ax3.imshow(do1, extent=[phi_list[0],phi_list[-1],theta_list[-1],theta_list[0]])
-        ax3.set_title(f"[Prediction]\nPeak: \u03C6 = {phi_list[id_p_1]} deg ({id_p_1}) /  \u03B8 = {theta_list[id_t_1]} deg ({id_t_1})")
-        ax3.set_ylabel('\u03B8 [deg]', fontsize = 16)
-        fig.subplots_adjust(left=0.1,
-                    bottom=0.1, 
-                    right=0.9, 
-                    top=0.9, 
-                    wspace=0.3, 
-                    hspace=0.4)
+        # do1 = predict_test
+        # id_t_1, id_p_1 = [int(np.where(do1==do1.max())[i]) for i in range(2)]
+        # ax3 = fig.add_subplot(212)
+        # ax3.imshow(do1, extent=[phi_list[0],phi_list[-1],theta_list[-1],theta_list[0]])
+        # ax3.set_title(f"[Prediction]\nPeak: \u03C6 = {phi_list[id_p_1]} deg ({id_p_1}) /  \u03B8 = {theta_list[id_t_1]} deg ({id_t_1})")
+        # ax3.set_ylabel('\u03B8 [deg]', fontsize = 16)
+        # fig.subplots_adjust(left=0.1,
+        #             bottom=0.1, 
+        #             right=0.9, 
+        #             top=0.9, 
+        #             wspace=0.3, 
+        #             hspace=0.4)
 
-        fig.patch.set_facecolor('white')
-        fig.show()
-        fig.savefig("save_fig/test_result.png")
+        id_ref_ph = int(np.where(test_y_ph==test_y_ph.max())[0])
+        id_ref_th = int(np.where(test_y_th==test_y_th.max())[0])
+        ax11 = fig.add_subplot(2,2,1) #!!
+        ax12 = fig.add_subplot(2,2,2)
+        ax11.plot(phi_list, test_y_ph)
+        ax11.set_title(f"[Simulated]\nPeak: \u03C6 = {phi_list[id_ref_ph]} deg ({id_ref_ph})")
+        ax12.plot(test_y_th, theta_list)
+        ax12.set_title(f"[Simulated]\nPeak: \u03B8 = {theta_list[id_ref_th]} deg ({id_ref_th})")
+
+        pred_ph, pred_th = predict_test_ph.cpu().numpy(), predict_test_th.cpu().numpy()
+        id_pred_ph = int(np.where(pred_ph==pred_ph.max())[0])
+        id_pred_th = int(np.where(pred_th==pred_th.max())[0])
+        ax21 = fig.add_subplot(2,2,3) #!!
+        ax22 = fig.add_subplot(2,2,4)
+        ax21.plot(phi_list, predict_test_ph)
+        ax21.set_title(f"[Predicted]\nPeak: \u03C6 = {phi_list[id_pred_ph]} deg ({id_pred_ph})")
+        ax22.plot(predict_test_th, theta_list)
+        ax22.set_title(f"[Predicted]\nPeak: \u03B8 = {theta_list[id_pred_th]} deg ({id_pred_th})")
+
+
+
+
+
+        #fig.patch.set_facecolor('white')
+        ###fig.show()
+        ###fig.savefig("save_fig/test_result.png")
+        ###plt.close()
         #plt.figure()
         #plt.plot(np.linspace(-180,180,41)[0:40],test_y[0])
         #plt.plot(np.linspace(-180,180,41)[0:40],predict_test[0])
@@ -475,17 +635,21 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_5cmxx3_ep100_bs256_20220708_v1.1"      #!20220126
+    save_name = "openmc_5cmxx3_ep50_bs256_20220711_v1.1"      #!20220126
     #=========================================================
     path = 'openmc/discrete_data_20220706_5^3_v1'    #!20220630
     filterpath ='openmc/disc_filter_data_20220706_5^3_v1'
     filter_data2 = FilterData2(filterpath)
-    UNet_option = UNet_3D_2
+    #UNet_option = UNet_3D_2
+    UNet_ph = UNet
+    UNet_th = UNet
     ph_num=32
     th_num=16
     
     #net = MyNet2(out_features=80, filterdata=filter_data2)  #!20220701
-    net = MyNet2(UNet_option, ph_num=ph_num, th_num=th_num, filterdata=filter_data2)  #!20220701
+    # (self, UNet_ph, UNet_th, ph_num, th_num, filterdata)
+    #net = MyNet2(UNet_option, ph_num=ph_num, th_num=th_num, filterdata=filter_data2)  #!20220701
+    net = MyNet2(UNet_ph, UNet_th, ph_num=ph_num, th_num=th_num, filterdata=filter_data2)   #!20220711
 
     net = net.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
 
@@ -496,14 +660,20 @@ if __name__ == '__main__':
 
     #os.nice(19)
     #loss_train = lambda y_pred, y: torch.sum(torch.norm(y_pred-y, p=2, dim=1))
-    loss_train = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)   #! debug this part!!
+    #loss_train = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)   #! debug this part!!
+    loss_train_ph = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)    #!20220711
+    loss_train_th = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)    #!20220711
     # loss_train = lambda y, y_pred: emd_loss_sinkhorn(y, y_pred, M2)
     # loss_train = lambda y, y_pred: kld_loss(y_pred.log(),y)
     
     #loss_val = lambda y_pred, y: emd_ring(np.asarray(y_pred),  np.asarray(y), M1)
-    loss_val = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()
+    #loss_val = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()
+    loss_val_ph = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()    #!20220711
+    loss_val_th = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()    #!20220711
 
-    model = Model(net, loss_train, loss_val,reg=0.001)
+    # (self, net, loss_train_ph, loss_train_th, loss_val_ph, loss_val_th, reg=0.)
+    #model = Model(net, loss_train, loss_val,reg=0.001)
+    model = Model(net, loss_train_ph, loss_train_th, loss_val_ph, loss_val_th,reg=0.001)  #!20220711
 
     train_set,test_set=load_data(test_size=50,train_size=None,test_size_gen=None,output_fun=get_output,ph_num=ph_num, th_num=th_num, path=path,source_num=[1],prob=[1.],seed=None) #load_data(50, source_num=[1]) 
     #train_set,test_set=load_data(600, source_num=[1])   #!20220508
@@ -519,7 +689,9 @@ if __name__ == '__main__':
     # base_params = filter(lambda p: id(p) not in l1_params,
                          # net.parameters())
     optim = torch.optim.Adam([
-        {"params": net.unet.parameters()},
+        #{"params": net.unet.parameters()},
+        {"params": net.unet_ph.parameters()},  #!20220711
+        #{"params": net.unet_ph.parameters()},
         {"params": net.l1.weight1, 'lr': 3e-5},
         {"params": net.l1.weight2, 'lr': 3e-5},
         {"params": net.l1.bias1, 'lr': 3e-5},
@@ -528,17 +700,24 @@ if __name__ == '__main__':
         {"params": net.l1.Wn1, 'lr': 3e-5}
         ], lr=0.001)
 
-    model.train(optim,train_set,test_set,epochs=100,batch_size=256, acc_func=None, verbose=10, save_name=save_name)    #!20220126
-    #model.train(optim,train_set,test_set,epochs=6000,batch_size=256,acc_func=None, verbose=10)
+    #model.train(optim,train_set,test_set,epochs=100,batch_size=256, acc_func=None, verbose=10, save_name=save_name)    #!20220126
+    model.train(optim,train_set,test_set,epochs=50,batch_size=256, acc_func_ph=None, acc_func_th=None, verbose=10, save_name=save_name)   #!20220711
 
     #model.save('test8')
-    model.save('model_' + save_name)     #!20220126
-    model.save('save_model/model_' + save_name)     #!20220126
+    #model.save('model_' + save_name)     #!20220126
+    model.save('save_model/model_' + save_name)     #!20220711
 
     model.plot_train_curve()
     plt.show()
     #plt.savefig(fname="save_fig/train_6000_20220107.png")    #!20220104
     plt.savefig(fname="save_fig/train_" + save_name + ".png")    #!20220126
+    plt.close()
+    
+    model.plot_test()
+    plt.show()
+    #plt.savefig(fname="save_fig/train_6000_20220107.png")    #!20220104
+    plt.savefig(fname="save_fig/test_" + save_name + ".png")    #!20220126
+    plt.close()
     #raw_input()    #!20220104
     #plt.show()
 
