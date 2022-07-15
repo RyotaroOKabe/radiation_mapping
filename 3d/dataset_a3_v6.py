@@ -818,6 +818,7 @@ def plot_angles_separately2(data_index, path, filterpath, filter_types_dict, a_n
     ax12.set_title(f"[{det_filename[:-5]}]\nPeak: \u03C6 = {phi_list[id_sum_ph]} deg ({id_sum_ph})")
     ax13.plot(dm_th, theta_list)
     ax13.set_title(f"[{det_filename[:-5]}]\nPeak: \u03B8 = {theta_list[id_sum_th]} deg ({id_sum_th})")
+    ax13.invert_yaxis()
 
     do0 = data1_output[0]
     # do0_mean = do0.mean()
@@ -845,6 +846,7 @@ def plot_angles_separately2(data_index, path, filterpath, filter_types_dict, a_n
     ax22.set_title(f"[{filter_types[0]}]\nPeak: \u03C6 = {phi_list[id_sum_ph0]} deg ({id_sum_ph0})")
     ax23.plot(do_th0, theta_list)
     ax23.set_title(f"[{filter_types[0]}]\nPeak: \u03B8 = {theta_list[id_sum_th0]} deg ({id_sum_th0})")
+    ax23.invert_yaxis()
 
     do1 = data1_output[1]
     # do1_mean = do1.mean()
@@ -872,6 +874,7 @@ def plot_angles_separately2(data_index, path, filterpath, filter_types_dict, a_n
     ax32.set_title(f"[{filter_types[1]}]\nPeak: \u03C6 = {phi_list[id_sum_ph1]} deg ({id_sum_ph1})")
     ax33.plot(do_th1, theta_list)
     ax33.set_title(f"[{filter_types[1]}]\nPeak: \u03B8 = {theta_list[id_sum_th1]} deg ({id_sum_th1})")
+    ax33.invert_yaxis()
 
     do2 = data1_output[0] + data1_output[1]
     id_t_2, id_p_2 = [int(np.where(do2==do2.max())[i]) for i in range(2)]
@@ -900,6 +903,7 @@ def plot_angles_separately2(data_index, path, filterpath, filter_types_dict, a_n
     ax42.set_title(f"[{filter_types[1]}]\nPeak: \u03C6 = {phi_list[id_sum_ph2]} deg ({id_sum_ph2})")
     ax43.plot(do_th1, theta_list)
     ax43.set_title(f"[{filter_types[1]}]\nPeak: \u03B8 = {theta_list[id_sum_th2]} deg ({id_sum_th2})")
+    ax43.invert_yaxis()
 
     fig.subplots_adjust(left=0.1,
                     bottom=0.1, 
@@ -909,19 +913,20 @@ def plot_angles_separately2(data_index, path, filterpath, filter_types_dict, a_n
                     hspace=0.4)
 
     fig.patch.set_facecolor('white')
+    fig.savefig("save_fig/angles.png")
     fig.show()
 
 
 
 #%%
 if __name__ == '__main__':
-    path = 'openmc/discrete_data_20220706_5^3_v1'    #!20220630
-    filterpath ='openmc/disc_filter_data_20220706_5^3_v1'    #!20220630
+    path = 'openmc/discrete_data_20220714_2^3_v1'    #!20220630
+    filterpath ='openmc/disc_filter_data_20220714_2^3_v1'    #!20220630
     filter_types_dict = {'near':20, 'far':100}
-    a_num = 5
+    a_num = 2
     ph_num = 32
     th_num = 16
-    data_index = 100
+    data_index = 1020
 
     train_set,test_set=load_data(test_size=100,train_size=None,test_size_gen=None,output_fun=get_output,ph_num=ph_num, th_num=th_num, path=path,source_num=[1],prob=[1.],seed=None)
 

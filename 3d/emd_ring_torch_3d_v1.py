@@ -149,7 +149,8 @@ def emd_loss_ring(p,p_hat,r=2):
     #print(p_hat)  #!20220303 >> check!
     p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
     #print(p_hat_m) #!20220330 testing >> This part was no problem
-    p=p/torch.sum(p)  #,dim=1,keepdim=True) #!20211229
+    #p=p/torch.sum(p)  #,dim=1,keepdim=True) #!20211229
+    p=p/torch.sum(p,dim=1,keepdim=True) #!20220714
     #print(p)
     p_m=torch.mean(p) #,dim=0) #!20220330 testing
     #print(p_m) #!20220330 testing >> Include nan
