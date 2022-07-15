@@ -145,18 +145,18 @@ def emd_loss_ring_tf(p, p_hat, r=2, scope=None):
 def emd_loss_ring(p,p_hat,r=2):
     #p=p/torch.sum(p,dim=1,keepdims=True) #!20211229
     #p_hat=p_hat/torch.sum(p_hat,dim=1,keepdims=True)
-    print("======test0=====") #!20220330
-    print(p_hat)  #!20220303 >> check!
+    #print("======test0=====") #!20220330
+    #print(p_hat)  #!20220303 >> check!
     p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
-    print(p_hat_m) #!20220330 testing >> This part was no problem
+    #print(p_hat_m) #!20220330 testing >> This part was no problem
     p=p/torch.sum(p)  #,dim=1,keepdim=True) #!20211229
-    print(p)
+    #print(p)
     p_m=torch.mean(p) #,dim=0) #!20220330 testing
-    print(p_m) #!20220330 testing >> Include nan
+    #print(p_m) #!20220330 testing >> Include nan
     p_hat=p_hat/torch.sum(p_hat,dim=1,keepdim=True) #!20211229
-    print(p_hat)  #!20220303 >> check!
+    #print(p_hat)  #!20220303 >> check!
     p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
-    print(p_hat_m) #!20220330 testing
+    #print(p_hat_m) #!20220330 testing
         #p=shift(p,1)
     n = p.shape[1]
     ecdf_ps=[]
@@ -169,43 +169,108 @@ def emd_loss_ring(p,p_hat,r=2):
         ecdf_ps.append(ecdf_p)
         ecdf_p_hats.append(ecdf_p_hat)
     ecdf_p = torch.stack(ecdf_ps)
-    print("======test1=====") #!20220330
-    print(ecdf_p)  #!20220303 >> error!
+    #print("======test1=====") #!20220330
+    #print(ecdf_p)  #!20220303 >> error!
     ecdf_p_m=torch.mean(ecdf_p,dim=0) #!20220330 testing
-    print(ecdf_p_m) #!20220330 testing >> Include nan
-    print("======test2=====") #!20220330
+    #print(ecdf_p_m) #!20220330 testing >> Include nan
+    #print("======test2=====") #!20220330
     ecdf_p_hat=torch.stack(ecdf_p_hats)
-    print(ecdf_p_hat)  #!20220303  >> check!!
+    #print(ecdf_p_hat)  #!20220303  >> check!!
     ecdf_p_hat_m=torch.mean(ecdf_p_hat,dim=0) #!20220330 testing
-    print(ecdf_p_hat_m) #!20220330 testing >> Include nan
+    #print(ecdf_p_hat_m) #!20220330 testing >> Include nan
     #print(ecdf_p.get_shape())
-    print("======test3=====") #!20220330
+    #print("======test3=====") #!20220330
     emd = torch.sum(torch.pow(torch.abs(ecdf_p - ecdf_p_hat), r), dim=2)
-    print(emd)  #!20220303
+    #print(emd)  #!20220303
     emd_m=torch.mean(emd,dim=0) #!20220330 testing
-    print(emd_m) #!20220330 testing  >> Include nan
-    print("======test4=====") #!20220330
+    #print(emd_m) #!20220330 testing  >> Include nan
+    #print("======test4=====") #!20220330
     emd = torch.min(emd,dim=0)[0]
-    print(emd)
+    #print(emd)
     emd_m=torch.mean(emd,dim=0) #!20220330 testing
-    print(emd_m) #!20220330 testing >> Include nan
-    print("======test5=====") #!20220330
+    #print(emd_m) #!20220330 testing >> Include nan
+    #print("======test5=====") #!20220330
     #print(emd)  #!20220303 testing
     emd = torch.pow(emd, 1. / r)
     #print("====emd start===")
-    print(emd)
-    print(emd.shape)
-    print(type(emd))
+    #print(emd)
+    #print(emd.shape)
+    #print(type(emd))
     emd_m=torch.mean(emd,dim=0) #!20220330 testing
-    print(emd_m) #!20220330 testing >> Include nan
+    #print(emd_m) #!20220330 testing >> Include nan
     #print(emd)  #!20220303 testing
-    print("======test6=====") #!20220330
+    #print("======test6=====") #!20220330
     #print("====emd end===")
     emd=torch.mean(emd,dim=0)
-    print(emd)  #!20220303
+    #print(emd)  #!20220303
     emd_m=torch.mean(emd,dim=0) #!20220330 testing
-    print(emd_m) #!20220330 testing >> Include nan
+    #print(emd_m) #!20220330 testing >> Include nan
     return emd
+
+# def emd_loss_ring(p,p_hat,r=2):
+#     #p=p/torch.sum(p,dim=1,keepdims=True) #!20211229
+#     #p_hat=p_hat/torch.sum(p_hat,dim=1,keepdims=True)
+#     print("======test0=====") #!20220330
+#     print(p_hat)  #!20220303 >> check!
+#     p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
+#     print(p_hat_m) #!20220330 testing >> This part was no problem
+#     p=p/torch.sum(p)  #,dim=1,keepdim=True) #!20211229
+#     print(p)
+#     p_m=torch.mean(p) #,dim=0) #!20220330 testing
+#     print(p_m) #!20220330 testing >> Include nan
+#     p_hat=p_hat/torch.sum(p_hat,dim=1,keepdim=True) #!20211229
+#     print(p_hat)  #!20220303 >> check!
+#     p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
+#     print(p_hat_m) #!20220330 testing
+#         #p=shift(p,1)
+#     n = p.shape[1]
+#     ecdf_ps=[]
+#     ecdf_p_hats=[]
+#     for i in range(n):
+#         pp=shift(p,i)
+#         pp_hat=shift(p_hat,i)
+#         ecdf_p = ecdf(pp)
+#         ecdf_p_hat = ecdf(pp_hat)
+#         ecdf_ps.append(ecdf_p)
+#         ecdf_p_hats.append(ecdf_p_hat)
+#     ecdf_p = torch.stack(ecdf_ps)
+#     print("======test1=====") #!20220330
+#     print(ecdf_p)  #!20220303 >> error!
+#     ecdf_p_m=torch.mean(ecdf_p,dim=0) #!20220330 testing
+#     print(ecdf_p_m) #!20220330 testing >> Include nan
+#     print("======test2=====") #!20220330
+#     ecdf_p_hat=torch.stack(ecdf_p_hats)
+#     print(ecdf_p_hat)  #!20220303  >> check!!
+#     ecdf_p_hat_m=torch.mean(ecdf_p_hat,dim=0) #!20220330 testing
+#     print(ecdf_p_hat_m) #!20220330 testing >> Include nan
+#     #print(ecdf_p.get_shape())
+#     print("======test3=====") #!20220330
+#     emd = torch.sum(torch.pow(torch.abs(ecdf_p - ecdf_p_hat), r), dim=2)
+#     print(emd)  #!20220303
+#     emd_m=torch.mean(emd,dim=0) #!20220330 testing
+#     print(emd_m) #!20220330 testing  >> Include nan
+#     print("======test4=====") #!20220330
+#     emd = torch.min(emd,dim=0)[0]
+#     print(emd)
+#     emd_m=torch.mean(emd,dim=0) #!20220330 testing
+#     print(emd_m) #!20220330 testing >> Include nan
+#     print("======test5=====") #!20220330
+#     #print(emd)  #!20220303 testing
+#     emd = torch.pow(emd, 1. / r)
+#     #print("====emd start===")
+#     print(emd)
+#     print(emd.shape)
+#     print(type(emd))
+#     emd_m=torch.mean(emd,dim=0) #!20220330 testing
+#     print(emd_m) #!20220330 testing >> Include nan
+#     #print(emd)  #!20220303 testing
+#     print("======test6=====") #!20220330
+#     #print("====emd end===")
+#     emd=torch.mean(emd,dim=0)
+#     print(emd)  #!20220303
+#     emd_m=torch.mean(emd,dim=0) #!20220330 testing
+#     print(emd_m) #!20220330 testing >> Include nan
+#     return emd
   
 #%%
 def ecdf_3d(p):

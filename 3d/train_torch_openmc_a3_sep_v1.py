@@ -43,7 +43,7 @@ DEFAULT_DEVICE = "cuda"   #!20220704
 DEFAULT_DTYPE = torch.double
 
 def relu_cut(x): #!20220711
-    return torch.maximum(x, th=1.1)
+    return torch.maximum(x, 1.1)
 
 class Filterlayer(nn.Module):
     """docstring for Filterlayer"""
@@ -67,20 +67,20 @@ class Filterlayer2(nn.Module):
         self.ph_num = ph_num
         self.th_num = th_num
         
-        self.Wn1 = torch.nn.Parameter(data = torch.ones(1), requires_grad=False)
-        self.Wn2 = torch.nn.Parameter(data = torch.ones(1), requires_grad=False)
+        self.Wn1 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
+        self.Wn2 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
 
         temp = torch.torch.from_numpy(filterdata.data.reshape((2,self.th_num,self.ph_num,-1)))
 
-        self.weight1 = torch.nn.Parameter(data=temp[0,:,:,:], requires_grad=False)#self.weight[:,:40] #(18, 40, 125) #!20220701
-        self.weight2 = torch.nn.Parameter(data=temp[1,:,:,:], requires_grad=False)#self.weight[:,40:] #(18, 40, 125) #!20211230
+        self.weight1 = torch.nn.Parameter(data=temp[0,:,:,:], requires_grad=True)#self.weight[:,:40] #(18, 40, 125) #!20220701
+        self.weight2 = torch.nn.Parameter(data=temp[1,:,:,:], requires_grad=True)#self.weight[:,40:] #(18, 40, 125) #!20211230
 
         self.bias1 = torch.nn.Parameter(data=torch.zeros(1,self.th_num,self.ph_num), requires_grad=False)   # (1, 18, 40)  #!20220701
         self.bias2 = torch.nn.Parameter(data=torch.zeros(1,self.th_num,self.ph_num), requires_grad=False)
 
         
-        self.Wn1_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=False) #!20220305
-        self.Wn2_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=False) #!20220305
+        self.Wn1_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True) #!20220305
+        self.Wn2_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True) #!20220305
 
 
     def forward(self,x):    # x: (N, 2, 18, 40)? or  (N, 1, 18, 40)? or  (N, 18, 40)? or (N, a^3)? or (N)
@@ -89,10 +89,10 @@ class Filterlayer2(nn.Module):
         out1 = torch.einsum('bk,ijk->bij', x,self.weight1)/self.Wn1 + self.bias1   # (N, 18, 40) x (1, 18?, 40?) >> #(N, 18, 40)
         out2 = torch.einsum('bk,ijk->bij', x,self.weight2)/self.Wn2 + self.bias2   #! (N, a^3) * (18, 40, a^3) >> (N, 18, 40)
 
-        print(out1.shape)
-        print((out1.view(out1.shape[0], -1).mean(dim=1, keepdim=True)).shape)
-        print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).shape)
-        print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).reshape((out1.shape[0], 1, 1)).shape)
+        # print(out1.shape)
+        # print((out1.view(out1.shape[0], -1).mean(dim=1, keepdim=True)).shape)
+        # print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).shape)
+        # print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).reshape((out1.shape[0], 1, 1)).shape)
         # print((out1.view(out1.shape[0], -1).std(dim=1, keepdim=True)).broadcast_to(out1.shape).shape)
         # print(((out1.view(out1.shape[0], -1).mean(dim=1)).broadcast_to(out1.shape)).shape)
         # print((out1 -  (out1.view(out1.shape[0], -1).mean(dim=1)).broadcast_to((out1.shape))).shape)
@@ -121,6 +121,11 @@ class Filterlayer2(nn.Module):
         out1_th = (out1_th -  out1_th.mean(dim=1, keepdim=True).reshape((out1_th.shape[0], 1)))/out1_th.std(dim=1, keepdim=True).reshape((out1_th.shape[0], 1))   # (N, 18, 40) #!20220711
         out2_ph = (out2_ph -  out2_ph.mean(dim=1, keepdim=True).reshape((out2_ph.shape[0], 1)))/out2_ph.std(dim=1, keepdim=True).reshape((out2_ph.shape[0], 1))   # (N, 18, 40) #!20220711
         out2_th = (out2_th -  out2_th.mean(dim=1, keepdim=True).reshape((out2_th.shape[0], 1)))/out2_th.std(dim=1, keepdim=True).reshape((out2_th.shape[0], 1))   # (N, 18, 40) #!20220711
+
+        # out1_ph = relu_cut(out1_ph)
+        # out1_th = relu_cut(out1_th)
+        # out2_ph = relu_cut(out2_ph)
+        # out2_th = relu_cut(out2_th)
 
         out_ph = torch.cat([out1_ph,out2_ph],dim=1) # (N, 2*ph_num)
         out_th = torch.cat([out1_th,out2_th],dim=1) # (N, 2*th_num)
@@ -157,13 +162,13 @@ class MyNet2(nn.Module):
 
     def forward(self, x):
         ph, th = self.l1(x)
-        print(ph.shape)
+        #print(ph.shape)
         
         #ph = ph.transpose(1,2)
         
         ph = self.unet_ph(ph)
         th = self.unet_th(th)
-        print(ph)
+        #print(ph)
 
         ph = ph.squeeze(1)
         th = th.squeeze(1)
@@ -414,8 +419,9 @@ class Model(object):
                 #Timer.end('cal reg');timer.start('backward')    #!20220104
 
                 #loss.backward()
-                loss = loss_ph + loss_th
-                loss.backward()
+                #loss = loss_ph + loss_th
+                #(loss_ph + loss_th).backward()
+                (loss_ph + loss_th).backward()
 
                 timer.end('backward');timer.start('optimizer step')    #!20220104
                 #Timer.end('backward');timer.start('optimizer step')    #!20220104
@@ -463,7 +469,7 @@ class Model(object):
 
                     #val_loss+=evaluation(data[1],output)*data[0].shape[0]/val.data_size
                     val_loss_ph+=evaluation_ph(data[2],output_ph)*data[0].shape[0]/val.data_size    #!20220711
-                    val_loss_th+=evaluation_th(data[2],output_th)*data[0].shape[0]/val.data_size    #!20220711
+                    val_loss_th+=evaluation_th(data[3],output_th)*data[0].shape[0]/val.data_size    #!20220711
             
             #writer.add_scalars('Training vs. Validation Loss', { 'Training' : train_loss, 'Validation' : val_loss }, epochs)     #!20220126__2
             writer.add_scalars('Training vs. Validation Loss', { 'Training_ph' : train_loss_ph, 'Validation_ph' : val_loss_ph,
@@ -525,7 +531,7 @@ class Model(object):
 
     def plot_train_curve(self): #!20220711
         #plt.figure()
-        fig = plt.figure(facecolor="white")
+        fig = plt.figure(figsize=(10, 20), facecolor="white")
         ax1 = fig.add_subplot(121)
         ax1.plot(self.train_loss_history_ph,label='training')
         ax1.plot(self.val_loss_history_ph,label='validation')
@@ -534,8 +540,11 @@ class Model(object):
         ax1.set_title('\u03C6')
         ax1.legend()
         ax2 = fig.add_subplot(122)
-        ax2.plot(self.train_loss_history_th,label='training')
-        ax2.plot(self.val_loss_history_th,label='validation')
+        # ax2.plot(self.train_loss_history_th,label='training')
+        # ax2.plot(self.val_loss_history_th,label='validation')
+        ax2.plot([ls.cpu() for ls in self.train_loss_history_th],label='training')
+        ax2.plot([ls.cpu() for ls in self.val_loss_history_th],label='validation')
+        #ax2.plot(self.val_loss_history_th.cpu(),label='validation')
         ax2.set_xlabel('Steps')
         ax2.set_ylabel('Error')
         ax2.set_title('\u03B8')
@@ -634,7 +643,7 @@ for i in range(n):
         M1[i,j]=min(abs(i-j),j+n-i,i+n-j)#**2
         M2[i,j]=min(abs(i-j),j+n-i,i+n-j)**2
 
-from emd_ring_torch_3d_v1 import emd_loss_ring_3d
+from emd_ring_torch_3d_v1 import emd_loss_ring, emd_loss_ring_3d
 
 from emd_sinkhorn_torch import emd_pop_zero_batch, sinkhorn_torch
 
@@ -661,7 +670,7 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_5cmxx3_ep50_bs256_20220711_v1.1"      #!20220126
+    save_name = "openmc_5cmxx3_ep30_bs256_20220712_v1.2"      #!20220126
     #=========================================================
     path = 'openmc/discrete_data_20220706_5^3_v1'    #!20220630
     filterpath ='openmc/disc_filter_data_20220706_5^3_v1'
@@ -687,21 +696,21 @@ if __name__ == '__main__':
     #os.nice(19)
     #loss_train = lambda y_pred, y: torch.sum(torch.norm(y_pred-y, p=2, dim=1))
     #loss_train = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)   #! debug this part!!
-    loss_train_ph = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)    #!20220711
-    loss_train_th = lambda  y, y_pred: emd_loss_ring_3d(y, y_pred, r=2)    #!20220711
+    loss_train_ph = lambda  y, y_pred: emd_loss_ring(y, y_pred, r=2)    #!20220711
+    loss_train_th = nn.MSELoss() #lambda  y, y_pred: emd_loss_ring(y, y_pred, r=2)    #!20220711
     # loss_train = lambda y, y_pred: emd_loss_sinkhorn(y, y_pred, M2)
     # loss_train = lambda y, y_pred: kld_loss(y_pred.log(),y)
     
     #loss_val = lambda y_pred, y: emd_ring(np.asarray(y_pred),  np.asarray(y), M1)
     #loss_val = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()
-    loss_val_ph = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()    #!20220711
-    loss_val_th = lambda y, y_pred: emd_loss_ring_3d(y, y_pred, r=1).item()    #!20220711
+    loss_val_ph = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()    #!20220711
+    loss_val_th = nn.MSELoss()#.item()  #lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()    #!20220711
 
     # (self, net, loss_train_ph, loss_train_th, loss_val_ph, loss_val_th, reg=0.)
     #model = Model(net, loss_train, loss_val,reg=0.001)
     model = Model(net, loss_train_ph, loss_train_th, loss_val_ph, loss_val_th,reg=0.001)  #!20220711
 
-    train_set,test_set=load_data(test_size=50,train_size=None,test_size_gen=None,output_fun=get_output,ph_num=ph_num, th_num=th_num, path=path,source_num=[1],prob=[1.],seed=None) #load_data(50, source_num=[1]) 
+    train_set,test_set=load_data(test_size=30,train_size=None,test_size_gen=None,output_fun=get_output,ph_num=ph_num, th_num=th_num, path=path,source_num=[1],prob=[1.],seed=None) #load_data(50, source_num=[1]) 
     #train_set,test_set=load_data(600, source_num=[1])   #!20220508
     #print(train_set)
     #print(test_set) #!20220303
@@ -727,7 +736,7 @@ if __name__ == '__main__':
         ], lr=0.001)
 
     #model.train(optim,train_set,test_set,epochs=100,batch_size=256, acc_func=None, verbose=10, save_name=save_name)    #!20220126
-    model.train(optim,train_set,test_set,epochs=50,batch_size=256, acc_func_ph=None, acc_func_th=None, verbose=10, save_name=save_name)   #!20220711
+    model.train(optim,train_set,test_set,epochs=30,batch_size=256, acc_func_ph=None, acc_func_th=None, verbose=10, save_name=save_name)   #!20220711
 
     #model.save('test8')
     #model.save('model_' + save_name)     #!20220126
@@ -739,7 +748,7 @@ if __name__ == '__main__':
     plt.savefig(fname="save_fig/train_" + save_name + ".png")    #!20220126
     plt.close()
     
-    model.plot_test()
+    model.plot_test(test_set,indx=10)
     plt.show()
     #plt.savefig(fname="save_fig/train_6000_20220107.png")    #!20220104
     plt.savefig(fname="save_fig/test_" + save_name + ".png")    #!20220126
