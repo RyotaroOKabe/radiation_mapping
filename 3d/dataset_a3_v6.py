@@ -920,13 +920,13 @@ def plot_angles_separately2(data_index, path, filterpath, filter_types_dict, a_n
 
 #%%
 if __name__ == '__main__':
-    path = 'openmc/discrete_data_20220714_2^3_v1'    #!20220630
-    filterpath ='openmc/disc_filter_data_20220714_2^3_v1'    #!20220630
+    a_num = 3
+    path = f'openmc/discrete_data_20220715_{a_num}^3_v1'    #!20220630
+    filterpath =f'openmc/disc_filter_data_20220715_{a_num}^3_v1'    #!20220630
     filter_types_dict = {'near':20, 'far':100}
-    a_num = 2
     ph_num = 32
     th_num = 16
-    data_index = 1020
+    data_index = 360
 
     train_set,test_set=load_data(test_size=100,train_size=None,test_size_gen=None,output_fun=get_output,ph_num=ph_num, th_num=th_num, path=path,source_num=[1],prob=[1.],seed=None)
 
