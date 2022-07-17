@@ -2,6 +2,7 @@
 #files
 *.xml
 *.png
+*.pt
 _*
 particle*
 

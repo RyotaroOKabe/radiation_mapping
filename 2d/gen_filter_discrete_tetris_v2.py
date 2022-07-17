@@ -775,10 +775,10 @@ def get_tetris_shape(shape_name):
 if __name__ == '__main__':
     num_data = 40
     #shape_name = 'J'
-    shape_nale_list = ['J', 'L', 'Z', 'T', 'S']
+    shape_nale_list = ['Z'] #['J', 'L', 'Z', 'T', 'S']
     for shape_name in shape_nale_list:
         print("shape_name: ", shape_name)
-        header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]}   #!20220518
+        header_dist_particles_dict = {'far': [200, 500000]}   #{'near': [20, 10000], 'far': [200, 500000]}   #!20220518
         #header_dist_particles_dict = {'near': [20, 1000], 'far': [200, 50000]}   #!20220716
         folder1=f'openmc/disc_filter_tetris_{shape_name}_data_20220716_v3.1/'
         folder2=f'openmc/disc_filter_tetris_{shape_name}_fig_2022716_v3.1/'
