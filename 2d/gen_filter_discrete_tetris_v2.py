@@ -1,3 +1,11 @@
+#%%
+"""
+Created on 2022/07/17
+original: gen_filter_discrete_tetris_v2.py
+
+@author: R.Okabe
+"""
+
 from contextlib import redirect_stderr
 import glob
 import imp
@@ -619,6 +627,13 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     #plt.savefig('random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.close()
+    
+    print('json dir')
+    print(folder1+file1)
+    
+    print('fig dir')
+    print(folder2+file2)
+    return mean #!20220717
 
 
 def get_output(source):
@@ -727,7 +742,7 @@ def after_openmc(dist, angle, folder1, folder2, header, use_panels):    #!202205
     rad_x, rad_y=[float(dist*np.cos(theta)), float(dist*np.sin(theta))]   #!20220119
             
     #process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, norm=True)  #!20220201 #!20220119
-    process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, use_panels, norm=True)  #!20220716
+    mm = process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, use_panels, norm=True)  #!20220716
     
         #file11=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.json'
         #file22=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.png'
@@ -740,7 +755,7 @@ def after_openmc(dist, angle, folder1, folder2, header, use_panels):    #!202205
     #time_s = end - start
     #print("Total time [s]: " + str(time_s))
     #print(time.strftime('%H:%M:%S', time.gmtime(time_s)))
-
+    return mm #!20220508
 
 def get_position_from_panelID(panel_id):    #!20220716
     if panel_id == 'a':
