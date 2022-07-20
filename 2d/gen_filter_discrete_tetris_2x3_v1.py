@@ -96,102 +96,85 @@ def gen_materials_geometry_tallies(use_panels, panel_density, e_filter, *energy)
     # max_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
 
     # for A inner layer
-    Amin_x1 = openmc.XPlane(x0=+0.6, boundary_type='transmission')   #!20220715
-    Amax_x1 = openmc.XPlane(x0=+1.4, boundary_type='transmission')
-    Amin_y1 = openmc.YPlane(y0=+0.1, boundary_type='transmission')
-    Amax_y1 = openmc.YPlane(y0=+0.9, boundary_type='transmission')
+    Amin_x1 = openmc.XPlane(x0=+0.1, boundary_type='transmission')   #!20220720
+    Amax_x1 = openmc.XPlane(x0=+0.9, boundary_type='transmission')
+    Amin_y1 = openmc.YPlane(y0=+0.6, boundary_type='transmission')
+    Amax_y1 = openmc.YPlane(y0=+1.4, boundary_type='transmission')
 
     #for A outer layer
-    Amin_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')   #!20220715
-    Amax_x2 = openmc.XPlane(x0=+1.5, boundary_type='transmission')
-    Amin_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
-    Amax_y2 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+    Amin_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')   #!20220720
+    Amax_x2 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Amin_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
+    Amax_y2 = openmc.YPlane(y0=+1.5, boundary_type='transmission')
 
-    # for B inner layer (x-1 from A)
-    Bmin_x1 = openmc.XPlane(x0=-0.4, boundary_type='transmission')   #!20220715
-    Bmax_x1 = openmc.XPlane(x0=+0.4, boundary_type='transmission')
-    Bmin_y1 = openmc.YPlane(y0=+0.1, boundary_type='transmission')
-    Bmax_y1 = openmc.YPlane(y0=+0.9, boundary_type='transmission')
+    # for B inner layer (y-1 from A)
+    Bmin_x1 = openmc.XPlane(x0=+0.1, boundary_type='transmission')   #!20220720
+    Bmax_x1 = openmc.XPlane(x0=+0.9, boundary_type='transmission')
+    Bmin_y1 = openmc.YPlane(y0=-0.4, boundary_type='transmission')
+    Bmax_y1 = openmc.YPlane(y0=+0.4, boundary_type='transmission')
 
-    #for B outer layer (x-1 from A)
-    Bmin_x2 = openmc.XPlane(x0=-0.5, boundary_type='transmission')   #!20220715
-    Bmax_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')
-    Bmin_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
-    Bmax_y2 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+    #for B outer layer (y-1 from A)
+    Bmin_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')   #!20220720
+    Bmax_x2 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Bmin_y2 = openmc.YPlane(y0=-0.5, boundary_type='transmission')
+    Bmax_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
 
-    # for C inner layer (x-2 from A)
-    Cmin_x1 = openmc.XPlane(x0=-1.4, boundary_type='transmission')   #!20220715
-    Cmax_x1 = openmc.XPlane(x0=-0.6, boundary_type='transmission')
-    Cmin_y1 = openmc.YPlane(y0=+0.1, boundary_type='transmission')
-    Cmax_y1 = openmc.YPlane(y0=+0.9, boundary_type='transmission')
+    # for C inner layer (y-2 from A)
+    Cmin_x1 = openmc.XPlane(x0=+0.1, boundary_type='transmission')   #!2022020
+    Cmax_x1 = openmc.XPlane(x0=+0.9, boundary_type='transmission')
+    Cmin_y1 = openmc.YPlane(y0=-1.4, boundary_type='transmission')
+    Cmax_y1 = openmc.YPlane(y0=-0.6, boundary_type='transmission')
 
-    #for C outer layer (x-2 from A)
-    Cmin_x2 = openmc.XPlane(x0=-1.5, boundary_type='transmission')   #!20220715
-    Cmax_x2 = openmc.XPlane(x0=-0.5, boundary_type='transmission')
-    Cmin_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
-    Cmax_y2 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+    #for C outer layer (y-2 from A)
+    Cmin_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')   #!20220720
+    Cmax_x2 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Cmin_y2 = openmc.YPlane(y0=-1.5, boundary_type='transmission')
+    Cmax_y2 = openmc.YPlane(y0=-0.5, boundary_type='transmission')
 
-    # for D inner layer (y-1 from A)
-    Dmin_x1 = openmc.XPlane(x0=+0.6, boundary_type='transmission')   #!20220715
-    Dmax_x1 = openmc.XPlane(x0=+1.4, boundary_type='transmission')
-    Dmin_y1 = openmc.YPlane(y0=-0.9, boundary_type='transmission')
-    Dmax_y1 = openmc.YPlane(y0=-0.1, boundary_type='transmission')
+    # for D inner layer (x-1 from A)
+    Dmin_x1 = openmc.XPlane(x0=-0.9, boundary_type='transmission')   #!20220720
+    Dmax_x1 = openmc.XPlane(x0=-0.1, boundary_type='transmission')
+    Dmin_y1 = openmc.YPlane(y0=+0.6, boundary_type='transmission')
+    Dmax_y1 = openmc.YPlane(y0=+1.4, boundary_type='transmission')
 
-    #for D outer layer (y-1 from A)
-    Dmin_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')   #!20220715
-    Dmax_x2 = openmc.XPlane(x0=+1.5, boundary_type='transmission')
-    Dmin_y2 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
-    Dmax_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
+    #for D outer layer (x-1 from A)
+    Dmin_x2 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!20220720
+    Dmax_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')
+    Dmin_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
+    Dmax_y2 = openmc.YPlane(y0=+1.5, boundary_type='transmission')
 
     # for E inner layer (x-1, y-1 from A)
-    Emin_x1 = openmc.XPlane(x0=-0.4, boundary_type='transmission')   #!20220715
-    Emax_x1 = openmc.XPlane(x0=+0.4, boundary_type='transmission')
-    Emin_y1 = openmc.YPlane(y0=-0.9, boundary_type='transmission')
-    Emax_y1 = openmc.YPlane(y0=-0.1, boundary_type='transmission')
+    Emin_x1 = openmc.XPlane(x0=-0.9, boundary_type='transmission')   #!20220720
+    Emax_x1 = openmc.XPlane(x0=+0.9, boundary_type='transmission')
+    Emin_y1 = openmc.YPlane(y0=-0.4, boundary_type='transmission')
+    Emax_y1 = openmc.YPlane(y0=+0.4, boundary_type='transmission')
 
     #for E outer layer (x-1, y-1 from A)
-    Emin_x2 = openmc.XPlane(x0=-0.5, boundary_type='transmission')   #!20220715
-    Emax_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')
-    Emin_y2 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
-    Emax_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
+    Emin_x2 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!20220720
+    Emax_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')
+    Emin_y2 = openmc.YPlane(y0=-0.5, boundary_type='transmission')
+    Emax_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
 
-    # for F inner layer (x-2, y-1 from A)
-    Fmin_x1 = openmc.XPlane(x0=-1.4, boundary_type='transmission')   #!20220715
-    Fmax_x1 = openmc.XPlane(x0=-0.6, boundary_type='transmission')
-    Fmin_y1 = openmc.YPlane(y0=-0.9, boundary_type='transmission')
-    Fmax_y1 = openmc.YPlane(y0=-0.1, boundary_type='transmission')
+    # for E inner layer (x-1, y-2 from A)
+    Fmin_x1 = openmc.XPlane(x0=-0.9, boundary_type='transmission')   #!2022020
+    Fmax_x1 = openmc.XPlane(x0=+0.9, boundary_type='transmission')
+    Fmin_y1 = openmc.YPlane(y0=-1.4, boundary_type='transmission')
+    Fmax_y1 = openmc.YPlane(y0=-0.6, boundary_type='transmission')
 
-    #for F outer layer (x-2, y-1 from A)
-    Fmin_x2 = openmc.XPlane(x0=-1.5, boundary_type='transmission')   #!20220715
-    Fmax_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')
-    Fmin_y2 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
-    Fmax_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
+    #for F outer layer (x-1, y-2 from A)
+    Fmin_x2 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!20220720
+    Fmax_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')
+    Fmin_y2 = openmc.YPlane(y0=-1.5, boundary_type='transmission')
+    Fmax_y2 = openmc.YPlane(y0=-0.5, boundary_type='transmission')
 
     #for S3 layer
-    min_x3 = openmc.XPlane(x0=-1.5, boundary_type='transmission')     #!20220715 size-change!
-    max_x3 = openmc.XPlane(x0=+1.5, boundary_type='transmission')
-    min_y3 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
-    max_y3 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
-
-
-    # #for exception E1 layer
-    # Emin_x1 = openmc.XPlane(x0=+0.6, boundary_type='transmission')   #!20220715
-    # Emax_x1 = openmc.XPlane(x0=+1.4, boundary_type='transmission')
-    # Emin_y1 = openmc.YPlane(y0=+0.1, boundary_type='transmission')
-    # Emax_y1 = openmc.YPlane(y0=+0.9, boundary_type='transmission')
-
-    # #for exception E2 layer
-    # Emin_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')   #!20220715
-    # Emax_x2 = openmc.XPlane(x0=+1.5, boundary_type='transmission')
-    # Emin_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
-    # Emax_y2 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+    min_x3 = openmc.XPlane(x0=-1.0, boundary_type='transmission')     #!20220715 size-change!
+    max_x3 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    min_y3 = openmc.YPlane(y0=-1.5, boundary_type='transmission')
+    max_y3 = openmc.YPlane(y0=+1.5, boundary_type='transmission')
 
 
     #for outer insulator cell
-    #min_xx = openmc.XPlane(x0=-100100, boundary_type='vacuum')
-    #max_xx = openmc.XPlane(x0=+100100, boundary_type='vacuum')
-    #min_yy = openmc.YPlane(y0=-100100, boundary_type='vacuum')
-    #max_yy = openmc.YPlane(y0=+100100, boundary_type='vacuum')
     
     min_xx = openmc.XPlane(x0=-100100, boundary_type='vacuum')
     max_xx = openmc.XPlane(x0=+100100, boundary_type='vacuum')
@@ -370,8 +353,8 @@ def gen_materials_geometry_tallies(use_panels, panel_density, e_filter, *energy)
 
     # Instantiate a tally Mesh
     mesh = openmc.RegularMesh(mesh_id=1)
-    mesh.dimension = [3, 2] #[10, 3] #[1, 4] #[2, 2]   #! size-change! (x, y)
-    mesh.lower_left = [-1.5, -1] #[-5, -1.5] #[-0.5, -2]#[-1, -1]  #[-10, -10]     #!20220715   #! size-change! (x, y)
+    mesh.dimension = [2, 3] #[3, 2] #[10, 3] #[1, 4] #[2, 2]   #! size-change! (x, y)
+    mesh.lower_left = [-1.0, -1.5] #[-1.5, -1] #[-5, -1.5] #[-0.5, -2]#[-1, -1]  #[-10, -10]     #!20220715   #! size-change! (x, y)
     mesh.width = [1, 1] #[2, 2]  #!20220124
 
     # Instantiate tally Filter
@@ -526,7 +509,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
 
     print("shape before getting mean matrix:", fiss['mean'].values.shape)
     # Extract mean and reshape as 2D NumPy arrays
-    mean = fiss['mean'].values.reshape((2, 3))  #reshape((1, 4))  #reshape((2, 2)) # numpy array   #!20220715   #! size-change! (y, x)
+    mean = fiss['mean'].values.reshape((3, 2)) #reshape((2, 3))  #reshape((1, 4))  #reshape((2, 2)) # numpy array   #!20220720   #! size-change! (y, x)
     print(mean.shape)   #!20220716
 
     remove_panels = ['a', 'b', 'c', 'd', 'e', 'f']
@@ -565,7 +548,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     #print(type(absorb))
     #print(absorb.shape)
     #print("std_dev")
-    stdev = absorb.std_dev.reshape((2, 3))  #reshape((2, 2))     #! size-change!
+    stdev = absorb.std_dev.reshape((3, 2))  #reshape((2, 3))  #reshape((2, 2))     #! size-change! (y, x)
     stdev_max = stdev.max()
     #print(stdev)
 
@@ -581,7 +564,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     data_json['output']=get_output([source_x, source_y]).tolist()
     #print('output: ' + str(type(data_json['output'])))
     data_json['miu_de']=0.5   #!20220119 constant!
-    mean_list=mean.T.reshape((1, 6)).tolist()    #! size-change! (x, y)
+    mean_list=mean.T.reshape((1, 6)).tolist()    #! size-change! (1, x*y)
     #print('mean_list: ' + str(type(mean_list)))
     data_json['input']=mean_list[0]  #!20220119 Notice!!!
     data_json['bean_num']=0.5   #!20220119 constant!
@@ -757,55 +740,112 @@ def after_openmc(dist, angle, folder1, folder2, header, use_panels):    #!202205
     #print(time.strftime('%H:%M:%S', time.gmtime(time_s)))
     return mm #!20220508
 
-def get_position_from_panelID(panel_id):    #!20220716
+def get_position_from_panelID(panel_id):    #!20220720
+
+    """_summary_
+    array
+        d (2,0) | a (2,1)
+        ________ _______
+        e (1,0) | b (1,1)
+        ________ _______
+        f (0,0) | c (0,1)
+    
+    """
+
     if panel_id == 'a':
-        id0, id1 = 1, 2
+        id0, id1 = 2, 1
     elif panel_id == 'b':
         id0, id1 = 1, 1
     elif panel_id == 'c':
-        id0, id1 = 1, 0
-    elif panel_id == 'd':
-        id0, id1 = 0, 2
-    elif panel_id == 'e':
         id0, id1 = 0, 1
+    elif panel_id == 'd':
+        id0, id1 = 2, 0
+    elif panel_id == 'e':
+        id0, id1 = 1, 0
     elif panel_id == 'f':
         id0, id1 = 0, 0
     
     return id0, id1
 
 
+# def get_position_from_panelID(panel_id):    #!20220716
+#     if panel_id == 'a':
+#         id0, id1 = 1, 2
+#     elif panel_id == 'b':
+#         id0, id1 = 1, 1
+#     elif panel_id == 'c':
+#         id0, id1 = 1, 0
+#     elif panel_id == 'd':
+#         id0, id1 = 0, 2
+#     elif panel_id == 'e':
+#         id0, id1 = 0, 1
+#     elif panel_id == 'f':
+#         id0, id1 = 0, 0
+    
+#     return id0, id1
+
+
+
 def get_tetris_shape(shape_name):
     
     """_summary_
     array
-        c | b | a
-        _   _  _
-        f | e | d
-    
+        d | a
+        _   _
+        e | b
+        _   _
+        f | c
     
     """
     if shape_name == 'J':
-        use_panels = ['c', 'd', 'e', 'f']
-    elif shape_name == 'L':
         use_panels = ['a', 'd', 'e', 'f']
+    elif shape_name == 'L':
+        use_panels = ['c', 'd', 'e', 'f']
     elif shape_name == 'Z':
-        use_panels = ['b', 'c', 'd', 'e']
+        use_panels = ['a', 'b', 'e', 'f']
     elif shape_name == 'T':
         use_panels = ['b', 'd', 'e', 'f']
     elif shape_name == 'S':
-        use_panels = ['a', 'b', 'e', 'f']
+        use_panels = ['b', 'c', 'd', 'e']
+    elif shape_name == 'full':
+        use_panels = ['a', 'b', 'c', 'd', 'e', 'f']
     return use_panels
+
+
+
+# def get_tetris_shape(shape_name):
+    
+#     """_summary_
+#     array
+#         c | b | a
+#         _   _  _
+#         f | e | d
+    
+    
+#     """
+#     if shape_name == 'J':
+#         use_panels = ['c', 'd', 'e', 'f']
+#     elif shape_name == 'L':
+#         use_panels = ['a', 'd', 'e', 'f']
+#     elif shape_name == 'Z':
+#         use_panels = ['b', 'c', 'd', 'e']
+#     elif shape_name == 'T':
+#         use_panels = ['b', 'd', 'e', 'f']
+#     elif shape_name == 'S':
+#         use_panels = ['a', 'b', 'e', 'f']
+#     return use_panels
+
 
 if __name__ == '__main__':
     num_data = 40
     #shape_name = 'J'
-    shape_nale_list = ['S'] #['J', 'L', 'Z', 'T', 'S']
+    shape_nale_list = ['Z', 'J', 'L', 'T', 'S', 'full'] #['J', 'L', 'Z', 'T', 'S']
     for shape_name in shape_nale_list:
         print("shape_name: ", shape_name)
-        header_dist_particles_dict = {'near': [20, 1000], 'far': [200, 50000]}    #{'far': [200, 500000]}   #{'near': [20, 10000], 'far': [200, 500000]}   #!20220518
+        header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]} #{'near': [20, 1000], 'far': [200, 5000]}    #{'far': [200, 500000]}   #{'near': [20, 10000], 'far': [200, 500000]}   #!20220518
         #header_dist_particles_dict = {'near': [20, 1000], 'far': [200, 50000]}   #!20220716
-        folder1=f'openmc/disc_filter_tetris_{shape_name}_data_20220720_v1.0/'
-        folder2=f'openmc/disc_filter_tetris_{shape_name}_fig_2022720_v1.0/'
+        folder1=f'openmc/disc_filter_tetris_{shape_name}_data_20220720_v1.1/'
+        folder2=f'openmc/disc_filter_tetris_{shape_name}_fig_2022720_v1.1/'
         #use_panels = ['b', 'd', 'e', 'f']
         use_panels = get_tetris_shape(shape_name)
 
