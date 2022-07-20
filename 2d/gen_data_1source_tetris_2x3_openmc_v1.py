@@ -1,11 +1,412 @@
 #%%
-"""
-Created on 2022/07/20
-original: gen_filter_discrete_tetris_2x3_v1.py
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+import sys
+import pickle as pkl
 
-@author: R.Okabe
-"""
+#sys.path.append('../')
+sys.path.append('./')   #!20220331
+from train_torch_openmc_tetris_v1 import *  #!20220717
+#from gen_openmc_uniform_v2 import *
+#from gen_openmc_data_discrete_v1 import *
 
+from cal_param_axa_v1 import *
+
+import matplotlib.pyplot as plt #!20220509
+from matplotlib.figure import Figure   
+from matplotlib.patches import Wedge
+import imageio  #!20220520
+
+#record_data=False
+record_data=True
+
+#============================= #!20220331
+#GPU_INDEX = 2#0
+#USE_CPU = False
+# print torch.cuda.is_available()
+#if torch.cuda.is_available() and not USE_CPU:
+#    DEFAULT_DEVICE = torch.device("cuda:%d"%GPU_INDEX) 
+#    torch.cuda.set_device(GPU_INDEX)
+#    torch.set_default_tensor_type(torch.cuda.DoubleTensor)
+#else:
+#    DEFAULT_DEVICE = torch.device("cpu")
+#
+#DEFAULT_DEVICE = torch.device("cuda")
+#DEFAULT_DTYPE = torch.double
+#============================= #!20220331
+
+shape_name = 'Z'
+file_header = f"A20220720_{shape_name}_v1.1"
+
+#recordpath = 'mapping_0803' #?pkl files with python2 is stored
+recordpath = 'mapping_data/mapping_' + file_header
+if __name__ == '__main__' and record_data:
+    if not os.path.isdir(recordpath):
+        os.mkdir(recordpath)
+    os.system('rm ' + recordpath + "/*")    #!20220509
+
+jsonpath = recordpath + "_json/"
+if __name__ == '__maintribution__' and record_data:
+    if not os.path.isdir(jsonpath):
+        os.mkdir(jsonpath)
+    os.system('rm ' + jsonpath + "*")    #!20220509
+
+figurepath = recordpath + "_figure/"
+if __name__ == '__main__' and record_data:
+    if not os.path.isdir(figurepath):
+        os.mkdir(figurepath)
+    os.system('rm ' + figurepath + "*")    #!20220509
+    
+predictpath = recordpath + "_predicted/"
+if __name__ == '__main__' and record_data:
+    if not os.path.isdir(predictpath):
+        os.mkdir(predictpath)
+    os.system('rm ' + predictpath + "*")    #!20220509
+
+
+#model_path = '../2source_unet_model.pt'    #!20220331
+model_path = 'save_model/model_openmc_tetris_S_ep100_bs256_20220716_v1.1_model.pt'
+model =torch.load(model_path)
+
+
+DT = 0.1  # time tick [s]
+SIM_TIME = 70.0
+STATE_SIZE = 3
+LM_SIZE = 3
+#RSID = np.array([[0.0,5.0,5000000],[10.0,5.0,10000000]])   # source location (in detector frame) and intensity
+#RSID = np.array([0.0,5.0,100000000])   #1 source
+#RSID = np.array([10.0,20.0,100000000])   #1 source
+#RSID = np.array([0.0,10.0,100000000])   #1 source
+#RSID = np.array([5.0,5.0,100000000])   #1 source
+RSID = np.array([-7.0,10.5,100000000])   #1 source
+
+
+#SIM_STEP=25
+SIM_STEP=10  #!20220505
+
+#%%
+def pi_2_pi(angle): #change 0<=theta<2pi to -pi<=theta<pi (move the pi<=theta<2pi to -pi<=theta<0) 
+    return (angle + math.pi) % (2 * math.pi) - math.pi
+
+def calc_input(time):
+    '''
+    a simplified open loop controller to make the robot move in a circle trajectory
+    Input: time
+    Output: control input of the robot
+    '''
+
+    if time <= 0.:  # wait at first
+        v = 0.0
+        yawrate = 0.0
+    else:
+        #v = 1.0  # [m/s]
+        v = 1.0  # [m/s]    #!20220509
+        #yawrate = 0.1  # [rad/s]
+        yawrate = 0.1  # [rad/s]
+
+    u = np.array([v, yawrate]).reshape(2, 1)
+
+    return u
+
+#%%
+def motion_model(x, u):
+    '''
+    a simplified motion model of the robot that the detector is installed on.
+    Input: x is the state (pose) of the robot at previous step, u is the control input of the robot
+    Output: x is the state of the robot for the next step
+    '''
+
+    F = np.array([[1.0, 0, 0],
+                  [0, 1.0, 0],
+                  [0, 0, 1.0]])
+
+    B = np.array([[DT * math.cos(x[2, 0]), 0],
+                  [DT * math.sin(x[2, 0]), 0],
+                  [0.0, DT]])
+
+    x = np.dot(F, x) + np.dot(B, u)
+
+    x[2, 0] = pi_2_pi(x[2, 0])
+    return x
+
+#%%
+#def openmc_simulation_uniform(source):
+#def openmc_simulation_uniform(source, header):
+def openmc_simulation_uniform(source, header, shape_name):  #!20220717
+    
+    batches = 100
+    panel_density = 5.76 #g/cm3
+    src_E = None
+    src_Str = 10
+    num_particles = 100000 #50000
+    energy_filter_range = [0.1e6, 2e6]
+    e_filter_tf=False
+    energy_a = 0.5e6
+    energy_b = 1e6
+    #rad_x= source[0]
+    #rad_y= source[1]
+    rad_x= source[0]*100    #!20220509 use [cm] instead of m in openmc
+    rad_y= source[1]*100
+    rad_dist = np.sqrt(rad_x**2 + rad_y**2) #!20220331 I need to change it later..
+    rad_angle = (np.arccos(rad_x/rad_dist)*180/np.pi)%360
+    use_panels = get_tetris_shape(shape_name)   #!20220717
+    #gen_materials_geometry_tallies(panel_density, e_filter_tf, energy_filter_range)
+    #get_output([rad_x, rad_y])
+    #gen_settings(src_energy=src_E, src_strength=src_Str,  en_a=energy_a, en_b=energy_b, num_particles=num_particles, batch_size=batches, source_x=rad_x, source_y=rad_y)
+    #before_openmc(rad_dist, rad_angle, num_particles)   #!20220508
+    before_openmc(rad_dist, rad_angle, num_particles, use_panels)   #!20220717
+    openmc.run()
+    #file1=str(round(rad_dist, 4)) + '_' + str(rad_angle) + '.json'
+    #file2=str(round(rad_dist, 4)) + '_' + str(rad_angle) + '.png'
+    #mm = process_aft_openmc(jsonpath+"/", file1, figurepath+"/", file2, rad_x, rad_y, norm=True) #norm=True)
+    #folder1=str(round(rad_dist, 4)) + '_' + str(rad_angle) + '.json'
+    #folder2=str(round(rad_dist, 4)) + '_' + str(rad_angle) + '.png'
+    #folder1='openmc/discrete_data_20220508_v1.1/'
+    #folder2='openmc/discrete_fig_20220508_v1.1/'
+    #mm = after_openmc(rad_dist, rad_angle, jsonpath, figurepath)    #!20220508
+    #mm = after_openmc(rad_dist, rad_angle, jsonpath, figurepath, header)    #!20220509
+    mm = after_openmc(rad_dist, rad_angle, jsonpath, figurepath, header, use_panels)    #!20220717
+    return mm
+
+#%%
+def main():
+    time=0
+    #step=-1
+    step=0
+    
+
+    relsrc = []   #!20220509
+    xTrue_record = []
+    d_record=[]
+    angle_record=[]
+    predout_record=[]
+    
+    #hxTrue_record = []
+    #source_record = []
+    
+    xTrue = np.zeros((STATE_SIZE, 1))
+    hxTrue = xTrue # pose (position and orientation) of the robot (detector) in world frame
+
+    while SIM_TIME >= time:
+        time += DT
+        step+=1
+
+        
+        u = calc_input(time)
+
+        xTrue = motion_model(xTrue, u)
+
+
+        hxTrue = np.hstack((hxTrue, xTrue))
+
+        det_output=None
+        predict=None
+
+        xTrue_record.append(xTrue)  #!20220509
+        #hxTrue_record.append(hxTrue)  #!20220509
+
+        if step%SIM_STEP==0:
+            print('STEP %d'%step)
+            #source_list=[] #!20220331
+            source=[]
+            #for i in range(RSID.shape[0]):
+                # convert source location in world frame to detector frame
+                #dx = RSID[i, 0] - xTrue[0, 0]
+                #dy = RSID[i, 1] - xTrue[1, 0]
+                #d = math.sqrt(dx**2 + dy**2)
+                #angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
+
+                #x=d*np.cos(angle)
+                #y=d*np.sin(angle)
+
+                #rate=RSID[i,2]
+
+                #source_list.append([x,y,rate])
+            dx = RSID[0] - xTrue[0, 0]
+            dy = RSID[1] - xTrue[1, 0]
+            d = math.sqrt(dx**2 + dy**2)
+            angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
+            x=d*np.cos(angle)
+            y=d*np.sin(angle)
+            rate=RSID[2]
+            #source.append(x,y,rate)
+            source=[x,y,rate]   #relative vector
+            
+            relsrc.append([x,y])#!20220509
+            d_record.append([step, d])
+            angle_record.append([step, angle*180/np.pi])
+
+            print(step,'simulation start')
+            print("source")
+            print(source)
+            #print(len(source))
+            
+            # replace this line with openmc simulation function
+            #det_output=simulation(source_list)     #!20220331
+            #det_output=openmc_simulation_uniform(source)
+            det_output=openmc_simulation_uniform(source, 'STEP%.3d'%step, shape_name)   #!20220717
+            print('det_output')
+            print(type(det_output))
+            print(det_output.shape)
+            '''
+            The simulation function simulate the detector response given the radiation source position and intensity.
+            The input of this function is a list of sources location (in detector frame, (0,0) is the center of the detector) and intensity eg, [[x1,y1,I1], [x2, y2, I2], ...]
+            The output is an 1d array with shape (100,) that record the response of each single pad detector
+            '''
+            network_input = (det_output-det_output.mean())/np.sqrt(det_output.var()) # normalization
+            network_input = np.transpose(network_input) #!20220509
+            network_input = network_input.reshape(1,-1)
+            #print('network1')
+            #print(network_input)
+            #print(type(network_input))
+            network_input = torch.from_numpy(network_input).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
+            #print('network2')
+            #print(network_input)
+            #print(type(network_input))
+
+            #predict=model(network_input).detach().cpu().numpy().reshape(-1)
+            predict=model(network_input).detach().cpu().numpy().reshape(-1)
+
+            #=========================#!20220509
+            xdata_original=det_output.reshape(3, 2)  #reshape(2, 2)  #!size-change #!20220717
+            #xdata_original=np.transpose(xdata_original)
+            ydata=get_output([x, y])
+            pred_out = 9*(np.argmax(predict)-20)    #!20220509
+            predout_record.append([step, pred_out])
+            print("Result: " + str(pred_out) + " deg")
+            #plt.imshow(xdata_original, interpolation='nearest')  #, cmap="plasma")
+            #ds, ag = d, angle*180/np.pi
+            #plt.title('R_dist: ' + str(round(ds, 5)) + ' [m],  R_angle: ' + str(round(ag, 5)) + '[deg]\nP_angle: ' + str(pred_out))
+            #plt.xlabel('y')    #!20220502 
+            #plt.ylabel('x')    #!20220502 
+            #plt.colorbar()
+            #plt.savefig(predictpath + '/' + 'STEP%.3d.pkl'%step + "_predict.png")
+            #plt.close()
+            
+            fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(40,20))    #!20220520
+            #fig1 = plt.figure(figsize=(10,10))
+            #ax1 = fig1.set_subplot(121, frameon=False)
+            #xdata_show = np.flip(np.transpose(xdata_original), 0)
+            xdata_show = np.flip(xdata_original, 0)
+            xdata_show = np.flip(xdata_show, 1)
+            ax1.imshow(xdata_show, interpolation='nearest', cmap="plasma")
+            #ds, ag = filename[:-5].split('_')
+            ds, ag = d, angle*180/np.pi
+            #ax1.set_title('R_dist: ' + str(ds) + ',  R_angle: ' + str(round(ag, 5)) + '\nP_angle: ' + str(pred_out))   #Mean_max: ' + str(max) + '\nStdev_max: ' + str(stdev_max))
+            ax1.axes.get_xaxis().set_visible(False)
+            ax1.axes.get_yaxis().set_visible(False)
+            plt.xlabel('x')    #!20220502 out
+            plt.ylabel('y')    #!20220502 out
+            #ax1.set_xlabel('y')    #!20220502 
+            #ax1.set_ylabel('x')    #!20220502 
+            ax1.set_xlabel('x')    #!20220520 
+            ax1.set_ylabel('y')    #!20220520 
+            #plt.colorbar(ax1, colorbar()
+            theta = np.linspace(-90, 270, 40)
+            output1 = predict
+            output2 = ydata.tolist()
+            #fig2 = plt.figure(figsize=(10,10))
+            #ax2 = fig2.add_subplot(122, frameon=False)
+            for i in range(len(theta)-1):
+                ax2.add_artist(
+                    Wedge((0, 0), 1, theta[i], theta[i+1], width=0.3, color=(1, 1-output1[i], 1-output1[i])),
+                )
+                ax2.add_artist(
+                    Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, color=(1-output2[i], 1-output2[i], 1)),
+                )
+
+            c1 = plt.Circle((0, 0), 1, color='k', fill=False)
+            c2 = plt.Circle((0, 0), 0.7, color='k', fill=False)
+            c3 = plt.Circle((0, 0), 0.4, color='k', fill=False)
+            ax2.add_patch(c1)
+            ax2.add_patch(c2)
+            ax2.add_patch(c3)
+            #ax2.text(5, 5, 'Real: ' + str(round(float(ag)), 5) + '\nPredict: ' + str(pred_out))
+            #ax2.wedgeprops={"edgecolor":"0",'linewidth': 1,
+                        #'linestyle': 'solid', 'antialiased': True}
+            ax2.set_xlim((-1.2,1.2))
+            ax2.set_ylim((-1.2,1.2))
+            ax2.axes.get_xaxis().set_visible(False)
+            ax2.axes.get_yaxis().set_visible(False)
+            #ax2.box(False)
+            #ax.set_linestyle("-")
+            #fig.show()
+            #fig.savefig("savefig/angle_v2.11.png")
+        
+        
+            #fig.savefig(predictpath + '/' + filename[:-4] + "png")
+            #fig.suptitle('STEP%.3d'%step +'\nReal Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=16) 
+            fig.suptitle('Real Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60) 
+            fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.png")
+            plt.close(fig)
+            #=========================
+
+            print(step,'simulation end')
+
+        if record_data:#predict #!20220331
+            data_dump={
+            'RSID':RSID,
+            'hxTrue':hxTrue,
+            'det_output':det_output,
+            'predict_list':predict
+            }
+            with open(os.path.join(recordpath,'STEP%.3d.pkl'%step),'wb') as f:
+                pkl.dump(data_dump,f)
+
+            try:    #!20220510
+                with open(os.path.join(recordpath,'STEP%.3d.pkl'%step),'rb') as f:
+                    data=pkl.load(f, encoding="latin1")
+                print('File pickle success: ' + 'STEP%.3d.pkl'%step)
+            except EOFError:
+                print('EOFError: ' + 'STEP%.3d.pkl'%step)
+                     
+
+    rel_source = np.array(relsrc) #!20220509
+    plt.plot(rel_source[:,0], rel_source[:,1])
+    plt.title('relative source position')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.png')
+    plt.close()
+    
+    xTrue_data = np.array(xTrue_record) #!20220509
+    plt.plot(xTrue_data[:,0], xTrue_data[:,1])
+    plt.title('xTrue: robot trajectory')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_xTrue.png')
+    plt.close()
+    
+    d_data = np.array(d_record) #!20220509
+    plt.plot(d_data[:,0], d_data[:,1])
+    plt.title('distance')
+    plt.xlabel('step')
+    plt.ylabel('distance [m]')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_dist.png')
+    plt.close()
+
+    angle_data = np.array(angle_record) #!20220509
+    predout_data = np.array(predout_record) #!20220509
+    plt.plot(angle_data[:,0], angle_data[:,1], label="angle")
+    plt.plot(predout_data[:,0], predout_data[:,1], label="pred_out")
+    plt.title('angle')
+    plt.xlabel('step')
+    plt.ylabel('angle [deg]')
+    plt.legend(loc="upper right")
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.png')
+    plt.close()
+
+    #hxTrue_data = hxTrue_record[-1][:, 1:] #!20220509
+    #plt.plot(hxTrue_data[0,:], hxTrue_data[1, :])
+    #plt.savefig('save_fig/'+ file_header + '_hxTrue.png')
+    #plt.close()
+
+    with imageio.get_writer('mapping_data/save_fig/'+file_header + '.gif', mode='I') as writer:
+        for figurename in sorted(os.listdir(predictpath)):
+            image = imageio.imread(predictpath + "/" +figurename)
+            writer.append_data(image)
+
+
+    pass
+
+#%%
 from contextlib import redirect_stderr
 import glob
 import imp
@@ -812,57 +1213,8 @@ def get_tetris_shape(shape_name):
     return use_panels
 
 
-
-# def get_tetris_shape(shape_name):
-    
-#     """_summary_
-#     array
-#         c | b | a
-#         _   _  _
-#         f | e | d
-    
-    
-#     """
-#     if shape_name == 'J':
-#         use_panels = ['c', 'd', 'e', 'f']
-#     elif shape_name == 'L':
-#         use_panels = ['a', 'd', 'e', 'f']
-#     elif shape_name == 'Z':
-#         use_panels = ['b', 'c', 'd', 'e']
-#     elif shape_name == 'T':
-#         use_panels = ['b', 'd', 'e', 'f']
-#     elif shape_name == 'S':
-#         use_panels = ['a', 'b', 'e', 'f']
-#     return use_panels
-
-
+#%%
 if __name__ == '__main__':
-    num_data = 1000
-    dist = 50
-    num_particles =10000
-    dist_min = 100
-    dist_max = 100
-    header = 'data'
-    shape_nale_list = ['Z','J','T']# ['L','S','full'] ['Z', 'J', 'L', 'T', 'S', 'full'] ['J', 'L', 'Z', 'T', 'S', 'full]
-    
-    for shape_name in shape_nale_list:
-        print("shape_name: ", shape_name)
-        
-        folder1=f'openmc/discrete_tetris_{shape_name}_data_20220720_v1/'
-        folder2=f'openmc/discrete_tetris_{shape_name}_fig_20220720_v1/'
+    main()
 
-        use_panels = get_tetris_shape(shape_name)
-
-        for i in range(num_data):
-            #?rad_dist=np.random.randint(dist_min, dist_max)# + np.random.random(1)
-            #rad_angle=angle  #np.random.randint(0, 359) + np.random.random(1)    #!20220128
-            rad_angle=float(np.random.randint(0, 360) + np.random.random(1))
-            print("]]]]]]]]]]]]]]]]]")
-            #?print("dist: " + str(rad_dist))
-            print("dist: " + str(dist))
-            print("angle: " + str(rad_angle))
-            before_openmc(dist, rad_angle, num_particles, use_panels)   #!20220716
-            openmc.run()
-            mm = after_openmc(dist, rad_angle, folder1, folder2, header, use_panels)
-            #after_openmc(dist, rad_angle)
 

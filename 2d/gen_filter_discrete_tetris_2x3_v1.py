@@ -1,6 +1,6 @@
 #%%
 """
-Created on 2022/07/17
+Created on 2022/07/20
 original: gen_filter_discrete_tetris_v2.py
 
 @author: R.Okabe
