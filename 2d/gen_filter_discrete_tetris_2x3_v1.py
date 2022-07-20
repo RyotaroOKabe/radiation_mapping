@@ -839,7 +839,7 @@ def get_tetris_shape(shape_name):
 if __name__ == '__main__':
     num_data = 40
     #shape_name = 'J'
-    shape_nale_list = ['Z', 'J', 'L', 'T', 'S', 'full'] #['J', 'L', 'Z', 'T', 'S']
+    shape_nale_list = ['S', 'full']#['Z', 'J', 'L', 'T', 'S', 'full'] #['J', 'L', 'Z', 'T', 'S']
     for shape_name in shape_nale_list:
         print("shape_name: ", shape_name)
         header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]} #{'near': [20, 1000], 'far': [200, 5000]}    #{'far': [200, 500000]}   #{'near': [20, 10000], 'far': [200, 500000]}   #!20220518

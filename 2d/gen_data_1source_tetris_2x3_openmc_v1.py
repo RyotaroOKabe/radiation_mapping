@@ -37,7 +37,7 @@ record_data=True
 #============================= #!20220331
 
 shape_name = 'Z'
-file_header = f"A20220720_{shape_name}_v1.1"
+file_header = f"A20220720_{shape_name}_v2.1"
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored
 recordpath = 'mapping_data/mapping_' + file_header
@@ -66,7 +66,7 @@ if __name__ == '__main__' and record_data:
 
 
 #model_path = '../2source_unet_model.pt'    #!20220331
-model_path = 'save_model/model_openmc_tetris_S_ep100_bs256_20220716_v1.1_model.pt'
+model_path = 'save_model/model_openmc_tetris_Z_ep500_bs256_20220720_v1.2_model.pt'
 model =torch.load(model_path)
 
 
@@ -269,7 +269,7 @@ def main():
             predict=model(network_input).detach().cpu().numpy().reshape(-1)
 
             #=========================#!20220509
-            xdata_original=det_output.reshape(3, 2)  #reshape(2, 2)  #!size-change #!20220717
+            xdata_original=det_output.reshape(2, 3) #reshape(3, 2)  #reshape(2, 2)  #!size-change (x, y) #!20220720
             #xdata_original=np.transpose(xdata_original)
             ydata=get_output([x, y])
             pred_out = 9*(np.argmax(predict)-20)    #!20220509

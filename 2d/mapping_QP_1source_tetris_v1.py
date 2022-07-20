@@ -22,9 +22,9 @@ import dill #!20220316
 import imageio
 
 fig_folder = 'mapping_data/save_fig/'
-shape_name = 'Z'
-fig_header = f'A20220714_{shape_name}_v1.1.1'
-record_path = f'mapping_data/mapping_A20220717_{shape_name}_v1.1'
+shape_name = 'J'
+fig_header = f'A20220720_{shape_name}_v2.1.1'
+record_path = f'mapping_data/mapping_A20220720_{shape_name}_v2.1'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 

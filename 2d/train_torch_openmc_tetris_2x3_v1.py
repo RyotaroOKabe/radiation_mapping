@@ -533,10 +533,10 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_tetris_Z_ep100_bs256_20220716_v1.1"      #!20220126
+    save_name = "openmc_tetris_J_ep500_bs256_20220720_v2.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_tetris_Z_data_20220716_v1'  #!20220716
-    filterpath ='openmc/disc_filter_tetris_Z_data_20220716_v3.1'    #!20220716
+    path = 'openmc/discrete_tetris_J_data_20220720_v1'  #!20220716
+    filterpath ='openmc/disc_filter_tetris_J_data_20220720_v1.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
     
     #net = MyNet2()
@@ -584,7 +584,7 @@ if __name__ == '__main__':
         {"params": net.l1.Wn1, 'lr': 3e-5}
         ], lr=0.001)
 
-    model.train(optim,train_set,test_set,epochs=100,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
+    model.train(optim,train_set,test_set,epochs=500,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
     #model.train(optim,train_set,test_set,epochs=6000,batch_size=256,acc_func=None, verbose=10)
 
     #model.save('test8')

@@ -647,8 +647,8 @@ def load_data(test_size,train_size,test_size_gen,output_fun,path,source_num,prob
 #%%
 
 if __name__ == '__main__': #!20220508
-    path = 'openmc/discrete_tetris_Z_data_20220716_v1'  #!20220716
-    filterpath ='openmc/disc_filter_tetris_Z_data_20220716_v3.1'    #!20220716
+    path = 'openmc/discrete_tetris_Z_data_20220720_v1'  #!20220716
+    filterpath ='openmc/disc_filter_tetris_Z_data_20220720_v1.1'    #!20220716
     filterdata=FilterData(filterpath)  
     filterdata2=FilterData2(filterpath)      
     GPU_INDEX = 1#0
