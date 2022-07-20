@@ -859,6 +859,7 @@ if __name__ == '__main__':
             rad_angle=float(np.random.randint(0, 360) + np.random.random(1))
             print("]]]]]]]]]]]]]]]]]")
             #?print("dist: " + str(rad_dist))
+            print("shape_name: ", shape_name)
             print("dist: " + str(dist))
             print("angle: " + str(rad_angle))
             before_openmc(dist, rad_angle, num_particles, use_panels)   #!20220716
