@@ -25113,3 +25113,3953 @@ angle: 237.44965145032648
        Date/Time | 2022-07-20 15:46:58
 /home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
   warn(msg, IDWarning)
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.6081e-01 seconds
+   Reading cross sections          = 3.3044e-01 seconds
+ Total time in simulation          = 4.4734e+00 seconds
+   Time in transport only          = 4.4685e+00 seconds
+   Time in active batches          = 4.4734e+00 seconds
+   Time accumulating tallies       = 1.3433e-04 seconds
+   Time writing statepoints        = 4.0377e-03 seconds
+ Total time for finalization       = 1.6394e-04 seconds
+ Total time elapsed                = 4.8375e+00 seconds
+ Calculation Rate (active)         = 223542 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99813 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.02066586 0.        ]
+ [0.01753176 0.01160112]
+ [0.         0.0068674 ]]
+mean_max:
+0.020665862427177065
+mean_min:
+0.0
+stdev_max:
+7.343621623630456
+mean/stdev ratio:
+0.00281412407750939
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_237.44965.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_237.44965.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 77.64942765010507
+[10.694634818978614, 48.8428580868144]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:04
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.2858e-01 seconds
+   Reading cross sections          = 3.0009e-01 seconds
+ Total time in simulation          = 4.4943e+00 seconds
+   Time in transport only          = 4.4884e+00 seconds
+   Time in active batches          = 4.4943e+00 seconds
+   Time accumulating tallies       = 1.5368e-04 seconds
+   Time writing statepoints        = 4.9386e-03 seconds
+ Total time for finalization       = 1.8027e-04 seconds
+ Total time elapsed                = 4.8260e+00 seconds
+ Calculation Rate (active)         = 222504 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99811 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.0095273  0.        ]
+ [0.01812592 0.0126973 ]
+ [0.         0.01754088]]
+mean_max:
+0.018125920997836432
+mean_min:
+0.0
+stdev_max:
+4.351861602723698
+mean/stdev ratio:
+0.004165095918145
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_77.64943.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_77.64943.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 220.92812026163708
+[-37.77660185743974, -32.75558505208662]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:10
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.7143e-01 seconds
+   Reading cross sections          = 3.4095e-01 seconds
+ Total time in simulation          = 4.5170e+00 seconds
+   Time in transport only          = 4.5112e+00 seconds
+   Time in active batches          = 4.5170e+00 seconds
+   Time accumulating tallies       = 1.2520e-04 seconds
+   Time writing statepoints        = 4.8662e-03 seconds
+ Total time for finalization       = 1.7852e-04 seconds
+ Total time elapsed                = 4.8916e+00 seconds
+ Calculation Rate (active)         = 221387 particles/second
+
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99789 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.02151195 0.        ]
+ [0.01841376 0.01171971]
+ [0.         0.01025908]]
+mean_max:
+0.02151194507949978
+mean_min:
+0.0
+stdev_max:
+10.002491084052597
+mean/stdev ratio:
+0.002150658760775823
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_220.92812.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_220.92812.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 89.72109041117635
+[0.2433935707582554, 49.999407592187666]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:16
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 2.3686e-01 seconds
+   Reading cross sections          = 2.1749e-01 seconds
+ Total time in simulation          = 4.6182e+00 seconds
+   Time in transport only          = 4.6125e+00 seconds
+   Time in active batches          = 4.6182e+00 seconds
+   Time accumulating tallies       = 1.3302e-04 seconds
+   Time writing statepoints        = 4.9126e-03 seconds
+ Total time for finalization       = 1.8653e-04 seconds
+ Total time elapsed                = 4.8570e+00 seconds
+ Calculation Rate (active)         = 216534 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99800 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01154288 0.        ]
+ [0.01821359 0.0123329 ]
+ [0.         0.01793717]]
+mean_max:
+0.01821358569397593
+mean_min:
+0.0
+stdev_max:
+7.8574564408843734
+mean/stdev ratio:
+0.0023180002117741236
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_89.72109.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_89.72109.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 316.9258832833194
+[36.52354350091976, -34.14719271238007]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:22
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.5791e-01 seconds
+   Reading cross sections          = 3.3018e-01 seconds
+ Total time in simulation          = 4.6950e+00 seconds
+   Time in transport only          = 4.6891e+00 seconds
+   Time in active batches          = 4.6950e+00 seconds
+   Time accumulating tallies       = 1.5706e-04 seconds
+   Time writing statepoints        = 4.9065e-03 seconds
+ Total time for finalization       = 1.7862e-04 seconds
+ Total time elapsed                = 5.0561e+00 seconds
+ Calculation Rate (active)         = 212994 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99763 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01932046 0.        ]
+ [0.01710341 0.01852842]
+ [0.         0.01643224]]
+mean_max:
+0.019320464942235566
+mean_min:
+0.0
+stdev_max:
+3.0666607325509285
+mean/stdev ratio:
+0.006300163802653285
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_316.92588.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_316.92588.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 293.7098770088054
+[20.105280919561462, -45.77966447174463]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:28
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 2.3553e-01 seconds
+   Reading cross sections          = 2.1620e-01 seconds
+ Total time in simulation          = 4.5046e+00 seconds
+   Time in transport only          = 4.4996e+00 seconds
+   Time in active batches          = 4.5046e+00 seconds
+   Time accumulating tallies       = 1.2358e-04 seconds
+   Time writing statepoints        = 4.0561e-03 seconds
+ Total time for finalization       = 1.6943e-04 seconds
+ Total time elapsed                = 4.7420e+00 seconds
+ Calculation Rate (active)         = 221997 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99780 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01816303 0.        ]
+ [0.0153421  0.02026727]
+ [0.         0.01379096]]
+mean_max:
+0.020267272259875124
+mean_min:
+0.0
+stdev_max:
+2.4133015380994913
+mean/stdev ratio:
+0.00839815163580258
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_293.70988.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_293.70988.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 273.26877937488223
+[2.851000964316737, -49.91865175965258]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:34
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.6767e-01 seconds
+   Reading cross sections          = 3.3758e-01 seconds
+ Total time in simulation          = 4.4548e+00 seconds
+   Time in transport only          = 4.4490e+00 seconds
+   Time in active batches          = 4.4548e+00 seconds
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+   Time accumulating tallies       = 1.3556e-04 seconds
+   Time writing statepoints        = 4.8194e-03 seconds
+ Total time for finalization       = 1.8292e-04 seconds
+ Total time elapsed                = 4.8256e+00 seconds
+ Calculation Rate (active)         = 224479 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99803 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01849669 0.        ]
+ [0.01219813 0.01820768]
+ [0.         0.0110385 ]]
+mean_max:
+0.018496687297684458
+mean_min:
+0.0
+stdev_max:
+4.610614926904594
+mean/stdev ratio:
+0.0040117614658621015
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_273.26878.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_273.26878.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 0.6477701608964131
+[49.9968045502297, 0.5652740628504502]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:40
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 2.4404e-01 seconds
+   Reading cross sections          = 2.2472e-01 seconds
+ Total time in simulation          = 4.4306e+00 seconds
+   Time in transport only          = 4.4256e+00 seconds
+   Time in active batches          = 4.4306e+00 seconds
+   Time accumulating tallies       = 1.1786e-04 seconds
+   Time writing statepoints        = 4.0920e-03 seconds
+ Total time for finalization       = 1.6870e-04 seconds
+ Total time elapsed                = 4.6766e+00 seconds
+ Calculation Rate (active)         = 225702 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99782 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01807609 0.        ]
+ [0.01287493 0.01977343]
+ [0.         0.01715623]]
+mean_max:
+0.019773431481775555
+mean_min:
+0.0
+stdev_max:
+2.9434399918963043
+mean/stdev ratio:
+0.006717796705968029
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_0.64777.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_0.64777.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 24.679947370714178
+[45.43271844208229, 20.877454226089817]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:46
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.6929e-01 seconds
+   Reading cross sections          = 3.3726e-01 seconds
+ Total time in simulation          = 4.5951e+00 seconds
+   Time in transport only          = 4.5893e+00 seconds
+   Time in active batches          = 4.5951e+00 seconds
+   Time accumulating tallies       = 1.3232e-04 seconds
+   Time writing statepoints        = 4.8556e-03 seconds
+ Total time for finalization       = 1.8486e-04 seconds
+ Total time elapsed                = 4.9676e+00 seconds
+ Calculation Rate (active)         = 217624 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99793 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01327284 0.        ]
+ [0.01243853 0.01976666]
+ [0.         0.01868556]]
+mean_max:
+0.019766655045811824
+mean_min:
+0.0
+stdev_max:
+3.714259959192027
+mean/stdev ratio:
+0.005321828645001929
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_24.67995.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_24.67995.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 54.087413121537615
+[29.327514726742294, 40.4956402585848]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:52
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.2677e-01 seconds
+   Reading cross sections          = 3.0197e-01 seconds
+ Total time in simulation          = 4.5819e+00 seconds
+   Time in transport only          = 4.5770e+00 seconds
+   Time in active batches          = 4.5819e+00 seconds
+   Time accumulating tallies       = 1.3594e-04 seconds
+   Time writing statepoints        = 4.0380e-03 seconds
+ Total time for finalization       = 1.5856e-04 seconds
+ Total time elapsed                = 4.9109e+00 seconds
+ Calculation Rate (active)         = 218250 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99817 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.0084179  0.        ]
+ [0.01293414 0.01684884]
+ [0.         0.01869688]]
+mean_max:
+0.018696884521358398
+mean_min:
+0.0
+stdev_max:
+3.340531274776472
+mean/stdev ratio:
+0.00559697933754848
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_54.08741.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_54.08741.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 301.26779253530674
+[25.951935802075354, -42.7375365238213]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:47:58
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.4248e-01 seconds
+   Reading cross sections          = 3.1451e-01 seconds
+ Total time in simulation          = 4.6354e+00 seconds
+   Time in transport only          = 4.6244e+00 seconds
+   Time in active batches          = 4.6354e+00 seconds
+   Time accumulating tallies       = 1.2933e-04 seconds
+   Time writing statepoints        = 1.0041e-02 seconds
+ Total time for finalization       = 1.8805e-04 seconds
+ Total time elapsed                = 4.9811e+00 seconds
+ Calculation Rate (active)         = 215731 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99766 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.0181271  0.        ]
+ [0.01622075 0.01984857]
+ [0.         0.0155102 ]]
+mean_max:
+0.019848572655111273
+mean_min:
+0.0
+stdev_max:
+5.776311172547159
+mean/stdev ratio:
+0.0034362021127678825
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_301.26779.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_301.26779.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 190.6751707130521
+[-49.13465817127709, -9.262038997529308]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:05
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.5868e-01 seconds
+   Reading cross sections          = 3.3180e-01 seconds
+ Total time in simulation          = 4.4627e+00 seconds
+   Time in transport only          = 4.4571e+00 seconds
+   Time in active batches          = 4.4627e+00 seconds
+   Time accumulating tallies       = 1.2507e-04 seconds
+   Time writing statepoints        = 4.8278e-03 seconds
+ Total time for finalization       = 1.7311e-04 seconds
+ Total time elapsed                = 4.8246e+00 seconds
+ Calculation Rate (active)         = 224077 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99756 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.02085056 0.        ]
+ [0.02061213 0.01457514]
+ [0.         0.01612748]]
+mean_max:
+0.020850564690973773
+mean_min:
+0.0
+stdev_max:
+2.4365466833034017
+mean/stdev ratio:
+0.008557424667400651
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_190.67517.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_190.67517.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 138.62233107578248
+[-37.51843797390243, 33.050972935731195]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:10
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 2.3748e-01 seconds
+   Reading cross sections          = 2.1813e-01 seconds
+ Total time in simulation          = 4.6992e+00 seconds
+   Time in transport only          = 4.6934e+00 seconds
+   Time in active batches          = 4.6992e+00 seconds
+   Time accumulating tallies       = 1.2687e-04 seconds
+   Time writing statepoints        = 4.8080e-03 seconds
+ Total time for finalization       = 1.8432e-04 seconds
+ Total time elapsed                = 4.9386e+00 seconds
+ Calculation Rate (active)         = 212803 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99744 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01882584 0.        ]
+ [0.02081698 0.01784111]
+ [0.         0.01818277]]
+mean_max:
+0.02081697958541145
+mean_min:
+0.0
+stdev_max:
+3.3796355917582486
+mean/stdev ratio:
+0.006159533778190997
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_138.62233.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_138.62233.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 198.61175035497038
+[-47.38514885719881, -15.957683659639052]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:17
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.6895e-01 seconds
+   Reading cross sections          = 3.3767e-01 seconds
+ Total time in simulation          = 4.4877e+00 seconds
+   Time in transport only          = 4.4819e+00 seconds
+   Time in active batches          = 4.4877e+00 seconds
+   Time accumulating tallies       = 1.3221e-04 seconds
+   Time writing statepoints        = 4.8851e-03 seconds
+ Total time for finalization       = 1.7647e-04 seconds
+ Total time elapsed                = 4.8598e+00 seconds
+ Calculation Rate (active)         = 222830 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99754 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.02025004 0.        ]
+ [0.01989528 0.01330762]
+ [0.         0.01632148]]
+mean_max:
+0.02025003985535528
+mean_min:
+0.0
+stdev_max:
+2.7868539779941037
+mean/stdev ratio:
+0.007266272296738945
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_198.61175.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_198.61175.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 83.25686676969052
+[5.8709189801846415, 49.65412682071962]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:23
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 2.3876e-01 seconds
+   Reading cross sections          = 2.1908e-01 seconds
+ Total time in simulation          = 4.4185e+00 seconds
+   Time in transport only          = 4.4135e+00 seconds
+   Time in active batches          = 4.4185e+00 seconds
+   Time accumulating tallies       = 1.2961e-04 seconds
+   Time writing statepoints        = 4.0187e-03 seconds
+ Total time for finalization       = 1.6445e-04 seconds
+ Total time elapsed                = 4.6592e+00 seconds
+ Calculation Rate (active)         = 226323 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99808 +/- 0.00004
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01042433 0.        ]
+ [0.0182752  0.01265312]
+ [0.         0.01834096]]
+mean_max:
+0.01834096031082104
+mean_min:
+0.0
+stdev_max:
+3.249329531287599
+mean/stdev ratio:
+0.0056445368603636635
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_83.25687.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_83.25687.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 295.5519887020689
+[21.566495095620002, -45.109713912754955]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:28
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.0150e-01 seconds
+   Reading cross sections          = 2.7659e-01 seconds
+ Total time in simulation          = 4.6337e+00 seconds
+   Time in transport only          = 4.6278e+00 seconds
+   Time in active batches          = 4.6337e+00 seconds
+   Time accumulating tallies       = 1.3101e-04 seconds
+   Time writing statepoints        = 4.8705e-03 seconds
+ Total time for finalization       = 1.7813e-04 seconds
+ Total time elapsed                = 4.9376e+00 seconds
+ Calculation Rate (active)         = 215812 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99775 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01918111 0.        ]
+ [0.01525173 0.01862574]
+ [0.         0.01435117]]
+mean_max:
+0.019181109418047505
+mean_min:
+0.0
+stdev_max:
+2.8187399109918037
+mean/stdev ratio:
+0.00680485253117888
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_295.55199.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_295.55199.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 337.92499865714655
+[46.33463463312052, -18.790998733841352]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:35
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 2.7388e-01 seconds
+   Reading cross sections          = 2.5216e-01 seconds
+ Total time in simulation          = 4.5008e+00 seconds
+   Time in transport only          = 4.4958e+00 seconds
+   Time in active batches          = 4.5008e+00 seconds
+   Time accumulating tallies       = 1.2226e-04 seconds
+   Time writing statepoints        = 4.0122e-03 seconds
+ Total time for finalization       = 1.6711e-04 seconds
+ Total time elapsed                = 4.7766e+00 seconds
+ Calculation Rate (active)         = 222183 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99769 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01752403 0.        ]
+ [0.01486803 0.01922669]
+ [0.         0.01870404]]
+mean_max:
+0.01922668886212764
+mean_min:
+0.0
+stdev_max:
+3.3397602711830947
+mean/stdev ratio:
+0.005756906873832795
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_337.925.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_337.925.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 25.502115957528243
+[45.128469238814596, 21.527221468674583]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:40
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.6842e-01 seconds
+   Reading cross sections          = 3.3835e-01 seconds
+ Total time in simulation          = 4.6040e+00 seconds
+   Time in transport only          = 4.5984e+00 seconds
+   Time in active batches          = 4.6040e+00 seconds
+   Time accumulating tallies       = 1.2128e-04 seconds
+   Time writing statepoints        = 4.7723e-03 seconds
+ Total time for finalization       = 1.7862e-04 seconds
+ Total time elapsed                = 4.9757e+00 seconds
+ Calculation Rate (active)         = 217200 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99793 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01511173 0.        ]
+ [0.01259073 0.0186601 ]
+ [0.         0.01845965]]
+mean_max:
+0.018660104317678675
+mean_min:
+0.0
+stdev_max:
+2.189924966887273
+mean/stdev ratio:
+0.008520887518900646
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_25.50212.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_25.50212.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 91.4197738095457
+[-1.2388595875874584, 49.98464991297072]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:47
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+/home/rokabe/anaconda3/envs/openmc-train/lib/python3.9/site-packages/openmc/mixin.py:67: IDWarning: Another MeshBase instance already exists with id=1.
+  warn(msg, IDWarning)
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.7385e-01 seconds
+   Reading cross sections          = 3.4173e-01 seconds
+ Total time in simulation          = 4.4675e+00 seconds
+   Time in transport only          = 4.4625e+00 seconds
+   Time in active batches          = 4.4675e+00 seconds
+   Time accumulating tallies       = 1.2901e-04 seconds
+   Time writing statepoints        = 4.0577e-03 seconds
+ Total time for finalization       = 1.6165e-04 seconds
+ Total time elapsed                = 4.8445e+00 seconds
+ Calculation Rate (active)         = 223836 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99797 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.01064568 0.        ]
+ [0.01886333 0.01236362]
+ [0.         0.01861267]]
+mean_max:
+0.01886332947205355
+mean_min:
+0.0
+stdev_max:
+4.778455745514823
+mean/stdev ratio:
+0.003947578564426204
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_91.41977.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_91.41977.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 265.0655286903329
+[-4.300817334256162, -49.81468629086568]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    %%%%%%%%%%%%%%%%%%%%%%%%
+                                     %%%%%%%%%%%%%%%%%%%%%%%%
+                 ###############      %%%%%%%%%%%%%%%%%%%%%%%%
+                ##################     %%%%%%%%%%%%%%%%%%%%%%%
+                ###################     %%%%%%%%%%%%%%%%%%%%%%%
+                ####################     %%%%%%%%%%%%%%%%%%%%%%
+                #####################     %%%%%%%%%%%%%%%%%%%%%
+                ######################     %%%%%%%%%%%%%%%%%%%%
+                #######################     %%%%%%%%%%%%%%%%%%
+                 #######################     %%%%%%%%%%%%%%%%%
+                 ######################     %%%%%%%%%%%%%%%%%
+                  ####################     %%%%%%%%%%%%%%%%%
+                    #################     %%%%%%%%%%%%%%%%%
+                     ###############     %%%%%%%%%%%%%%%%
+                       ############     %%%%%%%%%%%%%%%
+                          ########     %%%%%%%%%%%%%%
+                                      %%%%%%%%%%%
+
+                 | The OpenMC Monte Carlo Code
+       Copyright | 2011-2022 MIT, UChicago Argonne LLC, and contributors
+         License | https://docs.openmc.org/en/latest/license.html
+         Version | 0.13.0
+        Git SHA1 | a64df444b72c755afe82d85fbcb2cb6f0a61009c
+       Date/Time | 2022-07-20 15:48:52
+  OpenMP Threads | 2
+
+ Reading settings XML file...
+ Reading cross sections XML file...
+ Reading materials XML file...
+ Reading geometry XML file...
+ Reading Cd114 from /home/rokabe/data1/openmc/endfb71_hdf5/Cd114.h5
+ Reading Cd from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Cd.h5 
+ Reading Zn64 from /home/rokabe/data1/openmc/endfb71_hdf5/Zn64.h5
+ Reading Zn from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Zn.h5 
+ Reading Te130 from /home/rokabe/data1/openmc/endfb71_hdf5/Te130.h5
+ Reading Te from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Te.h5 
+ Reading Pb208 from /home/rokabe/data1/openmc/endfb71_hdf5/Pb208.h5
+ Reading Pb from /home/rokabe/data1/openmc/endfb71_hdf5/photon/Pb.h5 
+ Minimum neutron data temperature: 294 K
+ Maximum neutron data temperature: 294 K
+ Reading tallies XML file...
+ WARNING: Particle filter is not used with photon transport on and absorption
+          score.
+ Preparing distributed cell instances...
+ Reading plot XML file...
+ Writing summary.h5 file...
+ Maximum neutron transport energy: 20000000 eV for Cd114
+
+ ===============>     FIXED SOURCE TRANSPORT SIMULATION     <===============
+
+ Simulating batch 1
+ Simulating batch 2
+ Simulating batch 3
+ Simulating batch 4
+ Simulating batch 5
+ Simulating batch 6
+ Simulating batch 7
+ Simulating batch 8
+ Simulating batch 9
+ Simulating batch 10
+ Simulating batch 11
+ Simulating batch 12
+ Simulating batch 13
+ Simulating batch 14
+ Simulating batch 15
+ Simulating batch 16
+ Simulating batch 17
+ Simulating batch 18
+ Simulating batch 19
+ Simulating batch 20
+ Simulating batch 21
+ Simulating batch 22
+ Simulating batch 23
+ Simulating batch 24
+ Simulating batch 25
+ Simulating batch 26
+ Simulating batch 27
+ Simulating batch 28
+ Simulating batch 29
+ Simulating batch 30
+ Simulating batch 31
+ Simulating batch 32
+ Simulating batch 33
+ Simulating batch 34
+ Simulating batch 35
+ Simulating batch 36
+ Simulating batch 37
+ Simulating batch 38
+ Simulating batch 39
+ Simulating batch 40
+ Simulating batch 41
+ Simulating batch 42
+ Simulating batch 43
+ Simulating batch 44
+ Simulating batch 45
+ Simulating batch 46
+ Simulating batch 47
+ Simulating batch 48
+ Simulating batch 49
+ Simulating batch 50
+ Simulating batch 51
+ Simulating batch 52
+ Simulating batch 53
+ Simulating batch 54
+ Simulating batch 55
+ Simulating batch 56
+ Simulating batch 57
+ Simulating batch 58
+ Simulating batch 59
+ Simulating batch 60
+ Simulating batch 61
+ Simulating batch 62
+ Simulating batch 63
+ Simulating batch 64
+ Simulating batch 65
+ Simulating batch 66
+ Simulating batch 67
+ Simulating batch 68
+ Simulating batch 69
+ Simulating batch 70
+ Simulating batch 71
+ Simulating batch 72
+ Simulating batch 73
+ Simulating batch 74
+ Simulating batch 75
+ Simulating batch 76
+ Simulating batch 77
+ Simulating batch 78
+ Simulating batch 79
+ Simulating batch 80
+ Simulating batch 81
+ Simulating batch 82
+ Simulating batch 83
+ Simulating batch 84
+ Simulating batch 85
+ Simulating batch 86
+ Simulating batch 87
+ Simulating batch 88
+ Simulating batch 89
+ Simulating batch 90
+ Simulating batch 91
+ Simulating batch 92
+ Simulating batch 93
+ Simulating batch 94
+ Simulating batch 95
+ Simulating batch 96
+ Simulating batch 97
+ Simulating batch 98
+ Simulating batch 99
+ Simulating batch 100
+ Creating state point statepoint.100.h5...
+
+ =======================>     TIMING STATISTICS     <=======================
+
+ Total time for initialization     = 3.6572e-01 seconds
+   Reading cross sections          = 3.3876e-01 seconds
+ Total time in simulation          = 4.3781e+00 seconds
+   Time in transport only          = 4.3724e+00 seconds
+   Time in active batches          = 4.3781e+00 seconds
+   Time accumulating tallies       = 1.4042e-04 seconds
+   Time writing statepoints        = 4.8196e-03 seconds
+ Total time for finalization       = 1.8041e-04 seconds
+ Total time elapsed                = 4.7471e+00 seconds
+ Calculation Rate (active)         = 228407 particles/second
+
+ ============================>     RESULTS     <============================
+
+ Leakage Fraction            = 0.99804 +/- 0.00005
+
+shape before getting mean matrix: (6,)
+(3, 2)
+['c', 'd']
+[[0.02004472 0.        ]
+ [0.01318723 0.01738427]
+ [0.         0.00918128]]
+mean_max:
+0.02004472406193238
+mean_min:
+0.0
+stdev_max:
+4.213739183397553
+mean/stdev ratio:
+0.004756992113064352
+json dir
+../openmc/discrete_tetris_Z_data_20220720_v1/data_50_265.06553.json
+fig dir
+../openmc/discrete_tetris_Z_fig_20220720_v1/data_50_265.06553.png
+]]]]]]]]]]]]]]]]]
+dist: 50
+angle: 5.104713355708182
+[49.80168746388929, 4.4488117232685696]
+                                %%%%%%%%%%%%%%%
+                           %%%%%%%%%%%%%%%%%%%%%%%%
