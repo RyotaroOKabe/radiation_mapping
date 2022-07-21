@@ -23,8 +23,8 @@ import imageio
 
 fig_folder = 'mapping_data/save_fig/'
 shape_name = 'J'
-fig_header = f'A20220720_{shape_name}_v2.1.1'
-record_path = f'mapping_data/mapping_A20220720_{shape_name}_v2.1'
+fig_header = f'A20220721_{shape_name}_v1.1.1'
+record_path = f'mapping_data/mapping_A20220721_{shape_name}_v1.1'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 

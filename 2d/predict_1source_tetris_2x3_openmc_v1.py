@@ -36,8 +36,8 @@ record_data=True
 #DEFAULT_DTYPE = torch.double
 #============================= #!20220331
 
-shape_name = 'T'
-file_header = f"A20220720_{shape_name}_v2.1"
+shape_name = 'S'
+file_header = f"A20220720_{shape_name}_v2.2"
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored
 recordpath = 'mapping_data/mapping_' + file_header
@@ -69,6 +69,7 @@ if __name__ == '__main__' and record_data:
 model_path = 'save_model/model_openmc_tetris_Z_ep500_bs256_20220720_v1.2_model.pt'
 model =torch.load(model_path)
 
+data_path = 'openmc/discrete_data_20220626_5x5_v2'  #!20220502
 
 DT = 0.1  # time tick [s]
 SIM_TIME = 70.0

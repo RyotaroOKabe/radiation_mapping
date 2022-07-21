@@ -533,10 +533,10 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_tetris_J_ep500_bs256_20220720_v2.1"      #!20220126
+    save_name = "openmc_tetris_T_ep500_bs256_20220720_v2.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_tetris_J_data_20220720_v1'  #!20220716
-    filterpath ='openmc/disc_filter_tetris_J_data_20220720_v1.1'    #!20220716
+    path = 'openmc/discrete_tetris_T_data_20220720_v1'  #!20220716
+    filterpath ='openmc/disc_filter_tetris_T_data_20220720_v1.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
     
     #net = MyNet2()

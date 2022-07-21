@@ -376,7 +376,7 @@ def write_data(recordpath): #!20220717
 if __name__ == '__main__':
     #test()
     shape_name = 'J'
-    recordpath = f'mapping_data/mapping_A20220720_{shape_name}_v2.1'   #!20220331
+    recordpath = f'mapping_data/mapping_A20220721_{shape_name}_v1.1'   #!20220331
     write_data(recordpath)  #!20220717
     # ss=Point(-2,0)
     # r1=Ray(ss,-np.pi*0-0.05)
