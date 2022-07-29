@@ -1,3 +1,11 @@
+#%%
+"""
+Created on 2022/07/28
+original: gen_openmc_data_discrete_2x2_v1.py, gen_filterlayer_2x2_v1.1.py
+
+@author: R.Okabe
+"""
+
 from contextlib import redirect_stderr
 import glob
 import imp
@@ -148,7 +156,7 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
 
     root_universe.plot(width=(22, 22), basis='xy')     #!20220124
     plt.show()   #!20220117
-    plt.savefig('savefig/geometry_20220201.png')   #!20220117
+    plt.savefig('save_fig/geometry_20220201.png')   #!20220117
     plt.close()
 
     # Create Geometry and export to "geometry.xml"
@@ -272,7 +280,7 @@ def run_openmc():
 
 def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_20220118.txt', \
                         folder2='random_savefig/', file2='detector_1source_20220118.png',\
-                            source_x=100, source_y=100, norm=True):
+                            source_x=100, source_y=100, seg_angles=40, norm=True):
     # We do not know how many batches were needed to satisfy the
     # tally trigger(s), so find the statepoint file(s)
     statepoints = glob.glob('statepoint.*.h5')
@@ -357,7 +365,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     data_json['miu_detector']=0.3   #!20220119 constant!
     data_json['miu_medium']=1.2   #!20220119 constant!
     data_json['miu_air']=0.00018   #!20220119 constant!
-    data_json['output']=get_output([source_x, source_y]).tolist()
+    data_json['output']=get_output([source_x, source_y], seg_angles).tolist()
     #print('output: ' + str(type(data_json['output'])))
     data_json['miu_de']=0.5   #!20220119 constant!
     mean_list=mean.T.reshape((1, 4)).tolist()    #! size-change!
@@ -401,19 +409,27 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     #plt.savefig('random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.close()
+    print('json dir')
+    print(folder1+file1)
+    
+    print('fig dir')
+    print(folder2+file2)
+    return mean #!20220717
 
 
-def get_output(source):
-    sec_center=np.linspace(-np.pi,np.pi,41)
-    output=np.zeros(40)
-    sec_dis=2*np.pi/40.
+#def get_output(source):
+def get_output(source, num):    #!20220728
+    #sec_center=np.linspace(-np.pi,np.pi,41)
+    sec_center=np.linspace(-np.pi,np.pi,num+1)
+    output=np.zeros(num)#(40)
+    sec_dis=2*np.pi/num #40.
     angle=np.arctan2(source[1],source[0])
     before_indx=int((angle+np.pi)/sec_dis)
-    if before_indx>=40: #!20220430 (actually no need to add these two lines..)
-        before_indx-=40
+    if before_indx>=num: #!20220430 (actually no need to add these two lines..)
+        before_indx-=num
     after_indx=before_indx+1
-    if after_indx>=40:
-        after_indx-=40
+    if after_indx>=num:
+        after_indx-=num
     w1=abs(angle-sec_center[before_indx])
     w2=abs(angle-sec_center[after_indx])
     if w2>sec_dis:
@@ -425,7 +441,8 @@ def get_output(source):
     # raw_input()
     return output
 
-def before_openmc(rad_dist, rad_angle, num_particles):
+#def before_openmc(rad_dist, rad_angle, num_particles):
+def before_openmc(rad_dist, rad_angle, num_particles, seg_angles):
 #if __name__ == '__main__':
     ###=================Input parameter======================
     #num_data = 100
@@ -461,7 +478,8 @@ def before_openmc(rad_dist, rad_angle, num_particles):
         #rad_source=[float(rad_dist*np.cos(theta)), float(rad_dist*np.sin(theta))]
     rad_x, rad_y=[float(rad_dist*np.cos(theta)), float(rad_dist*np.sin(theta))]   #!20220119
     print([rad_x, rad_y])
-    get_output([rad_x, rad_y])
+    #get_output([rad_x, rad_y])
+    get_output([rad_x, rad_y], seg_angles)
     
         #gen_settings(rad_sources1=rad_source)
     gen_settings(src_energy=src_E, src_strength=src_Str,  en_source=source_energy, en_prob=energy_prob, num_particles=num_particles, batch_size=j, source_x=rad_x, source_y=rad_y)    #!20220224
@@ -506,7 +524,7 @@ def after_openmc(dist, angle, folder1, folder2, header):    #!20220517
     theta=angle*np.pi/180
     rad_x, rad_y=[float(dist*np.cos(theta)), float(dist*np.sin(theta))]   #!20220119
             
-    process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, norm=True)  #!20220201 #!20220119
+    mm = process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, norm=True)  #!20220201 #!20220119
     
         #file11=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.json'
         #file22=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.png'
@@ -519,17 +537,21 @@ def after_openmc(dist, angle, folder1, folder2, header):    #!20220517
     #time_s = end - start
     #print("Total time [s]: " + str(time_s))
     #print(time.strftime('%H:%M:%S', time.gmtime(time_s)))
+    return mm #!20220508
 
+
+#%%
 
 if __name__ == '__main__':
-    num_data = 40
+    num_data = 100
+    seg_angles = num_data
     #dist = 100
     #num_particles = 500000
     #header = 'near'
     #header_dist_dict = {'near': 30, 'far': 200}
     header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]}   #!20220518
-    folder1='openmc/disc_filter_2x2_data_20220627_v1.1/'
-    folder2='openmc/disc_filter_2x2_fig_20220627_v1.1/'
+    folder1='openmc/disc_filter_2x2_data_20220728_v1.1/'
+    folder2='openmc/disc_filter_2x2_fig_20220728_v1.1/'
     #angle_list = [a*360/num_data for a in range(num_data)]
     #angle_list = [1+a*360/num_data - 180 for a in range(num_data)]
     #angle_list = [0.1+a*360/num_data for a in range(num_data)]
@@ -544,7 +566,10 @@ if __name__ == '__main__':
             print("header: " + header)
             print("Distance: " + str(dist))
             print("angle: " + str(angle))
-            before_openmc(dist, angle, num_particles)
+            #before_openmc(dist, angle, num_particles)
+            before_openmc(dist, angle, num_particles, seg_angles)
             openmc.run()
             #after_openmc(dist, angle)
             mm = after_openmc(dist, angle, folder1, folder2, header)
+
+# %%
