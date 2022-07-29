@@ -83,16 +83,65 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     max_y = openmc.YPlane(y0=+100000, boundary_type='transmission')
 
     #for S1 layer
-    min_x1 = openmc.XPlane(x0=-0.4, boundary_type='transmission')   #!20220301
-    max_x1 = openmc.XPlane(x0=+0.4, boundary_type='transmission')
-    min_y1 = openmc.YPlane(y0=-0.4, boundary_type='transmission')
-    max_y1 = openmc.YPlane(y0=+0.4, boundary_type='transmission')
+    # min_x1 = openmc.XPlane(x0=-0.4, boundary_type='transmission')   #!20220301
+    # max_x1 = openmc.XPlane(x0=+0.4, boundary_type='transmission')
+    # min_y1 = openmc.YPlane(y0=-0.4, boundary_type='transmission')
+    # max_y1 = openmc.YPlane(y0=+0.4, boundary_type='transmission')
 
-    #for S2 layer
-    min_x2 = openmc.XPlane(x0=-0.5, boundary_type='transmission')   #!20220124
-    max_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')
-    min_y2 = openmc.YPlane(y0=-0.5, boundary_type='transmission')
-    max_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
+    # #for S2 layer
+    # min_x2 = openmc.XPlane(x0=-0.5, boundary_type='transmission')   #!20220124
+    # max_x2 = openmc.XPlane(x0=+0.5, boundary_type='transmission')
+    # min_y2 = openmc.YPlane(y0=-0.5, boundary_type='transmission')
+    # max_y2 = openmc.YPlane(y0=+0.5, boundary_type='transmission')
+
+
+    # for A inner layer
+    Amin_x1 = openmc.XPlane(x0=+0.1, boundary_type='transmission')   #!20220720
+    Amax_x1 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Amin_y1 = openmc.YPlane(y0=+0.1, boundary_type='transmission')
+    Amax_y1 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+
+    #for A outer layer
+    Amin_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')   #!20220720
+    Amax_x2 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Amin_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
+    Amax_y2 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+
+    # for B inner layer (y- from A)
+    Bmin_x1 = openmc.XPlane(x0=+0.1, boundary_type='transmission')   #!20220720
+    Bmax_x1 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Bmin_y1 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
+    Bmax_y1 = openmc.YPlane(y0=-0.1, boundary_type='transmission')
+
+    #for B outer layer (y-1 from A)
+    Bmin_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')   #!20220720
+    Bmax_x2 = openmc.XPlane(x0=+1.0, boundary_type='transmission')
+    Bmin_y2 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
+    Bmax_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
+
+    # for C inner layer (x-1 from A)
+    Cmin_x1 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!2022020
+    Cmax_x1 = openmc.XPlane(x0=-0.1, boundary_type='transmission')
+    Cmin_y1 = openmc.YPlane(y0=+0.1, boundary_type='transmission')
+    Cmax_y1 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+
+    #for C outer layer (x-1 from A)
+    Cmin_x2 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!20220720
+    Cmax_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')
+    Cmin_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
+    Cmax_y2 = openmc.YPlane(y0=+1.0, boundary_type='transmission')
+
+    # for D inner layer (x-1, y-1 from A)
+    Dmin_x1 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!20220720
+    Dmax_x1 = openmc.XPlane(x0=-0.1, boundary_type='transmission')
+    Dmin_y1 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
+    Dmax_y1 = openmc.YPlane(y0=-0.1, boundary_type='transmission')
+
+    #for D outer layer (x-1, y-1 from A)
+    Dmin_x2 = openmc.XPlane(x0=-1.0, boundary_type='transmission')   #!20220720
+    Dmax_x2 = openmc.XPlane(x0=+0.0, boundary_type='transmission')
+    Dmin_y2 = openmc.YPlane(y0=-1.0, boundary_type='transmission')
+    Dmax_y2 = openmc.YPlane(y0=+0.0, boundary_type='transmission')
 
     #for S3 layer
     min_x3 = openmc.XPlane(x0=-1, boundary_type='transmission')     #!20220124 size-change!
@@ -111,14 +160,39 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     min_yy = openmc.YPlane(y0=-100100, boundary_type='vacuum')
     max_yy = openmc.YPlane(y0=+100100, boundary_type='vacuum')    
 
-    #s1 region
-    s1_region = +min_x1 & -max_x1 & +min_y1 & -max_y1
+    # #s1 region
+    # s1_region = +min_x1 & -max_x1 & +min_y1 & -max_y1
 
-    #s2 region
-    s2_region = +min_x2 & -max_x2 & +min_y2 & -max_y2
+    # #s2 region
+    # s2_region = +min_x2 & -max_x2 & +min_y2 & -max_y2
 
     #s3 region
     s3_region = +min_x3 & -max_x3 & +min_y3 & -max_y3
+
+    # A1 region #!20220715
+    A1_region = +Amin_x1 & -Amax_x1 & +Amin_y1 & -Amax_y1
+    
+    # A2 region #!20220715
+    A2_region = +Amin_x2 & -Amax_x2 & +Amin_y2 & -Amax_y2
+
+    # A1 region #!20220715
+    B1_region = +Bmin_x1 & -Bmax_x1 & +Bmin_y1 & -Bmax_y1
+    
+    # A2 region #!20220715
+    B2_region = +Bmin_x2 & -Bmax_x2 & +Bmin_y2 & -Bmax_y2
+    
+    # A1 region #!20220715
+    C1_region = +Cmin_x1 & -Cmax_x1 & +Cmin_y1 & -Cmax_y1
+    
+    # A2 region #!20220715
+    C2_region = +Cmin_x2 & -Cmax_x2 & +Cmin_y2 & -Cmax_y2
+
+    # D1 region #!20220715
+    D1_region = +Dmin_x1 & -Dmax_x1 & +Dmin_y1 & -Dmax_y1
+    
+    # D2 region #!20220715
+    D2_region = +Dmin_x2 & -Dmax_x2 & +Dmin_y2 & -Dmax_y2
+
 
     #s4 region
     s4_region = +min_x & -max_x & +min_y & -max_y
@@ -127,37 +201,73 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     s5_region = +min_xx & -max_xx & +min_yy & -max_yy
 
     #define s1 cell
-    s1_cell = openmc.Cell(name='s1 cell', fill=panel, region=s1_region)
+    #s1_cell = openmc.Cell(name='s1 cell', fill=panel, region=s1_region)
 
     #define s2 cell
-    s2_cell = openmc.Cell(name='s2 cell', fill=insulator, region= ~s1_region & s2_region)
+    #s2_cell = openmc.Cell(name='s2 cell', fill=insulator, region= ~s1_region & s2_region)
 
     # Create a Universe to encapsulate a fuel pin
-    cell_universe = openmc.Universe(name='universe', cells=[s1_cell, s2_cell])   #!20220117
+    #cell_universe = openmc.Universe(name='universe', cells=[s1_cell, s2_cell])   #!20220117
 
     # Create fuel assembly Lattice
-    assembly = openmc.RectLattice(name='detector arrays')
-    assembly.pitch = (1, 1) #(1, 1)   #!20220124
-    assembly.lower_left = [-1 * 2 / 2.0] * 2    #!20220626  # size-change!
-    assembly.universes = [[cell_universe] * 2] * 2  #! size-change!
+    # assembly = openmc.RectLattice(name='detector arrays')
+    # assembly.pitch = (1, 1) #(1, 1)   #!20220124
+    # assembly.lower_left = [-1 * 2 / 2.0] * 2    #!20220626  # size-change!
+    # assembly.universes = [[cell_universe] * 2] * 2  #! size-change!
 
     #print(assembly)
 
+    #define A1, A2 cell #!20220715
+    A1_cell = openmc.Cell(name='A1 cell', fill=panel, region=A1_region)
+    A2_cell = openmc.Cell(name='A2 cell', fill=insulator, region= ~A1_region & A2_region)
+    A2_cell_vac = openmc.Cell(name='A2_vacant cell', fill=None, region=A2_region)
+    A_cell_universe = openmc.Universe(name='universe', cells=[A1_cell, A2_cell])   #!20220117
+    #define B1, B2 cell #!20220715
+    B1_cell = openmc.Cell(name='B1 cell', fill=panel, region=B1_region)
+    B2_cell = openmc.Cell(name='B2 cell', fill=insulator, region= ~B1_region & B2_region)
+    B2_cell_vac = openmc.Cell(name='B2_vacant cell', fill=None, region=B2_region)
+    B_cell_universe = openmc.Universe(name='universe', cells=[B1_cell, B2_cell])   #!20220117
+    #define C1, C2 cell #!20220715
+    C1_cell = openmc.Cell(name='C1 cell', fill=panel, region=C1_region)
+    C2_cell = openmc.Cell(name='C2 cell', fill=insulator, region= ~C1_region & C2_region)
+    C2_cell_vac = openmc.Cell(name='C2_vacant cell', fill=None, region=C2_region)
+    C_cell_universe = openmc.Universe(name='universe', cells=[C1_cell, C2_cell])   #!20220117
+    #define D1, D2 cell #!20220715
+    D1_cell = openmc.Cell(name='D1 cell', fill=panel, region=D1_region)
+    D2_cell = openmc.Cell(name='D2 cell', fill=insulator, region= ~D1_region & D2_region)
+    D2_cell_vac = openmc.Cell(name='D2_vacant cell', fill=None, region=D2_region)
+    D_cell_universe = openmc.Universe(name='universe', cells=[D1_cell, D2_cell])   #!20220117
+
+
     # Create root Cell
-    arrays_cell = openmc.Cell(name='arrays cell', fill=assembly, region = s3_region)
+    #arrays_cell = openmc.Cell(name='arrays cell', fill=assembly, region = s3_region)
     root_cell = openmc.Cell(name='root cell', fill=None, region = ~s3_region & s4_region)   #!20220117
     #outer_cell = openmc.Cell(name='outer cell', fill=outer, region = ~s4_region & s5_region)   #!20220124
     outer_cell = openmc.Cell(name='outer cell', fill=None, region = ~s4_region & s5_region)   #!20220124
 
     root_universe = openmc.Universe(name='root universe')
-    root_universe.add_cell(arrays_cell)
+    #root_universe.add_cell(arrays_cell)
     root_universe.add_cell(root_cell)
     root_universe.add_cell(outer_cell)
 
+
+    root_universe.add_cell(A1_cell) #!20220715
+    root_universe.add_cell(A2_cell)
+
+    root_universe.add_cell(B1_cell)
+    root_universe.add_cell(B2_cell)
+
+    root_universe.add_cell(C1_cell)
+    root_universe.add_cell(C2_cell)
+
+    root_universe.add_cell(D1_cell) #!20220715
+    root_universe.add_cell(D2_cell)
+
+
     root_universe.plot(width=(10, 10), basis='xy')     #!20220124
     plt.show()   #!20220117
-    plt.savefig('save_fig/geometry_20220201.png')   #!20220117
-    plt.savefig('save_fig/geometry_20220201.pdf')   #!20220117
+    plt.savefig('save_fig/geometry_20220729.png')   #!20220117
+    plt.savefig('save_fig/geometry_20220729.pdf')   #!20220117
     plt.close()
 
     # Create Geometry and export to "geometry.xml"
@@ -200,30 +310,30 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     tallies.append(tally)
 
     # Instantiate tally Filter
-    cell_filter = openmc.CellFilter(s1_cell)
+    # cell_filter = openmc.CellFilter(s1_cell)
 
-    # Instantiate the tally
-    tally = openmc.Tally(name='cell tally')
-    tally.filters = [cell_filter]
-    tally.scores = ['absorption']#['scatter']
-    tally.nuclides = ['Cd114', 'Te130', 'Zn64']
+    # # Instantiate the tally
+    # tally = openmc.Tally(name='cell tally')
+    # tally.filters = [cell_filter]
+    # tally.scores = ['absorption']#['scatter']
+    # tally.nuclides = ['Cd114', 'Te130', 'Zn64']
 
-    # Add mesh and tally to Tallies
-    #tallies.append(tally)
+    # # Add mesh and tally to Tallies
+    # #tallies.append(tally)
 
-    # Instantiate tally Filter
-    distribcell_filter = openmc.DistribcellFilter(s2_cell)
+    # # Instantiate tally Filter
+    # distribcell_filter = openmc.DistribcellFilter(s2_cell)
 
-    # Instantiate tally Trigger for kicks
-    trigger = openmc.Trigger(trigger_type='std_dev', threshold=5e-5)
-    trigger.scores = ['absorption']
+    # # Instantiate tally Trigger for kicks
+    # trigger = openmc.Trigger(trigger_type='std_dev', threshold=5e-5)
+    # trigger.scores = ['absorption']
 
     # Instantiate the Tally
-    tally = openmc.Tally(name='distribcell tally')
-    tally.filters = [distribcell_filter]
-    tally.scores = ['absorption'] #['absorption', 'scatter']
-    tally.nuclides = ['Cd114', 'Te130', 'Zn64']  #!20220117
-    tally.triggers = [trigger]
+    # tally = openmc.Tally(name='distribcell tally')
+    # tally.filters = [distribcell_filter]
+    # tally.scores = ['absorption'] #['absorption', 'scatter']
+    # tally.nuclides = ['Cd114', 'Te130', 'Zn64']  #!20220117
+    # tally.triggers = [trigger]
 
     # Add mesh and tally to Tallies
     #tallies.append(tally)
@@ -546,27 +656,33 @@ def after_openmc(dist, angle, folder1, folder2, seg_angles, header):    #!202205
 #%%
 
 if __name__ == '__main__':
-    num_data = 2000
-    seg_angles = 128
-    dist_min = 50
-    dist_max = 500
+    num_data = 128
+    seg_angles = num_data
     #dist = 100
-    num_particles = 50000
-    header = 'data'
+    #num_particles = 500000
+    #header = 'near'
     #header_dist_dict = {'near': 30, 'far': 200}
-    #header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]}   #!20220518
-    folder1=f'openmc/discrete_2x2_{seg_angles}_data_20220729_v1.2/'
-    folder2=f'openmc/discrete_2x2_{seg_angles}_fig_2022079_v1.2/'
+    header_dist_particles_dict = {'near': [50, 100000], 'far': [500, 100000]}   #!20220518
+    folder1=f'openmc/disc_filter_2x2_{seg_angles}_data_20220729_v1.1/'
+    folder2=f'openmc/disc_filter_2x2_{seg_angles}_fig_20220729_v1.1/'
+    #angle_list = [a*360/num_data for a in range(num_data)]
+    #angle_list = [1+a*360/num_data - 180 for a in range(num_data)]
+    #angle_list = [0.1+a*360/num_data for a in range(num_data)]
+    angle_list = [0.1+a*360/num_data -180 for a in range(num_data)]
+    print("angle_list for " + str(num_data) +" sections of angles:")
+    print(angle_list)
+    for header in header_dist_particles_dict.keys():
+        dist = header_dist_particles_dict[header][0]
+        num_particles = header_dist_particles_dict[header][1]
+        for angle in angle_list:
+            print("]]]]]]]]]]]]]]]]]")
+            print("header: " + header)
+            print("Distance: " + str(dist))
+            print("angle: " + str(angle))
+            #before_openmc(dist, angle, num_particles)
+            before_openmc(dist, angle, num_particles, seg_angles)
+            openmc.run()
+            #after_openmc(dist, angle)
+            mm = after_openmc(dist, angle, folder1, folder2, seg_angles, header)
 
-    for i in range(num_data):
-        dist=np.random.randint(dist_min, dist_max)# + np.random.random(1)
-        #rad_angle=angle  #np.random.randint(0, 359) + np.random.random(1)    #!20220128
-        angle=float(np.random.randint(0, 360) + np.random.random(1))
-        print("]]]]]]]]]]]]]]]]]")
-        #?print("dist: " + str(rad_dist))
-        print("dist: " + str(dist))
-        print("angle: " + str(angle))
-        before_openmc(dist, angle, num_particles, seg_angles)
-        openmc.run()
-        mm = after_openmc(dist, angle, folder1, folder2, seg_angles, header)
-        #after_openmc(dist, rad_angle)
+# %%

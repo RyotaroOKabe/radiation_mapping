@@ -157,6 +157,7 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
     root_universe.plot(width=(22, 22), basis='xy')     #!20220124
     plt.show()   #!20220117
     plt.savefig('save_fig/geometry_20220201.png')   #!20220117
+    plt.savefig('save_fig/geometry_20220201.pdf')
     plt.close()
 
     # Create Geometry and export to "geometry.xml"
@@ -366,6 +367,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     data_json['miu_medium']=1.2   #!20220119 constant!
     data_json['miu_air']=0.00018   #!20220119 constant!
     data_json['output']=get_output([source_x, source_y], seg_angles).tolist()
+    data_json['seg_angles']=seg_angles
     #print('output: ' + str(type(data_json['output'])))
     data_json['miu_de']=0.5   #!20220119 constant!
     mean_list=mean.T.reshape((1, 4)).tolist()    #! size-change!
@@ -408,6 +410,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     #plt.show()   #!20220117
     #plt.savefig('random_savefig/abs_rate_20220118_6.png')   #!20220117
     plt.savefig(folder2 + file2) #   'random_savefig/abs_rate_20220118_6.png')   #!20220117
+    plt.savefig(folder2 + file2[:-3] + 'pdf')
     plt.close()
     print('json dir')
     print(folder1+file1)
@@ -491,7 +494,7 @@ def before_openmc(rad_dist, rad_angle, num_particles, seg_angles):
         #openmc.run(threads=11)
 
 #def after_openmc(rad_dist, rad_angle):      
-def after_openmc(dist, angle, folder1, folder2, header):    #!20220517
+def after_openmc(dist, angle, folder1, folder2, seg_angles, header):    #!20220517
         #folder1='random_savearray/'
         #file1=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.json'
         #file1=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(j)+ '.json'
@@ -524,34 +527,23 @@ def after_openmc(dist, angle, folder1, folder2, header):    #!20220517
     theta=angle*np.pi/180
     rad_x, rad_y=[float(dist*np.cos(theta)), float(dist*np.sin(theta))]   #!20220119
             
-    mm = process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, norm=True)  #!20220201 #!20220119
-    
-        #file11=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.json'
-        #file22=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx+1) + '_' + str(j)+ '.png'
-        #process_aft_openmc(folder1, file11, folder2, file22, rad_x, rad_y, norm=True)  #!20220201 #!20220119
+    mm = process_aft_openmc(folder1, file1, folder2, file2, rad_x, rad_y, seg_angles, norm=True)  #!20220201 #!20220119
 
-    #end = time.time()
-    #end_time = datetime.now()
-    #print("Start at " + str(start_time))
-    #print("Finish at " + str(end_time))
-    #time_s = end - start
-    #print("Total time [s]: " + str(time_s))
-    #print(time.strftime('%H:%M:%S', time.gmtime(time_s)))
     return mm #!20220508
 
 
 #%%
 
 if __name__ == '__main__':
-    num_data = 100
+    num_data = 128
     seg_angles = num_data
     #dist = 100
     #num_particles = 500000
     #header = 'near'
     #header_dist_dict = {'near': 30, 'far': 200}
-    header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]}   #!20220518
-    folder1='openmc/disc_filter_2x2_data_20220728_v1.1/'
-    folder2='openmc/disc_filter_2x2_fig_20220728_v1.1/'
+    header_dist_particles_dict = {'near': [50, 100000], 'far': [500, 100000]}   #!20220518
+    folder1=f'openmc/disc_filter_2x2_{seg_angles}_data_20220729_v1.1/'
+    folder2=f'openmc/disc_filter_2x2_{seg_angles}_fig_20220729_v1.1/'
     #angle_list = [a*360/num_data for a in range(num_data)]
     #angle_list = [1+a*360/num_data - 180 for a in range(num_data)]
     #angle_list = [0.1+a*360/num_data for a in range(num_data)]
@@ -570,6 +562,6 @@ if __name__ == '__main__':
             before_openmc(dist, angle, num_particles, seg_angles)
             openmc.run()
             #after_openmc(dist, angle)
-            mm = after_openmc(dist, angle, folder1, folder2, header)
+            mm = after_openmc(dist, angle, folder1, folder2, seg_angles, header)
 
 # %%
