@@ -37,10 +37,10 @@ record_data=True
 #============================= #!20220331
 
 #shape_name = '2x2'
-file_header = f"A20220729_2x2_v1.1"
+file_header = f"A20220729_2x2_v0.1"
 recordpath = f'mapping_data/mapping_{file_header}'
 #model_path = '../2source_unet_model.pt'    #!20220331
-model_path = f'save_model/model_openmc_tetris_2x2_ep500_bs256_20220729_v1.1_model.pt'
+model_path = f'save_model/model_openmc_2x2_ep100_bs256_20220729_v1.1_model.pt'
 model =torch.load(model_path)
 seg_angles = 128
 
@@ -338,6 +338,7 @@ def main(seg_angles):
             #fig.suptitle('STEP%.3d'%step +'\nReal Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=16) 
             fig.suptitle('Real Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60) 
             fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.png")
+            fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.pdf")   #!20220729
             plt.close(fig)
             #=========================
 
@@ -365,12 +366,14 @@ def main(seg_angles):
     plt.plot(rel_source[:,0], rel_source[:,1])
     plt.title('relative source position')
     plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.pdf')
     plt.close()
     
     xTrue_data = np.array(xTrue_record) #!20220509
     plt.plot(xTrue_data[:,0], xTrue_data[:,1])
     plt.title('xTrue: robot trajectory')
     plt.savefig('mapping_data/save_fig/'+ file_header + '_xTrue.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_xTrue.pdf')
     plt.close()
     
     d_data = np.array(d_record) #!20220509
@@ -379,6 +382,7 @@ def main(seg_angles):
     plt.xlabel('step')
     plt.ylabel('distance [m]')
     plt.savefig('mapping_data/save_fig/'+ file_header + '_dist.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_dist.pdf')
     plt.close()
 
     angle_data = np.array(angle_record) #!20220509
@@ -390,6 +394,7 @@ def main(seg_angles):
     plt.ylabel('angle [deg]')
     plt.legend(loc="upper right")
     plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.pdf')
     plt.close()
 
     #hxTrue_data = hxTrue_record[-1][:, 1:] #!20220509
@@ -399,8 +404,9 @@ def main(seg_angles):
 
     with imageio.get_writer('mapping_data/save_fig/'+file_header + '.gif', mode='I') as writer:
         for figurename in sorted(os.listdir(predictpath)):
-            image = imageio.imread(predictpath + "/" +figurename)
-            writer.append_data(image)
+            if figurename.endswith('png'):  #!20220729
+                image = imageio.imread(predictpath + "/" +figurename)
+                writer.append_data(image)
 
 
     pass
@@ -556,7 +562,7 @@ def gen_materials_geometry_tallies(panel_density, e_filter, *energy):
 
     root_universe.plot(width=(22, 22), basis='xy')     #!20220124
     plt.show()   #!20220117
-    plt.savefig('../save_fig/geometry_20220201.png')   #!20220117
+    plt.savefig('save_fig/geometry_20220201.png')   #!20220117
     plt.close()
 
     # Create Geometry and export to "geometry.xml"

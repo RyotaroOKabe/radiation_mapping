@@ -172,7 +172,7 @@ def get_output_2source_2(sources):
 
 class Dataset(object):
     """docstring for Datasedt"""
-    def __init__(self, seg_angles, output_fun=get_output,path=path):    #!20220729
+    def __init__(self, seg_angles, output_fun,path):    #!20220729
     #def __init__(self, output_fun=get_output,path=path):
         super(Dataset, self).__init__()
         #self.arg = arg

@@ -443,6 +443,7 @@ class Model(object):
         ax1.legend()
         fig.show()
         fig.savefig(fname="save_fig/train_" + save_name + ".png")
+        fig.savefig(fname="save_fig/train_" + save_name + ".pdf")
         plt.close()
 
 
@@ -497,6 +498,7 @@ class Model(object):
         ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
         fig.show()
         fig.savefig(fname="save_fig/test_" + save_name + ".png")
+        fig.savefig(fname="save_fig/test_" + save_name + ".pdf")
         plt.close()
 
 
@@ -537,12 +539,12 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_2x2_ep100_bs256_20220729_v1.1"      #!20220126
+    save_name = "openmc_2x2_ep500_bs256_20220729_v1.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_2x2_100_data_20220728_v1.1'  #!20220716
-    filterpath ='openmc/disc_filter_2x2_100_data_20220729_v1.1'    #!20220716
+    path = 'openmc/discrete_2x2_128_data_20220729_v1.1'  #!20220716
+    filterpath ='openmc/disc_filter_2x2_128_data_20220729_v1.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
-    seg_angles = 100
+    seg_angles = 128
     
     #net = MyNet2()
     net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2)
@@ -603,7 +605,7 @@ if __name__ == '__main__':
     # plt.savefig(fname="save_fig/train_" + save_name + ".png")    #!20220126
     #raw_input()    #!20220104
     #plt.show()
-    model.plot_test(test_set,indx=9, save_name=save_name)
+    model.plot_test(test_set,indx=9, seg_angles=seg_angles, save_name=save_name)
 
 
 # %%

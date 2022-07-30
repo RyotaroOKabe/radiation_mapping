@@ -546,7 +546,7 @@ def after_openmc(dist, angle, folder1, folder2, seg_angles, header):    #!202205
 #%%
 
 if __name__ == '__main__':
-    num_data = 2000
+    num_data = 1000
     seg_angles = 128
     dist_min = 50
     dist_max = 500
