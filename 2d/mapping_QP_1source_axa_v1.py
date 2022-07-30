@@ -22,8 +22,8 @@ import dill #!20220316
 import imageio
 
 fig_folder = 'mapping_data/save_fig/'
-fig_header = 'A20220627_v4.2.1'
-record_path = 'mapping_data/mapping_A20220627_v4.2'
+fig_header = 'A20220729_v1.2.1'
+record_path = 'mapping_data/mapping_A20220729_2x2_v1.2'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 
@@ -111,6 +111,9 @@ def solve_one(m,cji_list,yj_list):
         yj=yj_list[i]
 
 
+        # print(cji.shape)
+        # print(xi.shape)
+        # print(yj.shape)
         dd=cji.dot(xi)-yj
         #print dd.shape
         mp.AddQuadraticCost(dd.dot(dd))

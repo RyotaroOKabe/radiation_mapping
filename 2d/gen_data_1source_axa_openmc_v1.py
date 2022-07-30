@@ -37,12 +37,12 @@ record_data=True
 #============================= #!20220331
 
 #shape_name = '2x2'
-file_header = f"A20220729_2x2_v0.1"
+file_header = f"A20220729_2x2_v1.3"
 recordpath = f'mapping_data/mapping_{file_header}'
 #model_path = '../2source_unet_model.pt'    #!20220331
-model_path = f'save_model/model_openmc_2x2_ep100_bs256_20220729_v1.1_model.pt'
+model_path = f'save_model/model_openmc_2x2_ep500_bs256_20220729_v1.3_model.pt'
 model =torch.load(model_path)
-seg_angles = 128
+seg_angles = 256
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored
 recordpath = 'mapping_data/mapping_' + file_header
@@ -268,10 +268,10 @@ def main(seg_angles):
             predict=model(network_input).detach().cpu().numpy().reshape(-1)
 
             #=========================#!20220509
-            xdata_original=det_output.reshape(2, 3) #reshape(3, 2)  #reshape(2, 2)  #!size-change (x, y) #!20220720
+            xdata_original=det_output.reshape(2, 2) #reshape(2, 3) #reshape(3, 2)  #reshape(2, 2)  #!size-change (x, y) #!20220720
             #xdata_original=np.transpose(xdata_original)
-            ydata=get_output([x, y])
-            pred_out = 9*(np.argmax(predict)-20)    #!20220509
+            ydata=get_output([x, y], seg_angles)    #!20220729
+            pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)    #!20220729
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
             #plt.imshow(xdata_original, interpolation='nearest')  #, cmap="plasma")
@@ -302,7 +302,8 @@ def main(seg_angles):
             ax1.set_xlabel('x')    #!20220520 
             ax1.set_ylabel('y')    #!20220520 
             #plt.colorbar(ax1, colorbar()
-            theta = np.linspace(-90, 270, 40)
+            #theta = np.linspace(-90, 270, 40)
+            theta = np.linspace(-90, 270, seg_angles)   #!20220729
             output1 = predict
             output2 = ydata.tolist()
             #fig2 = plt.figure(figsize=(10,10))
@@ -315,9 +316,9 @@ def main(seg_angles):
                     Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, color=(1-output2[i], 1-output2[i], 1)),
                 )
 
-            c1 = plt.Circle((0, 0), 1, color='k', fill=False)
-            c2 = plt.Circle((0, 0), 0.7, color='k', fill=False)
-            c3 = plt.Circle((0, 0), 0.4, color='k', fill=False)
+            c1 = plt.Circle((0, 0), 1, color='k', lw=5, fill=False)   #!20220729
+            c2 = plt.Circle((0, 0), 0.7, color='k', lw=5, fill=False)
+            c3 = plt.Circle((0, 0), 0.4, color='k', lw=5, fill=False)
             ax2.add_patch(c1)
             ax2.add_patch(c2)
             ax2.add_patch(c3)
@@ -1187,7 +1188,7 @@ def cal_yj(input_data,output_data):
 
     pass
 #%%
-def test():
+def test(seg_angles):   #!20220729
     plt.figure()
 
     cmap = matplotlib.cm.get_cmap('gray')
@@ -1195,7 +1196,7 @@ def test():
     m=Map([-5,5,10],[-5,5,10])
     pose=np.array([2.2,2.2,np.pi/2]).reshape((3,1))
 
-    cji=cal_cji(m,pose)
+    cji=cal_cji(m,pose,seg_angles)
 
     j=5
 
@@ -1250,7 +1251,7 @@ def test2():
 
 #%%
 
-def write_data(recordpath): #!20220717
+def write_data(seg_angles, recordpath): #!20220729
     #recordpath = '../../../data/drd/mapping_0803' # NN prediction results are stored under this folder, each .pkl file stores one measurement (NN output and measurement poses)
     #recordpath = '../../../data/drd/mapping_20220322'   #!20220322
     #recordpath = 'mapping_20220322'   #!20220322
@@ -1288,7 +1289,7 @@ def write_data(recordpath): #!20220717
         pose=data['hxTrue'][:,-1] # pose of the detector
         print(filename)  #!20220206
 
-        cji=cal_cji(m,pose)
+        cji=cal_cji(m,pose, seg_angles) #!20220729
         yj=cal_yj(det_output,predict)
 
         data['cji']=cji
@@ -1319,5 +1320,5 @@ def write_data(recordpath): #!20220717
 #%%
 if __name__ == '__main__':
     main(seg_angles)
-    write_data(recordpath)
+    write_data(seg_angles, recordpath)
 

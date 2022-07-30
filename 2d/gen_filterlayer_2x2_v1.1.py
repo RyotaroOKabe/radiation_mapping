@@ -535,7 +535,7 @@ def after_openmc(dist, angle, folder1, folder2, seg_angles, header):    #!202205
 #%%
 
 if __name__ == '__main__':
-    num_data = 128
+    num_data = 256
     seg_angles = num_data
     #dist = 100
     #num_particles = 500000
