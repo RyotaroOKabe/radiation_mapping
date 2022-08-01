@@ -648,7 +648,7 @@ def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,sou
 #%%
 if __name__ == '__main__': #!20220508
     path = 'openmc/discrete_2x2_256_data_20220729_v2.3'  #!20220716
-    filterpath ='openmc/disc_filter_2x2_256_data_20220729_v1.2'    #!20220716
+    filterpath ='openmc/disc_filter_2x2_256_data_20220729_v2.2'    #!20220716
     filterdata=FilterData(filterpath)  
     filterdata2=FilterData2(filterpath)      
     filterdata=FilterData(filterpath)  

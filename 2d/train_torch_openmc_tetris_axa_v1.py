@@ -539,12 +539,12 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_2x2_ep500_bs256_20220729_v1.3"      #!20220126
+    save_name = "openmc_2x2_ep500_bs256_20220729_v2.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_2x2_256_data_20220729_v1.3'  #!20220716
-    filterpath ='openmc/disc_filter_2x2_256_data_20220729_v1.2'    #!20220716
+    path = 'openmc/discrete_2x2_128_data_20220729_v2.1'  #!20220716
+    filterpath ='openmc/disc_filter_2x2_128_data_20220729_v2.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
-    seg_angles = 256
+    seg_angles = 128
     
     #net = MyNet2()
     net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2)
