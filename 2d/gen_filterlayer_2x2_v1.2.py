@@ -656,15 +656,15 @@ def after_openmc(dist, angle, folder1, folder2, seg_angles, header):    #!202205
 #%%
 
 if __name__ == '__main__':
-    num_data = 128
+    num_data = 256
     seg_angles = num_data
     #dist = 100
     #num_particles = 500000
     #header = 'near'
     #header_dist_dict = {'near': 30, 'far': 200}
     header_dist_particles_dict = {'near': [50, 100000], 'far': [500, 100000]}   #!20220518
-    folder1=f'openmc/disc_filter_2x2_{seg_angles}_data_20220729_v2.1/'
-    folder2=f'openmc/disc_filter_2x2_{seg_angles}_fig_20220729_v2.1/'
+    folder1=f'openmc/disc_filter_2x2_{seg_angles}_data_20220729_v2.2/'
+    folder2=f'openmc/disc_filter_2x2_{seg_angles}_fig_20220729_v2.2/'
     #angle_list = [a*360/num_data for a in range(num_data)]
     #angle_list = [1+a*360/num_data - 180 for a in range(num_data)]
     #angle_list = [0.1+a*360/num_data for a in range(num_data)]
