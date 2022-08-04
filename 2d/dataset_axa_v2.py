@@ -2,8 +2,6 @@
 import numpy as np
 import json
 import os
-import torch   #!20220508
-
 
 def get_output(source, num):    #!20220728
     #sec_center=np.linspace(-np.pi,np.pi,41)
@@ -49,7 +47,7 @@ def get_output(source, num):    #!20220728
 #     # raw_input()
 #     return output
 
-def get_output_2source(sources, num):
+def get_output_2source(sources, num):   #!20220804
     sec_center=np.linspace(-np.pi,np.pi,num+1)
     output=np.zeros(num)
     sec_dis=2*np.pi/num
@@ -103,10 +101,10 @@ def get_output_2source_2(sources):
 # names=[]
 
 # #path='../../data/drd/data_2source_0302'
-# path='../../data/drd/data_0402'
-# path = 'openmc/discrete_data_20220502_v1.1' #!20220508
-# path = 'openmc/discrete_2x2_data_20220627_v1'    #!20220626
-#path = 'openmc/discrete_data_20220503_v1.1.1'
+path='../../data/drd/data_0402'
+path = 'openmc/discrete_data_20220502_v1.1'
+path = 'openmc/discrete_data_20220503_v1.1.1'
+path = 'openmc/discrete_2x2_data_20220627_v1'    #!20220626
 #path='openmc/data_20220301_3.1/' # mean = 1, stdev = 1
 #path='openmc/data_20220226_1.2/'
 #path='openmc/datafolder_test/'
@@ -181,9 +179,6 @@ class Dataset(object):
         self.source_list=[]
         xdata=[]
         ydata=[]
-        xdata_dict=dict() #!20220508
-        ydata_dict=dict() #!20220508
-        keys = []   #!20220508
         for filename in files:
             #print os.path.join(path,filename)
             if not filename.endswith('.json'):continue
@@ -191,54 +186,30 @@ class Dataset(object):
                 data=json.load(f)
                 self.names.append(filename)
                 xdata.append(data['input'])
-                ydata.append(output_fun(data['source'], seg_angles))
+                #ydata.append(output_fun(data['source']))
+                ydata.append(output_fun(data['source'], seg_angles))    #!20220729
                 source=data['source']
                 #yangle.append(np.arctan2(source[1],source[0]))
-                self.source_list.append(source)
-                keys.append(filename)   #!20220508
-                xdata_dict[filename]=data['input'] #!20220508
-                ydata_dict[filename]=output_fun(data['source'], seg_angles) #!20220508
-                #print(xdata)    #!20220119
-                #print(len(xdata))    #!20220119
-                #print('\n')
-                #print(filename)
+                self.source_list.append(data['source'])
 
         xdata=np.array(xdata)
         ydata=np.array(ydata)
 
         xx=xdata
         yy=ydata
-        kk=keys   #!20220508
 
         self.xdata=xdata
         self.ydata=ydata
-        self.xdata_dict=xdata_dict    #!20220508
-        self.ydata_dict=ydata_dict
         self.data_size=xdata.shape[0]
-        self.keys = keys   #!20220508
 
 class Trainset(object):
     """docstring for Trainset"""
-    #def __init__(self, xdata,ydata,info=None,source_num=[2],prob=[1.]):
-    #def __init__(self, xdata,ydata,keys, info=None,source_num=[2],prob=[1.]):
-    def __init__(self, xdata_dict, ydata_dict, keys, info=None,source_num=[2],prob=[1.]): #!20220508
+    def __init__(self, xdata,ydata,info=None,source_num=[2],prob=[1.]):
         super(Trainset, self).__init__()
         #self.arg = arg
         self.info=info
-        #self.xdata=xdata #!20220508
-        #self.ydata=ydata #!20220508
-        self.keys = keys   #!20220508
-        self.xdata_dict=xdata_dict #!20220508
-        self.ydata_dict=ydata_dict #!20220508
-        xdata=[] #!20220508
-        ydata=[] #!20220508
-        for k in self.keys: #!20220508
-            xdata.append(xdata_dict[k])
-            ydata.append(xdata_dict[k])
-        xdata=np.array(xdata) #!20220508
-        ydata=np.array(ydata) #!20220508
-        self.xdata=xdata #!20220508
-        self.ydata=ydata #!20220508
+        self.xdata=xdata
+        self.ydata=ydata
         self.ws=xdata.mean(axis=1)
         self.data_size=xdata.shape[0]
         self.x_size=xdata.shape[1]
@@ -249,46 +220,6 @@ class Trainset(object):
         self.prob=prob
         #self.data_size=xdata.shape[1]
 
-    def get_batch_dict(self,bs):
-        source_num=self.source_num
-        prob=self.prob
-
-        xs=[]
-        ys=[]
-        for i in range(bs):
-            #x,y=self.get_one_data(source_num,prob)
-            x,y=self.get_one_data(i,source_num,prob)
-            x=x.reshape(1,-1)
-            y=y.reshape(1,-1)
-            xs.append(x)
-            ys.append(y)
-            pass
-
-        xx=np.concatenate(xs)
-        yy=np.concatenate(ys)
-
-        mm=xx[:,:].mean(axis=1,keepdims=True)
-        vv=xx[:,:].var(axis=1,keepdims=True)
-        mm=np.tile(mm,(1,xx.shape[1]))
-        vv=np.tile(vv,(1,xx.shape[1]))
-        #mm=mm.reshape((x_data.shape[0],-1))
-        xx=(xx-mm)/np.sqrt(vv)
-
-        xx_dict=dict()
-        yy_dict=dict()
-        
-        #!20220508
-        for i in range(len(self.keys)):
-            key = self.keys[i]
-            xx_line = xx[i, :]
-            yy_line = yy[i, :]
-            xx_dict[key] = xx_line
-            yy_dict[key] = yy_line
-
-        #return xx,yy
-        return xx_dict,yy_dict
-    
-
     def get_batch(self,bs):
         source_num=self.source_num
         prob=self.prob
@@ -296,8 +227,7 @@ class Trainset(object):
         xs=[]
         ys=[]
         for i in range(bs):
-            #x,y=self.get_one_data(source_num,prob)
-            x,y=self.get_one_data(i,source_num,prob) #!20220508
+            x,y=self.get_one_data(source_num,prob)
             x=x.reshape(1,-1)
             y=y.reshape(1,-1)
             xs.append(x)
@@ -315,8 +245,6 @@ class Trainset(object):
         xx=(xx-mm)/np.sqrt(vv)
 
         return xx,yy
-
-
 
     def get_batch_fixsource(self,bs,source_num):
         #source_num=self.source_num
@@ -353,29 +281,18 @@ class Trainset(object):
         return xx,yy
 
 
-    #def get_one_data(self,source_num,prob):
-    def get_one_data(self,data_indx, source_num,prob): #!20220508
+    def get_one_data(self,source_num,prob):
         num=np.random.choice(source_num,p=np.array(prob,dtype=np.float64)/np.sum(prob))
-        print('random_choice_source') #!20220508
-        print(num) #!20220508
-        #data_indx=np.random.choice(self.index_list,size=num)
-        #print('random_choice_data_index')
-        print('>>> data_index in the correct order: ' + str(data_indx)) #!20220508
-        
+        data_indx=np.random.choice(self.index_list,size=num)
 
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
 
         ws=0.
-        #for indx in data_indx:
-            #x+=self.xdata[indx,:]   #!20220119
-            #ws+=self.ws[indx]
-            #y+=self.ws[indx]*self.ydata[indx,:]
-
-        #for indx in data_indx:
-        x+=self.xdata[data_indx,:]   #!20220119
-        ws+=self.ws[data_indx] #!20220508
-        y+=self.ws[data_indx]*self.ydata[data_indx,:] #!20220508
+        for indx in data_indx:
+            x+=self.xdata[indx,:]   #!20220119
+            ws+=self.ws[indx]
+            y+=self.ws[indx]*self.ydata[indx,:]
 
         #print('ws_point3')   #!20220303
         #y=y/ws   #!20220303
@@ -428,8 +345,7 @@ class Trainset(object):
         train_x=np.concatenate(train_xs)
         train_y=np.concatenate(train_ys)
 
-        #train=Trainset(train_x,train_y,source_num=source_num,prob=prob)
-        train=Trainset(train_x,train_y, source_num=source_num,prob=prob)
+        train=Trainset(train_x,train_y,source_num=source_num,prob=prob)
 
         return train,test
 
@@ -464,9 +380,9 @@ class Testset(object):
         xs=[]
         ys=[]
 
-        if True:    #!20220804
         #if source_num==[1]:# and self.data_size_raw==self.data_size:
             #print 'haha'
+        if True:    #!20220804
 
             xx=self.xdata
             yy=self.ydata
@@ -600,12 +516,13 @@ class FilterData(object):
         self.size=filter_data.shape[0]
 
 # filterpath='../../data/drd/filter_0407'
-# filterpath ='openmc/disc_filter_2x2_data_20220627_v1.1' #!20220626
-# #filterdata=FilterData(filterpath)  
+# filterpath ='openmc/disc_filter_2x2_data_20220627_v1.1'
+# filterdata=FilterData(filterpath)  
 # filterdata2=FilterData2(filterpath)      
 
-def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,source_num,prob,seed):
-
+#def load_data(test_size,train_size=None,test_size_gen=None,output_fun=get_output,path=path,source_num=[2],prob=[1.],seed=None):
+#def load_data(test_size,train_size=None,test_size_gen=None,seg_angles=40,output_fun=get_output,path=path,source_num=[2],prob=[1.],seed=None):
+def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,source_num,prob,seed):
 
     if test_size_gen is None:
         if source_num==[1]:
@@ -614,21 +531,19 @@ def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,sou
             test_size_gen=test_size*2
 
 
-    data_set=Dataset(seg_angles, output_fun=output_fun,path=path)
+    #data_set=Dataset(output_fun=output_fun,path=path)
+    data_set=Dataset(seg_angles,output_fun=output_fun,path=path)
     data_size=data_set.data_size
 
     if train_size is None:
         train_size=data_set.data_size-test_size
 
-    #train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:], keys, source_num=source_num,prob=prob)
-    train_set=Trainset(data_set.xdata_dict,data_set.ydata_dict, data_set.keys, source_num=source_num,prob=prob) #!20220508
+    train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:],source_num=source_num,prob=prob)
     test_set=Testset(data_set.xdata[train_size:data_size,:],
             data_set.ydata[train_size:data_size,:],
             test_size_gen,source_num=source_num,prob=prob,seed=seed)
 
-    #return train_set,test_set #!20220508
-
-    return train_set,test_set, data_set #!20220508
+    return train_set,test_set
 
 # def load_data_1source(test_size,train_size=None,output_fun=get_output,path=path):
 
@@ -646,129 +561,37 @@ def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,sou
 
 #     return train_set,test_set
 
-#%%
-if __name__ == '__main__': #!20220508
-    path = 'openmc/discrete_10x10_128_data_20220803_v2.1'  #!20220716
-    filterpath ='openmc/disc_filter_2x2_128_data_20220729_v1.1'    #!20220716
+if __name__ == '__main__':
+    path = 'openmc/discrete_2x2_100_data_20220728_v1.1'  #!20220716
+    filterpath ='openmc/disc_filter_2x2_100_data_20220729_v1.1'    #!20220716
     filterdata=FilterData(filterpath)  
     filterdata2=FilterData2(filterpath)      
-    # filterdata=FilterData(filterpath)  
-    # filterdata2=FilterData2(filterpath)      
-    seg_angles = 128
-    GPU_INDEX = 1#0
-    USE_CPU = False
-    # print torch.cuda.is_available()
-    if torch.cuda.is_available() and not USE_CPU:
-        DEFAULT_DEVICE = torch.device("cuda:%d"%GPU_INDEX) 
-        torch.cuda.set_device(GPU_INDEX)
-        torch.set_default_tensor_type(torch.cuda.DoubleTensor)
-    else:
-        DEFAULT_DEVICE = torch.device("cpu")
-
-    DEFAULT_DTYPE = torch.double
-
-    #num_data = 3
-    #batch_size = 1000
-    datas = []
-    #train_set,test_set, data_set=load_data(test_size=0,train_size=None,test_size_gen=None,seg_angles=seg_angles,output_fun=get_output,path=path,source_num=[1],prob=[1.],seed=None)
-    train_set,test_set, data_set=load_data(test_size=0,train_size=None,test_size_gen=None,seg_angles=seg_angles,
-                                           output_fun=get_output_2source,path=path,source_num=[1, 1],prob=[1., 1.],seed=None)  #!20220804
-    #train_set,test_set=load_data(0, source_num=[1])
-    print('train_len')
-    train_len = train_set.data_size
-    print(train_len)
-    batch_size = train_len
-    #for i in range(num_data):
-    data_x, data_y=train_set.get_batch(batch_size)
-    print('x_shape')
-    print(data_x.shape)
-    print('y_shape')
-    print(data_y.shape)
-            
-    data_x = torch.from_numpy(data_x).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20211230
-    data_y = torch.from_numpy(data_y).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20211230
-
-    datas.append((data_x,data_y))
-
-    #=======The dimension check!=========#!20220508
-    print("=======The dimension check start!=========")
-    print("datay")
-    print(data_y)
-    print(data_y.shape)
-    print(torch.sum(data_y))#,dim=1,keepdim=True))
-    #=======The dimension check!=========#!20220508
-
-    #=======The dimension check!=========#!20220508
-    print("=======The dimension check start!=========")
-    print("datay")
-    key_list = data_set.keys
-    y_num = data_y.shape[0]
-    ng_list = []
-    old_ng_list = []
-    for i in range(y_num):
-        k = key_list[i]
-        if k.endswith('.json'):   ##!20220720
-            y_line = data_y[i,:]
-            y_line_sum = float(torch.sum(y_line))
-            print(k + ": "+ str(y_line_sum))
-            if y_line_sum == 0:
-                ng_list.append(k)
-        else:   #!20220720
-            old_ng_list.append(k)
-        #print(y_line)
-    #print(data_y)
-    print(data_y.shape)
-    print(torch.sum(data_y))#,dim=1,keepdim=True))
-    #=======The dimension check!=========#!20220508
     
-    #+++++++++++++++
-    
-    data_x_dict, data_y_dict=train_set.get_batch_dict(batch_size)
-    print('x_len')
-    print(len(data_x_dict))
-    print('y_len')
-    print(len(data_y_dict))
-            
-    #data_x = torch.from_numpy(data_x).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20211230
-    #data_y = torch.from_numpy(data_y).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)    #!20211230
+    path2 = 'openmc/discrete_10x10_128_data_20220803_v2.1'
+    # train_set,test_set=load_data(600)
+    # x,y=train_set.get_batch(10)
+    # x,y=test_set.get_batch(11,54)
+    # a,b=train_set.split(5,0)
+    # print test_set.data_size
+    # print a.get_batch(10)
 
-    #datas.append((data_x,data_y))
+    train_set,test_set=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=100,output_fun=get_output,path=path,source_num=[1],prob=[1.],seed=None)
+    train_set2,test_set2=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=128,output_fun=get_output_2source,path=path2,source_num=[1, 1],prob=[1., 1.],seed=None)
 
-    #=======The dimension check!=========#!20220508
-    print("=======The dimension check start!=========")
-    print("datay")
-    print(data_y_dict)
-    print(len(data_y_dict))
-    #print(torch.sum(data_y))#,dim=1,keepdim=True))
-    #=======The dimension check!=========#!20220508
+    #print(test_set.data_size)#.get_batch(1,10)
+    #print(train_set.data_size)#.get_batch(1))
 
-    #=======The dimension check!=========#!20220508
-    print("=======The dimension check start (dict)!=========")
-    print("datay")
-    key_list = data_set.keys
-    y_dict_num = len(data_y_dict)
-    ng_list_2 = []
-    for i in range(y_dict_num):
-        k = key_list[i]
-        y_dict_line = data_y_dict[k]
-        y_dict_line_sum = sum(y_dict_line)
-        print(k + ": "+ str(y_dict_line_sum))
-        if y_dict_line_sum == 0:
-            ng_list_2.append(k)
-        #print(y_line)
-    #print(data_y)
-    #print(data_y.shape)
-    #print(torch.sum(data_y))#,dim=1,keepdim=True))
-    #=======The dimension check!=========#!20220508
-    
-    os.system(f"cp -r {path} {path}_original") #!20220626
-    
-    for fn in ng_list:
-        os.system(f"mv {path}/{fn} {path}/{fn[:-4]}txt")
-    print("old_ng_list length: ", len(old_ng_list))
-    print("ng_list length: ", len(ng_list))
-    total_ng_list = list(set(ng_list + old_ng_list))    #!20220720
-    print("total_ng_list length: ", len(total_ng_list))
+    #tt,tt_t=train_set.split(3,1)
 
-                
+    #print(tt.data_size)
+    #print(tt.get_batch_fixsource(6,2))
+    # print x.shape,y.shape
+    # filterdata=FilterData(filterpath)
+    # print filterdata.data[0,:]
+    # print filterdata.size
+    # np.random.seed(1)
+    # print np.random.rand(1)
+    # np.random.seed(None)
+    # print np.random.rand(1)
+
 # %%
