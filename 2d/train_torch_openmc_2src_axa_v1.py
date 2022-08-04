@@ -433,6 +433,9 @@ class Model(object):
     #     plt.legend()
 
     def plot_train_curve(self, save_name):     #!20220716
+        figpath = "save_fig/" + save_name
+        if not os.path.isdir(figpath):
+            os.mkdir(figpath)
         fig = plt.figure(figsize=(6, 6), facecolor="white")
         ax1 = fig.add_subplot(111)
         #plt.figure()
@@ -442,8 +445,8 @@ class Model(object):
         ax1.set_ylabel('Error')
         ax1.legend()
         fig.show()
-        fig.savefig(fname="save_fig/train_" + save_name + ".png")
-        fig.savefig(fname="save_fig/train_" + save_name + ".pdf")
+        fig.savefig(fname=f"{figpath}/train.png")
+        fig.savefig(fname=f"{figpath}/train.pdf")
         plt.close()
 
 
@@ -475,6 +478,11 @@ class Model(object):
     #def plot_test(self,test,indx, save_name):
     def plot_test(self,test,indx, seg_angles, save_name):
 
+        figpath = "save_fig/" + save_name
+        if not os.path.isdir(figpath):
+            os.mkdir(figpath)
+        #os.system('rm ' + figpath + "/*")    #!20220509
+
         test_x,test_y=test.get_batch(1,indx)
 
         #test_y = 
@@ -497,8 +505,8 @@ class Model(object):
         ax1.set_xlim([-180,180])
         ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
         fig.show()
-        fig.savefig(fname="save_fig/test_" + save_name + ".png")
-        fig.savefig(fname="save_fig/test_" + save_name + ".pdf")
+        fig.savefig(fname=f"{figpath}/test_{indx}.png")
+        fig.savefig(fname=f"{figpath}/test_{indx}.pdf")
         plt.close()
 
 
@@ -539,12 +547,13 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_2x2_ep100_bs256_20220803_v1.1"      #!20220126
+    save_name = "openmc_10x10_ep500_bs256_20220803_v1.1"      #!20220126
     #=========================================================
     path = 'openmc/discrete_10x10_128_data_20220803_v2.1'  #!20220716
     filterpath ='openmc/disc_filter_10x10_128_data_20220804_v1.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
     seg_angles = 128
+    test_size = 50
     
     #net = MyNet2()
     net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2)
@@ -568,7 +577,7 @@ if __name__ == '__main__':
     model = Model(net, loss_train, loss_val,reg=0.001)
 
     #train_set,test_set=load_data(50, source_num=[1])
-    train_set,test_set=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=seg_angles,output_fun=get_output_2source,path=path,source_num=[1,1],prob=[1., 1.],seed=None)
+    train_set,test_set=load_data(test_size=test_size,train_size=None,test_size_gen=None,seg_angles=seg_angles,output_fun=get_output_2source,path=path,source_num=[1,1],prob=[1., 1.],seed=None)
     #train_set,test_set=load_data(600, source_num=[1])   #!20220508
     #print(train_set)
     #print(test_set) #!20220303
@@ -591,7 +600,7 @@ if __name__ == '__main__':
         {"params": net.l1.Wn1, 'lr': 3e-5}
         ], lr=0.001)
 
-    model.train(optim,train_set,test_set,epochs=100,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
+    model.train(optim,train_set,test_set,epochs=500,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
     #model.train(optim,train_set,test_set,epochs=6000,batch_size=256,acc_func=None, verbose=10)
 
     #model.save('test8')
@@ -605,7 +614,9 @@ if __name__ == '__main__':
     # plt.savefig(fname="save_fig/train_" + save_name + ".png")    #!20220126
     #raw_input()    #!20220104
     #plt.show()
-    model.plot_test(test_set,indx=9, seg_angles=seg_angles, save_name=save_name)
+    #model.plot_test(test_set,indx=9, seg_angles=seg_angles, save_name=save_name)
+    for i in range(test_size):
+        model.plot_test(test_set,indx=i, seg_angles=seg_angles, save_name=save_name)
 
 
 # %%

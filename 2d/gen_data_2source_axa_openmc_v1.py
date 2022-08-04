@@ -40,7 +40,7 @@ record_data=True
 file_header = f"A20220804_10x10_v1.1"
 recordpath = f'mapping_data/mapping_{file_header}'
 #model_path = '../2source_unet_model.pt'    #!20220331
-model_path = f'save_model/model_openmc_2x2_ep500_bs256_20220729_v2.1_model.pt'
+model_path = f'save_model/model_openmc_10x10_ep500_bs256_20220803_v1.1_model.pt'
 model =torch.load(model_path)
 seg_angles = 128
 a_num = 10
@@ -135,7 +135,7 @@ def motion_model(x, u):
 #def openmc_simulation_uniform(source, header):
 def openmc_simulation_uniform(sources_d_th, header, seg_angles):  #!20220717
 
-    num_particles = 100000 #50000
+    num_particles = 50000 #50000
 
     # rad_x= source[0]*100    #!20220509 use [cm] instead of m in openmc
     # rad_y= source[1]*100
@@ -204,7 +204,7 @@ def main(seg_angles):
                 # convert source location in world frame to detector frame
                 dx = RSID[i, 0] - xTrue[0, 0]
                 dy = RSID[i, 1] - xTrue[1, 0]
-                d = math.sqrt(dx**2 + dy**2) * 100 # unit m > ch    #!20220804
+                d = math.sqrt(dx**2 + dy**2) # * 100 # unit m > ch    #!20220804
                 angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
 
                 x=d*np.cos(angle)
@@ -214,7 +214,7 @@ def main(seg_angles):
 
                 source_list.append([x,y,rate])
                 
-                src_xy = [x, y]
+                src_xy = [100*x, 100*y]
                 source_x_y_c = {}
                 source_x_y_c['position']=src_xy
                 source_x_y_c['counts']=source_energies[i]
@@ -227,21 +227,6 @@ def main(seg_angles):
                 angle_line.append(angle*180/np.pi)
                 dist_ang_list.append([d, angle*180/np.pi])
                 sources_d_th.append([d, angle*180/np.pi, source_energies[i]])   #!20220804
-                
-                
-            #dx = RSID[0] - xTrue[0, 0]
-            #dy = RSID[1] - xTrue[1, 0]
-            #d = math.sqrt(dx**2 + dy**2)
-            #angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
-            #x=d*np.cos(angle)
-            #y=d*np.sin(angle)
-            #rate=RSID[2]
-            #source.append(x,y,rate)
-            #source=[x,y,rate]   #relative vector
-            
-            #relsrc.append([x,y])#!20220509
-            #d_record.append([step, d])
-            #angle_record.append([step, angle*180/np.pi])
 
             relsrc.append(relsrc_line)#!20220509
             d_record.append(d_record_line)
@@ -252,12 +237,7 @@ def main(seg_angles):
             print(step,'simulation start')
             print("source")
             print(source_list)
-            #print(len(source))
-            
-            # replace this line with openmc simulation function
-            #det_output=simulation(source_list)     #!20220331
-            #det_output=openmc_simulation_uniform(source)
-            #det_output=openmc_simulation_uniform(source, 'STEP%.3d'%step, seg_angles)   #!20220717
+
             det_output=openmc_simulation_uniform(sources_d_th, 'STEP%.3d'%step, seg_angles)   #!20220717
             print('det_output')
             print(type(det_output))
@@ -270,38 +250,22 @@ def main(seg_angles):
             network_input = (det_output-det_output.mean())/np.sqrt(det_output.var()) # normalization
             network_input = np.transpose(network_input) #!20220509
             network_input = network_input.reshape(1,-1)
-            #print('network1')
-            #print(network_input)
-            #print(type(network_input))
-            network_input = torch.from_numpy(network_input).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
-            #print('network2')
-            #print(network_input)
-            #print(type(network_input))
 
-            #predict=model(network_input).detach().cpu().numpy().reshape(-1)
+            network_input = torch.from_numpy(network_input).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
+
             predict=model(network_input).detach().cpu().numpy().reshape(-1)
 
             #=========================#!20220509
             xdata_original=det_output.reshape(a_num, a_num) #reshape(2, 3) #reshape(3, 2)  #reshape(2, 2)  #!size-change (x, y) #!20220804
             #xdata_original=np.transpose(xdata_original)
             ydata=get_output([x, y], seg_angles)    #!20220729
-            ydata = get_output_2source(sources, seg_angles)
+            ydata = get_output_2source(sources_x_y_c, seg_angles)
             pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)    #!20220729
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
-            #plt.imshow(xdata_original, interpolation='nearest')  #, cmap="plasma")
-            #ds, ag = d, angle*180/np.pi
-            #plt.title('R_dist: ' + str(round(ds, 5)) + ' [m],  R_angle: ' + str(round(ag, 5)) + '[deg]\nP_angle: ' + str(pred_out))
-            #plt.xlabel('y')    #!20220502 
-            #plt.ylabel('x')    #!20220502 
-            #plt.colorbar()
-            #plt.savefig(predictpath + '/' + 'STEP%.3d.pkl'%step + "_predict.png")
-            #plt.close()
-            
+
             fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(40,20))    #!20220520
-            #fig1 = plt.figure(figsize=(10,10))
-            #ax1 = fig1.set_subplot(121, frameon=False)
-            #xdata_show = np.flip(np.transpose(xdata_original), 0)
+
             xdata_show = np.flip(xdata_original, 0)
             xdata_show = np.flip(xdata_show, 1)
             ax1.imshow(xdata_show, interpolation='nearest', cmap="plasma")
@@ -969,16 +933,6 @@ def before_openmc(a_num, sources_d_th, num_particles, seg_angles):  #!20220803
 
 #def after_openmc(rad_dist, rad_angle):      
 def after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header):    #!20220517
-        #folder1='random_savearray/'
-        #file1=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.json'
-        #file1=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(j)+ '.json'
-        #file1=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(num_particles)+ '.json'
-        #folder2='random_savefig/'
-        #file2=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.png'
-        #file2=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(j)+ '.png'
-        #file2=str(round(rad_dist, 5)) + '_' + str(round(rad_angle, 5)) + '_' + str(idx) + '_' + str(num_particles)+ '.png'
-    #folder1='filterpath/filterdata_v9/'
-    #file1=str(round(rad_dist[0], 5)) + '_' + str(round(rad_angle[0], 5)) + '.json'
     num_sources = len(sources_d_th)
     d_a_seq = ""
     for i in range(num_sources):
