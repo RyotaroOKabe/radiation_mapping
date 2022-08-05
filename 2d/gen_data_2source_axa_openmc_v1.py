@@ -37,13 +37,13 @@ record_data=True
 #============================= #!20220331
 
 #shape_name = '2x2'
-file_header = f"A20220804_10x10_v2.2"
+file_header = f"A20220804_3x3_v1.1"
 recordpath = f'mapping_data/mapping_{file_header}'
 #model_path = '../2source_unet_model.pt'    #!20220331
-model_path = f'save_model/model_openmc_10x10_ep500_bs256_20220803_v1.1_model.pt'
+model_path = f'save_model/model_openmc_3x3_ep500_bs256_20220804_v1.1_model.pt'
 model =torch.load(model_path)
 seg_angles = 128
-a_num = 10
+a_num = 3
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored
 recordpath = 'mapping_data/mapping_' + file_header

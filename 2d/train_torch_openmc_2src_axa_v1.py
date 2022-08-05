@@ -547,10 +547,10 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_10x10_ep500_bs256_20220803_v1.1"      #!20220126
+    save_name = "openmc_3x3_ep500_bs256_20220804_v1.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_10x10_128_data_20220803_v2.1'  #!20220716
-    filterpath ='openmc/disc_filter_10x10_128_data_20220804_v1.1'    #!20220716
+    path = 'openmc/discrete_3x3_128_data_20220804_v1.1'  #!20220716
+    filterpath ='openmc/disc_filter_3x3_128_data_20220804_v1.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
     seg_angles = 128
     test_size = 50
@@ -604,7 +604,7 @@ if __name__ == '__main__':
     #model.train(optim,train_set,test_set,epochs=6000,batch_size=256,acc_func=None, verbose=10)
 
     #model.save('test8')
-    model.save('model_' + save_name)     #!20220126
+    #model.save('model_' + save_name)     #!20220126
     model.save('save_model/model_' + save_name)     #!20220126
 
     #model.plot_train_curve()
