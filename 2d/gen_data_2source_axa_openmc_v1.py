@@ -37,7 +37,7 @@ record_data=True
 #============================= #!20220331
 
 #shape_name = '2x2'
-file_header = f"A20220804_10x10_v1.1"
+file_header = f"A20220804_10x10_v2.2"
 recordpath = f'mapping_data/mapping_{file_header}'
 #model_path = '../2source_unet_model.pt'    #!20220331
 model_path = f'save_model/model_openmc_10x10_ep500_bs256_20220803_v1.1_model.pt'
@@ -79,7 +79,8 @@ LM_SIZE = 3
 #RSID = np.array([10.0,20.0,100000000])   #1 source
 #RSID = np.array([0.0,10.0,100000000])   #1 source
 #RSID = np.array([5.0,5.0,100000000])   #1 source
-RSID = np.array([[5.0,5.0,5000000],[-6.0,12.0,10000000]])    # 2 sources, #!20220804
+#RSID = np.array([[0.0,1.0,0.5e6],[0.0,10.0,0.5e6]])    # 2 sources, #!20220804
+RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
 source_energies = [0.5e6, 0.5e6]
 
 #SIM_STEP=25
@@ -137,6 +138,9 @@ def openmc_simulation_uniform(sources_d_th, header, seg_angles):  #!20220717
 
     num_particles = 50000 #50000
 
+    num_sources = len(sources_d_th)
+    for i in range(num_sources):
+        sources_d_th[i][0] *= 100
     # rad_x= source[0]*100    #!20220509 use [cm] instead of m in openmc
     # rad_y= source[1]*100
     # rad_dist = np.sqrt(rad_x**2 + rad_y**2) #!20220331 I need to change it later..
@@ -206,6 +210,13 @@ def main(seg_angles):
                 dy = RSID[i, 1] - xTrue[1, 0]
                 d = math.sqrt(dx**2 + dy**2) # * 100 # unit m > ch    #!20220804
                 angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
+                print('RSID:', [RSID[i, 0],RSID[i, 1]])
+                print('xTrue:', [xTrue[0, 0],xTrue[1, 0]])
+                print('d:', d)
+                print('[dx, dy]:', [dx, dy])
+                print('angle (rad): ', angle)
+                print('angle (deg): ', angle*180/np.pi)
+                print('xTrue_ang: ', xTrue[2, 0])
 
                 x=d*np.cos(angle)
                 y=d*np.sin(angle)
@@ -214,10 +225,10 @@ def main(seg_angles):
 
                 source_list.append([x,y,rate])
                 
-                src_xy = [100*x, 100*y]
+                src_xy = [x, y] #[100*x, 100*y]
                 source_x_y_c = {}
                 source_x_y_c['position']=src_xy
-                source_x_y_c['counts']=source_energies[i]
+                source_x_y_c['counts']=source_energies[i]   #RSID[i,2]
                 sources_x_y_c.append(source_x_y_c)
                 
                 relsrc_line.append(x)
@@ -226,9 +237,10 @@ def main(seg_angles):
                 d_record_line.append(d)
                 angle_line.append(angle*180/np.pi)
                 dist_ang_list.append([d, angle*180/np.pi])
+                #sources_d_th.append([100*d, angle*180/np.pi, source_energies[i]])
                 sources_d_th.append([d, angle*180/np.pi, source_energies[i]])   #!20220804
 
-            relsrc.append(relsrc_line)#!20220509
+            relsrc.append(relsrc_line)  #!20220509
             d_record.append(d_record_line)
             angle_record.append(angle_line)
             dist_ang = np.transpose(np.array(dist_ang_list))
@@ -258,7 +270,7 @@ def main(seg_angles):
             #=========================#!20220509
             xdata_original=det_output.reshape(a_num, a_num) #reshape(2, 3) #reshape(3, 2)  #reshape(2, 2)  #!size-change (x, y) #!20220804
             #xdata_original=np.transpose(xdata_original)
-            ydata=get_output([x, y], seg_angles)    #!20220729
+            #ydata=get_output([x, y], seg_angles)    #!20220729
             ydata = get_output_2source(sources_x_y_c, seg_angles)
             pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)    #!20220729
             predout_record.append([step, pred_out])

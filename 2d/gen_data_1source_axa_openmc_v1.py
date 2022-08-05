@@ -98,7 +98,6 @@ def calc_input(time):
     if time <= 0.:  # wait at first
         v = 0.0
         yawrate = 0.0
-    else:
         #v = 1.0  # [m/s]
         v = 1.0  # [m/s]    #!20220509
         #yawrate = 0.1  # [rad/s]
