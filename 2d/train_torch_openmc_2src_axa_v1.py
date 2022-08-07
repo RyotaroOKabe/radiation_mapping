@@ -547,7 +547,7 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_3x3_ep500_bs256_20220804_v1.1"      #!20220126
+    save_name = "openmc_3x3_ep2000_bs256_20220804_v1.2"      #!20220126
     #=========================================================
     path = 'openmc/discrete_3x3_128_data_20220804_v1.1'  #!20220716
     filterpath ='openmc/disc_filter_3x3_128_data_20220804_v1.1'    #!20220716
@@ -600,7 +600,7 @@ if __name__ == '__main__':
         {"params": net.l1.Wn1, 'lr': 3e-5}
         ], lr=0.001)
 
-    model.train(optim,train_set,test_set,epochs=500,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
+    model.train(optim,train_set,test_set,epochs=2000,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
     #model.train(optim,train_set,test_set,epochs=6000,batch_size=256,acc_func=None, verbose=10)
 
     #model.save('test8')
