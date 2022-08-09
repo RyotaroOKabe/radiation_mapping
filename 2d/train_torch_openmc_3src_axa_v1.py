@@ -1,7 +1,7 @@
 #%%
 """
-Created on 2022/07/16
-original: train_torch_openmc_tetris_T_v2.py
+Created on 2022/08/08
+original: train_torch_openmc_2src_axa_v1.py
 
 @author: R.Okabe
 """
@@ -547,10 +547,10 @@ if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
     #=========================================================
-    save_name = "openmc_5x5_ep2000_bs256_20220808_v1.1"      #!20220126
+    save_name = "openmc_10x10_ep2000_bs256_20220808_v1.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_5x5_128_data_20220804_v1.1'  #!20220716
-    filterpath ='openmc/disc_filter_5x5_128_data_20220807_v2.2'    #!20220716
+    path = 'openmc/discrete_10x10_3src_128_data_20220805_v1.1'
+    filterpath ='openmc/disc_filter_10x10_128_data_20220804_v1.1'
     filter_data2 = FilterData2(filterpath)
     seg_angles = 128
     test_size = 50

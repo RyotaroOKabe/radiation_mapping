@@ -22,8 +22,8 @@ import dill #!20220316
 import imageio
 
 fig_folder = 'mapping_data/save_fig/'
-fig_header = 'A20220805_3x3_2src_v1.1.1'
-record_path = 'mapping_data/mapping_A20220804_3x3_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+fig_header = 'A20220808_10x10_3src_v1.1.1'
+record_path = 'mapping_data/mapping_A20220808_10x10_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 
@@ -246,8 +246,9 @@ def main():
 
     with imageio.get_writer(fig_folder+'/'+fig_header+'.gif', mode='I') as writer:
         for figurename in sorted(os.listdir(figurepath)):
-            image = imageio.imread(figurepath + '/' + figurename)
-            writer.append_data(image)
+            if figurename.endswith('png'):
+                image = imageio.imread(figurepath + '/' + figurename)
+                writer.append_data(image)
 
 
 

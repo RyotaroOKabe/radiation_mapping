@@ -36,13 +36,12 @@ record_data=True
 #DEFAULT_DTYPE = torch.double
 #============================= #!20220331
 
-#shape_name = '2x2'
-file_header = f"A20220808_5x5_v1.1"
+file_header = f"A20220808_10x10_v1.1"
 recordpath = f'mapping_data/mapping_{file_header}'
-model_path = f'save_model/model_openmc_5x5_ep2000_bs256_20220808_v1.1_model.pt'
+model_path = f'save_model/model_openmc_10x10_ep2000_bs256_20220808_v1.1_model.pt'
 model =torch.load(model_path)
 seg_angles = 128
-a_num = 5
+a_num = 10
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored
 recordpath = 'mapping_data/mapping_' + file_header
@@ -79,8 +78,8 @@ LM_SIZE = 3
 #RSID = np.array([0.0,10.0,100000000])   #1 source
 #RSID = np.array([5.0,5.0,100000000])   #1 source
 #RSID = np.array([[0.0,1.0,0.5e6],[0.0,10.0,0.5e6]])    # 2 sources, #!20220804
-RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
-source_energies = [0.5e6, 0.5e6]
+RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6],[4.0,15.0,0.5e6]])  
+source_energies = [0.5e6, 0.5e6, 0.5e6]
 
 #SIM_STEP=25
 SIM_STEP=10  #!20220505

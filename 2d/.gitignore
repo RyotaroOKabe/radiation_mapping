@@ -10,6 +10,7 @@ particle*
 wandb/
 space/
 space2/
+space3/
 runs/
 archive/
 #openmc/
