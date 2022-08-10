@@ -22,8 +22,8 @@ import dill #!20220316
 import imageio
 
 fig_folder = 'mapping_data/save_fig/'
-fig_header = 'A20220809_10x10_2src_v1.1.1'
-record_path = 'mapping_data/mapping_A20220809_10x10_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+fig_header = 'A20220809_5x5_2src_v1.1.1'
+record_path = 'mapping_data/mapping_A20220809_5x5_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 
@@ -271,8 +271,9 @@ def gen_gif(): #!20220516
         for figurename in sorted(os.listdir(figurepath)):
             #print(os.path.join(figurepath, figurename))
             #image = imageio.imread(os.path.join(figurepath, figurename))
-            image = imageio.imread(figurepath + '/' + figurename)
-            writer.append_data(image)
+            if figurepath.endswith('png'):
+                image = imageio.imread(figurepath + '/' + figurename)
+                writer.append_data(image)
     print("Finish making a gif: " + 'mapping_data/save_fig/'+fig_header+'.gif')
 
     
