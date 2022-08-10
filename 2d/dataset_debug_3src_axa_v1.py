@@ -61,8 +61,8 @@ def get_output_2source(sources, num):
         angle=np.arctan2(source["position"][1],source["position"][0])
         before_indx=int((angle+np.pi)/sec_dis)
         after_indx=before_indx+1
-        if after_indx>=40:
-            after_indx-=40
+        if after_indx>=num:
+            after_indx-=num
         w1=abs(angle-sec_center[before_indx])
         w2=abs(angle-sec_center[after_indx])
         if w2>sec_dis:
@@ -648,13 +648,11 @@ def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,sou
 
 #%%
 if __name__ == '__main__': #!20220508
-    path = 'openmc/discrete_10x10_3src_128_data_20220809_v1.1'  #!20220716
-    filterpath ='openmc/disc_filter_10x10_128_data_20220809_v1.1'    #!20220716
-    filterdata=FilterData(filterpath)  
-    filterdata2=FilterData2(filterpath)      
-    # filterdata=FilterData(filterpath)  
-    # filterdata2=FilterData2(filterpath)      
-    seg_angles = 128
+    path = 'openmc/discrete_10x10_3src_32_data_20220809_v2.1'  #!20220716
+    filterpath ='openmc/disc_filter_10x10_32_data_20220809_v2.1'    #!20220716
+    filterdata=FilterData(filterpath)
+    filterdata2=FilterData2(filterpath)
+    seg_angles = 32
     GPU_INDEX = 1#0
     USE_CPU = False
     # print torch.cuda.is_available()

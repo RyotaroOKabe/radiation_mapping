@@ -61,8 +61,8 @@ def get_output_2source(sources, num):
         angle=np.arctan2(source["position"][1],source["position"][0])
         before_indx=int((angle+np.pi)/sec_dis)
         after_indx=before_indx+1
-        if after_indx>=40:
-            after_indx-=40
+        if after_indx>=num:
+            after_indx-=num
         w1=abs(angle-sec_center[before_indx])
         w2=abs(angle-sec_center[after_indx])
         if w2>sec_dis:
