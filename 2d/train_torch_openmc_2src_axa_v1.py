@@ -546,13 +546,15 @@ timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','opti
 if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
+    a_num = 5
+    num_sources = 3
+    seg_angles = 32
     #=========================================================
-    save_name = "openmc_5x5_ep2000_bs256_20220809_v1.1"      #!20220126
+    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220809_v1.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_5x5_2src_128_data_20220809_v1.1'  #!20220716
-    filterpath ='openmc/disc_filter_5x5_128_data_20220809_v1.1'    #!20220716
+    path = 'openmc/discrete_5x5_3src_32_data_20220809_v2.1'  #!20220716
+    filterpath ='openmc/disc_filter_5x5_32_data_20220809_v2.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
-    seg_angles = 128
     test_size = 50
     
     #net = MyNet2()

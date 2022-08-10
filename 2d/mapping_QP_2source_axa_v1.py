@@ -21,9 +21,13 @@ import dill #!20220316
 #dill._dill._reverse_typemap['det_output'] = object
 import imageio
 
-fig_folder = 'mapping_data/save_fig/'
-fig_header = 'A20220809_5x5_2src_v1.1.1'
-record_path = 'mapping_data/mapping_A20220809_5x5_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+#{a_num}x{a_num}_{num_sources}src_{seg_angles}
+a_num = 5
+num_sources = 2
+seg_angles = 128
+fig_folder = f'mapping_data/save_fig/'
+fig_header = f'A20220809_{a_num}x{a_num}_{num_sources}src_v1.3.1'
+record_path = f'mapping_data/mapping_A20220809_{a_num}x{a_num}_v1.3'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 

@@ -37,12 +37,14 @@ record_data=True
 #============================= #!20220331
 
 #shape_name = '2x2'
-file_header = f"A20220809_5x5_v1.1"
-recordpath = f'mapping_data/mapping_{file_header}'
-model_path = f'save_model/model_openmc_5x5_ep2000_bs256_20220809_v1.1_model.pt'
-model =torch.load(model_path)
+#{a_num}x{a_num}_{num_sources}src_{seg_angles}
+a_num =5
+num_sources = 2
 seg_angles = 128
-a_num = 5
+file_header = f"A20220809_{a_num}x{a_num}_v1.3"
+recordpath = f'mapping_data/mapping_{file_header}'
+model_path = f'save_model/model_openmc_{a_num}x{a_num}_ep2000_bs256_20220809_v1.1_model.pt'
+model =torch.load(model_path)
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored
 recordpath = 'mapping_data/mapping_' + file_header
@@ -867,8 +869,8 @@ def get_output_2source(sources, num):
         angle=np.arctan2(source["position"][1],source["position"][0])
         before_indx=int((angle+np.pi)/sec_dis)
         after_indx=before_indx+1
-        if after_indx>=40:
-            after_indx-=40
+        if after_indx>=num:
+            after_indx-=num
         w1=abs(angle-sec_center[before_indx])
         w2=abs(angle-sec_center[after_indx])
         if w2>sec_dis:
