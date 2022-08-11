@@ -23,11 +23,11 @@ import imageio
 
 #{a_num}x{a_num}_{num_sources}src_{seg_angles}
 a_num = 5
-num_sources = 2
+num_sources = 3
 seg_angles = 128
 fig_folder = f'mapping_data/save_fig/'
-fig_header = f'A20220809_{a_num}x{a_num}_{num_sources}src_v1.3.1'
-record_path = f'mapping_data/mapping_A20220809_{a_num}x{a_num}_v1.3'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+fig_header = f'A20220810_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.2.1'
+record_path = f'mapping_data/mapping_A20220810_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.2'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 
