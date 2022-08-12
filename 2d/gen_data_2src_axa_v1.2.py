@@ -1,6 +1,6 @@
 #%%
 """
-Created on 2022/08/03
+Created on 2022/07/28
 original: gen_openmc_data_discrete_2x2_v1.py, gen_filterlayer_2x2_v1.1.py
 
 @author: R.Okabe
@@ -600,46 +600,40 @@ def after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header):    
 
     return mm #!20220508
 
+
 #%%
 
 if __name__ == '__main__':
-    num_sources = 1
-    a_num = 10
-    num_data = 64
-    seg_angles = num_data
+    num_sources = 2
+    a_num = 2
+    num_data = 5000
+    seg_angles = 64
     dist_min = 50
     dist_max = 500
     source_energies = [0.5e6, 0.5e6]
     #dist = 100
-    #num_particles = 500000
-    #header = 'near'
+    num_particles = 20000
+    header = 'data'
     #header_dist_dict = {'near': 30, 'far': 200}
-    header_dist_particles_dict = {'near': [50, 100000], 'far': [500, 100000]}   #!20220518
-    folder1=f'openmc/disc_filter_{a_num}x{a_num}_{seg_angles}_data_20220812_v1.1/'
-    folder2=f'openmc/disc_filter_{a_num}x{a_num}_{seg_angles}_fig_20220812_v1.1/'
-    #angle_list = [a*360/num_data for a in range(num_data)]
-    #angle_list = [1+a*360/num_data - 180 for a in range(num_data)]
-    #angle_list = [0.1+a*360/num_data for a in range(num_data)]
-    angle_list = [0.1+a*360/num_data -180 for a in range(35, num_data)] #[0.1+a*360/num_data -180 for a in range(num_data)]
-    print("angle_list for " + str(num_data) +" sections of angles:")
-    print(angle_list)
-    for header in header_dist_particles_dict.keys():
-        dist = header_dist_particles_dict[header][0]
-        num_particles = header_dist_particles_dict[header][1]
-        for angle in angle_list:
-            sources_d_th = [[dist, angle, source_energies[i]] for i in range(num_sources)]
-            # dist=np.random.randint(dist_min, dist_max)    #!20220128
-            # angle=float(np.random.randint(0, 360) + np.random.random(1))
-            print("]]]]]]]]]]]]]]]]]")
-            #?print("dist: " + str(rad_dist))
-            for i in range(num_sources):
-                print(f"dist {i}: " + str(sources_d_th[i][0]))
-                print(f"angle {i}: " + str(sources_d_th[i][1]))
-                print(f"energy {i}: " + str(sources_d_th[i][2]))
-            #before_openmc(dist, angle, num_particles)
-            before_openmc(a_num, sources_d_th, num_particles, seg_angles)  #!20220803
-            openmc.run()
-            #mm = after_openmc(dist, angle, folder1, folder2, seg_angles, header)
-            mm = after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header)   #!20220803
+    #header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]}   #!20220518
+    folder1=f'openmc/discrete_{a_num}x{a_num}_{num_sources}src_{seg_angles}_data_20220812_v1.1/'
+    folder2=f'openmc/discrete_{a_num}x{a_num}_{num_sources}src_{seg_angles}_fig_20220812_v1.1/'
+
+    for i in range(num_data):
+        sources_d_th = [[np.random.randint(dist_min, dist_max), float(np.random.randint(0, 360) + np.random.random(1)), source_energies[i]] for i in range(num_sources)]
+        # dist=np.random.randint(dist_min, dist_max)    #!20220128
+        # angle=float(np.random.randint(0, 360) + np.random.random(1))
+        print("]]]]]]]]]]]]]]]]]")
+        #?print("dist: " + str(rad_dist))
+        for i in range(num_sources):
+            print(f"dist {i}: " + str(sources_d_th[i][0]))
+            print(f"angle {i}: " + str(sources_d_th[i][1]))
+            print(f"energy {i}: " + str(sources_d_th[i][2]))
+        #before_openmc(dist, angle, num_particles, seg_angles)
+        before_openmc(a_num, sources_d_th, num_particles, seg_angles)  #!20220803
+        openmc.run()
+        #mm = after_openmc(dist, angle, folder1, folder2, seg_angles, header)
+        mm = after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header)   #!20220803
+        #after_openmc(dist, rad_angle)
 
 # %%
