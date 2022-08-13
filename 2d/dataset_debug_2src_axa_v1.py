@@ -648,13 +648,13 @@ def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,sou
 
 #%%
 if __name__ == '__main__': #!20220508
-    path = 'openmc/discrete_5x5_2src_128_data_20220809_v1.1'  #!20220716
-    filterpath ='openmc/disc_filter_5x5_128_data_20220809_v1.1'    #!20220716
+    path = 'openmc/discrete_2x2_2src_64_data_20220812_v1.1'  #!20220716
+    filterpath ='openmc/disc_filter_2x2_64_data_20220812_v1.1'    #!20220716
     filterdata=FilterData(filterpath)  
     filterdata2=FilterData2(filterpath)      
     # filterdata=FilterData(filterpath)  
     # filterdata2=FilterData2(filterpath)      
-    seg_angles = 128
+    seg_angles = 64
     GPU_INDEX = 1#0
     USE_CPU = False
     # print torch.cuda.is_available()
