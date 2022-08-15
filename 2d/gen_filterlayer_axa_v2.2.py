@@ -604,7 +604,7 @@ def after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header):    
 
 if __name__ == '__main__':
     num_sources = 1
-    a_num = 10
+    a_num = 3
     num_data = 64
     seg_angles = num_data
     dist_min = 50
@@ -614,13 +614,13 @@ if __name__ == '__main__':
     #num_particles = 500000
     #header = 'near'
     #header_dist_dict = {'near': 30, 'far': 200}
-    header_dist_particles_dict = {'near': [50, 100000], 'far': [500, 100000]}   #!20220518
-    folder1=f'openmc/disc_filter_{a_num}x{a_num}_{seg_angles}_data_20220812_v1.2/'
-    folder2=f'openmc/disc_filter_{a_num}x{a_num}_{seg_angles}_fig_20220812_v1.2/'
+    header_dist_particles_dict = {'near': [50, 90000], 'far': [500, 90000]}   #!20220518
+    folder1=f'openmc/disc_filter_{a_num}x{a_num}_{seg_angles}_data_20220813_v1.1/'
+    folder2=f'openmc/disc_filter_{a_num}x{a_num}_{seg_angles}_fig_20220813_v1.1/'
     #angle_list = [a*360/num_data for a in range(num_data)]
     #angle_list = [1+a*360/num_data - 180 for a in range(num_data)]
     #angle_list = [0.1+a*360/num_data for a in range(num_data)]
-    angle_list = [0.1+a*360/num_data -180 for a in range(35, num_data)] #[0.1+a*360/num_data -180 for a in range(num_data)]
+    angle_list = [0.1+a*360/num_data -180 for a in range(num_data)] #[0.1+a*360/num_data -180 for a in range(num_data)]
     print("angle_list for " + str(num_data) +" sections of angles:")
     print(angle_list)
     for header in header_dist_particles_dict.keys():

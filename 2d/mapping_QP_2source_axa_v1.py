@@ -22,12 +22,12 @@ import dill #!20220316
 import imageio
 
 #{a_num}x{a_num}_{num_sources}src_{seg_angles}
-a_num = 5
-num_sources = 3
+a_num = 10
+num_sources = 2
 seg_angles = 128
 fig_folder = f'mapping_data/save_fig/'
-fig_header = f'A20220810_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.2.1'
-record_path = f'mapping_data/mapping_A20220810_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.2'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+fig_header = f'A20220813_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1.1'
+record_path = f'mapping_data/mapping_A20220813_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 save_process = True#!20220516
 factor1 = 1e+24 #1e+25 #!20220515
 
@@ -144,10 +144,14 @@ def main():
     #print(files)
     #!20220516
     figurepath = 'mapping_data/save_fig/' + fig_header
+    figurepath_pdf = figurepath + '_pdf'
     if save_process:
-        if not os.path.isdir( figurepath):
+        if not os.path.isdir(figurepath):
             os.mkdir( figurepath)
+        if not os.path.isdir(figurepath_pdf):
+            os.mkdir(figurepath_pdf)
     os.system('rm ' +  figurepath + "/*")    #!20220509
+    os.system('rm ' +  figurepath_pdf + "/*")    #!20220509
 
     #m=Map([-10,15,25],[-5,25,30])  #!20220516 out
     m=Map([-15,15,30],[-5,25,30])   #!20220516 
@@ -231,7 +235,7 @@ def main():
             plt.plot(hxTrue_data[0,-1], hxTrue_data[1, -1],"o", color='blue', markersize=7)
             plt.title('STEP: ' + filename[4:7], fontsize=20)
             plt.savefig(fname=figurepath+'/'+filename[:7] +".png") #!20220323
-            plt.savefig(fname=figurepath+'/'+filename[:7] +".pdf") #!20220323
+            plt.savefig(fname=figurepath_pdf+'/'+filename[:7] +".pdf") #!20220813
             plt.show()
 
     #x=solve_one(m,cji_list,yj_list)
@@ -250,9 +254,9 @@ def main():
 
     with imageio.get_writer(fig_folder+'/'+fig_header+'.gif', mode='I') as writer:
         for figurename in sorted(os.listdir(figurepath)):
-            if figurename.endswith('png'):
-                image = imageio.imread(figurepath + '/' + figurename)
-                writer.append_data(image)
+            #if figurename.endswith('png'):
+            image = imageio.imread(figurepath + '/' + figurename)
+            writer.append_data(image)
 
 
 
@@ -275,9 +279,9 @@ def gen_gif(): #!20220516
         for figurename in sorted(os.listdir(figurepath)):
             #print(os.path.join(figurepath, figurename))
             #image = imageio.imread(os.path.join(figurepath, figurename))
-            if figurepath.endswith('png'):
-                image = imageio.imread(figurepath + '/' + figurename)
-                writer.append_data(image)
+            #if figurepath.endswith('png'):
+            image = imageio.imread(figurepath + '/' + figurename)
+            writer.append_data(image)
     print("Finish making a gif: " + 'mapping_data/save_fig/'+fig_header+'.gif')
 
     

@@ -38,12 +38,12 @@ record_data=True
 
 #shape_name = '2x2'
 #{a_num}x{a_num}_{num_sources}src_{seg_angles}
-a_num =5
+a_num =10
 num_sources = 2
 seg_angles = 128
-file_header = f"A20220809_{a_num}x{a_num}_v1.3"
+file_header = f"A20220813_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
 recordpath = f'mapping_data/mapping_{file_header}'
-model_path = f'save_model/model_openmc_{a_num}x{a_num}_ep2000_bs256_20220809_v1.1_model.pt'
+model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220812_v1.1_model.pt'
 model =torch.load(model_path)
 
 #recordpath = 'mapping_0803' #?pkl files with python2 is stored

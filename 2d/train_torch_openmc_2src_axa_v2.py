@@ -477,6 +477,7 @@ class Model(object):
 
     #def plot_test(self,test,indx, save_name):
     def plot_test(self,test,indx, seg_angles, save_name):
+    #def plot_test(self,test,indx, seg_angles, loss_train, save_name):
 
         figpath = "save_fig/" + save_name
         if not os.path.isdir(figpath):
@@ -494,6 +495,9 @@ class Model(object):
             #predict_test = self.net(torch.as_tensor(test_x)).detach().numpy()
             predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy() #!20220716
 
+            # print('test_y:', test_y[0].shape)
+            # print('pred_test: ', predict_test[0].shape)
+        #pred_loss = loss_train(torch.Tensor(test_y[0]), torch.Tensor(predict_test[0]))
         fig = plt.figure(figsize=(6, 6), facecolor='white')  #!20220707
         ax1 = fig.add_subplot(1,1,1)
         #plt.figure()
@@ -504,10 +508,58 @@ class Model(object):
         ax1.set_xlabel('deg')
         ax1.set_xlim([-180,180])
         ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
+        #ax1.set_title('Loss: ', pred_loss)  #!20220813
         fig.show()
         fig.savefig(fname=f"{figpath}/test_{indx}.png")
         fig.savefig(fname=f"{figpath}/test_{indx}.pdf")
         plt.close()
+        
+        #return pred_loss
+    def plot_test2(self,test,test_size, seg_angles,loss_fn, save_name):
+        #plot_test2(test_set,seg_angles=seg_angles,loss_train=loss_train, save_name=save_name)
+    #def plot_test(self,test,indx, seg_angles, loss_train, save_name):
+
+        figpath = "save_fig/" + save_name
+        if not os.path.isdir(figpath):
+            os.mkdir(figpath)
+        #os.system('rm ' + figpath + "/*")    #!20220509
+
+        total_loss = 0
+        for indx in range(test_size):
+            # print('index: ', indx)
+            test_x,test_y=test.get_batch(1,indx)
+
+            #test_y = 
+            #test_indx=355
+            #print y_test[test_indx,:]
+            #predict_test=sess.run(self.outputs,feed_dict={xs:test_x,ys:test_y})
+            self.net.eval()
+            with torch.no_grad():
+                #predict_test = self.net(torch.as_tensor(test_x)).detach().numpy()
+                predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy() #!20220716
+
+                # print('test_y:', test_y[0].shape)
+                # print('pred_test: ', predict_test[0].shape)
+            pred_loss = loss_train(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
+            # print('pred_loss: ', pred_loss)
+            total_loss += pred_loss.item()
+            fig = plt.figure(figsize=(6, 6), facecolor='white')  #!20220707
+            ax1 = fig.add_subplot(1,1,1)
+            #plt.figure()
+            ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
+            ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
+            #ax1.legend(['Real','Prediction'])
+            ax1.legend()
+            ax1.set_xlabel('deg')
+            ax1.set_xlim([-180,180])
+            ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
+            ax1.set_title(f'Loss: {pred_loss.item()}')  #!20220813
+            fig.show()
+            fig.savefig(fname=f"{figpath}/test_{indx}.png")
+            fig.savefig(fname=f"{figpath}/test_{indx}.pdf")
+            plt.close()
+        loss_avg = total_loss/test_size
+        print('Average loss dist: ', loss_avg)
 
 
 from pyemd import emd
@@ -539,6 +591,7 @@ def emd_loss_sinkhorn(y, y_pred, M, reg=1.5, iter_num=80):
 
     return loss
 
+
 timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','optimizer step','eval'])
 
 #%%
@@ -546,17 +599,19 @@ timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','opti
 if __name__ == '__main__':
     #print filterdata.data.shape
     #print('ws_point0')   #!20220303
-    a_num = 2
+    a_num = 3
     num_sources = 2
     seg_angles = 64
+    epochs = 2000
     #=========================================================
-    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220809_v1.1"      #!20220126
+    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220814_v1.1"      #!20220126
     #=========================================================
-    path = 'openmc/discrete_2x2_2src_64_data_20220812_v1.1'  #!20220716
-    filterpath ='openmc/disc_filter_2x2_64_data_20220812_v1.1'    #!20220716
+    path = 'openmc/discrete_3x3_2src_64_data_20220812_v1.1'  #!20220716
+    filterpath ='openmc/disc_filter_3x3_64_data_20220813_v1.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
     test_size = 50
     
+    print(save_name)
     #net = MyNet2()
     net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2)
 
@@ -602,7 +657,7 @@ if __name__ == '__main__':
         {"params": net.l1.Wn1, 'lr': 3e-5}
         ], lr=0.001)
 
-    model.train(optim,train_set,test_set,epochs=2000,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
+    model.train(optim,train_set,test_set,epochs,batch_size=256,acc_func=None, verbose=10, save_name=save_name)    #!20220126
     #model.train(optim,train_set,test_set,epochs=6000,batch_size=256,acc_func=None, verbose=10)
 
     #model.save('test8')
@@ -617,8 +672,14 @@ if __name__ == '__main__':
     #raw_input()    #!20220104
     #plt.show()
     #model.plot_test(test_set,indx=9, seg_angles=seg_angles, save_name=save_name)
+    total_loss = 0
     for i in range(test_size):
         model.plot_test(test_set,indx=i, seg_angles=seg_angles, save_name=save_name)
+        #model.plot_test(test_set,indx=i, seg_angles=seg_angles, loss_train=loss_train, save_name=save_name)
+        #total_loss += loss_test
+    #for i in range(test_size):
+    model.plot_test2(test_set,test_size,seg_angles=seg_angles,loss_fn=loss_val, save_name=save_name)
+    #print('Average loss distance: ', total_loss/test_size)
 
 
 # %%
