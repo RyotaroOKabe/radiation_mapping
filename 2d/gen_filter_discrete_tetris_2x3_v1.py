@@ -598,7 +598,7 @@ def process_aft_openmc(folder1='random_savearray/', file1='detector_1source_2022
     # mean[0, 0] = 0  #!20220716
     # mean[0, 2] = 0  #!20220716
 
-    plt.imshow(mean, interpolation='nearest', cmap="plasma")       #!20220118
+    plt.imshow(mean, interpolation='nearest', cmap="summer")       #!20220118
     #plt.title('absorption rate')
     #ds, ag = file2[:-5].split('_')
     ds, ag = file2[:-5].split('_')[1:]  #!20220517
@@ -844,8 +844,8 @@ if __name__ == '__main__':
         print("shape_name: ", shape_name)
         header_dist_particles_dict = {'near': [20, 10000], 'far': [200, 500000]} #{'near': [20, 1000], 'far': [200, 5000]}    #{'far': [200, 500000]}   #{'near': [20, 10000], 'far': [200, 500000]}   #!20220518
         #header_dist_particles_dict = {'near': [20, 1000], 'far': [200, 50000]}   #!20220716
-        folder1=f'openmc/disc_filter_tetris_{shape_name}_data_20220720_v1.1/'
-        folder2=f'openmc/disc_filter_tetris_{shape_name}_fig_2022720_v1.1/'
+        folder1=f'openmc/disc_filter_tetris_{shape_name}_data_20220817_v1.1/'
+        folder2=f'openmc/disc_filter_tetris_{shape_name}_fig_20220817_v1.1/'
         #use_panels = ['b', 'd', 'e', 'f']
         use_panels = get_tetris_shape(shape_name)
 

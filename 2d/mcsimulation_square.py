@@ -225,7 +225,7 @@ def process_aft_openmc(a_num, folder1, file1, folder2, file2, sources, seg_angle
     with open(folder1+file1,"w") as f:
         json.dump(data_json, f)
 
-    plt.imshow(mean, interpolation='nearest', cmap="plasma")
+    plt.imshow(mean, interpolation='nearest', cmap='gist_gray')#"plasma")
 
     ds_ag_list = file2[:-5].split('_')[1:]  #!20220517
     ds_ag_title = ''
