@@ -27,5 +27,8 @@ space3/
 runs/
 archive/
 archive_v1/
+archive_v2/
+__pycache__/
+
 #openmc/
 
