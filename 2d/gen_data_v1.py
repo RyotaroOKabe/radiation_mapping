@@ -22,13 +22,13 @@ import openmc
 from mcsimulation_square import *
 
 num_sources = 1
-a_num = 2
-num_data = 10
-seg_angles = 64
-dist_min = 50
-dist_max = 500
-source_energies = [0.5e6, 0.5e6]
-num_particles = 20000
+a_num = 2   # The shape of the detector: a x a square 
+num_data = 1000 # the number of the generated data
+seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
+dist_min = 50   # minimum distance between the radiation source and the detector (cm).
+dist_max = 500  # maximum distance between the radiation source and the detector (cm).
+source_energies = [0.5e6]    # Photon energy [eV]
+num_particles = 20000   # The number of photon
 header = 'data'
 
 folder1=f'openmc/data_{a_num}x{a_num}_{num_sources}src_{seg_angles}_data_20220815_v1.1/'
