@@ -10,5 +10,6 @@ wandb/
 space/
 space2/
 runs/
+archive_v1/
 #openmc/
 
