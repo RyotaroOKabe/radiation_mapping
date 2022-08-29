@@ -4,7 +4,8 @@
 *.png
 _*
 particle*
-*out*h5
+*out
+*h5
 
 # folder
 wandb/

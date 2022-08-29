@@ -4,6 +4,7 @@
 
 ROkabe
 last update: 2022/07/05
+original: gen_openmc_data_discrete_a3_v4.py
 
 Major update: theta digit: 180 deg = 18*10 deg >>> 20*9 deg
 
