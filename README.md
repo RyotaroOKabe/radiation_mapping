@@ -1,2 +1,27 @@
 # radiation_mapping
 
+# Starting OpenMC
+
+reference: https://docs.openmc.org/en/stable/quickinstall.html
+
+[1] Create conda environment for openmc simulations
+```
+$ conda create -n openmc-env openmc python==3.9.9
+$ conda activate openmc-env  
+```
+[2] Download the OpenMC Library
+
+```
+$ wget -c https://anl.box.com/shared/static/d359skd2w6wrm86om2997a1bxgigc8pu.xz
+$ tar -xf d359skd2w6wrm86om2997a1bxgigc8pu.xz
+$ mv mcnp_endfb71/ openmc_library/ 
+```
+
+[3] Set the path of crosssections.xml file  
+In .bashrc or .profile, add the line shown below:  
+```
+OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation_mapping/openmc_library/cross_sections.xml" 
+```
+
+
+
