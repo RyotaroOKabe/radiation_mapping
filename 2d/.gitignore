@@ -3,8 +3,6 @@
 *.xml
 *.png
 *.pt
-_*
-particle*
 *out
 *.sh
 *.h5
