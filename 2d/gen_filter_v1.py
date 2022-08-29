@@ -23,16 +23,6 @@ from mcsimulation_square import *
 
 num_sources = 1
 a_num = 2
-num_data = 10
-seg_angles = 64
-dist_min = 50
-dist_max = 500
-source_energies = [0.5e6, 0.5e6]
-num_particles = 20000
-header = 'data'
-
-num_sources = 1
-a_num = 2
 num_data = 64
 seg_angles = num_data
 dist_min = 50

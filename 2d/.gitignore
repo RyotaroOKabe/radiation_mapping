@@ -5,6 +5,7 @@
 *.pt
 _*
 particle*
+*out
 
 # folder
 wandb/

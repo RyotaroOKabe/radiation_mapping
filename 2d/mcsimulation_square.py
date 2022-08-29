@@ -47,6 +47,11 @@ def gen_materials_geometry_tallies(a_num, panel_density):
     min_y = openmc.YPlane(y0=-100000, boundary_type='transmission')
     max_y = openmc.YPlane(y0=+100000, boundary_type='transmission')
 
+    min_xx = openmc.XPlane(x0=-100100, boundary_type='vacuum')
+    max_xx = openmc.XPlane(x0=+100100, boundary_type='vacuum')
+    min_yy = openmc.YPlane(y0=-100100, boundary_type='vacuum')
+    max_yy = openmc.YPlane(y0=+100100, boundary_type='vacuum')    
+
     #for S1 layer
     min_x1 = openmc.XPlane(x0=-0.4, boundary_type='transmission')   #?
     max_x1 = openmc.XPlane(x0=+0.4, boundary_type='transmission')   #?
@@ -64,11 +69,6 @@ def gen_materials_geometry_tallies(a_num, panel_density):
     max_x3 = openmc.XPlane(x0=+a_num/2, boundary_type='transmission')   #?
     min_y3 = openmc.YPlane(y0=-a_num/2, boundary_type='transmission')   #?
     max_y3 = openmc.YPlane(y0=+a_num/2, boundary_type='transmission')   #?
-
-    min_xx = openmc.XPlane(x0=-100100, boundary_type='vacuum')
-    max_xx = openmc.XPlane(x0=+100100, boundary_type='vacuum')
-    min_yy = openmc.YPlane(y0=-100100, boundary_type='vacuum')
-    max_yy = openmc.YPlane(y0=+100100, boundary_type='vacuum')    
 
     #s1 region
     s1_region = +min_x1 & -max_x1 & +min_y1 & -max_y1   #?
@@ -213,7 +213,11 @@ def process_aft_openmc(a_num, folder1, file1, folder2, file2, sources, seg_angle
     data_json['miu_detector']=0.3
     data_json['miu_medium']=1.2
     data_json['miu_air']=0.00018
-    data_json['output']=get_output_mul(sources, seg_angles).tolist()
+
+    if num_sources==1:
+        data_json['output']=get_output(sources, seg_angles).tolist()
+    else:
+        data_json['output']=get_output_mul(sources, seg_angles).tolist()
     data_json['num_sources']=num_sources
     data_json['seg_angles']=seg_angles
     data_json['miu_de']=0.5
@@ -252,7 +256,7 @@ def get_output(source, num):
     sec_center=np.linspace(-np.pi,np.pi,num+1)
     output=np.zeros(num)#(40)
     sec_dis=2*np.pi/num #40.
-    angle=np.arctan2(source[1],source[0])
+    angle=np.arctan2(source[0]["position"][1],source[0]["position"][0])
     before_indx=int((angle+np.pi)/sec_dis)
     if before_indx>=num:
         before_indx-=num
@@ -308,7 +312,10 @@ def before_openmc(a_num, sources_d_th, num_particles, seg_angles):
         source['position']=src_xy
         source['counts']=sources_d_th[i][2]
         sources.append(source)
-    get_output_mul(sources, seg_angles) #!20220803
+    if num_sources==1:
+        get_output(sources, seg_angles) #!20220803
+    else:
+        get_output_mul(sources, seg_angles) #!20220803
     gen_settings(src_energy=src_E, src_strength=src_Str, en_prob=energy_prob, num_particles=num_particles, batch_size=j, sources=sources) 
 
 def after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header):

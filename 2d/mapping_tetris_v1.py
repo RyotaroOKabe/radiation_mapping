@@ -19,12 +19,13 @@ import os,sys
 import dill #!20220316
 import imageio
 
-a_num = 2
+#a_num = 2
 num_sources = 1
 seg_angles = 64
+shape_name = 'Z'
 fig_folder = f'mapping_data/save_fig/'
-fig_header = f'A20220822_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1.1'
-record_path = f'mapping_data/mapping_A20220822_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+fig_header = f'A20220822_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.1.1'
+record_path = f'mapping_data/mapping_A20220822_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 th_level = 0.2
 save_process = True
 savedata=True

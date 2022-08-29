@@ -350,11 +350,11 @@ def load_data(test_size,train_size,test_size_gen,seg_angles, output_fun,path,sou
 
 #%%
 if __name__ == '__main__': #!20220508
-    path = 'openmc/discrete_10x10_2src_128_data_20220812_v2.1'  #!20220716
-    filterpath ='openmc/disc_filter_10x10_128_data_20220813_v1.1'    #!20220716
+    path = 'openmc/data_tetrisS_1src_64_data_20220821_v1.1'
+    filterpath ='openmc/filter_tetrisS_64_data_20220822_v1.1'
     filterdata=FilterData(filterpath)  
     filterdata2=FilterData2(filterpath)      
-    seg_angles = 128
+    seg_angles = 64
     GPU_INDEX = 1
     USE_CPU = False
     if torch.cuda.is_available() and not USE_CPU:
@@ -426,3 +426,5 @@ if __name__ == '__main__': #!20220508
     print("ng_list length: ", len(ng_list))
     total_ng_list = list(set(ng_list + old_ng_list))
     print("total_ng_list length: ", len(total_ng_list))
+
+# %%

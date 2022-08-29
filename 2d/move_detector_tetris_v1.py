@@ -20,21 +20,24 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Wedge
 import imageio  #!20220520
 import openmc
-from mcsimulation_square import *
+from mcsimulation_tetris import *
 from cal_param import *
 
-a_num =10
-num_sources = 2
-seg_angles = 128
-file_header = f"A20220815_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
+a_num =2
+num_sources = 1
+seg_angles = 64
+shape_name='T'
+#file_header = f"A20220822_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
+file_header = f"A20220822_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.1"
 recordpath = f'mapping_data/mapping_{file_header}'
-model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220812_v1.1_model.pt'
+#model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
+model_path = f'save_model/model_openmc_tetris{shape_name}_{num_sources}src_{seg_angles}_ep500_bs256_20220821_v1.1_model.pt'
 model =torch.load(model_path)
 
 DT = 0.1  # time tick [s]
 SIM_TIME = 70.0
 STATE_SIZE = 3
-RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
+RSID = np.array([[-7.0,10.5,0.5e6]]) #np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
 source_energies = [0.5e6, 0.5e6]
 SIM_STEP=10
 sim_parameters = {
@@ -72,15 +75,24 @@ if __name__ == '__main__' and record_data:
     os.system('rm ' + predictpath + "*")    #!20220509
 
 
+if torch.cuda.is_available() and not USE_CPU:
+    DEFAULT_DEVICE = torch.device("cuda:0")
+    torch.set_default_tensor_type(torch.cuda.DoubleTensor)
+else:
+    DEFAULT_DEVICE = torch.device("cpu")
+
+DEFAULT_DTYPE = torch.double
+
 #%%
 def openmc_simulation(sources_d_th, header, seg_angles):  #!20220717
     num_particles = 50000
     num_sources = len(sources_d_th)
+    use_panels = get_tetris_shape(shape_name)
     for i in range(num_sources):
         sources_d_th[i][0] *= 100
-    before_openmc(a_num, sources_d_th, num_particles, seg_angles)  #!20220803
+    before_openmc(use_panels, sources_d_th, num_particles, seg_angles)  #!20220803
     openmc.run()
-    mm = after_openmc(a_num, sources_d_th, jsonpath, figurepath, seg_angles, header) 
+    mm = after_openmc(use_panels, sources_d_th, jsonpath, figurepath, seg_angles, header) 
     return mm
 
 
@@ -194,8 +206,8 @@ def main(seg_angles, model, recordpath, sim_parameters):
 
             predict=model(network_input).detach().cpu().numpy().reshape(-1)
 
-            xdata_original=det_output.reshape(a_num, a_num)
-            ydata = get_output_2source(sources_x_y_c, seg_angles)
+            xdata_original=det_output.reshape(2, 3)
+            ydata = get_output_mul(sources_x_y_c, seg_angles)
             pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
@@ -204,7 +216,7 @@ def main(seg_angles, model, recordpath, sim_parameters):
 
             xdata_show = np.flip(xdata_original, 0)
             xdata_show = np.flip(xdata_show, 1)
-            ax1.imshow(xdata_show, interpolation='nearest', cmap="plasma")
+            ax1.imshow(xdata_show, interpolation='nearest', cmap="Purples")
             ds, ag = d, angle*180/np.pi
             ax1.axes.get_xaxis().set_visible(False)
             ax1.axes.get_yaxis().set_visible(False)
@@ -237,7 +249,7 @@ def main(seg_angles, model, recordpath, sim_parameters):
             ax2.axes.get_xaxis().set_visible(False)
             ax2.axes.get_yaxis().set_visible(False)
 
-            fig.suptitle('Real Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60) 
+            fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
             fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.pdf")   #!20220729
             plt.close(fig)

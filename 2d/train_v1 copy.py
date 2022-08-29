@@ -298,33 +298,24 @@ timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','opti
 
 if __name__ == '__main__':
     a_num = 2
-    tetris_shape = 'L'
-    num_sources = 1
-    seg_angles = 64
-    epochs = 500
+    num_sources = 2
+    seg_angles = 128
+    epochs = 10000
     #=========================================================
-    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220822_v1.1"
-    #save_name = f"openmc_tetris{tetris_shape}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220821_v1.1"
+    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220815_v1.1"
     #=========================================================
-    # path = f'openmc/data_tetris{tetris_shape}_1src_64_data_20220821_v1.1'
-    # filterpath =f'openmc/filter_tetris{tetris_shape}_64_data_20220822_v1.1'
-    path = 'openmc/data_2x2_1src_64_data_20220822_v1.1'  #!20220716
-    filterpath ='openmc/filter_2x2_64_data_20220822_v1.1'    #!20220716
+    path = 'openmc/discrete_2x2_2src_128_data_20220811_v1.1'
+    filterpath ='openmc/disc_filter_2x2_128_data_20220813_v1.1'
     filter_data2 = FilterData2(filterpath)
     test_size = 50
     print(save_name)
-    if num_sources==1:
-        output_fun = get_output
-    else:
-        output_fun = get_output_mul
     net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2)
     net = net.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
-    
     kld_loss = torch.nn.KLDivLoss(size_average=None, reduction='batchmean')
     loss_train = lambda  y, y_pred: emd_loss_ring(y, y_pred, r=2)
     loss_val = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()
     model = Model(net, loss_train, loss_val,reg=0.001)
-    train_set,test_set=load_data(test_size=test_size,train_size=None,test_size_gen=None,seg_angles=seg_angles,output_fun=output_fun,path=path,source_num=[1,1],prob=[1., 1.],seed=None)
+    train_set,test_set=load_data(test_size=test_size,train_size=None,test_size_gen=None,seg_angles=seg_angles,output_fun=get_output_2source,path=path,source_num=[1,1],prob=[1., 1.],seed=None)
 
     optim = torch.optim.Adam([
         {"params": net.unet.parameters()},
