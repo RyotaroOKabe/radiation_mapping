@@ -467,10 +467,10 @@ timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','opti
 
 if __name__ == '__main__':
     #=========================================================
-    save_name = "openmc_3cmxx3_ep1000_bs256_20220715_v1.3"
+    save_name = "openmc_5cmxx3_ep100_bs256_20220714_v2.2" 
     #=========================================================
-    path = 'openmc/discrete_data_20220715_3^3_v1'
-    filterpath ='openmc/disc_filter_data_20220715_3^3_v1'
+    path = 'openmc/discrete_data_20220706_5^3_v1'    #!20220630
+    filterpath ='openmc/disc_filter_data_20220706_5^3_v1'
     filter_data2 = FilterData2(filterpath)
     UNet_ph = UNet
     UNet_th = UNet

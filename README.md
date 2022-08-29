@@ -9,6 +9,11 @@ reference: https://docs.openmc.org/en/stable/quickinstall.html
 $ conda create -n openmc-env openmc python==3.9.9
 $ conda activate openmc-env  
 ```
+
+.. or create from the exported env
+```
+$ conda env create -f openmc-train.yml
+```
 [2] Download the OpenMC Library
 
 ```
@@ -24,4 +29,9 @@ OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation
 ```
 
 
+# Other env setting
+You need to set up another conda env to run mapping_*.py program
+```
+$ conda env create -f radmap.yml
+```
 
