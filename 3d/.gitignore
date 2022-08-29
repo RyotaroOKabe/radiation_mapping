@@ -6,6 +6,7 @@ _*
 particle*
 *out
 *h5
+*pdf
 
 # folder
 wandb/
