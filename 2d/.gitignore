@@ -6,6 +6,20 @@
 _*
 particle*
 *out
+*.sh
+*.h5
+all_scalars.json
+dataset_tetris_T_v2.py
+gen_data_2source_axa_openmc_v1.py
+gen_data_2src_axa_v1.2.py
+gen_filter_discrete_tetris_2x3_v1.py
+gen_filter_discrete_tetris_v2.py
+cal_param_axa_v1.py
+gen_openmc_data_discrete_tetrisJLSZ2x3_v1.py
+mapping_tetris_v1.py
+train_torch_openmc_tetris_2x3_v1.py
+train_torch_openmc_tetris_2x3_v2.py
+train_torch_openmc_tetris_axa_v1.py
 
 # folder
 wandb/
