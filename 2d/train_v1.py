@@ -308,8 +308,10 @@ if __name__ == '__main__':
     #=========================================================
     # path = f'openmc/data_tetris{tetris_shape}_1src_64_data_20220821_v1.1'
     # filterpath =f'openmc/filter_tetris{tetris_shape}_64_data_20220822_v1.1'
-    path = 'openmc/data_2x2_1src_64_data_20220822_v1.1'  #!20220716
-    filterpath ='openmc/filter_2x2_64_data_20220822_v1.1'    #!20220716
+    # path = 'openmc/data_2x2_1src_64_data_20220822_v1.1'  #!20220716
+    # filterpath ='openmc/filter_2x2_64_data_20220822_v1.1'    #!20220716
+    path = 'openmc/data_2x2_1src_64_data_20221003_v2.1'  #!20220716
+    filterpath ='openmc/filter_2x2_64_data_20221003_v2.1'    #!20220716
     filter_data2 = FilterData2(filterpath)
     test_size = 50
     print(save_name)

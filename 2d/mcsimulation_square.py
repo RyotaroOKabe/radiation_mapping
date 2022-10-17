@@ -21,7 +21,7 @@ import json
 import time, timeit
 from datetime import datetime
 import openmc
-
+digits = 10
 
 def gen_materials_geometry_tallies(a_num, panel_density):
     panel = openmc.Material(name='CdZnTe')
@@ -215,14 +215,15 @@ def process_aft_openmc(a_num, folder1, file1, folder2, file2, sources, seg_angle
     data_json['miu_air']=0.00018
 
     if num_sources==1:
-        data_json['output']=get_output(sources, seg_angles).tolist()
+        data_json['output']=[round(s, digits) for s in get_output(sources, seg_angles).tolist()]    #!
     else:
-        data_json['output']=get_output_mul(sources, seg_angles).tolist()
+        data_json['output']=[round(s, digits) for s in get_output_mul(sources, seg_angles).tolist()]
     data_json['num_sources']=num_sources
     data_json['seg_angles']=seg_angles
     data_json['miu_de']=0.5
     mean_list=mean.T.reshape((1, a_num**2)).tolist()
-    data_json['input']=mean_list[0]
+    # data_json['input']=mean_list[0]
+    data_json['input']=[round(m, digits) for m in mean_list[0]] #!20221003
     data_json['bean_num']=0.5
     modelinfo={'det_num_x': 10, 'det_num_y': 10, 'det_y': 0.03, 'det_x': 0.03, 'size_x': 0.5, 'size_x': 0.5, 'size_y': 0.5, 'med_margin': 0.0015}    #!20220119 constant!
     data_json['model_info']=modelinfo
@@ -352,9 +353,9 @@ def after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header):
 #%%
 
 if __name__ == '__main__':
-    num_sources = 2
+    num_sources = 1
     a_num = 2
-    num_data = 5000
+    num_data = 50
     seg_angles = 64
     dist_min = 50
     dist_max = 500
@@ -362,8 +363,8 @@ if __name__ == '__main__':
     num_particles = 20000
     header = 'data'
 
-    folder1=f'openmc/data_{a_num}x{a_num}_{num_sources}src_{seg_angles}_data_20220812_v1.1/'
-    folder2=f'openmc/data_{a_num}x{a_num}_{num_sources}src_{seg_angles}_fig_20220812_v1.1/'
+    folder1=f'openmc/data_{a_num}x{a_num}_{num_sources}src_{seg_angles}_data_20221003_v2.1/'
+    folder2=f'openmc/data_{a_num}x{a_num}_{num_sources}src_{seg_angles}_fig_20221003_v2.1/'
 
     for i in range(num_data):
         sources_d_th = [[np.random.randint(dist_min, dist_max), float(np.random.randint(0, 360) + np.random.random(1)), source_energies[i]] for i in range(num_sources)]

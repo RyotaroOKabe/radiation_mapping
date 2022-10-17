@@ -29,8 +29,8 @@ dist_min = 50
 dist_max = 500
 source_energies = [0.5e6]    # Photon energy [eV]
 header_dist_particles_dict = {'near': [50, 50000], 'far': [500, 50000]}    # [distance (cm), distance Photon energy [eV]]
-folder1=f'openmc/filter_{a_num}x{a_num}_{seg_angles}_data_20220816_v1.1/'
-folder2=f'openmc/filter_{a_num}x{a_num}_{seg_angles}_fig_20220816_v1.1/'
+folder1=f'openmc/filter_{a_num}x{a_num}_{seg_angles}_data_20221003_v2.1/'
+folder2=f'openmc/filter_{a_num}x{a_num}_{seg_angles}_fig_20221003_v2.1/'
 angle_list = [0.1+a*360/num_data -180 for a in range(num_data)]
 print("angle_list for " + str(num_data) +" sections of angles:")
 for header in header_dist_particles_dict.keys():

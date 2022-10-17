@@ -27,8 +27,8 @@ a_num =2
 num_sources = 1
 seg_angles = 64
 shape_name='T'
-#file_header = f"A20220822_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
-file_header = f"A20220822_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.1"
+# file_header = f"A20220928_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
+file_header = f"A20221016_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.1"
 recordpath = f'mapping_data/mapping_{file_header}'
 #model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
 model_path = f'save_model/model_openmc_tetris{shape_name}_{num_sources}src_{seg_angles}_ep500_bs256_20220821_v1.1_model.pt'
@@ -52,6 +52,9 @@ sim_parameters = {
 # Map
 map_horiz = [-15,15,30]
 map_vert = [-5,25,30]
+
+colors_max = [255, 100, 0]
+num_panels=4    #!20221016
 
 recordpath = 'mapping_data/mapping_' + file_header
 if __name__ == '__main__' and record_data:
@@ -82,6 +85,34 @@ else:
     DEFAULT_DEVICE = torch.device("cpu")
 
 DEFAULT_DTYPE = torch.double
+
+#%%
+# colormap
+from matplotlib.colors import ListedColormap
+N = 256
+# own_colors = np.ones((N, 4))
+# # own_colors[:, 0] = np.linspace(1, 138/256, N) # R = 255
+# # own_colors[:, 1] = np.linspace(1, 43/256, N) # G = 232
+# # own_colors[:, 2] = np.linspace(1, 226/256, N)  # B = 11
+# own_colors[:, 0] =  np.ones((N, 4)) - np.logspace(1, 138/256, N)/10 # R = 255
+# own_colors[:, 1] = np.logspace(1, 43/256, N)/10 # G = 232
+# own_colors[:, 2] = np.logspace(1, 226/256, N)/10  # B = 11
+# own_cmp = ListedColormap(own_colors)
+
+# orange = np.ones((N, 3))
+# orange[:, 0] = np.linspace(256/256, 255/256, N) # R = 255
+# orange[:, 1] = np.linspace(256/256, 100/256, N) # G = 232
+# orange[:, 2] = np.linspace(256/256, 0/256, N)  # B = 11
+# orange[:, 0] = np.linspace(256/256, 255/256, N) # R = 255
+# orange[:, 1] = np.linspace(240/256, 100/256, N) # G = 232
+# orange[:, 2] = np.linspace(200/256, 0/256, N)  # B = 11
+# orange = np.ones((N, 3))
+# orange_full = [255, 100, 0]
+# xx = 0
+# orange[:, 0] = np.linspace(((orange_full[0]-256)/N*xx+256)/256, orange_full[0]/256, N) # R = 255
+# orange[:, 1] = np.linspace(((orange_full[1]-256)/N*xx+256)/256, orange_full[1]/256, N) # G = 232
+# orange[:, 2] = np.linspace(((orange_full[2]-256)/N*xx+256)/256, orange_full[2]/256, N)  # B = 11
+# own_cmp = ListedColormap(orange)
 
 #%%
 def openmc_simulation(sources_d_th, header, seg_angles):  #!20220717
@@ -216,7 +247,38 @@ def main(seg_angles, model, recordpath, sim_parameters):
 
             xdata_show = np.flip(xdata_original, 0)
             xdata_show = np.flip(xdata_show, 1)
-            ax1.imshow(xdata_show, interpolation='nearest', cmap="Purples")
+
+            # print(xdata_show)
+            adjust_ratio = 0.9
+            matrix_len=xdata_show.flatten().shape[0]
+            if matrix_len>num_panels:
+                # top_panel = xdata_show.max()
+                bottom_panel = np.partition(xdata_show.flatten(), -num_panels)[-num_panels]
+                blank_panel = np.partition(xdata_show.flatten(), -num_panels-1)[-num_panels-1]
+                gap_pb = bottom_panel - blank_panel
+                xdata_show = xdata_show - gap_pb*adjust_ratio*(xdata_show>=bottom_panel)
+            else:
+                # top_panel = xdata_show.max()
+                bottom_panel = np.partition(xdata_show.flatten(), -num_panels)[-num_panels]
+                blank_panel = bottom_panel
+                gap_pb = bottom_panel - blank_panel
+            # print(f'The largest', top_panel)
+            print(f'{num_panels}th largest', bottom_panel)
+            print(f'{num_panels+1}th largest', blank_panel)
+            print(gap_pb)
+            print()
+
+            N = 255
+            rgbs = np.ones((N, 3))
+            # colors_max = [255, 100, 0]
+            xx = max(colors_max)*(1-adjust_ratio)*((num_panels/matrix_len)==1)#70
+            print('xx:', xx)
+            rgbs[:, 0] = np.linspace(((colors_max[0]-255)/N*xx+255)/255, colors_max[0]/255, N) # R = 255
+            rgbs[:, 1] = np.linspace(((colors_max[1]-255)/N*xx+255)/255, colors_max[1]/255, N) # G = 232
+            rgbs[:, 2] = np.linspace(((colors_max[2]-255)/N*xx+255)/255, colors_max[2]/255, N)  # B = 11
+            own_cmp = ListedColormap(rgbs)
+
+            ax1.imshow(xdata_show, interpolation='nearest', cmap=own_cmp)
             ds, ag = d, angle*180/np.pi
             ax1.axes.get_xaxis().set_visible(False)
             ax1.axes.get_yaxis().set_visible(False)
@@ -229,12 +291,17 @@ def main(seg_angles, model, recordpath, sim_parameters):
             output1 = predict
             output2 = ydata.tolist()
 
+            pred_rgb = [202, 108, 74]
+            real_rgb = [119, 192, 210]
+
             for i in range(len(theta)-1):
                 ax2.add_artist(
-                    Wedge((0, 0), 1, theta[i], theta[i+1], width=0.3, color=(1, 1-output1[i], 1-output1[i])),
+                    # Wedge((0, 0), 1, theta[i], theta[i+1], width=0.3, color=(1, 1-output1[i], 1-output1[i])),
+                    Wedge((0, 0), 1, theta[i], theta[i+1], width=0.3, color=((255-(255-pred_rgb[0])*output1[i])/255, (255-(255-pred_rgb[1])*output1[i])/255, (255-(255-pred_rgb[2])*output1[i])/255)),
                 )
                 ax2.add_artist(
-                    Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, color=(1-output2[i], 1-output2[i], 1)),
+                    # Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, color=(1-output2[i], 1-output2[i], 1)),
+                    Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, color=((255-(255-real_rgb[0])*output2[i])/255, (255-(255-real_rgb[1])*output2[i])/255, (255-(255-real_rgb[2])*output2[i])/255)),
                 )
 
             c1 = plt.Circle((0, 0), 1, color='k', lw=5, fill=False)   #!20220729
