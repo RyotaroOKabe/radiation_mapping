@@ -12,6 +12,12 @@ DEFAULT_DTYPE = torch.double
 def pi_2_pi(angle): #change 0<=theta<2pi to -pi<=theta<pi (move the pi<=theta<2pi to -pi<=theta<0) 
     return (angle + math.pi) % (2 * math.pi) - math.pi
 
+def pipi_2_cw(angle): #change -pi<=theta<pi to 0<=theta<2pi 
+    ang_pos = angle>=0
+    angle_cw = angle*(ang_pos-1)
+    angle_cw += (2*math.pi-angle)*ang_pos
+    return angle_cw
+
 def calc_input(time):
     '''
     a simplified open loop controller to make the robot move in a circle trajectory
@@ -29,14 +35,39 @@ def calc_input(time):
     u = np.array([v, yawrate]).reshape(2, 1)
     return u
 
+# def motion_model(x, u, sim_parameters):
+#     '''
+#     a simplified motion model of the robot that the detector is installed on.
+#     Input: x is the state (pose) of the robot at previous step, u is the control input of the robot
+#     Output: x is the state of the robot for the next step
+#     '''
+#     DT = sim_parameters['DT']
 
-def motion_model(x, u, sim_parameters):
+#     F = np.array([[1.0, 0, 0],
+#                   [0, 1.0, 0],
+#                   [0, 0, 1.0]])
+
+#     B = np.array([[DT * math.cos(x[2, 0]), 0],
+#                   [DT * math.sin(x[2, 0]), 0],
+#                   [0.0, DT]])
+
+#     x = np.dot(F, x) + np.dot(B, u)
+
+#     x[2, 0] = pi_2_pi(x[2, 0])
+#     return x
+
+def motion_model(X, u, sim_parameters, rot_ratio=0):
     '''
     a simplified motion model of the robot that the detector is installed on.
     Input: x is the state (pose) of the robot at previous step, u is the control input of the robot
     Output: x is the state of the robot for the next step
+    rot_ratio: the rate of rotating the direction of detector with respect to the moving direction
+                rotate by rot_ratio*x[2, 0]
     '''
     DT = sim_parameters['DT']
+    x = X[:3, 0].reshape((3,1)) #[[X[0, 0]],[X[1, 0]],[X[2, 0]]]# X[:3, 0]    #!20221923
+    print(x)
+    print(x[2, 0])
 
     F = np.array([[1.0, 0, 0],
                   [0, 1.0, 0],
@@ -49,7 +80,18 @@ def motion_model(x, u, sim_parameters):
     x = np.dot(F, x) + np.dot(B, u)
 
     x[2, 0] = pi_2_pi(x[2, 0])
-    return x
+    X[:3, 0] = x.reshape(-1)
+    if rot_ratio == None:
+        X[3, 0] = np.pi/2
+    else:
+        X[3, 0] = pi_2_pi(x[2, 0]*(1+rot_ratio)) 
+    # X[3, 0] = pi_2_pi(x[2, 0]*(1+rot_ratio)) 
+    # print('----x----')
+    # print(x)
+    # print('====X====')
+    # print(X)
+    return X
+
 
 
 
@@ -223,15 +265,17 @@ def pi_2_pi(angle):
 def cal_cji(m,pose,out_size=40):
     '''
     m: map
-    pose:[x,y,theta]
+    # pose:[x,y,theta]
+    pose:[x,y,theta0, theta1]
     '''
     cji=np.zeros((out_size,m.size))
-    pose=pose.reshape((3,1))
+    pose=pose.reshape((-1,1))
 
     dtheta=2*np.pi/out_size
 
     for j in range(out_size):
         start_angle=pi_2_pi(pose[2,0]-np.pi+j*dtheta)
+        start_angle=pi_2_pi(pose[-1,0]-np.pi+j*dtheta)
         end_angle=pi_2_pi(start_angle+dtheta)
 
         ss=Point(pose[0,0],pose[1,0])

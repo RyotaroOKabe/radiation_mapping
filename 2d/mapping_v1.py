@@ -19,16 +19,27 @@ import os,sys
 import dill #!20220316
 import imageio
 
-a_num = 2
-num_sources = 1
+# a_num = 2
+# num_sources = 1
+# seg_angles = 64
+# fig_folder = f'mapping_data/save_fig/'
+# fig_header = f'A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.13.1'
+# record_path = f'mapping_data/mapping_A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.13'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+# th_level = 0.2
+# save_process = True
+# savedata=True
+factor1 = 1e+24
+
+a_num = 5
+num_sources = 2
 seg_angles = 64
 fig_folder = f'mapping_data/save_fig/'
-fig_header = f'A20220822_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1.1'
-record_path = f'mapping_data/mapping_A20220822_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1'   #'mapping_data/mapping_A20220804_10x10_v1.7'
+fig_header = f'A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5.1'
+record_path = f'mapping_data/mapping_A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 th_level = 0.2
 save_process = True
 savedata=True
-factor1 = 1e+24
+
 # Map
 map_horiz = [-15,15,30]
 map_vert = [-5,25,30]
@@ -157,14 +168,23 @@ def main():
         if save_process:
             m.intensity=x.reshape(m.x_num,m.y_num).T
             hxTrue_data = np.array(data['hxTrue'])
-            pose_x = 10*(hxTrue_data[0,-1] - hxTrue_data[0,-2])
-            pose_y = 10*(hxTrue_data[1,-1] - hxTrue_data[1,-2])
+            pos_x, pos_y, pos_dir, pos_ang = hxTrue_data[0,-1], hxTrue_data[1, -1], hxTrue_data[2, -1], hxTrue_data[3, -1]
+            # arrow_x0 = 10*(hxTrue_data[0,-1] - hxTrue_data[0,-2])
+            # arrow_y0 = 10*(hxTrue_data[1,-1] - hxTrue_data[1,-2])
+            arrow_x0 = 1*np.cos(pos_dir)
+            arrow_y0 = 1*np.sin(pos_dir)
+            arrow_x1 = 1*np.cos(pos_ang)
+            arrow_y1 = 1*np.sin(pos_ang)
             m.plot()
             for i in range(RSID.shape[0]):
-                plt.plot(RSID[i, 0],RSID[i, 1],"xk")  #!20220804 multi sources
-            plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2)
-            plt.arrow(hxTrue_data[0,-2], hxTrue_data[1, -2], pose_x, pose_y, head_width = 0.8, width=0.1)
-            plt.plot(hxTrue_data[0,-1], hxTrue_data[1, -1],"o", color='blue', markersize=7)
+                plt.plot(RSID[i, 0],RSID[i, 1],"xk",markersize=20)  #!20220804 multi sources
+            plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2, color='#66CCCC')
+            # plt.arrow(hxTrue_data[0,-2], hxTrue_data[1, -2], arrow_x, arrow_y, head_width = 0.8, width=0.1)
+            plt.arrow(pos_x, pos_y, arrow_x0, arrow_y0, head_width = 0.8, width=0.1, color='#64ADB1')
+            plt.arrow(pos_x, pos_y, arrow_x1, arrow_y1, head_width = 0.8, width=0.1, color='#D58B70')
+            # plt.plot(hxTrue_data[0,-1], hxTrue_data[1, -1],"o", color='blue', markersize=7)
+            # plt.plot(pos_x, pos_y,"o", color='blue', markersize=7)
+            plt.plot(pos_x, pos_y,"o", color='#64ADB1', markersize=12)
             plt.title('STEP: ' + filename[4:7], fontsize=20)
             plt.tick_params(axis='both', which='major', labelsize=15)
             plt.tick_params(axis='both', which='minor', labelsize=15)

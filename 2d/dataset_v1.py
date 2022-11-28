@@ -3,7 +3,7 @@ import numpy as np
 import json
 import os
 
-def get_output(source, num):
+def get_output(source, num, dig=5):
     sec_center=np.linspace(-np.pi,np.pi,num+1)
     output=np.zeros(num)
     sec_dis=2*np.pi/num
@@ -21,9 +21,16 @@ def get_output(source, num):
         w2=abs(angle-(sec_center[after_indx]+2*np.pi))
     output[before_indx]+=w2/(w1+w2)
     output[after_indx]+=w1/(w1+w2)
+    if type(dig)==int:  #!
+        for j in range(num):
+            output[j]=round(output[j],dig)
+    if int(np.sum(output))!=1:
+        print('output_sum: ', np.sum(output))
+        print(output)
+        print(source)
     return output
 
-def get_output_mul(sources, num):
+def get_output_mul(sources, num, dig=5):
     sec_center=np.linspace(-np.pi,np.pi,num+1)
     output=np.zeros(num)
     sec_dis=2*np.pi/num
@@ -43,12 +50,16 @@ def get_output_mul(sources, num):
             #print w2
         output[before_indx]+=w2/(w1+w2)*ws[i]
         output[after_indx]+=w1/(w1+w2)*ws[i]
+
+    if type(dig)==int:  #!
+        for j in range(num):
+            output[j]=round(output[j],dig)
     #print angle,sec_center[before_indx],sec_center[after_indx]
     return output
 
 class Dataset(object):
     """docstring for Datasedt"""
-    def __init__(self, seg_angles, output_fun,path):    #!20220729
+    def __init__(self, seg_angles, output_fun,path, dig=5):    #!20220729
         super(Dataset, self).__init__()
         files=os.listdir(path)
         self.names=[]
@@ -60,16 +71,19 @@ class Dataset(object):
             with open(os.path.join(path,filename),'r') as f:
                 data=json.load(f)
                 self.names.append(filename)
-                xdata.append(data['input'])
+                if type(dig)==int:  #!
+                    xdata.append([round(d,dig) for d in data['input']])
+                else:
+                    xdata.append(data['input'])
                 ydata.append(output_fun(data['source'], seg_angles))    #!20220729
-                source=data['source']
+                # source=data['source']
                 self.source_list.append(data['source'])
 
         xdata=np.array(xdata)
         ydata=np.array(ydata)
 
-        xx=xdata
-        yy=ydata
+        # xx=xdata
+        # yy=ydata
 
         self.xdata=xdata
         self.ydata=ydata
@@ -101,9 +115,27 @@ class Trainset(object):
             y=y.reshape(1,-1)
             xs.append(x)
             ys.append(y)
+            # #!20221127
+            # data_y = y
+            # print(f'[get_batch_forloop] Check process with {data_y.shape[0]} data!')
+            # # for k in range(data_y.shape[0]):
+            # suml = np.sum(data_y)
+            # if suml <1:
+            #     print(f'[get_batch_forloop] Sum error occurs with {i}th data: ', data_y)
+            # #!20221127
             pass
         xx=np.concatenate(xs)
         yy=np.concatenate(ys)
+        
+        # #!20221127
+        # data_y = yy
+        # print(f'[get_batch] Check process with {data_y.shape[0]} data!')
+        # for k in range(data_y.shape[0]):
+        #     suml = np.sum(data_y[k,:])
+        #     if suml <1:
+        #         print(f'[get_batch] Sum error occurs with {k}th data: ', data_y[k,:])
+        # #!20221127
+        
         mm=xx[:,:].mean(axis=1,keepdims=True)
         vv=xx[:,:].var(axis=1,keepdims=True)
         mm=np.tile(mm,(1,xx.shape[1]))
@@ -140,13 +172,24 @@ class Trainset(object):
         data_indx=np.random.choice(self.index_list,size=num)
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
-        ws=0.
+        # print('=============')
+        # print('[get_one_data] data_indx: ', data_indx)  #!20221129
+        # print('[get_one_data] (xsize): ', self.x_size)   #!20221127
+        # print('[get_one_data] (ysize): ', self.y_size)   #!20221127
+        # print('[get_one_data] num: ', num)  #!20221129
+        # ws=0.
         for indx in data_indx:
+            # print('[get_one_data] indx: ', indx)  #!20221129
             x+=self.xdata[indx,:]
-            ws+=self.ws[indx]
-            y+=self.ws[indx]*self.ydata[indx,:]
-        if ws !=0:
-            y=y/ws
+            # ws+=self.ws[indx]
+            # y+=self.ws[indx]*self.ydata[indx,:]
+            y+=self.ydata[indx,:]/len(data_indx)
+            # print('[get_one_data] (dx): ',self.xdata[indx,:])   #!20221127
+            # print('[get_one_data] (dws): ',self.ws[indx])   #!20221127
+            # print('[get_one_data] (dy): ',self.ydata[indx,:])   #!20221127
+        # if ws !=0:
+        #     y=y/ws
+        # print('=============')
         return x,y
 
     def split(self,split_fold,indx,test_size=None,seed=None):
@@ -220,13 +263,14 @@ class Testset(object):
         data_indx=np.random.choice(self.index_list,size=num)
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
-        ws=0.
-        for indx in data_indx:
-            x+=self.xdata[indx,:]
-            ws+=self.ws[indx]
-            y+=self.ws[indx]*self.ydata[indx,:]
-        if ws != 0:
-            y=y/ws
+
+        # ws=0.
+        # for indx in data_indx:
+        #     x+=self.xdata[indx,:]
+        #     ws+=self.ws[indx]
+        #     y+=self.ws[indx]*self.ydata[indx,:]
+        # if ws != 0:
+        #     y=y/ws
         return x,y
 
     def get_batch(self,bs,indx):
@@ -238,7 +282,7 @@ class Testset(object):
 
 class FilterData2(object):
     """docstring for FilterData"""
-    def __init__(self, filterpath):
+    def __init__(self, filterpath, dig=5):
         super(FilterData2, self).__init__()
         self.path=filterpath
         filter_data=[]
@@ -252,7 +296,10 @@ class FilterData2(object):
                 data=json.load(f)
                 for i,filter_type in enumerate(filter_types):
                     if filter_type in filename:
-                        filter_data[i].append(data['input'])
+                        if type(dig)==int:  #!
+                            filter_data[i].append([round(d,dig) for d in data['input']])
+                        else:
+                            filter_data[i].append(data['input'])
         filter_data=np.array(filter_data)
         filter_data = filter_data.reshape((-1,filter_data.shape[-1]))
         mm=filter_data[:,:].mean(axis=1,keepdims=True)
@@ -267,7 +314,7 @@ class FilterData2(object):
 
 class FilterData(object):
     """docstring for FilterData"""
-    def __init__(self, filterpath):
+    def __init__(self, filterpath, dig=5):
         super(FilterData, self).__init__()
         self.path=filterpath
         filter_data=[]
@@ -276,7 +323,10 @@ class FilterData(object):
             if not filename.endswith('.json'):continue
             with open(os.path.join(filterpath,filename),'r') as f:
                 data=json.load(f)
-                filter_data.append(data['input'])
+                if type(dig)==int:  #!
+                    filter_data.append([round(d,dig) for d in data['input']])
+                else:
+                    filter_data.append(data['input'])
         filter_data=np.array(filter_data)
 
         mm=filter_data[:,:].mean(axis=1,keepdims=True)
@@ -296,6 +346,16 @@ def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,sour
 
     data_set=Dataset(seg_angles,output_fun=output_fun,path=path)
     data_size=data_set.data_size
+    
+    #!20221127
+    data_y = data_set.ydata
+    print(f'Check process with {data_y.shape[0]} data!')
+    for k in range(data_y.shape[0]):
+        suml = np.sum(data_y[k,:])
+        if suml <1:
+            print(f'Sum error occurs with {k}th data: ', data_y[k,:])
+    #!20221127
+    
     if train_size is None:
         train_size=data_set.data_size-test_size
     train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:],source_num=source_num,prob=prob)
@@ -312,7 +372,7 @@ if __name__ == '__main__':
     filterdata2=FilterData2(filterpath)      
     path2 = 'openmc/discrete_10x10_128_data_20220803_v2.1'
     train_set,test_set=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=100,output_fun=get_output,path=path,source_num=[1],prob=[1.],seed=None)
-    train_set2,test_set2=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=128,output_fun=get_output_2source,path=path2,source_num=[1, 1],prob=[1., 1.],seed=None)
+    train_set2,test_set2=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=128,output_fun=get_output_mul,path=path2,source_num=[1, 1],prob=[1., 1.],seed=None)
 
 
 # %%

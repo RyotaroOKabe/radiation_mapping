@@ -21,37 +21,39 @@ from matplotlib.patches import Wedge
 import imageio  #!20220520
 import openmc
 # from mcsimulation_tetris import *
-from cal_param import *
+from cal_param import *   #!20221023
 
 tetris_mode=False
 if tetris_mode:
     from mcsimulation_tetris import *
-    num_sources = 1
-    seg_angles = 64
-    shape_name='T'
-    # file_header = f"A20220928_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
-    file_header = f"A20221016_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.2"
-    recordpath = f'mapping_data/mapping_{file_header}'
-    #model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
-    model_path = f'save_model/model_openmc_tetris{shape_name}_{num_sources}src_{seg_angles}_ep500_bs256_20220821_v1.1_model.pt'
-    model =torch.load(model_path)
-    num_panels=4
-    matrix_shape = [2,3]
+    # num_sources = 1
+    # seg_angles = 64
+    # shape_name='T'
+    # # file_header = f"A20220928_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
+    # file_header = f"A20221023_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.6"
+    # recordpath = f'mapping_data/mapping_{file_header}'
+    # #model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
+    # model_path = f'save_model/model_openmc_tetris{shape_name}_{num_sources}src_{seg_angles}_ep500_bs256_20220821_v1.1_model.pt'
+    # model =torch.load(model_path)
+    # num_panels=4
+    # matrix_shape = [2,3]
 
 else:
     from mcsimulation_square import *
     # a_num =2
     # num_sources = 1
     # seg_angles = 64
-    # file_header = f"A20221016_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.2"
+    # file_header = f"A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.13"
     # recordpath = f'mapping_data/mapping_{file_header}'
     # model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
     # model =torch.load(model_path)
+    # num_panels=a_num**2
+    # matrix_shape = [a_num, a_num]
 
-    a_num =10
+    a_num =5
     num_sources = 2
     seg_angles = 64
-    file_header = f"A20221016_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.2"
+    file_header = f"A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5"
     recordpath = f'mapping_data/mapping_{file_header}'
     model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220812_v1.1_model.pt'
     model =torch.load(model_path)
@@ -60,10 +62,12 @@ else:
 
 DT = 0.1  # time tick [s]
 SIM_TIME = 70.0
-STATE_SIZE = 3
-RSID = np.array([[-7.0,10.5,0.5e6]]) #np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
+STATE_SIZE = 4  #!20221023
+# RSID = np.array([[-7.0,10.5,0.5e6]]) #np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
+RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])
 source_energies = [0.5e6, 0.5e6]
 SIM_STEP=10
+rot_ratio = 0  #!20221023
 sim_parameters = {
     'DT': DT,
     'SIM_TIME': SIM_TIME,
@@ -71,6 +75,7 @@ sim_parameters = {
     'RSID':RSID,
     'source_energies':source_energies,
     'SIM_STEP':SIM_STEP,
+    'rot_ratio': rot_ratio
 }
 
 # Map
@@ -143,10 +148,12 @@ def main(seg_angles, model, recordpath, sim_parameters):
     RSID = sim_parameters['RSID']
     source_energies = sim_parameters['source_energies']
     SIM_STEP = sim_parameters['SIM_STEP']
+    rot_ratio = sim_parameters['rot_ratio'] #!20221023
     time=0
     step=0
 
     relsrc = []
+    relsrc_dir = []
     xTrue_record = []
     d_record=[]
     angle_record=[]
@@ -159,15 +166,18 @@ def main(seg_angles, model, recordpath, sim_parameters):
         time += DT
         step+=1
         u = calc_input(time)
-        xTrue = motion_model(xTrue, u, sim_parameters)
+        # xTrue = motion_model(xTrue, u, sim_parameters)
+        xTrue = motion_model(xTrue, u, sim_parameters, rot_ratio=rot_ratio)  #!20221023
         hxTrue = np.hstack((hxTrue, xTrue))
         det_output=None
         predict=None
-        xTrue_record.append(xTrue)
+        xTrue_record.append(xTrue.tolist())
+        # print(xTrue_record)
         if step%SIM_STEP==0:
             print('STEP %d'%step)
             source_list=[]
             relsrc_line = []
+            relsrc_dir_line = []       #!20221023
             d_record_line = [step]
             angle_line = [step]
             dist_ang_list = []
@@ -177,16 +187,21 @@ def main(seg_angles, model, recordpath, sim_parameters):
                 dx = RSID[i, 0] - xTrue[0, 0]
                 dy = RSID[i, 1] - xTrue[1, 0]
                 d = math.sqrt(dx**2 + dy**2)
-                angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
+                # angle = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])
+                angle = pi_2_pi(math.atan2(dy, dx) - xTrue[3, 0])   #!20221023
+                angle_dir = pi_2_pi(math.atan2(dy, dx) - xTrue[2, 0])   #!20221023
                 print('RSID:', [RSID[i, 0],RSID[i, 1]])
                 print('xTrue:', [xTrue[0, 0],xTrue[1, 0]])
                 print('d:', d)
                 print('[dx, dy]:', [dx, dy])
                 print('angle (rad): ', angle)
                 print('angle (deg): ', angle*180/np.pi)
-                print('xTrue_ang: ', xTrue[2, 0])
+                # print('xTrue_ang: ', xTrue[2, 0])
+                print('xTrue_ang: ', xTrue[3, 0])
                 x=d*np.cos(angle)
                 y=d*np.sin(angle)
+                x_dir=d*np.cos(angle_dir)
+                y_dir=d*np.sin(angle_dir)
                 rate=RSID[i,2]
                 source_list.append([x,y,rate])
                 src_xy = [x, y]
@@ -196,12 +211,16 @@ def main(seg_angles, model, recordpath, sim_parameters):
                 sources_x_y_c.append(source_x_y_c)
                 relsrc_line.append(x)
                 relsrc_line.append(y)
+                relsrc_dir_line.append(x_dir)      #!20221023
+                relsrc_dir_line.append(y_dir)      #!20221023
                 d_record_line.append(d)
-                angle_line.append(angle*180/np.pi)
+                # angle_line.append(angle*180/np.pi)
+                angle_line.append(pipi_2_cw(angle)*180/math.pi)
                 dist_ang_list.append([d, angle*180/np.pi])
                 sources_d_th.append([d, angle*180/np.pi, source_energies[i]])
 
             relsrc.append(relsrc_line)
+            relsrc_dir.append(relsrc_dir_line)
             d_record.append(d_record_line)
             angle_record.append(angle_line)
             dist_ang = np.transpose(np.array(dist_ang_list))
@@ -227,7 +246,8 @@ def main(seg_angles, model, recordpath, sim_parameters):
 
             xdata_original=det_output.reshape(matrix_shape)   #(2, 3)
             ydata = get_output_mul(sources_x_y_c, seg_angles)
-            pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)
+            # pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)
+            pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
             fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(40,20))    #!20220520
@@ -259,7 +279,8 @@ def main(seg_angles, model, recordpath, sim_parameters):
             rgbs[:, 2] = np.linspace(((colors_max[2]-255)/N*xx+255)/255, colors_max[2]/255, N)  # B = 11
             own_cmp = ListedColormap(rgbs)
             ax1.imshow(xdata_show, interpolation='nearest', cmap=own_cmp)
-            ds, ag = d, angle*180/np.pi
+            # ds, ag = d, angle*180/np.pi
+            ds, ag = d, pipi_2_cw(angle)*180/math.pi
             ax1.axes.get_xaxis().set_visible(False)
             ax1.axes.get_yaxis().set_visible(False)
             plt.xlabel('x')
@@ -295,7 +316,8 @@ def main(seg_angles, model, recordpath, sim_parameters):
             ax2.axes.get_xaxis().set_visible(False)
             ax2.axes.get_yaxis().set_visible(False)
 
-            fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
+            # fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
+            fig.suptitle('Real Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!20220822
             fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)
@@ -324,6 +346,13 @@ def main(seg_angles, model, recordpath, sim_parameters):
     plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.png')
     plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.pdf')
     plt.close()
+
+    rel_dir_source = np.array(relsrc_dir) #!20220509
+    plt.plot(rel_dir_source[:,0], rel_dir_source[:,1])
+    plt.title('relative source position')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_dir_source.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_dir_source.pdf')
+    plt.close()
     
     xTrue_data = np.array(xTrue_record) #!20220509
     plt.plot(xTrue_data[:,0], xTrue_data[:,1])
@@ -343,15 +372,17 @@ def main(seg_angles, model, recordpath, sim_parameters):
 
     angle_data = np.array(angle_record) #!20220509
     predout_data = np.array(predout_record) #!20220509
-    plt.plot(angle_data[:,0], angle_data[:,1], label="angle")
-    plt.plot(predout_data[:,0], predout_data[:,1], label="pred_out")
+    plt.plot(DT*angle_data[:,0], angle_data[:,1], label="angle", color='#64ADB1')
+    plt.plot(DT*predout_data[:,0], predout_data[:,1], label="pred_out", color='#D58B70')
     plt.title('angle')
-    plt.xlabel('step')
+    plt.xlabel('Time [s]')
     plt.ylabel('angle [deg]')
     plt.legend(loc="upper right")
+    plt.ylim(0,360)
     plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.png')
     plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.pdf')
     plt.close()
+
     with imageio.get_writer('mapping_data/save_fig/'+file_header + '.gif', mode='I') as writer:
         for figurename in sorted(os.listdir(predictpath)):
             if figurename.endswith('png'):  #!20220729

@@ -41,7 +41,7 @@ else:
 
 DEFAULT_DTYPE = torch.double
 
- 
+#%%
 
 class Filterlayer(nn.Module):
     """docstring for Filterlayer"""
@@ -127,6 +127,14 @@ class Model(object):
             for j in range(times):
                 timer.start('load data')    #!20220104
                 data_x, data_y=train.get_batch(batch_size)
+
+                # #! 20221127
+                # for k in range(data_y.shape[0]):
+                #     suml = np.sum(data_y[k,:])
+                #     if suml <1:
+                #         print('Sum error occurs with: ', data_y[k,:])
+                # #! 20221127
+
                 data_x = torch.from_numpy(data_x).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
                 data_y = torch.from_numpy(data_y).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
                 datas.append((data_x,data_y))
@@ -303,7 +311,7 @@ if __name__ == '__main__':
     seg_angles = 64
     epochs = 500
     #=========================================================
-    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220822_v1.1"
+    save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20221127_v1.2"
     #save_name = f"openmc_tetris{tetris_shape}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220821_v1.1"
     #=========================================================
     # path = f'openmc/data_tetris{tetris_shape}_1src_64_data_20220821_v1.1'
@@ -324,12 +332,18 @@ if __name__ == '__main__':
     
     kld_loss = torch.nn.KLDivLoss(size_average=None, reduction='batchmean')
     loss_train = lambda  y, y_pred: emd_loss_ring(y, y_pred, r=2)
-    # loss_train = lambda y, y_pred: emd_loss_sinkhorn(y, y_pred, M2)
-    # loss_train = lambda y, y_pred: kld_loss(y_pred.log(),y)
-
-    loss_val = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()
+    loss_val = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()#, r=1).item()   #!20221127
     model = Model(net, loss_train, loss_val,reg=0.001)
     train_set,test_set=load_data(test_size=test_size,train_size=None,test_size_gen=None,seg_angles=seg_angles,output_fun=output_fun,path=path,source_num=[1,1],prob=[1., 1.],seed=None)
+
+    # #!20221127
+    # data_y = train_set.ydata
+    # print(f'[Train] Check process with {data_y.shape[0]} data!')
+    # for k in range(data_y.shape[0]):
+    #     suml = np.sum(data_y[k,:])
+    #     if suml <1:
+    #         print(f'[Train] Sum error occurs with {k}th data: ', data_y[k,:])
+    # #!20221127
 
     optim = torch.optim.Adam([
         {"params": net.unet.parameters()},

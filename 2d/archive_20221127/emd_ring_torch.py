@@ -1,25 +1,27 @@
+#import tensorflow as tf
 import torch
 import numpy as np
+import tensorflow as tf #!20211230
 
-# def tril_indices(n, k=0):
-#     """Return the indices for the lower-triangle of an (n, m) array.
-#     Works similarly to `np.tril_indices`
-#     Args:
-#       n: the row dimension of the arrays for which the returned indices will
-#         be valid.
-#       k: optional diagonal offset (see `np.tril` for details).
-#     Returns:
-#       inds: The indices for the triangle. The returned tuple contains two arrays,
-#         each with the indices along one dimension of the array.
-#     """
-#     m1 = tf.tile(tf.expand_dims(tf.range(n), axis=0), [n, 1])
-#     m2 = tf.tile(tf.expand_dims(tf.range(n), axis=1), [1, n])
-#     mask = (m1 - m2) >= -k
-#     ix1 = tf.boolean_mask(m2, tf.transpose(mask))
-#     ix2 = tf.boolean_mask(m1, tf.transpose(mask))
-#     return ix1, ix2
+def tril_indices(n, k=0):
+    """Return the indices for the lower-triangle of an (n, m) array.
+    Works similarly to `np.tril_indices`
+    Args:
+      n: the row dimension of the arrays for which the returned indices will
+        be valid.
+      k: optional diagonal offset (see `np.tril` for details).
+    Returns:
+      inds: The indices for the triangle. The returned tuple contains two arrays,
+        each with the indices along one dimension of the array.
+    """
+    m1 = tf.tile(tf.expand_dims(tf.range(n), axis=0), [n, 1])
+    m2 = tf.tile(tf.expand_dims(tf.range(n), axis=1), [1, n])
+    mask = (m1 - m2) >= -k
+    ix1 = tf.boolean_mask(m2, tf.transpose(mask))
+    ix2 = tf.boolean_mask(m1, tf.transpose(mask))
+    return ix1, ix2
 
-def ecdf(p):
+def ecdf_tf(p):
     """Estimate the cumulative distribution function.
     The e.c.d.f. (empirical cumulative distribution function) F_n is a step
     function with jump 1/n at each observation (possibly with multiple jumps
@@ -33,17 +35,34 @@ def ecdf(p):
     Returns:
       A 2-D `Tensor` of estimated ECDFs.
     """
+    n = p.get_shape().as_list()[1]
+    indices = tril_indices(n)
+    indices = tf.transpose(tf.stack([indices[1], indices[0]]))
+    ones = tf.ones([n * (n + 1) / 2])
+    triang = tf.scatter_nd(indices, ones, [n, n])
+    return tf.matmul(p, triang)
+
+def ecdf(p):
     n = p.shape[1]
-    triang = torch.t(torch.tril(torch.ones([n,n]).to(p)))
+
+    #triang = torch.tril(torch.ones([n,n]).to(p)).T #!20211230
+    triang = torch.t(torch.tril(torch.ones([n,n]).to(p))) #!20211230
     return torch.matmul(p,triang)
 
 
-def shift_tf(p,dis=0):
+def shift_tf(p,dis=0): #!20211230
     p1=p[:,0:dis]
     p2=p[:,dis:]
     p=tf.concat([p2,p1],1)
     return p
-
+  
+#%%
+#def shift(p,dis=0): #!20211230
+#    p1=p[:,0:dis]
+#    p2=p[:,dis:]
+#    p=torch.cat([p2,p1],1)
+#    return p
+  
 def shift(p,dis=1):  #!20211230
     if dis==0:
         p=p
@@ -52,9 +71,8 @@ def shift(p,dis=1):  #!20211230
         p2=p[:,dis:]
         p=torch.cat([p2,p1],1)
     return p
-
-
-def emd_loss(p, p_hat, r=2):
+#%%
+def emd_loss_tf(p, p_hat, r=2, scope=None):
     """Compute the Earth Mover's Distance loss.
     Hou, Le, Chen-Ping Yu, and Dimitris Samaras. "Squared Earth Mover's
     Distance-based Loss for Training Deep Neural Networks." arXiv preprint
@@ -69,6 +87,16 @@ def emd_loss(p, p_hat, r=2):
     Returns:
       A 0-D `Tensor` of r-normed EMD loss.
     """
+    p=p/tf.reduce_sum(p,axis=1,keepdims=True)
+    with tf.name_scope(scope, 'EmdLoss', [p, p_hat]):
+        #p=shift(p,1)
+        ecdf_p = ecdf_tf(p)
+        ecdf_p_hat = ecdf_tf(p_hat)
+        emd = tf.reduce_mean(tf.pow(tf.abs(ecdf_p - ecdf_p_hat), r), axis=-1)
+        emd = tf.pow(emd, 1. / r)
+        return tf.reduce_mean(emd)
+
+def emd_loss(p, p_hat, r=2):
     p=p/torch.sum(p,dim=1,keepdims=True)
     ecdf_p = ecdf(p)
     ecdf_p_hat = ecdf(p_hat)
@@ -76,8 +104,7 @@ def emd_loss(p, p_hat, r=2):
     emd = torch.pow(emd, 1./r)
     return torch.mean(emd)
 
-
-def emd_loss_ring(p,p_hat,r=2, small=1e-5):
+def emd_loss_ring_tf(p, p_hat, r=2, scope=None):
     """Compute the Earth Mover's Distance loss.
     Hou, Le, Chen-Ping Yu, and Dimitris Samaras. "Squared Earth Mover's
     Distance-based Loss for Training Deep Neural Networks." arXiv preprint
@@ -92,6 +119,30 @@ def emd_loss_ring(p,p_hat,r=2, small=1e-5):
     Returns:
       A 0-D `Tensor` of r-normed EMD loss.
     """
+    p=p/tf.reduce_sum(p,axis=1,keepdims=True)
+    p_hat=p_hat/tf.reduce_sum(p_hat,axis=1,keepdims=True)
+    with tf.name_scope(scope, 'EmdLoss', [p, p_hat]):
+        #p=shift(p,1)
+        n = p.get_shape().as_list()[1]
+        ecdf_ps=[]
+        ecdf_p_hats=[]
+        for i in range(n):
+            pp=shift_tf(p,i)
+            pp_hat=shift_tf(p_hat,i)
+            ecdf_p = ecdf_tf(pp)
+            ecdf_p_hat = ecdf_tf(pp_hat)
+            ecdf_ps.append(ecdf_p)
+            ecdf_p_hats.append(ecdf_p_hat)
+        ecdf_p = tf.stack(ecdf_ps)
+        ecdf_p_hat=tf.stack(ecdf_p_hats)
+        #print(ecdf_p.get_shape())
+        emd = tf.reduce_sum(tf.pow(tf.abs(ecdf_p - ecdf_p_hat), r), axis=2)
+        emd = tf.reduce_min(emd,axis=0)
+        emd = tf.pow(emd, 1. / r)
+        emd=tf.reduce_mean(emd,axis=0)
+        return emd
+
+def emd_loss_ring(p,p_hat,r=2, small=1e-5):
       # print('p: ', (torch.sum(p,dim=1,keepdim=True)))
       # print('p_hat: ', (torch.sum(p_hat,dim=1,keepdim=True)))
       # for k in range(p.shape[0]):
@@ -182,6 +233,18 @@ if __name__ == '__main__':
 
     #print(emd_loss_ring(torch.as_tensor(data1),torch.as_tensor(data2), r=2))  #!20211230
     print(emd_loss_ring(torch.from_numpy(data1),torch.from_numpy(data2), r=2))   #!20211230
+
+
+    data1=tf.constant(data1,dtype=tf.float32)
+    data2=tf.constant(data2,dtype=tf.float32)
+    loss = emd_loss_ring_tf(data1, data2, r=2)
+    loss2 = emd_loss_ring_tf(data1, data2, r=2)
+
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        #newp=shift(data1,1)
+        #print sess.run(loss)
+        print(sess.run(loss2))#*a.shape[1]
 
     n=a.shape[1]
     M1=np.zeros([n,n])
