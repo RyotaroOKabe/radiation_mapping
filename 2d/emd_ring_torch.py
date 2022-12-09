@@ -102,17 +102,17 @@ def emd_loss_ring(p,p_hat,r=2, small=1e-5):
     #p_hat=p_hat/torch.sum(p_hat,dim=1,keepdims=True)
     # print("======test0=====") #!20220330
     # print(p_hat)  #!20220303 >> check!
-    p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
+    # p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
     # print(p_hat_m) #!20220330 testing >> This part was no problem
     # p=p/torch.sum(p,dim=1,keepdim=True) #!20211229
     p=p/(torch.sum(p,dim=1,keepdim=True)+small) #!20221127
     # print(p)
-    p_m=torch.mean(p) #,dim=0) #!20220330 testing
+    # p_m=torch.mean(p) #,dim=0) #!20220330 testing
     # print(p_m) #!20220330 testing >> Include nan
     # p_hat=p_hat/torch.sum(p_hat,dim=1,keepdim=True) #!20211229
     p_hat=p_hat/(torch.sum(p_hat,dim=1,keepdim=True)+small) #!20221127
     # print(p_hat)  #!20220303 >> check!
-    p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
+    # p_hat_m=torch.mean(p_hat) #,dim=0) #!20220330 testing
     # print(p_hat_m) #!20220330 testing
         #p=shift(p,1)
     n = p.shape[1]
@@ -128,23 +128,23 @@ def emd_loss_ring(p,p_hat,r=2, small=1e-5):
     ecdf_p = torch.stack(ecdf_ps)
     # print("======test1=====") #!20220330
     # print(ecdf_p)  #!20220303 >> error!
-    ecdf_p_m=torch.mean(ecdf_p,dim=0) #!20220330 testing
+    # ecdf_p_m=torch.mean(ecdf_p,dim=0) #!20220330 testing
     # print(ecdf_p_m) #!20220330 testing >> Include nan
     # print("======test2=====") #!20220330
     ecdf_p_hat=torch.stack(ecdf_p_hats)
     # print(ecdf_p_hat)  #!20220303  >> check!!
-    ecdf_p_hat_m=torch.mean(ecdf_p_hat,dim=0) #!20220330 testing
+    # ecdf_p_hat_m=torch.mean(ecdf_p_hat,dim=0) #!20220330 testing
     # print(ecdf_p_hat_m) #!20220330 testing >> Include nan
     # #print(ecdf_p.get_shape())
     # print("======test3=====") #!20220330
     emd = torch.sum(torch.pow(torch.abs(ecdf_p - ecdf_p_hat), r), dim=2)
     # print(emd)  #!20220303
-    emd_m=torch.mean(emd,dim=0) #!20220330 testing
+    # emd_m=torch.mean(emd,dim=0) #!20220330 testing
     # print(emd_m) #!20220330 testing  >> Include nan
     # print("======test4=====") #!20220330
     emd = torch.min(emd,dim=0)[0]
     # print(emd)
-    emd_m=torch.mean(emd,dim=0) #!20220330 testing
+    # emd_m=torch.mean(emd,dim=0) #!20220330 testing
     # print(emd_m) #!20220330 testing >> Include nan
     # print("======test5=====") #!20220330
     #print(emd)  #!20220303 testing
@@ -153,14 +153,14 @@ def emd_loss_ring(p,p_hat,r=2, small=1e-5):
     # print(emd)
     # print(emd.shape)
     # print(type(emd))
-    emd_m=torch.mean(emd,dim=0) #!20220330 testing
+    # emd_m=torch.mean(emd,dim=0) #!20220330 testing
     # print(emd_m) #!20220330 testing >> Include nan
     # #print(emd)  #!20220303 testing
     # print("======test6=====") #!20220330
     #print("====emd end===")
     emd=torch.mean(emd,dim=0)
     # print(emd)  #!20220303
-    emd_m=torch.mean(emd,dim=0) #!20220330 testing
+    # emd_m=torch.mean(emd,dim=0) #!20220330 testing
     # print(emd_m) #!20220330 testing >> Include nan
     return emd
 
@@ -190,7 +190,7 @@ if __name__ == '__main__':
             #M1[i,j]=abs(i-j)
             M1[i,j]=min(abs(i-j),j+n-i,i+n-j)#**2
 
-    a=a[0]/a.sum()
-    b=b[0]/b.sum()
-    print(emd(a,b,M1))
+    # a=a[0]/a.sum()
+    # b=b[0]/b.sum()
+    # print(emd(a,b,M1))
 # %%

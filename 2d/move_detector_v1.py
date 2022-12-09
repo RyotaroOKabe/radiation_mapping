@@ -245,7 +245,7 @@ def main(seg_angles, model, recordpath, sim_parameters):
             predict=model(network_input).detach().cpu().numpy().reshape(-1)
 
             xdata_original=det_output.reshape(matrix_shape)   #(2, 3)
-            ydata = get_output_mul(sources_x_y_c, seg_angles)
+            ydata = get_output(sources_x_y_c, seg_angles)
             # pred_out = (360/seg_angles)*(np.argmax(predict)-seg_angles/2)
             pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             predout_record.append([step, pred_out])

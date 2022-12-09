@@ -1,36 +1,111 @@
 #%%
 import numpy as np
+import matplotlib.pyplot as plt
 import json
 import os
+import openmc
 
-def get_output(source, num, dig=5):
-    sec_center=np.linspace(-np.pi,np.pi,num+1)
-    output=np.zeros(num)
-    sec_dis=2*np.pi/num
-    #angle=np.arctan2(source[1],source[0])
-    angle=np.arctan2(source[0]["position"][1],source[0]["position"][0])
-    before_indx=int((angle+np.pi)/sec_dis)
-    if before_indx>=num:
-        before_indx-=num
-    after_indx=before_indx+1
-    if after_indx>=num:
-        after_indx-=num
-    w1=abs(angle-sec_center[before_indx])
-    w2=abs(angle-sec_center[after_indx])
-    if w2>sec_dis:
-        w2=abs(angle-(sec_center[after_indx]+2*np.pi))
-    output[before_indx]+=w2/(w1+w2)
-    output[after_indx]+=w1/(w1+w2)
-    if type(dig)==int:  #!
-        for j in range(num):
-            output[j]=round(output[j],dig)
-    if int(np.sum(output))!=1:
-        print('output_sum: ', np.sum(output))
-        print(output)
-        print(source)
-    return output
+def gen_materials(panel_density):
+    panel = openmc.Material(name='CdZnTe')
+    panel.set_density('g/cm3', panel_density)
+    panel.add_nuclide('Cd114', 33, percent_type='ao')
+    panel.add_nuclide('Zn64', 33, percent_type='ao')
+    panel.add_nuclide('Te130', 33, percent_type='ao')
+    insulator = openmc.Material(name='Zn')
+    insulator.set_density('g/cm3', 1)
+    insulator.add_nuclide('Pb208', 11.35)
+    outer = openmc.Material(name='Outer_CdZnTe')
+    outer.set_density('g/cm3', panel_density)
+    outer.add_nuclide('Cd114', 33, percent_type='ao')
+    outer.add_nuclide('Zn64', 33, percent_type='ao')
+    outer.add_nuclide('Te130', 33, percent_type='ao')
+    materials = openmc.Materials(materials=[panel, insulator, outer])
+    materials.export_to_xml()
+    return panel, insulator, outer
 
-def get_output_mul(sources, num, dig=5):
+def gen_settings(src_energy, src_strength, en_prob, num_particles, batch_size, sources):
+    num_sources = len(sources)
+    sources_list = []
+    for i in range(num_sources):
+        point = openmc.stats.Point((sources[i]['position'][0], sources[i]['position'][1], 0))
+        source = openmc.Source(space=point, particle='photon', energy=src_energy, strength=src_strength)  #!20220204    #!20220118
+        source.energy = openmc.stats.Discrete(x=(sources[i]['counts']), p=en_prob)
+        sources_list.append(source) #, source2, source3]     #!20220118
+
+    settings = openmc.Settings()
+    settings.run_mode = 'fixed source'
+    settings.photon_transport = True
+    settings.source = sources_list
+    settings.batches = batch_size
+    settings.inactive = 10
+    settings.particles = num_particles
+
+    settings.export_to_xml()
+
+def get_sources(sources_d_th):
+    num_sources = len(sources_d_th)
+    sources = []
+    for i in range(num_sources):
+        theta=sources_d_th[i][1]*np.pi/180
+        dist = sources_d_th[i][0]
+        source = {}
+        src_xy = [float(dist*np.cos(theta)), float(dist*np.sin(theta))]
+        source['position']=src_xy
+        source['counts']=sources_d_th[i][2]
+        sources.append(source)
+    return sources
+
+def run_openmc():
+    # Run OpenMC!
+    openmc.run()
+
+
+def output_process(mean, digits, folder1, file1, folder2, file2, sources, seg_angles, norm):
+    mean = np.transpose(mean)
+    # max = mean.max()
+    if norm:
+        mean_me = mean.mean()
+        mean_st = mean.std()
+        mean = (mean-mean_me)/mean_st
+    # absorb = tally.get_slice(scores=['absorption'])
+    # stdev = absorb.std_dev.reshape((a_num, a_num))
+    # stdev_max = stdev.max()
+    num_sources = len(sources)
+    data_json={}
+    data_json['source']=sources
+    data_json['output']=[round(s, digits) for s in get_output(sources, seg_angles).tolist()]    #!
+    data_json['num_sources']=num_sources
+    data_json['seg_angles']=seg_angles
+    mean_list=mean.T.reshape((1, -1)).tolist()
+    data_json['input']=[round(m, digits) for m in mean_list[0]]
+    with open(folder1+file1,"w") as f:
+        json.dump(data_json, f)
+    mean_show  = np.flip(mean, 0)
+    # plt.imshow(mean, interpolation='nearest', cmap='gist_gray')#"plasma")
+    plt.imshow(mean_show, interpolation='nearest', cmap='gist_gray')#"plasma")   #!20221128
+    ds_ag_list = file2[:-5].split('_')[1:]
+    ds_ag_title = ''
+    for i in range(num_sources):    #! make this part smarter
+        ds, ag = ds_ag_list[2*i], ds_ag_list[2*i+1]
+        ds_ag_line = f'dist{i}: {ds},  angle{i}: {ag}'
+        if i != num_sources-1:
+            ds_ag_line += '\n'
+        ds_ag_title += ds_ag_line
+    plt.title(ds_ag_title)
+    plt.xlabel('y')
+    plt.ylabel('x')
+    plt.colorbar()
+    plt.savefig(folder2 + file2)
+    plt.savefig(folder2 + file2[:-3] + 'pdf')
+    plt.close()
+    print('json dir')
+    print(folder1+file1)
+    print('fig dir')
+    print(folder2+file2)
+    return mean
+
+
+def get_output(sources, num):
     sec_center=np.linspace(-np.pi,np.pi,num+1)
     output=np.zeros(num)
     sec_dis=2*np.pi/num
@@ -47,19 +122,13 @@ def get_output_mul(sources, num, dig=5):
         w2=abs(angle-sec_center[after_indx])
         if w2>sec_dis:
             w2=abs(angle-(sec_center[after_indx]+2*np.pi))
-            #print w2
         output[before_indx]+=w2/(w1+w2)*ws[i]
         output[after_indx]+=w1/(w1+w2)*ws[i]
-
-    if type(dig)==int:  #!
-        for j in range(num):
-            output[j]=round(output[j],dig)
-    #print angle,sec_center[before_indx],sec_center[after_indx]
     return output
 
 class Dataset(object):
     """docstring for Datasedt"""
-    def __init__(self, seg_angles, output_fun,path, dig=5):    #!20220729
+    def __init__(self, seg_angles, output_fun,path):    #!20220729
         super(Dataset, self).__init__()
         files=os.listdir(path)
         self.names=[]
@@ -71,10 +140,7 @@ class Dataset(object):
             with open(os.path.join(path,filename),'r') as f:
                 data=json.load(f)
                 self.names.append(filename)
-                if type(dig)==int:  #!
-                    xdata.append([round(d,dig) for d in data['input']])
-                else:
-                    xdata.append(data['input'])
+                xdata.append(data['input'])
                 ydata.append(output_fun(data['source'], seg_angles))    #!20220729
                 # source=data['source']
                 self.source_list.append(data['source'])
@@ -282,7 +348,7 @@ class Testset(object):
 
 class FilterData2(object):
     """docstring for FilterData"""
-    def __init__(self, filterpath, dig=5):
+    def __init__(self, filterpath):
         super(FilterData2, self).__init__()
         self.path=filterpath
         filter_data=[]
@@ -296,10 +362,7 @@ class FilterData2(object):
                 data=json.load(f)
                 for i,filter_type in enumerate(filter_types):
                     if filter_type in filename:
-                        if type(dig)==int:  #!
-                            filter_data[i].append([round(d,dig) for d in data['input']])
-                        else:
-                            filter_data[i].append(data['input'])
+                        filter_data[i].append(data['input'])
         filter_data=np.array(filter_data)
         filter_data = filter_data.reshape((-1,filter_data.shape[-1]))
         mm=filter_data[:,:].mean(axis=1,keepdims=True)
@@ -314,7 +377,7 @@ class FilterData2(object):
 
 class FilterData(object):
     """docstring for FilterData"""
-    def __init__(self, filterpath, dig=5):
+    def __init__(self, filterpath):
         super(FilterData, self).__init__()
         self.path=filterpath
         filter_data=[]
@@ -323,10 +386,7 @@ class FilterData(object):
             if not filename.endswith('.json'):continue
             with open(os.path.join(filterpath,filename),'r') as f:
                 data=json.load(f)
-                if type(dig)==int:  #!
-                    filter_data.append([round(d,dig) for d in data['input']])
-                else:
-                    filter_data.append(data['input'])
+                filter_data.append(data['input'])
         filter_data=np.array(filter_data)
 
         mm=filter_data[:,:].mean(axis=1,keepdims=True)
@@ -372,7 +432,7 @@ if __name__ == '__main__':
     filterdata2=FilterData2(filterpath)      
     path2 = 'openmc/discrete_10x10_128_data_20220803_v2.1'
     train_set,test_set=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=100,output_fun=get_output,path=path,source_num=[1],prob=[1.],seed=None)
-    train_set2,test_set2=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=128,output_fun=get_output_mul,path=path2,source_num=[1, 1],prob=[1., 1.],seed=None)
+    train_set2,test_set2=load_data(test_size=50,train_size=None,test_size_gen=None,seg_angles=128,output_fun=get_output,path=path2,source_num=[1, 1],prob=[1., 1.],seed=None)
 
 
 # %%
