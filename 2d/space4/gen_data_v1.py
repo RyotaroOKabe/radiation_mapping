@@ -26,13 +26,13 @@ num_sources = 1
 a_num = 2   # The shape of the detector: a x a square 
 num_data = 4000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist_min = 10   # minimum distance between the radiation source and the detector (cm).
-dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
+dist_min = 50   # minimum distance between the radiation source and the detector (cm).
+dist_max = 2000 #500 # maximum distance between the radiation source and the detector (cm).
 source_energies = [0.5e6 for l in range(num_sources)]    # Photon energy [eV]
 num_particles = 10000 #!20000   # The number of photon
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
 header = 'data'
-openmc_dir = 'openmc/'
+openmc_dir = '../openmc/'
 folder1=f'{openmc_dir}{run_name}_sq{a_num}_{num_sources}s_d{dist_min}to{dist_max}_a{seg_angles}_dat/'
 folder2=f'{openmc_dir}{run_name}_sq{a_num}_{num_sources}s_d{dist_min}to{dist_max}_a{seg_angles}_fig/'
 
