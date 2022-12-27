@@ -219,7 +219,7 @@ class Model(object):
             with torch.no_grad():
                 predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy()
 
-            pred_loss = loss_train(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
+            pred_loss = loss_fn(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
             # print('pred_loss: ', pred_loss)
             total_loss += pred_loss.item()
             fig = plt.figure(figsize=(6, 6), facecolor='white')
@@ -250,9 +250,9 @@ for i in range(n):
         M1[i,j]=min(abs(i-j),j+n-i,i+n-j)#**2
         M2[i,j]=min(abs(i-j),j+n-i,i+n-j)**2
 
-from emd_ring_torch import emd_loss_ring
+from utils.emd_ring_torch import emd_loss_ring
 
-from emd_sinkhorn_torch import emd_pop_zero_batch, sinkhorn_torch
+from utils.emd_sinkhorn_torch import emd_pop_zero_batch, sinkhorn_torch
 
 def emd_ring(y_preds,ys,M):
     loss=0.
