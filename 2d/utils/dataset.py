@@ -61,7 +61,7 @@ def run_openmc():
     openmc.run()
 
 
-def output_process(mean, digits, folder1, file1, folder2, file2, sources, seg_angles, norm):
+def output_process(mean, digits, folder, file, sources, seg_angles, norm, savefig=False):
     mean = np.transpose(mean)
     # max = mean.max()
     if norm:
@@ -79,30 +79,31 @@ def output_process(mean, digits, folder1, file1, folder2, file2, sources, seg_an
     data_json['seg_angles']=seg_angles
     mean_list=mean.T.reshape((1, -1)).tolist()
     data_json['input']=[round(m, digits) for m in mean_list[0]]
-    with open(folder1+file1,"w") as f:
+    with open(f"{folder}/{file}.json","w") as f:
         json.dump(data_json, f)
-    mean_show  = np.flip(mean, 0)
-    # plt.imshow(mean, interpolation='nearest', cmap='gist_gray')#"plasma")
-    plt.imshow(mean_show, interpolation='nearest', cmap='gist_gray')#"plasma")   #!20221128
-    ds_ag_list = file2[:-5].split('_')[1:]
-    ds_ag_title = ''
-    for i in range(num_sources):    #! make this part smarter
-        ds, ag = ds_ag_list[2*i], ds_ag_list[2*i+1]
-        ds_ag_line = f'dist{i}: {ds},  angle{i}: {ag}'
-        if i != num_sources-1:
-            ds_ag_line += '\n'
-        ds_ag_title += ds_ag_line
-    plt.title(ds_ag_title)
-    plt.xlabel('y')
-    plt.ylabel('x')
-    plt.colorbar()
-    plt.savefig(folder2 + file2)
-    plt.savefig(folder2 + file2[:-3] + 'pdf')
-    plt.close()
-    print('json dir')
-    print(folder1+file1)
-    print('fig dir')
-    print(folder2+file2)
+    if savefig:
+        folder2 = folder + '_fig'
+        mean_show  = np.flip(mean, 0)
+        plt.imshow(mean_show, interpolation='nearest', cmap='gist_gray')#"plasma")   #!20221128
+        ds_ag_list = file.split('_')[1:]
+        ds_ag_title = ''
+        for i in range(num_sources):    #! make this part smarter
+            ds, ag = ds_ag_list[2*i], ds_ag_list[2*i+1]
+            ds_ag_line = f'dist{i}: {ds},  angle{i}: {ag}'
+            if i != num_sources-1:
+                ds_ag_line += '\n'
+            ds_ag_title += ds_ag_line
+        plt.title(ds_ag_title)
+        plt.xlabel('y')
+        plt.ylabel('x')
+        plt.colorbar()
+        plt.savefig(f"{folder2}/{file}.png")
+        plt.savefig(f"{folder2}/{file}.pdf")
+        plt.close()
+    # print('json dir')
+    # print(folder1+file1)
+    # print('fig dir')
+    # print(folder2+file2)
     return mean
 
 
@@ -426,6 +427,11 @@ def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,sour
     
     #! random set
     idx_train, idx_test = train_test_split(range(data_set.data_size), test_size=test_size, random_state=seed)
+    with open(f'./data/idx_{run_name}_tr.txt', 'w') as f: 
+        for idx in idx_tr: f.write(f"{idx}\n")
+    with open(f'./data/idx_{run_name}_te.txt', 'w') as f: 
+        for idx in idx_te: f.write(f"{idx}\n")
+    
     train_set=Trainset(data_set.xdata[idx_train,:],data_set.ydata[idx_train,:],source_num=source_num,prob=prob)
     test_set=Testset(data_set.xdata[idx_test,:],
             data_set.ydata[idx_test,:],

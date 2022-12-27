@@ -1,5 +1,6 @@
+#%%
 """
-Created on 2022/08/15
+Created on 2022/12/27
 
 @author: R.Okabe
 """
@@ -19,19 +20,31 @@ import json
 import time, timeit
 from datetime import datetime
 import openmc
-from mcsimulation_square import *
+from utils.mcsimulation_square import *
 
 num_sources = 1
-a_num = 2   # The shape of the detector: a x a square 
+a_num = 2   # The shape of the detector: a x a square
 num_data = 64 # the number of the generated data
 seg_angles = num_data # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist_min = 50
-dist_max = 500
-source_energies = [0.5e6]    # Photon energy [eV]
+dist_min = 10   # minimum distance between the radiation source and the detector (cm).
+dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
+source_energies = [0.5e6 for l in range(num_sources)]    # Photon energy [eV]
 header_dist_particles_dict = {'near': [50, 50000], 'far': [500, 50000]}    # [distance (cm), distance Photon energy [eV]]
-folder1=f'openmc/filter_{a_num}x{a_num}_{seg_angles}_data_20221003_v2.1/'
-folder2=f'openmc/filter_{a_num}x{a_num}_{seg_angles}_fig_20221003_v2.1/'
+openmc_dir = 'save/openmc_filter/'
+save_fig = True
+run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
+folder=f'{openmc_dir}{run_name}'
 angle_list = [0.1+a*360/num_data -180 for a in range(num_data)]
+record = [f"run_name: {run_name}",
+          f"folder: {folder}",
+          f"num_sources: {num_sources}",
+          f"a_num: {a_num}",
+          f"num_data: {num_data}",
+          f"seg_angles: {seg_angles}",
+          f"Dist range: {[dist_min, dist_max]}",
+          f"source_energies: {source_energies}",
+          f"header_dist_particles_dict: {header_dist_particles_dict}"]
+print([r+"\n" for r in record])
 print("angle_list for " + str(num_data) +" sections of angles:")
 for header in header_dist_particles_dict.keys():
     dist = header_dist_particles_dict[header][0]
@@ -42,6 +55,6 @@ for header in header_dist_particles_dict.keys():
             print(f"dist {i}: " + str(sources_d_th[i][0]))
             print(f"angle {i}: " + str(sources_d_th[i][1]))
             print(f"energy {i}: " + str(sources_d_th[i][2]))
-        before_openmc(a_num, sources_d_th, num_particles, seg_angles)
+        before_openmc(a_num, sources_d_th, num_particles)
         openmc.run()
-        mm = after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header)
+        mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)

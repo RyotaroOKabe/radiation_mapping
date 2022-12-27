@@ -1,8 +1,6 @@
 #%%
 """
-Created on 2022/07/16
-original: train_torch_openmc_tetris_T_v2.py
-
+Created on 2022/12/27
 @author: R.Okabe
 """
 
@@ -157,22 +155,21 @@ class Model(object):
             record_lines.append(record_line)
             if verbose and i%verbose==0:
                 print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))
-        writer.export_scalars_to_json("./all_scalars.json")
+        writer.export_scalars_to_json(f"{save_name}/all_scalars.json")
         writer.close()
         t2=time.time()
         print('\t\tEPOCHS %d\t%f\t%f'%(epochs, train_loss, val_loss))
         print('\t\tFinished in %.1fs'%(t2-t1))
         self.train_loss_history=train_loss_history
         self.val_loss_history=val_loss_history
-        text_file = open("save_record/" + save_name + ".txt", "w")
+        text_file = open(f"{save_name}/log.txt", "w")
         for line in record_lines:
             text_file.write(line + "\n")
         text_file.close()
 
     def plot_train_curve(self, save_name):
-        figpath = "save_fig/" + save_name
-        if not os.path.isdir(figpath):
-            os.mkdir(figpath)
+        if not os.path.isdir(save_name):
+            os.mkdir(save_name)
         fig = plt.figure(figsize=(6, 6), facecolor="white")
         ax1 = fig.add_subplot(111)
         ax1.plot(self.train_loss_history,label='training')
@@ -181,8 +178,8 @@ class Model(object):
         ax1.set_ylabel('Error')
         ax1.legend()
         fig.show()
-        fig.savefig(fname=f"{figpath}/train.png")
-        fig.savefig(fname=f"{figpath}/train.pdf")
+        fig.savefig(fname=f"{save_name}/train.png")
+        fig.savefig(fname=f"{save_name}/train.pdf")
         plt.close()
 
 
@@ -191,11 +188,10 @@ class Model(object):
         torch.save(data,name+'_log.pt')
         torch.save(self.net,name+'_model.pt')
 
-    def plot_test(self,test,test_size, seg_angles,loss_fn, save_name):
+    def plot_test(self,test,test_size, seg_angles,loss_fn, save_dir):
 
-        figpath = "save_fig/" + save_name
-        if not os.path.isdir(figpath):
-            os.mkdir(figpath)
+        if not os.path.isdir(save_dir):
+            os.mkdir(save_dir)
 
         total_loss = 0
         for indx in range(test_size):
@@ -220,8 +216,8 @@ class Model(object):
             ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
             ax1.set_title(f'Loss: {pred_loss}')
             fig.show()
-            fig.savefig(fname=f"{figpath}/test_{indx}.png")
-            fig.savefig(fname=f"{figpath}/test_{indx}.pdf")
+            fig.savefig(fname=f"{save_dir}/test_{indx}.png")
+            fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
             plt.close()
         loss_avg = total_loss/test_size
         print('Average loss dist: ', loss_avg)

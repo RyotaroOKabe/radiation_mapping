@@ -12,7 +12,7 @@ import pickle as pkl
 
 #sys.path.append('../')
 sys.path.append('./')   #!20220331
-from utils.train import *  #!20220717
+from utils.model import *  #!20220717
 #?from train_torch_openmc_tetris_v1 import *  #!20220717
 
 import matplotlib.pyplot as plt #!20220509
@@ -25,7 +25,7 @@ from utils.cal_param import *   #!20221023
 
 tetris_mode=False
 if tetris_mode:
-    from mcsimulation_tetris import *
+    from utils.mcsimulation_tetris import *
     # num_sources = 1
     # seg_angles = 64
     # shape_name='T'
@@ -39,7 +39,7 @@ if tetris_mode:
     # matrix_shape = [2,3]
 
 else:
-    from mcsimulation_square import *
+    from utils.mcsimulation_square import *
     # a_num =2
     # num_sources = 1
     # seg_angles = 64

@@ -19,6 +19,7 @@ if torch.cuda.is_available() and not USE_CPU:
 else:
     DEFAULT_DEVICE = torch.device("cpu")
 DEFAULT_DTYPE = torch.double
+save_dir = "./training"
 
 #%%
 
@@ -28,18 +29,24 @@ tetris_shape = 'L'
 num_sources = 1
 seg_angles = 64
 epochs = 500
+data_name = '221227-001319'
+filter_name = '221227-001319'
 #=========================================================
-save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20221003_v2.1"
+save_name = f"{data_name}"
+save_header = f"{save_dir}/{save_name}"
 #save_name = f"openmc_tetris{tetris_shape}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220821_v1.1"
 #=========================================================
 # path = f'openmc/data_tetris{tetris_shape}_1src_64_data_20220821_v1.1'
 # filterpath =f'openmc/filter_tetris{tetris_shape}_64_data_20220822_v1.1'
 # path = 'openmc/data_2x2_1src_64_data_20220822_v1.1'  #!20220716
 # filterpath ='openmc/filter_2x2_64_data_20220822_v1.1'    #!20220716
+# path = f'./save/openmc_data/{data_name}'  #!20220716
+# filterpath = f'./save/openmc_filter/{filter_name}'    #!20220716
 path = 'openmc/data_2x2_1src_64_data_20221003_v2.1'  #!20220716
 filterpath ='openmc/filter_2x2_64_data_20221003_v2.1'    #!20220716
+
 filter_data2 = FilterData2(filterpath)
-test_size = 50  #! 0.9*train_size
+test_size = 100
 k_fold = 5
 print(save_name)
 output_fun = get_output
@@ -68,8 +75,8 @@ optim = torch.optim.Adam([
     ], lr=0.001)
 
 # model.train(optim,train_set,test_set,epochs,batch_size=256,acc_func=None, verbose=10, save_name=save_name)
-model.train(optim,train_set,epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_name=save_name)
-model.save('save_model/model_' + save_name)
+model.train(optim,train_set,epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_name=save_header)
+model.save('save/models/' + save_name)
 
-model.plot_train_curve(save_name=save_name)
-model.plot_test(test_set,test_size,seg_angles=seg_angles,loss_fn=loss_val, save_name=save_name)
+model.plot_train_curve(save_name=save_header)
+model.plot_test(test_set,test_size,seg_angles=seg_angles,loss_fn=loss_val,save_dir=save_header)
