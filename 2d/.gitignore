@@ -23,9 +23,7 @@ filter_visualization.py
 
 # folder
 wandb/
-space/
-space2/
-space3/
+space*
 runs/
 archive/
 archive_v1/
