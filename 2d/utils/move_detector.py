@@ -12,7 +12,7 @@ import pickle as pkl
 
 #sys.path.append('../')
 sys.path.append('./')   #!20220331
-from train_v1 import *  #!20220717
+from utils.train import *  #!20220717
 #?from train_torch_openmc_tetris_v1 import *  #!20220717
 
 import matplotlib.pyplot as plt #!20220509
@@ -21,7 +21,7 @@ from matplotlib.patches import Wedge
 import imageio  #!20220520
 import openmc
 # from mcsimulation_tetris import *
-from cal_param import *   #!20221023
+from utils.cal_param import *   #!20221023
 
 tetris_mode=False
 if tetris_mode:

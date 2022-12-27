@@ -1,18 +1,13 @@
 #%%
 """
-Created on 2022/07/28
-original: gen_openmc_data_discrete_2x2_v1.py, gen_filterlayer_2x2_v1.1.py
-
+Created on 2022/12/27
 @author: R.Okabe
 """
 
 import glob
 import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
 import os
-import json
-from dataset_v1 import gen_materials, get_sources, gen_settings, output_process, run_openmc
+from utils.dataset import gen_materials, get_sources, gen_settings, output_process, run_openmc
 import openmc
 digits = 10
 
@@ -217,7 +212,7 @@ def process_aft_openmc(use_panels, folder1, file1, folder2, file2, sources, seg_
     statepoints = glob.glob('statepoint.*.h5')
     sp = openmc.StatePoint(statepoints[-1])
     tally = sp.get_tally(name='mesh tally')
-    data = tally.get_values()
+    # data = tally.get_values()
     df = tally.get_pandas_dataframe(nuclides=False)
     #? pd.options.display.float_format = '{:.2e}'.format
     fiss = df[df['score'] == 'absorption']
@@ -225,14 +220,14 @@ def process_aft_openmc(use_panels, folder1, file1, folder2, file2, sources, seg_
     remove_panels = ['a', 'b', 'c', 'd', 'e', 'f']
     for mark in use_panels:
         remove_panels.remove(mark)
-    print(remove_panels)
+    # print(remove_panels)
     for mark in remove_panels:
         id0, id1 = get_position_from_panelID(mark)
         mean[id0, id1] = 0
     mean = output_process(mean, digits, folder1, file1, folder2, file2, sources, seg_angles, norm)
     return mean
 
-def before_openmc(use_panels, sources_d_th, num_particles, seg_angles):
+def before_openmc(use_panels, sources_d_th, num_particles):
     batches = 100
     panel_density = 5.76
     src_E = None

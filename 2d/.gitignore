@@ -6,6 +6,7 @@
 *out
 *.sh
 *.h5
+*.json
 all_scalars.json
 dataset_tetris_T_v2.py
 gen_data_2source_axa_openmc_v1.py
@@ -29,6 +30,7 @@ runs/
 archive/
 archive_v1/
 archive_v2/
+figure_making/
 __pycache__/
 
 #openmc/

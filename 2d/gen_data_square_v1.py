@@ -20,7 +20,7 @@ import json
 import time, timeit
 from datetime import datetime
 import openmc
-from mcsimulation_square import *
+from utils.mcsimulation_square import *
 
 num_sources = 1
 a_num = 2   # The shape of the detector: a x a square 
@@ -71,13 +71,11 @@ for i in range(num_data):
         print(f"angle {i}/{j}: ", angle)
         print(f"energy {i}/{j}: ", sources_d_th[j][2])
         source_pos.append([x_pos,y_pos])
-    before_openmc(a_num, sources_d_th, num_particles, seg_angles)
+    before_openmc(a_num, sources_d_th, num_particles)
     run_openmc()
     mm = after_openmc(a_num, sources_d_th, folder1, folder2, seg_angles, header)
     json.dump(source_pos, open(f'{folder1}/source_positions.json', 'w'))
-    # fig, axs = plt.subplots(1,2, figsize=(20, 10))
     fig, ax = plt.subplots(1,1, figsize=(10, 10))
-    # ax = axs[0]
     ax.scatter(np.array(source_pos)[:,0], np.array(source_pos)[:,1], s=15, color='#64ADB1')
     ax.scatter(0,0, marker="s", color='k', s=30)  #!20220804 multi sources
     circle_max = plt.Circle((0, 0), dist_max, color='k', lw=1, fill=False)
@@ -88,8 +86,6 @@ for i in range(num_data):
     ax.set_ylim(-dist_max*1.1, dist_max*1.1)
     ax.tick_params(axis='both', which='major', labelsize=20)
     ax.set_title(f'{a_num}x{a_num}_{num_sources}src_{seg_angles}/ Points: {i+1}', fontsize=15)
-    #ax2 = axs[1]
-    #ax2.hist([np.array(source_pos)[m,0]**2+np.array(source_pos)[m,1]**2 for m in range(len(source_pos))], range=(-10, 0), color='#64ADB1') #, bins=num_data//50
     fig.patch.set_facecolor('white')
     fig.savefig(f'{folder2}/source_positions.png')
     fig.savefig(f'{folder2}/source_positions.pdf')

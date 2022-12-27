@@ -3,8 +3,8 @@ import pickle as pkl
 import numpy as np
 import torch
 import math
-from geo_v1 import *   #!20220206
-from train_v1 import *  #!20220717
+from utils.geo import *   #!20220206
+from utils.model import *  #!20220717
 record_data=True
 DEFAULT_DEVICE = "cuda:1" #torch.device("cpu")
 DEFAULT_DTYPE = torch.double

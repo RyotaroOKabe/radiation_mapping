@@ -1,18 +1,13 @@
 #%%
 """
-Created on 2022/07/28
-original: gen_openmc_data_discrete_2x2_v1.py, gen_filterlayer_2x2_v1.1.py
-
+Created on 2022/12/27
 @author: R.Okabe
 """
 
 import glob
 import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
 import os
-import json
-from dataset_v1 import gen_materials, get_sources, gen_settings, output_process, run_openmc
+from utils.dataset import gen_materials, get_sources, gen_settings, output_process, run_openmc
 import openmc
 digits = 10
 
@@ -87,25 +82,6 @@ def gen_materials_geometry_tallies(a_num, panel_density):
     tally.scores = ["absorption"]
     # Add mesh and Tally to Tallies
     tallies.append(tally)  #! check some com,mented out fucntions related to tallies. 
-    # Instantiate tally Filter
-    #? cell_filter = openmc.CellFilter(s1_cell)
-    # Instantiate the tally
-    #? tally = openmc.Tally(name='cell tally')
-    #? tally.filters = [cell_filter]
-    #? tally.scores = ['absorption']
-    #? tally.nuclides = ['Cd114', 'Te130', 'Zn64']
-    # Instantiate tally Filter
-    distribcell_filter = openmc.DistribcellFilter(s2_cell)
-    # Instantiate tally Trigger for kicks
-    #? trigger = openmc.Trigger(trigger_type='std_dev', threshold=5e-5)
-    #? trigger.scores = ['absorption']
-    # Instantiate the Tally
-    #? tally = openmc.Tally(name='distribcell tally')
-    #? tally.filters = [distribcell_filter]
-    #? tally.scores = ['absorption']
-    #? tally.nuclides = ['Cd114', 'Te130', 'Zn64']
-    #? tally.triggers = [trigger]
-    # Export to "tallies.xml"
     tallies.export_to_xml()
     # Remove old HDF5 (summary, statepoint) files
     os.system('rm statepoint.*')
@@ -123,7 +99,7 @@ def process_aft_openmc(a_num, folder1, file1, folder2, file2, sources, seg_angle
     mean = output_process(mean, digits, folder1, file1, folder2, file2, sources, seg_angles, norm)
     return mean
 
-def before_openmc(a_num, sources_d_th, num_particles, seg_angles):
+def before_openmc(a_num, sources_d_th, num_particles):
     batches = 100
     panel_density = 5.76
     src_E = None
