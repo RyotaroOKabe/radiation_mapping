@@ -30,6 +30,7 @@ archive/
 archive_v1/
 archive_v2/
 figure_making/
+figure*
 save_fig/
 __pycache__/
 
