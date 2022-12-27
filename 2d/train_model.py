@@ -1,43 +1,23 @@
 #%%
 """
-Created on 2022/07/16
-original: train_torch_openmc_tetris_T_v2.py
-
+Created on 2022/12/27
 @author: R.Okabe
 """
-
-import os
-import time
-import math
-import matplotlib.pyplot as plt
-import matplotlib
-import numpy as np
-import json
-import sys
-
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
-import torchvision
 import tensorboardX as tbx
-
-from torchvision import datasets, transforms
 writer = tbx.SummaryWriter('runs')
 from utils.dataset import get_output, FilterData2, load_data
-from utils.time_record import Timer
 from utils.unet import *
 from utils.model import MyNet2, Model
 from utils.emd_ring_torch import emd_loss_ring
 
-GPU_INDEX = 1#0
+GPU_INDEX = 0
 USE_CPU = False
 if torch.cuda.is_available() and not USE_CPU:
     DEFAULT_DEVICE = torch.device("cuda")
     torch.set_default_tensor_type(torch.cuda.DoubleTensor)
 else:
     DEFAULT_DEVICE = torch.device("cpu")
-
 DEFAULT_DTYPE = torch.double
 
 #%%
@@ -49,7 +29,7 @@ num_sources = 1
 seg_angles = 64
 epochs = 500
 #=========================================================
-save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220822_v1.1"
+save_name = f"openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20221003_v2.1"
 #save_name = f"openmc_tetris{tetris_shape}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220821_v1.1"
 #=========================================================
 # path = f'openmc/data_tetris{tetris_shape}_1src_64_data_20220821_v1.1'

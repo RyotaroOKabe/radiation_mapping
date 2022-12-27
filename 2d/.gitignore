@@ -25,10 +25,12 @@ filter_visualization.py
 wandb/
 space*
 runs/
+openmc/
 archive/
 archive_v1/
 archive_v2/
 figure_making/
+save_fig/
 __pycache__/
 
 #openmc/
