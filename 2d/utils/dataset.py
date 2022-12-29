@@ -137,37 +137,46 @@ class Dataset(object):
         self.source_list=[]
         xdata=[]
         ydata=[]
+        zdata=[]    #!
         for filename in files:
             if not filename.endswith('.json'):continue
+            if filename.startswith('source'):continue
             with open(os.path.join(path,filename),'r') as f:
                 data=json.load(f)
                 self.names.append(filename)
                 xdata.append(data['input'])
                 ydata.append(output_fun(data['source'], seg_angles))    #!20220729
+                zdata.append([float(da) for da in filename[:-5].split("_")[1:]]) #!
                 # source=data['source']
                 self.source_list.append(data['source'])
+                
 
         xdata=np.array(xdata)
         ydata=np.array(ydata)
+        zdata=np.array(zdata)   #!
+        # print(zdata)
 
         # xx=xdata
         # yy=ydata
 
         self.xdata=xdata
         self.ydata=ydata
+        self.zdata=zdata    #!
         self.data_size=xdata.shape[0]
 
 class Trainset(object):
     """docstring for Trainset"""
-    def __init__(self, xdata,ydata,info=None,source_num=[2],prob=[1.]):
+    def __init__(self, xdata,ydata,zdata,info=None,source_num=[2],prob=[1.]):
         super(Trainset, self).__init__()
         self.info=info
         self.xdata=xdata
         self.ydata=ydata
+        self.zdata=zdata    #!
         self.ws=xdata.mean(axis=1)
         self.data_size=xdata.shape[0]
         self.x_size=xdata.shape[1]
         self.y_size=ydata.shape[1]
+        self.z_size=zdata.shape[1]  #!
         self.index_list=np.arange(self.data_size)
         self.source_num=source_num
         self.prob=prob
@@ -177,12 +186,15 @@ class Trainset(object):
         prob=self.prob
         xs=[]
         ys=[]
+        zs=[]   #!
         for i in range(bs):
-            x,y=self.get_one_data(source_num,prob)
+            x,y,z=self.get_one_data(source_num,prob)    #!
             x=x.reshape(1,-1)
             y=y.reshape(1,-1)
+            z=z.reshape(1,-1)   #!
             xs.append(x)
             ys.append(y)
+            zs.append(z)    #!
             # #!20221127
             # data_y = y
             # print(f'[get_batch_forloop] Check process with {data_y.shape[0]} data!')
@@ -194,6 +206,7 @@ class Trainset(object):
             pass
         xx=np.concatenate(xs)
         yy=np.concatenate(ys)
+        zz=np.concatenate(zs)   #!
         
         # #!20221127
         # data_y = yy
@@ -210,29 +223,33 @@ class Trainset(object):
         vv=np.tile(vv,(1,xx.shape[1]))
         xx=(xx-mm)/np.sqrt(vv)
 
-        return xx,yy
+        return xx,yy,zz #!
 
     def get_batch_fixsource(self,bs,source_num):
         xs=[]
         ys=[]
+        zs=[]
         while True:
             if len(xs)>=bs:break
-            x,y=self.get_one_data([source_num],[1.])
+            x,y,z=self.get_one_data([source_num],[1.])  #!
             if np.where(y!=0)[0].shape[0] != source_num*2:
                 continue
             x=x.reshape(1,-1)
             y=y.reshape(1,-1)
+            z=z.reshape(1,-1)   #!
             xs.append(x)
             ys.append(y)
+            zs.append(z)
             pass
         xx=np.concatenate(xs)
         yy=np.concatenate(ys)
+        zz=np.concatenate(zs)
         mm=xx[:,:].mean(axis=1,keepdims=True)
         vv=xx[:,:].var(axis=1,keepdims=True)
         mm=np.tile(mm,(1,xx.shape[1]))
         vv=np.tile(vv,(1,xx.shape[1]))
         xx=(xx-mm)/np.sqrt(vv)
-        return xx,yy
+        return xx,yy,zz
 
 
     def get_one_data(self,source_num,prob):
@@ -240,6 +257,7 @@ class Trainset(object):
         data_indx=np.random.choice(self.index_list,size=num)
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
+        z=np.zeros(self.z_size) #!
         # print('=============')
         # print('[get_one_data] data_indx: ', data_indx)  #!20221129
         # print('[get_one_data] (xsize): ', self.x_size)   #!20221127
@@ -252,13 +270,14 @@ class Trainset(object):
             # ws+=self.ws[indx]
             # y+=self.ws[indx]*self.ydata[indx,:]
             y+=self.ydata[indx,:]/len(data_indx)
+            z+=self.zdata[indx,:] #! 
             # print('[get_one_data] (dx): ',self.xdata[indx,:])   #!20221127
             # print('[get_one_data] (dws): ',self.ws[indx])   #!20221127
             # print('[get_one_data] (dy): ',self.ydata[indx,:])   #!20221127
         # if ws !=0:
         #     y=y/ws
         # print('=============')
-        return x,y
+        return x,y,z    #!
 
     # def split(self,split_fold,indx,test_size=None,seed=None):
     def split(self,split_fold,step,test_size=None,seed=None):
@@ -282,9 +301,11 @@ class Trainset(object):
         # print("end: ", end)
         test_x=self.xdata[start:end,:]
         test_y=self.ydata[start:end,:]
-        test=Testset(test_x,test_y,test_size,seed,source_num,prob)
+        test_z=self.zdata[start:end,:]  #!
+        test=Testset(test_x,test_y,test_z,test_size,seed,source_num,prob)
         train_xs=[]
         train_ys=[]
+        train_zs=[] #!
         for i in range(split_fold):
             if i == indx: continue
             start=i*sub_size
@@ -293,18 +314,21 @@ class Trainset(object):
                 end=self.data_size
             train_xs.append(self.xdata[start:end,:])
             train_ys.append(self.ydata[start:end,:])
+            train_zs.append(self.zdata[start:end,:])    #!
         train_x=np.concatenate(train_xs)
         train_y=np.concatenate(train_ys)
-        train=Trainset(train_x,train_y,source_num=source_num,prob=prob)
+        train_z=np.concatenate(train_zs)    #!
+        train=Trainset(train_x,train_y,train_z,source_num=source_num,prob=prob)
         return train,test
 
 class Testset(object):
     """docstring for Testset"""
-    def __init__(self, xdata,ydata,test_size=None,seed=None,source_num=[2],prob=[1.]):
+    def __init__(self, xdata,ydata,zdata,test_size=None,seed=None,source_num=[2],prob=[1.]):
         super(Testset, self).__init__()
         #self.arg = arg
         self.xdata=xdata
         self.ydata=ydata
+        self.zdata=zdata    #!
         self.ws=xdata.mean(axis=1)
         self.data_size_raw=xdata.shape[0]
         if source_num==[1] or test_size==None:
@@ -313,46 +337,52 @@ class Testset(object):
             self.data_size=test_size
         self.x_size=xdata.shape[1]
         self.y_size=ydata.shape[1]
+        self.z_size=zdata.shape[1]  #!
         self.index_list=np.arange(self.data_size_raw)
-        xx,yy=self.gen_data(source_num,prob,seed=seed)
+        xx,yy,zz=self.gen_data(source_num,prob,seed=seed)  #!
         self.xdata=xx
         self.ydata=yy
+        self.zdata=zz   #!
 
     def gen_data(self,source_num,prob,seed=None):
         np.random.seed(seed)
         xs=[]
         ys=[]
+        zs=[]   #!
         xx=self.xdata
         yy=self.ydata
+        zz=self.zdata   #!
         #?else:
         mm=xx[:,:].mean(axis=1,keepdims=True)
         vv=xx[:,:].var(axis=1,keepdims=True)
         mm=np.tile(mm,(1,xx.shape[1]))
         vv=np.tile(vv,(1,xx.shape[1]))
         xx=(xx-mm)/np.sqrt(vv)
-        return xx,yy
+        return xx,yy,zz #!
 
-    def get_one_data(self,source_num,prob):
+    def get_one_data(self,source_num,prob): #?
         num=np.random.choice(source_num,p=np.array(prob,dtype=np.float64)/np.sum(prob))
         data_indx=np.random.choice(self.index_list,size=num)
         x=np.zeros(self.x_size)
         y=np.zeros(self.y_size)
+        z=np.zeros(self.z_size) #!
 
-        # ws=0.
-        # for indx in data_indx:
-        #     x+=self.xdata[indx,:]
-        #     ws+=self.ws[indx]
-        #     y+=self.ws[indx]*self.ydata[indx,:]
+        ws=0.
+        for indx in data_indx:
+            x+=self.xdata[indx,:]
+            ws+=self.ws[indx]
+            y+=self.ws[indx]*self.ydata[indx,:]
+            z+=self.zdata[indx,:]   #!
         # if ws != 0:
         #     y=y/ws
-        return x,y
+        return x,y,z    #!
 
     def get_batch(self,bs,indx):
         start=indx*bs
         end=(indx+1)*bs
         if end>self.data_size:
             end=self.data_size
-        return self.xdata[start:end,:],self.ydata[start:end,:]
+        return self.xdata[start:end,:],self.ydata[start:end,:],self.zdata[start:end,:]  #!
 
 class FilterData2(object):
     """docstring for FilterData"""
@@ -366,6 +396,7 @@ class FilterData2(object):
             filter_data.append([])
         for filename in files:
             if not filename.endswith('.json'):continue
+            if filename.startswith('source'):continue
             with open(os.path.join(filterpath,filename),'r') as f:
                 data=json.load(f)
                 for i,filter_type in enumerate(filter_types):
@@ -427,14 +458,13 @@ def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,sour
     
     #! random set
     idx_train, idx_test = train_test_split(range(data_set.data_size), test_size=test_size, random_state=seed)
-    with open(f'./data/idx_{run_name}_tr.txt', 'w') as f: 
-        for idx in idx_tr: f.write(f"{idx}\n")
-    with open(f'./data/idx_{run_name}_te.txt', 'w') as f: 
-        for idx in idx_te: f.write(f"{idx}\n")
+    # with open(f'./data/idx_{run_name}_tr.txt', 'w') as f: 
+    #     for idx in idx_tr: f.write(f"{idx}\n")
+    # with open(f'./data/idx_{run_name}_te.txt', 'w') as f: 
+    #     for idx in idx_te: f.write(f"{idx}\n")
     
-    train_set=Trainset(data_set.xdata[idx_train,:],data_set.ydata[idx_train,:],source_num=source_num,prob=prob)
-    test_set=Testset(data_set.xdata[idx_test,:],
-            data_set.ydata[idx_test,:],
+    train_set=Trainset(data_set.xdata[idx_train,:],data_set.ydata[idx_train,:],data_set.zdata[idx_train,:],source_num=source_num,prob=prob)
+    test_set=Testset(data_set.xdata[idx_test,:],data_set.ydata[idx_test,:],data_set.zdata[idx_test,:],
             test_size_gen,source_num=source_num,prob=prob,seed=seed)
     # train_set=Trainset(data_set.xdata[0:train_size,:],data_set.ydata[0:train_size,:],source_num=source_num,prob=prob)
     # test_set=Testset(data_set.xdata[train_size:data_size,:],

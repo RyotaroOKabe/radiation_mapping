@@ -107,7 +107,7 @@ class Model(object):
             net.train()
             for j in range(times):
                 timer.start('load data') 
-                data_x, data_y=tr_set.get_batch(batch_size)
+                data_x, data_y, data_z=tr_set.get_batch(batch_size)
                 data_x = torch.from_numpy(data_x).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
                 data_y = torch.from_numpy(data_y).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
                 datas.append((data_x,data_y))
@@ -155,6 +155,8 @@ class Model(object):
             record_lines.append(record_line)
             if verbose and i%verbose==0:
                 print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))
+        if not os.path.isdir(save_name):
+            os.mkdir(save_name)
         writer.export_scalars_to_json(f"{save_name}/all_scalars.json")
         writer.close()
         t2=time.time()
@@ -195,8 +197,8 @@ class Model(object):
 
         total_loss = 0
         for indx in range(test_size):
-            test_x,test_y=test.get_batch(1,indx)
-
+            test_x,test_y,test_z=test.get_batch(1,indx) #!
+            # print('testz: ', test_z.shape)
             self.net.eval()
             with torch.no_grad():
                 predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy()
@@ -214,7 +216,8 @@ class Model(object):
             ax1.set_xlabel('deg')
             ax1.set_xlim([-180,180])
             ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
-            ax1.set_title(f'Loss: {pred_loss}')
+            # ax1.set_title(f'Dist (cm): {round(test_z[0], 4)}, Ang (deg): {round(test_z[1], 4)}, Loss: {pred_loss}')
+            ax1.set_title(f'Dist (cm): {test_z[0,0]} / Ang (deg): {test_z[0,1]}\nLoss: {pred_loss}')
             fig.show()
             fig.savefig(fname=f"{save_dir}/test_{indx}.png")
             fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")

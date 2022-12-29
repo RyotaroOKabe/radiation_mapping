@@ -73,57 +73,84 @@ class Map(object):
         self.intensity_list=np.zeros(self.x_num*self.y_num)
         self.intensity=self.intensity_list.reshape((self.x_num,self.y_num))
 
-    def plot(self,ax=plt.gca()):
+    # def plot(self,ax=plt.gca()):
+    def plot(self,ax=plt.gca(), fig_folder='XX', fig_header='XX'):
         X, Y = np.meshgrid(self.x_list, self.y_list)
         plt.figure(figsize=(8, 8))  #!20220520
         cmap=matplotlib.cm.get_cmap('Reds')
         plt.pcolormesh(X, Y, self.intensity, cmap=cmap, shading='gouraud')
-        plt.savefig(fname=fig_folder+'/'+fig_header+"_plot1.png") #!20220323
-        plt.savefig(fname=fig_folder+'/'+fig_header+"_plot1.pdf") #!20220323
-        print("Plot1")
+        # plt.savefig(fname=fig_folder+'/'+fig_header+"_plot1.png") #!20220323
+        # plt.savefig(fname=fig_folder+'/'+fig_header+"_plot1.pdf") #!20220323
+        # print("Plot1")
+
+# def solve_one(m,cji_list,yj_list):
+#     mp = MathematicalProgram()  #!!!!
+#     xi=mp.NewContinuousVariables(m.size, "xi")  #!!!!
+#     for i in range(m.size):
+#         mp.AddLinearConstraint(xi[i] >= 0.)  #!!!!
+#     reg=0.1
+#     mp.AddQuadraticCost(xi.dot(xi)*reg)  #!!!!
+#     for i in range(len(cji_list)):
+#         cji=cji_list[i]
+#         yj=yj_list[i]
+#         dd=cji.dot(xi)-yj
+#         mp.AddQuadraticCost(dd.dot(dd))  #!!!!
+#     result = Solve(mp)    #!!!!
+#     print(result.is_success())    #!!!!
+#     x=result.GetSolution(xi)  #!!!!
+#     return x
+
+def map(xi, cji, yj, reg):
+    dd=cji.dot(xi)-yj
+    return dd.dot(dd) + xi.dot(xi)*reg
 
 def solve_one(m,cji_list,yj_list):
-    mp = MathematicalProgram()
-
-    xi=mp.NewContinuousVariables(m.size, "xi")
-
+    # m, m.size, xi (>0, size=m.size)
+    mp = MathematicalProgram()  #!!!!
+    xi=mp.NewContinuousVariables(m.size, "xi")  #!!!!
+    # print(m.size)
+    # print(xi)
     for i in range(m.size):
-        mp.AddLinearConstraint(xi[i] >= 0.)
-
+        mp.AddLinearConstraint(xi[i] >= 0.)  #!!!!
     reg=0.1
-    mp.AddQuadraticCost(xi.dot(xi)*reg)
-
+    mp.AddQuadraticCost(xi.dot(xi)*reg)  #!!!!
+    # print(cji_list)
+    # print(yj_list)
     for i in range(len(cji_list)):
-
         cji=cji_list[i]
         yj=yj_list[i]
-
         dd=cji.dot(xi)-yj
-        mp.AddQuadraticCost(dd.dot(dd))
-
-
-
-    result = Solve(mp)
-    print(result.is_success())
-
-    x=result.GetSolution(xi)
-
+        mp.AddQuadraticCost(dd.dot(dd))  #!!!!
+        # print('cji: ', cji.shape)
+        # print('yj: ', cji.shape)
+        # print('dd.dot(dd): ', dd.dot(dd).shape)
+    # print(mp)
+    result = Solve(mp)    #!!!!
+    # print(result.is_success())    #!!!!
+    x=result.GetSolution(xi)  #!!!!
+    # print(x)
+    # print(x.shape)
     return x
 
 
-def main():
+def mapping(fig_folder, fig_header, recordpath, factor=factor1, save_process=True, savedata=True):
     recordpath = record_path+'_cal'   #!20220331
     files=os.listdir(recordpath)
     files=sorted(files)
-    figurepath = 'mapping_data/save_fig/' + fig_header
-    figurepath_pdf = figurepath + '_pdf'
+    # figurepath = 'mapping_data/save_fig/' + fig_header
+    # figurepath_pdf = figurepath + '_pdf'
+    # figurepath = f'{fig_folder}/{fig_header}'
+    # figurepath_pdf = figurepath + '_pdf'
     if save_process:
-        if not os.path.isdir(figurepath):
-            os.mkdir( figurepath)
-        if not os.path.isdir(figurepath_pdf):
-            os.mkdir(figurepath_pdf)
-    os.system('rm ' +  figurepath + "/*")    #!20220509
-    os.system('rm ' +  figurepath_pdf + "/*")    #!20220509
+        if not os.path.isdir(fig_folder):
+            os.mkdir( fig_folder)
+        # if not os.path.isdir(figurepath):
+        #     os.mkdir( figurepath)
+        # if not os.path.isdir(figurepath_pdf):
+        #     os.mkdir(figurepath_pdf)
+        os.system('rm -r ' +  fig_folder + "/*")    #!20220509
+    # os.system('rm ' +  figurepath + "/*")    #!20220509
+    # os.system('rm ' +  figurepath_pdf + "/*")    #!20220509
     m=Map(map_horiz, map_vert)   #!20220516 
 
     cji_list=[]
@@ -153,7 +180,7 @@ def main():
         print(filename)
         x_max = np.max(x)
         x=x/x_max
-        print(x)
+        # print(x)
 
         if savedata:
             data['xi']=x
@@ -175,7 +202,7 @@ def main():
             arrow_y0 = 1*np.sin(pos_dir)
             arrow_x1 = 1*np.cos(pos_ang)
             arrow_y1 = 1*np.sin(pos_ang)
-            m.plot()
+            m.plot(fig_folder=fig_folder, fig_header=fig_header)
             for i in range(RSID.shape[0]):
                 plt.plot(RSID[i, 0],RSID[i, 1],"xk",markersize=20)  #!20220804 multi sources
             plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2, color='#66CCCC')
@@ -188,45 +215,46 @@ def main():
             plt.title('STEP: ' + filename[4:7], fontsize=20)
             plt.tick_params(axis='both', which='major', labelsize=15)
             plt.tick_params(axis='both', which='minor', labelsize=15)
-            plt.savefig(fname=figurepath+'/'+filename[:7] +".png") #!20220323
-            plt.savefig(fname=figurepath_pdf+'/'+filename[:7] +".pdf") #!20220813
+            plt.savefig(fname=fig_folder+'/'+filename[:7] +".png") #!20220323
+            plt.savefig(fname=fig_folder+'/'+filename[:7] +".pdf") #!20220813
             plt.show()
 
-    m.intensity=x.reshape(m.x_num,m.y_num).T
-    m.plot()
-    for i in range(RSID.shape[0]):
-        plt.plot(RSID[i, 0],RSID[i, 1],"xk")
-    plt.savefig(fname=fig_folder+'/'+fig_header+"_plot2.png")
-    plt.show()
-    print("Plot2")
+    # m.intensity=x.reshape(m.x_num,m.y_num).T
+    # m.plot()
+    # for i in range(RSID.shape[0]):
+    #     plt.plot(RSID[i, 0],RSID[i, 1],"xk")
+    # plt.savefig(fname=fig_folder+'/'+fig_header+"_plot2.png")
+    # plt.show()
+    # print("Plot2")
 
-    with imageio.get_writer(fig_folder+'/'+fig_header+'.gif', mode='I') as writer:
-        for figurename in sorted(os.listdir(figurepath)):
-            image = imageio.imread(figurepath + '/' + figurename)
-            writer.append_data(image)
-    pass
+    # with imageio.get_writer(fig_folder+'/'+fig_header+'.gif', mode='I') as writer:
+    #     for figurename in sorted(os.listdir(figurepath)):
+    #         image = imageio.imread(figurepath + '/' + figurename)
+    #         writer.append_data(image)
+    # pass
 
-def test():
-    m=Map(map_horiz, map_vert)
-    m.intensity=np.random.rand(m.x_num,m.y_num).T
-    m.plot()
-    plt.show()
-    plt.savefig(fname=fig_folder+'/'+fig_header+"_plot3.png")
-    plt.savefig(fname=fig_folder+'/'+fig_header+"_plot3.pdf")
+# def test():
+#     m=Map(map_horiz, map_vert)
+#     m.intensity=np.random.rand(m.x_num,m.y_num).T
+#     m.plot()
+#     plt.show()
+#     plt.savefig(fname=fig_folder+'/'+fig_header+"_plot3.png")
+#     plt.savefig(fname=fig_folder+'/'+fig_header+"_plot3.pdf")
 
-def gen_gif():
-    figurepath = 'mapping_data/save_fig/' + fig_header
-    with imageio.get_writer('mapping_data/save_fig/'+fig_header+'.gif', mode='I') as writer:
-        for figurename in sorted(os.listdir(figurepath)):
-            image = imageio.imread(figurepath + '/' + figurename)
-            writer.append_data(image)
-    print("Finish making a gif: " + 'mapping_data/save_fig/'+fig_header+'.gif')
+def gen_gif(fig_folder):
+    # figurepath = 'mapping_data/save_fig/' + fig_header
+    with imageio.get_writer(f'{fig_folder}/mapping.gif', mode='I') as writer:
+        for figurename in sorted(os.listdir(fig_folder)):
+            if figurename.endswith('png'):
+                image = imageio.imread(fig_folder + '/' + figurename)
+                writer.append_data(image)
+    print( f'Finish making a gif: {fig_folder}/mapping.gif')
 
     
 #%%
-if __name__ == '__main__':
-    main()
-    test()
-    gen_gif()
+# if __name__ == '__main__':
+#     main()
+#     # test()
+#     gen_gif()
         
 # %%

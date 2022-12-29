@@ -19,7 +19,7 @@ if torch.cuda.is_available() and not USE_CPU:
 else:
     DEFAULT_DEVICE = torch.device("cpu")
 DEFAULT_DTYPE = torch.double
-save_dir = "./training"
+save_dir = "./save/training"
 
 #%%
 
@@ -28,9 +28,9 @@ a_num = 2
 tetris_shape = 'L'
 num_sources = 1
 seg_angles = 64
-epochs = 500
-data_name = '221227-001319'
-filter_name = '221227-001319'
+epochs = 1000
+data_name = '221228-050706' # '221227-001319'
+filter_name = '221227-013624'
 #=========================================================
 save_name = f"{data_name}"
 save_header = f"{save_dir}/{save_name}"
@@ -40,13 +40,13 @@ save_header = f"{save_dir}/{save_name}"
 # filterpath =f'openmc/filter_tetris{tetris_shape}_64_data_20220822_v1.1'
 # path = 'openmc/data_2x2_1src_64_data_20220822_v1.1'  #!20220716
 # filterpath ='openmc/filter_2x2_64_data_20220822_v1.1'    #!20220716
-# path = f'./save/openmc_data/{data_name}'  #!20220716
-# filterpath = f'./save/openmc_filter/{filter_name}'    #!20220716
-path = 'openmc/data_2x2_1src_64_data_20221003_v2.1'  #!20220716
-filterpath ='openmc/filter_2x2_64_data_20221003_v2.1'    #!20220716
+path = f'./save/openmc_data/{data_name}'  #!20220716
+filterpath = f'./save/openmc_filter/{filter_name}'    #!20220716
+# path = 'openmc/data_2x2_1src_64_data_20221003_v2.1'  #!20220716
+# filterpath ='openmc/filter_2x2_64_data_20221003_v2.1'    #!20220716
 
 filter_data2 = FilterData2(filterpath)
-test_size = 100
+test_size = 400
 k_fold = 5
 print(save_name)
 output_fun = get_output
@@ -80,3 +80,5 @@ model.save('save/models/' + save_name)
 
 model.plot_train_curve(save_name=save_header)
 model.plot_test(test_set,test_size,seg_angles=seg_angles,loss_fn=loss_val,save_dir=save_header)
+
+# %%

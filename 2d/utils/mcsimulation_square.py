@@ -109,7 +109,7 @@ def before_openmc(a_num, sources_d_th, num_particles):
     sources = get_sources(sources_d_th)
     gen_settings(src_energy=src_E, src_strength=src_Str, en_prob=energy_prob, num_particles=num_particles, batch_size=batches, sources=sources) 
 
-def after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefig=False):
+def after_openmc(a_num, sources_d_th, folder, seg_angles, header, record=None, savefig=False):
     num_sources = len(sources_d_th)
     d_a_seq = ""
     for i in range(num_sources):
@@ -121,9 +121,10 @@ def after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefi
     if not isExist1:
         os.makedirs(folder)
         print("The new directory "+ folder +" is created!")
-    with open(f'{folder}/record.txt', 'w') as f:
-        for line in record:
-            f.write(line + "\n")
+    if record is not None:
+        with open(f'{folder}/record.txt', 'w') as f:
+            for line in record:
+                f.write(line + "\n")
     if savefig:
         folder2 = folder + '_fig'
         isExist2 = os.path.exists(folder2)

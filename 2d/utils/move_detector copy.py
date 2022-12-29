@@ -23,9 +23,9 @@ import openmc
 # from mcsimulation_tetris import *
 from utils.cal_param import *   #!20221023
 
-# tetris_mode=False
-# if tetris_mode:
-#     from utils.mcsimulation_tetris import *
+tetris_mode=False
+if tetris_mode:
+    from utils.mcsimulation_tetris import *
     # num_sources = 1
     # seg_angles = 64
     # shape_name='T'
@@ -38,8 +38,8 @@ from utils.cal_param import *   #!20221023
     # num_panels=4
     # matrix_shape = [2,3]
 
-# else:
-#     from utils.mcsimulation_square import *
+else:
+    from utils.mcsimulation_square import *
     # a_num =2
     # num_sources = 1
     # seg_angles = 64
@@ -50,62 +50,62 @@ from utils.cal_param import *   #!20221023
     # num_panels=a_num**2
     # matrix_shape = [a_num, a_num]
 
-    # a_num =5
-    # num_sources = 2
-    # seg_angles = 64
-    # file_header = f"A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5"
-    # recordpath = f'mapping_data/mapping_{file_header}'
-    # model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220812_v1.1_model.pt'
-    # model =torch.load(model_path)
-    # num_panels=a_num**2
-    # matrix_shape = [a_num, a_num]
+    a_num =5
+    num_sources = 2
+    seg_angles = 64
+    file_header = f"A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5"
+    recordpath = f'mapping_data/mapping_{file_header}'
+    model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep2000_bs256_20220812_v1.1_model.pt'
+    model =torch.load(model_path)
+    num_panels=a_num**2
+    matrix_shape = [a_num, a_num]
 
-# DT = 0.1  # time tick [s]
-# SIM_TIME = 70.0
-# STATE_SIZE = 4  #!20221023
-# # RSID = np.array([[-7.0,10.5,0.5e6]]) #np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
-# RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])
-# source_energies = [0.5e6, 0.5e6]
-# SIM_STEP=10
-# rot_ratio = 0  #!20221023
-# sim_parameters = {
-#     'DT': DT,
-#     'SIM_TIME': SIM_TIME,
-#     "STATE_SIZE": STATE_SIZE,
-#     'RSID':RSID,
-#     'source_energies':source_energies,
-#     'SIM_STEP':SIM_STEP,
-#     'rot_ratio': rot_ratio
-# }
+DT = 0.1  # time tick [s]
+SIM_TIME = 70.0
+STATE_SIZE = 4  #!20221023
+# RSID = np.array([[-7.0,10.5,0.5e6]]) #np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])  
+RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]])
+source_energies = [0.5e6, 0.5e6]
+SIM_STEP=10
+rot_ratio = 0  #!20221023
+sim_parameters = {
+    'DT': DT,
+    'SIM_TIME': SIM_TIME,
+    "STATE_SIZE": STATE_SIZE,
+    'RSID':RSID,
+    'source_energies':source_energies,
+    'SIM_STEP':SIM_STEP,
+    'rot_ratio': rot_ratio
+}
 
-# # Map
-# map_horiz = [-15,15,30]
-# map_vert = [-5,25,30]
+# Map
+map_horiz = [-15,15,30]
+map_vert = [-5,25,30]
 
-# colors_max = [238,173,14] #[243, 194, 92] #[255,193,37] #[238,118,33] #[255,97,3]  #colors_max = [255, 100, 0]
-# pred_rgb = [202, 108, 74] #[91,91,91] #[202, 108, 74]
-# real_rgb = [119, 192, 210] #[30,30,30] #[119, 192, 210]
+colors_max = [238,173,14] #[243, 194, 92] #[255,193,37] #[238,118,33] #[255,97,3]  #colors_max = [255, 100, 0]
+pred_rgb = [202, 108, 74] #[91,91,91] #[202, 108, 74]
+real_rgb = [119, 192, 210] #[30,30,30] #[119, 192, 210]
 
-# recordpath = 'mapping_data/mapping_' + file_header
-# if __name__ == '__main__' and record_data:
-#     if not os.path.isdir(recordpath):
-#         os.mkdir(recordpath)
-#     os.system('rm ' + recordpath + "/*")    #!20220509
-# jsonpath = recordpath + "_json/"
-# if __name__ == '__maintribution__' and record_data:
-#     if not os.path.isdir(jsonpath):
-#         os.mkdir(jsonpath)
-#     os.system('rm ' + jsonpath + "*")    #!20220509
-# figurepath = recordpath + "_figure/"
-# if __name__ == '__main__' and record_data:
-#     if not os.path.isdir(figurepath):
-#         os.mkdir(figurepath)
-#     os.system('rm ' + figurepath + "*")    #!20220509
-# predictpath = recordpath + "_predicted/"
-# if __name__ == '__main__' and record_data:
-#     if not os.path.isdir(predictpath):
-#         os.mkdir(predictpath)
-#     os.system('rm ' + predictpath + "*")    #!20220509
+recordpath = 'mapping_data/mapping_' + file_header
+if __name__ == '__main__' and record_data:
+    if not os.path.isdir(recordpath):
+        os.mkdir(recordpath)
+    os.system('rm ' + recordpath + "/*")    #!20220509
+jsonpath = recordpath + "_json/"
+if __name__ == '__maintribution__' and record_data:
+    if not os.path.isdir(jsonpath):
+        os.mkdir(jsonpath)
+    os.system('rm ' + jsonpath + "*")    #!20220509
+figurepath = recordpath + "_figure/"
+if __name__ == '__main__' and record_data:
+    if not os.path.isdir(figurepath):
+        os.mkdir(figurepath)
+    os.system('rm ' + figurepath + "*")    #!20220509
+predictpath = recordpath + "_predicted/"
+if __name__ == '__main__' and record_data:
+    if not os.path.isdir(predictpath):
+        os.mkdir(predictpath)
+    os.system('rm ' + predictpath + "*")    #!20220509
 
 
 if torch.cuda.is_available() and not USE_CPU:
@@ -122,30 +122,26 @@ from matplotlib.colors import ListedColormap
 N = 256
 
 #%%
-def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, jsonpath):  #!20220717
-    num_particles = 10000 #50000
+def openmc_simulation(sources_d_th, header, seg_angles, before_openmc, after_openmc):  #!20221228
+    num_particles = 50000
     num_sources = len(sources_d_th)
     for i in range(num_sources):
         sources_d_th[i][0] *= 100
     if tetris_mode:
-        from utils.mcsimulation_tetris import get_tetris_shape, before_openmc, after_openmc
-        shape_name = input  #!
         use_panels = get_tetris_shape(shape_name)
-        before_openmc(use_panels, sources_d_th, num_particles)  #!20220803
+        before_openmc(use_panels, sources_d_th, num_particles, seg_angles)  #!20220803
         openmc.run()
-        mm = after_openmc(use_panels, sources_d_th, jsonpath, seg_angles, header) 
+        mm = after_openmc(use_panels, sources_d_th, jsonpath, figurepath, seg_angles, header) 
     else:
-        from utils.mcsimulation_square import before_openmc, after_openmc
-        a_num = input   #!
-        before_openmc(a_num, sources_d_th, num_particles)  #!20220803
+        before_openmc(a_num, sources_d_th, num_particles, seg_angles)  #!20220803
         openmc.run()
-        mm = after_openmc(a_num, sources_d_th, jsonpath, seg_angles, header) 
+        mm = after_openmc(a_num, sources_d_th, jsonpath, figurepath, seg_angles, header) 
     return mm
 
 
 
 
-def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, device):
+def main(seg_angles, model, recordpath, sim_parameters, before_openmc, after_openmc):
     DT = sim_parameters['DT']
     SIM_TIME = sim_parameters['SIM_TIME']
     STATE_SIZE = sim_parameters['STATE_SIZE']
@@ -155,15 +151,6 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
     rot_ratio = sim_parameters['rot_ratio'] #!20221023
     time=0
     step=0
-    jsonpath = recordpath + "_json/"
-    figurepath = recordpath + "_figure/"
-    predictpath = recordpath + "_predicted/"
-    if tetris_mode:
-        num_panels=4
-        matrix_shape = [2,3]
-    else:
-        num_panels=input**2
-        matrix_shape = [input, input]
 
     relsrc = []
     relsrc_dir = []
@@ -241,8 +228,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
             print(step,'simulation start')
             print("source")
             print(source_list)
-            # openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, jsonpath)
-            det_output=openmc_simulation(tetris_mode, input, sources_d_th, 'STEP%.3d'%step, seg_angles, jsonpath)
+
+            det_output=openmc_simulation(sources_d_th, 'STEP%.3d'%step, seg_angles, before_openmc, after_openmc)
             print('det_output')
             print(type(det_output))
             print(det_output.shape)
@@ -255,8 +242,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
             network_input = np.transpose(network_input)
             network_input = network_input.reshape(1,-1)
             network_input = torch.from_numpy(network_input).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
-            # predict=model(network_input).detach().cpu().numpy().reshape(-1)
-            predict=model(network_input.to(device)).detach().cpu().numpy().reshape(-1)
+            predict=model(network_input).detach().cpu().numpy().reshape(-1)
 
             xdata_original=det_output.reshape(matrix_shape)   #(2, 3)
             ydata = get_output(sources_x_y_c, seg_angles)
@@ -332,8 +318,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
 
             # fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
             fig.suptitle('Real Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!20220822
-            fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
-            fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
+            fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.png")
+            fig.savefig(predictpath + '/' + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)
             #=========================
             print(step,'simulation end')
@@ -357,22 +343,22 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
     rel_source = np.array(relsrc) #!20220509
     plt.plot(rel_source[:,0], rel_source[:,1])
     plt.title('relative source position')
-    plt.savefig(figurepath + 'rel_source.png')
-    plt.savefig(figurepath + 'rel_source.pdf')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_source.pdf')
     plt.close()
 
     rel_dir_source = np.array(relsrc_dir) #!20220509
     plt.plot(rel_dir_source[:,0], rel_dir_source[:,1])
     plt.title('relative source position')
-    plt.savefig(figurepath + 'rel_dir_source.png')
-    plt.savefig(figurepath + 'rel_dir_source.pdf')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_dir_source.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_rel_dir_source.pdf')
     plt.close()
     
     xTrue_data = np.array(xTrue_record) #!20220509
     plt.plot(xTrue_data[:,0], xTrue_data[:,1])
     plt.title('xTrue: robot trajectory')
-    plt.savefig(figurepath + 'xTrue.png')
-    plt.savefig(figurepath + 'xTrue.pdf')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_xTrue.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_xTrue.pdf')
     plt.close()
     
     d_data = np.array(d_record) #!20220509
@@ -380,8 +366,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
     plt.title('distance')
     plt.xlabel('step')
     plt.ylabel('distance [m]')
-    plt.savefig(figurepath + 'dist.png')
-    plt.savefig(figurepath + 'dist.pdf')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_dist.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_dist.pdf')
     plt.close()
 
     angle_data = np.array(angle_record) #!20220509
@@ -393,11 +379,11 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
     plt.ylabel('angle [deg]')
     plt.legend(loc="upper right")
     plt.ylim(0,360)
-    plt.savefig(figurepath + 'angle.png')
-    plt.savefig(figurepath + 'angle.pdf')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.png')
+    plt.savefig('mapping_data/save_fig/'+ file_header + '_angle.pdf')
     plt.close()
 
-    with imageio.get_writer(figurepath+'move_detector.gif', mode='I') as writer:
+    with imageio.get_writer('mapping_data/save_fig/'+file_header + '.gif', mode='I') as writer:
         for figurename in sorted(os.listdir(predictpath)):
             if figurename.endswith('png'):  #!20220729
                 image = imageio.imread(predictpath + "/" +figurename)
@@ -405,7 +391,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
     pass
 
 #%%
-# if __name__ == '__main__':
-#     main(seg_angles, model, recordpath, sim_parameters)
-#     write_data(seg_angles, recordpath, map_horiz, map_vert)
+if __name__ == '__main__':
+    main(seg_angles, model, recordpath, sim_parameters)
+    write_data(seg_angles, recordpath, map_horiz, map_vert)
 
