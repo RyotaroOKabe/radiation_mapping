@@ -26,17 +26,17 @@ from utils.cal_param import *   #!20221023
 tetris_mode=False
 if tetris_mode:
     from utils.mcsimulation_tetris import *
-    # num_sources = 1
-    # seg_angles = 64
-    # shape_name='T'
-    # # file_header = f"A20220928_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
-    # file_header = f"A20221023_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.6"
-    # recordpath = f'mapping_data/mapping_{file_header}'
-    # #model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
-    # model_path = f'save_model/model_openmc_tetris{shape_name}_{num_sources}src_{seg_angles}_ep500_bs256_20220821_v1.1_model.pt'
-    # model =torch.load(model_path)
-    # num_panels=4
-    # matrix_shape = [2,3]
+    num_sources = 1
+    seg_angles = 64
+    shape_name='T'
+    # file_header = f"A20220928_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v1.1"
+    file_header = f"A20221023_tetris{shape_name}_{num_sources}src_{seg_angles}_v1.6"
+    recordpath = f'mapping_data/mapping_{file_header}'
+    #model_path = f'save_model/model_openmc_{a_num}x{a_num}_{num_sources}src_{seg_angles}_ep500_bs256_20220822_v1.1_model.pt'
+    model_path = f'save_model/model_openmc_tetris{shape_name}_{num_sources}src_{seg_angles}_ep500_bs256_20220821_v1.1_model.pt'
+    model =torch.load(model_path)
+    num_panels=4
+    matrix_shape = [2,3]
 
 else:
     from utils.mcsimulation_square import *
@@ -137,6 +137,7 @@ def openmc_simulation(sources_d_th, header, seg_angles, before_openmc, after_ope
         openmc.run()
         mm = after_openmc(a_num, sources_d_th, jsonpath, figurepath, seg_angles, header) 
     return mm
+
 
 
 

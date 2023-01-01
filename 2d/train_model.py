@@ -29,7 +29,7 @@ tetris_shape = 'L'
 num_sources = 1
 seg_angles = 64
 epochs = 1000
-data_name = '221228-050706' # '221227-001319'
+data_name = '221228-174929' # '221227-001319'
 filter_name = '221227-013624'
 #=========================================================
 save_name = f"{data_name}"
@@ -46,7 +46,7 @@ filterpath = f'./save/openmc_filter/{filter_name}'    #!20220716
 # filterpath ='openmc/filter_2x2_64_data_20221003_v2.1'    #!20220716
 
 filter_data2 = FilterData2(filterpath)
-test_size = 400
+test_size = 1000
 k_fold = 5
 print(save_name)
 output_fun = get_output
