@@ -24,7 +24,6 @@ from utils.mcsimulation_tetris import *
 
 num_sources = 1
 shape_name = 'S' # Tetris shape
-# a_num = 10   # The shape of the detector: a x a square 
 num_data = 10000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
 dist_min = 10   # minimum distance between the radiation source and the detector (cm).
