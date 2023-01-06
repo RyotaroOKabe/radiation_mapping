@@ -20,27 +20,29 @@ import json
 import time, timeit
 from datetime import datetime
 import openmc
-from utils.mcsimulation_square import *
+from utils.mcsimulation_tetris import *
 
-num_sources = 2
-a_num = 10   # The shape of the detector: a x a square 
+num_sources = 1
+shape_name = 'S' # Tetris shape
+# a_num = 10   # The shape of the detector: a x a square 
 num_data = 10000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
 dist_min = 10   # minimum distance between the radiation source and the detector (cm).
 dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
-num_particles = 20000 #!20000   # The number of photon
+num_particles = 10000 #!20000   # The number of photon
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
 header = 'data'
 openmc_dir = 'save/openmc_data/'
 save_fig = True
 folder=f'{openmc_dir}{run_name}'
+use_panels = get_tetris_shape(shape_name)
 
 record = [f"run_name: {run_name}",
           f"folder: {folder}",
           f"num_sources: {num_sources}",
-          f"a_num: {a_num}",
+          f"shape_name: {shape_name}",
           f"num_data: {num_data}",
           f"seg_angles: {seg_angles}",
           f"Dist range: {[dist_min, dist_max]}",
@@ -66,9 +68,9 @@ for i in range(num_data):
         print(f"angle {i}/{j}: ", angle)
         print(f"energy {i}/{j}: ", sources_d_th[j][2])
         source_pos.append([x_pos,y_pos])
-    before_openmc(a_num, sources_d_th, num_particles)
-    run_openmc()
-    mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)
+    before_openmc(use_panels, sources_d_th, num_particles)
+    openmc.run()
+    mm = after_openmc(use_panels, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)
     json.dump(source_pos, open(f'{folder}/source_positions.json', 'w'))
     if save_fig:
         fig, ax = plt.subplots(1,1, figsize=(10, 10))
@@ -81,7 +83,7 @@ for i in range(num_data):
         ax.set_xlim(-dist_max*1.1, dist_max*1.1)
         ax.set_ylim(-dist_max*1.1, dist_max*1.1)
         ax.tick_params(axis='both', which='major', labelsize=20)
-        ax.set_title(f'{a_num}x{a_num}_{num_sources}src_{seg_angles}/ Points: {i+1}', fontsize=15)
+        ax.set_title(f'{shape_name}_{num_sources}src_{seg_angles}/ Points: {i+1}', fontsize=15)
         fig.patch.set_facecolor('white')
         fig.savefig(f'{folder}_fig/source_positions.png')
         fig.savefig(f'{folder}_fig/source_positions.pdf')

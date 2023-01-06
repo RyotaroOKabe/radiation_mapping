@@ -7,7 +7,7 @@ Created on 2022/12/27
 import glob
 import matplotlib.pyplot as plt
 import os
-from utils.dataset import gen_materials, get_sources, gen_settings, output_process, run_openmc
+from utils.dataset import gen_materials, get_sources, gen_settings, output_process
 import openmc
 digits = 10
 
@@ -180,11 +180,11 @@ def gen_materials_geometry_tallies(use_panels, panel_density):
     else:
         root_universe.add_cell(F2_cell_vac)
     s = ''.join(use_panels) 
-    root_universe.plot(width=(20, 20), basis='xy')
-    plt.show()
-    plt.savefig(f'save_fig/geometry_tetris_{s}_v1.png')
-    plt.savefig(f'save_fig/geometry_tetris_{s}_v1.png')
-    plt.close()
+    # root_universe.plot(width=(20, 20), basis='xy')
+    # plt.show()
+    # plt.savefig(f'save_fig/geometry_tetris_{s}_v1.png')
+    # plt.savefig(f'save_fig/geometry_tetris_{s}_v1.png')
+    # plt.close()
     # Create Geometry and export to "geometry.xml"
     geometry = openmc.Geometry(root_universe)
     geometry.export_to_xml()
@@ -208,7 +208,7 @@ def gen_materials_geometry_tallies(use_panels, panel_density):
     os.system('rm statepoint.*')
     os.system('rm summary.*')
 
-def process_aft_openmc(use_panels, folder1, file1, folder2, file2, sources, seg_angles, norm):
+def process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm, savefig=False):
     statepoints = glob.glob('statepoint.*.h5')
     sp = openmc.StatePoint(statepoints[-1])
     tally = sp.get_tally(name='mesh tally')
@@ -224,7 +224,7 @@ def process_aft_openmc(use_panels, folder1, file1, folder2, file2, sources, seg_
     for mark in remove_panels:
         id0, id1 = get_position_from_panelID(mark)
         mean[id0, id1] = 0
-    mean = output_process(mean, digits, folder1, file1, folder2, file2, sources, seg_angles, norm)
+    mean = output_process(mean, digits, folder, file, sources, seg_angles, norm, savefig)
     return mean
 
 def before_openmc(use_panels, sources_d_th, num_particles):
@@ -237,23 +237,30 @@ def before_openmc(use_panels, sources_d_th, num_particles):
     sources = get_sources(sources_d_th)
     gen_settings(src_energy=src_E, src_strength=src_Str, en_prob=energy_prob, num_particles=num_particles, batch_size=batches, sources=sources) 
 
-def after_openmc(use_panels, sources_d_th, folder1, folder2, seg_angles, header):
+def after_openmc(use_panels, sources_d_th, folder, seg_angles, header, record=None, savefig=False):
     num_sources = len(sources_d_th)
     d_a_seq = ""
     for i in range(num_sources):
         d_a_seq += '_' + str(round(sources_d_th[i][0], 5)) + '_' + str(round(sources_d_th[i][1], 5))
-    file1=header + d_a_seq + '.json'
-    file2=header + d_a_seq + '.png'
-    isExist1 = os.path.exists(folder1)
+    # file1=header + d_a_seq + '.json'
+    # file2=header + d_a_seq + '.png'
+    file =header + d_a_seq
+    isExist1 = os.path.exists(folder)
     if not isExist1:
-        os.makedirs(folder1)
-        print("The new directory "+ folder1 +" is created!")
-    isExist2 = os.path.exists(folder2)
-    if not isExist2:
-        os.makedirs(folder2)
-        print("The new directory "+ folder2 +" is created!")
+        os.makedirs(folder)
+        print("The new directory "+ folder +" is created!")
+    if record is not None:
+        with open(f'{folder}/record.txt', 'w') as f:
+            for line in record:
+                f.write(line + "\n")
+    if savefig:
+        folder2 = folder + '_fig'
+        isExist2 = os.path.exists(folder2)
+        if not isExist2:
+            os.makedirs(folder2)
+            print("The new directory "+ folder2 +" is created!")
     sources=get_sources(sources_d_th)
-    mm = process_aft_openmc(use_panels, folder1, file1, folder2, file2, sources, seg_angles, norm=True)
+    mm = process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm=True, savefig=savefig)
     return mm
 
 def get_position_from_panelID(panel_id):

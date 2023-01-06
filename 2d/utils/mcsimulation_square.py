@@ -7,7 +7,7 @@ Created on 2022/12/27
 import glob
 import matplotlib.pyplot as plt
 import os
-from utils.dataset import gen_materials, get_sources, gen_settings, output_process, run_openmc
+from utils.dataset import gen_materials, get_sources, gen_settings, output_process
 import openmc
 digits = 10
 
@@ -60,7 +60,7 @@ def gen_materials_geometry_tallies(a_num, panel_density):
     root_universe.add_cell(arrays_cell)
     root_universe.add_cell(root_cell)
     root_universe.add_cell(outer_cell)
-    root_universe.plot(width=(22, 22), basis='xy')
+    # root_universe.plot(width=(22, 22), basis='xy')
     # plt.show()
     # plt.savefig('save_fig/geometry.png')
     # plt.savefig('save_fig/geometry.pdf')
