@@ -122,6 +122,12 @@ from matplotlib.colors import ListedColormap
 N = 256
 
 #%%
+def hex2rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return [int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)]
+
+
 def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, jsonpath):  #!20220717
     num_particles = 10000 #50000
     num_sources = len(sources_d_th)
@@ -145,7 +151,7 @@ def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, json
 
 
 
-def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, device):
+def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colors_parameters, device):
     DT = sim_parameters['DT']
     SIM_TIME = sim_parameters['SIM_TIME']
     STATE_SIZE = sim_parameters['STATE_SIZE']
@@ -153,6 +159,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
     source_energies = sim_parameters['source_energies']
     SIM_STEP = sim_parameters['SIM_STEP']
     rot_ratio = sim_parameters['rot_ratio'] #!20221023
+    colors_max, pred_rgb, real_rgb = [hex2rgb(colors_parameters[l]) for l in ['array_hex', 'pred_hex', 'real_hex']] #!
     time=0
     step=0
     jsonpath = recordpath + "_json/"
@@ -193,7 +200,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
             relsrc_dir_line = []       #!20221023
             d_record_line = [step]
             angle_line = [step]
-            dist_ang_list = []
+            # dist_ang_list = []
             sources_d_th = []
             sources_x_y_c = []
             for i in range(RSID.shape[0]):
@@ -229,14 +236,14 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
                 d_record_line.append(d)
                 # angle_line.append(angle*180/np.pi)
                 angle_line.append(pipi_2_cw(angle)*180/math.pi)
-                dist_ang_list.append([d, angle*180/np.pi])
+                # dist_ang_list.append([d, angle*180/np.pi])
                 sources_d_th.append([d, angle*180/np.pi, source_energies[i]])
 
             relsrc.append(relsrc_line)
             relsrc_dir.append(relsrc_dir_line)
             d_record.append(d_record_line)
             angle_record.append(angle_line)
-            dist_ang = np.transpose(np.array(dist_ang_list))
+            # dist_ang = np.transpose(np.array(dist_ang_list))
 
             print(step,'simulation start')
             print("source")
@@ -251,7 +258,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
             The input of this function is a list of sources location (in detector frame, (0,0) is the center of the detector) and intensity eg, [[x1,y1,I1], [x2, y2, I2], ...]
             The output is an 1d array with shape (100,) that record the response of each single pad detector
             '''
-            network_input = (det_output-det_output.mean())/np.sqrt(det_output.var())
+            network_input = (det_output-det_output.mean())/np.sqrt(det_output.var())    # normalize
             network_input = np.transpose(network_input)
             network_input = network_input.reshape(1,-1)
             network_input = torch.from_numpy(network_input).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
@@ -294,7 +301,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
             own_cmp = ListedColormap(rgbs)
             ax1.imshow(xdata_show, interpolation='nearest', cmap=own_cmp)
             # ds, ag = d, angle*180/np.pi
-            ds, ag = d, pipi_2_cw(angle)*180/math.pi
+            # ds, ag = d, pipi_2_cw(angle)*180/math.pi  #!
+            ags = angle_line    #!
             ax1.axes.get_xaxis().set_visible(False)
             ax1.axes.get_yaxis().set_visible(False)
             plt.xlabel('x')
@@ -331,7 +339,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, devi
             ax2.axes.get_yaxis().set_visible(False)
 
             # fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
-            fig.suptitle('Real Angle: ' + str(round(ag, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!20220822
+            fig.suptitle('Real Angle: ' + str(round(ags, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)

@@ -22,7 +22,7 @@ import imageio  #!20220520
 import openmc
 # from mcsimulation_tetris import *
 from utils.cal_param import *   #!20221023
-from utils.move_detector import openmc_simulation, main
+from utils.move_detector import main
 from utils.unet import *
 
 tetris_mode=False
@@ -62,9 +62,7 @@ sim_parameters = {
 map_horiz = [-15,15,30]
 map_vert = [-5,25,30]
 
-colors_max = [238,173,14] #[243, 194, 92] #[255,193,37] #[238,118,33] #[255,97,3]  #colors_max = [255, 100, 0]
-pred_rgb = [202, 108, 74] #[91,91,91] #[202, 108, 74]
-real_rgb = [119, 192, 210] #[30,30,30] #[119, 192, 210]
+colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
 
 recordpath = './save/mapping_data/' + file_header
 if __name__ == '__main__' and record_data:
@@ -99,9 +97,9 @@ DEFAULT_DTYPE = torch.double
 #%%
 # colormap
 from matplotlib.colors import ListedColormap
-N = 256
+# N = 256
 
-
-main(recordpath, tetris_mode, a_num, seg_angles, model, sim_parameters, device=DEFAULT_DEVICE)
+# main(recordpath, tetris_mode, a_num, seg_angles, model, sim_parameters, device=DEFAULT_DEVICE)
+main(recordpath, tetris_mode, a_num, seg_angles, model, sim_parameters, colors_parameters, device=DEFAULT_DEVICE)
 write_data(seg_angles, recordpath, map_horiz, map_vert)
 
