@@ -1,20 +1,20 @@
- ====================>     TALLY 2659: MESH TALLY     <=====================
+ ====================>     TALLY 6245: MESH TALLY     <=====================
 
  Mesh Index (1, 1)
    Total Material
-     Absorption Rate                      2.89152 +/- 1.42357
+     Absorption Rate                      0.0086222 +/- 0.000478904
  Mesh Index (2, 1)
    Total Material
-     Absorption Rate                      0.00119617 +/- 0.000207986
+     Absorption Rate                      0.0197005 +/- 0.0116248
  Mesh Index (1, 2)
    Total Material
-     Absorption Rate                      0.00133472 +/- 0.000189421
+     Absorption Rate                      0.008549 +/- 0.000427053
  Mesh Index (2, 2)
    Total Material
-     Absorption Rate                      0.000875541 +/- 0.000166843
+     Absorption Rate                      0.00541274 +/- 0.00035001
  Mesh Index (1, 3)
    Total Material
-     Absorption Rate                      0.00109603 +/- 0.0001739
+     Absorption Rate                      0.00770165 +/- 0.000462517
  Mesh Index (2, 3)
    Total Material
-     Absorption Rate                      0.000242972 +/- 3.77572e-05
+     Absorption Rate                      4.42123 +/- 1.0974

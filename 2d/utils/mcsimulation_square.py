@@ -122,7 +122,7 @@ def after_openmc(a_num, sources_d_th, folder, seg_angles, header, record=None, s
         os.makedirs(folder)
         print("The new directory "+ folder +" is created!")
     if record is not None:
-        with open(f'{folder}/record.txt', 'w') as f:
+        with open(f'{folder}/a_record.txt', 'w') as f:
             for line in record:
                 f.write(line + "\n")
     if savefig:

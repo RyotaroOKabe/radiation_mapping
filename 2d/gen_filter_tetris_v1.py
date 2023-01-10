@@ -23,11 +23,11 @@ import openmc
 from utils.mcsimulation_tetris import *
 
 num_sources = 1
-shape_name = 'S' # Tetris shape
+shape_name = 'L' # Tetris shape
 num_data = 64 # the number of the generated data
 seg_angles = num_data # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist_min = 10   # minimum distance between the radiation source and the detector (cm).
-dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
+# dist_min = 10   # minimum distance between the radiation source and the detector (cm).
+# dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
 source_energies = [0.5e6 for l in range(num_sources)]    # Photon energy [eV]
 header_dist_particles_dict = {'near': [50, 50000], 'far': [500, 50000]}    # [distance (cm), distance Photon energy [eV]]
 openmc_dir = 'save/openmc_filter/'
@@ -42,7 +42,7 @@ record = [f"run_name: {run_name}",
           f"shape_name: {shape_name}",
           f"num_data: {num_data}",
           f"seg_angles: {seg_angles}",
-          f"Dist range: {[dist_min, dist_max]}",
+        #   f"Dist range: {header_dist_particles_dict}",
           f"source_energies: {source_energies}",
           f"header_dist_particles_dict: {header_dist_particles_dict}"]
 print([r+"\n" for r in record])
