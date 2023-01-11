@@ -241,7 +241,7 @@ class Model(object):
             fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
             plt.close()
         loss_avg = total_loss/test_size
-        print('Average loss dist: ', loss_avg)
+        # print('Average loss dist: ', loss_avg)
         return loss_avg #!
 
 
