@@ -86,13 +86,16 @@ class Model(object):
         else:
             self.loss_val = loss_val
 
-    # def train(self, optim, train, val, epochs,batch_size, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
-    def train(self, optim, train_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
+    # def train(self, optim, train_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
+    def train(self, optim, train_set, test_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
         net = self.net
         loss_train = self.loss_train
         loss_val = self.loss_val
         t1=time.time()
         timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','optimizer step','eval'])    #!20220104
+        if not os.path.isdir(save_name):    #!
+            os.mkdir(save_name)
+        record_header = '%s\t%s\t%s\t%s'%('Epochs',"train_loss","val_loss", "Time")
         train_loss_history=[]
         val_loss_history=[]
         if acc_func is None:
@@ -104,7 +107,9 @@ class Model(object):
             tr_set, va_set = train_set.split(split_fold=split_fold, step=i)
             times=int(math.ceil(tr_set.data_size/float(batch_size)))
             datas=[]
+            # print('checkpoint1')
             net.train()
+            # print('checkpoint2')
             for j in range(times):
                 timer.start('load data') 
                 data_x, data_y, data_z=tr_set.get_batch(batch_size)
@@ -136,6 +141,7 @@ class Model(object):
             val_loss=0.
             timer.start('eval')
             net.eval()
+            # print('checkpoint3')
             with torch.no_grad():
                 for data in datas:
                     output = net(data[0])
@@ -151,22 +157,32 @@ class Model(object):
             timer.end('eval')
             train_loss_history.append(train_loss)
             val_loss_history.append(val_loss)
-            record_line = '%d\t%f\t%f'%(i,train_loss,val_loss)
+            t2=time.time()  #!
+            record_line = '%d\t%f\t%f\t%f'%(i,train_loss,val_loss,t2-t1)
+            # print("record_line:", type(record_line))
             record_lines.append(record_line)
-            if verbose and i%verbose==0:
-                print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))
-        if not os.path.isdir(save_name):
-            os.mkdir(save_name)
+            # if verbose and i%verbose==0:  #!
+            print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))    #!
+            self.train_loss_history=train_loss_history  #!
+            self.val_loss_history=val_loss_history  #!
+            self.plot_train_curve(save_name)    #!
+            self.save('save/models/' + save_name[-13:]) #!
+            loss_avg = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name)    #!
+            text_file = open(f"{save_name}/log.txt", "w")
+            text_file.write(record_header + "\n")
+            for line in record_lines:
+                text_file.write(line + "\n")
+            text_file.write(f"Average loss dist: {loss_avg}\n")
         writer.export_scalars_to_json(f"{save_name}/all_scalars.json")
         writer.close()
-        t2=time.time()
-        print('\t\tEPOCHS %d\t%f\t%f'%(epochs, train_loss, val_loss))
+        # t2=time.time()
+        # print('\t\tEPOCHS %d\t%f\t%f'%(epochs, train_loss, val_loss))
         print('\t\tFinished in %.1fs'%(t2-t1))
-        self.train_loss_history=train_loss_history
-        self.val_loss_history=val_loss_history
-        text_file = open(f"{save_name}/log.txt", "w")
-        for line in record_lines:
-            text_file.write(line + "\n")
+        # self.train_loss_history=train_loss_history
+        # self.val_loss_history=val_loss_history
+        # text_file = open(f"{save_name}/log.txt", "w")
+        # for line in record_lines:
+        #     text_file.write(line + "\n")
         text_file.close()
 
     def plot_train_curve(self, save_name):
@@ -190,11 +206,13 @@ class Model(object):
         torch.save(data,name+'_log.pt')
         torch.save(self.net,name+'_model.pt')
 
-    def plot_test(self,test,test_size, seg_angles,loss_fn, save_dir):
+    # def plot_test(self,test,test_size, seg_angles,loss_fn, save_dir):
+    def plot_test(self,test,loss_fn,save_dir):
 
         if not os.path.isdir(save_dir):
             os.mkdir(save_dir)
-
+        test_size = test.data_size
+        seg_angles = test.y_size
         total_loss = 0
         for indx in range(test_size):
             test_x,test_y,test_z=test.get_batch(1,indx) #!
@@ -224,6 +242,7 @@ class Model(object):
             plt.close()
         loss_avg = total_loss/test_size
         print('Average loss dist: ', loss_avg)
+        return loss_avg #!
 
 
 from pyemd import emd

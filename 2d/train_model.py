@@ -4,8 +4,8 @@ Created on 2022/12/27
 @author: R.Okabe
 """
 import torch
-import tensorboardX as tbx
-writer = tbx.SummaryWriter('runs')
+# import tensorboardX as tbx
+# writer = tbx.SummaryWriter('runs')
 from utils.dataset import get_output, FilterData2, load_data
 from utils.unet import *
 from utils.model import MyNet2, Model
@@ -22,14 +22,14 @@ DEFAULT_DTYPE = torch.double
 save_dir = "./save/training"
 
 #%%
-
+# print('checkpoint0')
 
 a_num = 2
 tetris_shape = 'L'
 num_sources = 1
 seg_angles = 64
-epochs = 1000
-data_name = '221229-082243' #'221228-174929' # '221227-001319'
+epochs = 10000
+data_name = '230101-093810' #'221228-174929' # '221227-001319'
 filter_name = '221227-013624'
 #=========================================================
 save_name = f"{data_name}"
@@ -56,7 +56,7 @@ net = net.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
 kld_loss = torch.nn.KLDivLoss(size_average=None, reduction='batchmean')
 loss_train = lambda  y, y_pred: emd_loss_ring(y, y_pred, r=2)
 # loss_train = lambda y, y_pred: emd_loss_sinkhorn(y, y_pred, M2)
-# loss_train = lambda y, y_pred: kld_loss(y_pred.log(),y
+# loss_train = lambda y, y_pred: kld_loss(y_pred.log(),y)
 source_num, prob = [1 for _ in range(num_sources)], [1. for _ in range(num_sources)]
 
 loss_val = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()
@@ -75,10 +75,10 @@ optim = torch.optim.Adam([
     ], lr=0.001)
 
 # model.train(optim,train_set,test_set,epochs,batch_size=256,acc_func=None, verbose=10, save_name=save_name)
-model.train(optim,train_set,epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_name=save_header)
-model.save('save/models/' + save_name)
+model.train(optim,train_set,test_set, epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_name=save_header)
+# model.save('save/models/' + save_name)
 
-model.plot_train_curve(save_name=save_header)
-model.plot_test(test_set,test_size,seg_angles=seg_angles,loss_fn=loss_val,save_dir=save_header)
+# model.plot_train_curve(save_name=save_header)
+# model.plot_test(test_set,loss_fn=loss_val,save_dir=save_header)
 
 # %%

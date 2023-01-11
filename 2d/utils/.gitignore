@@ -1,0 +1,9 @@
+
+#files
+*copy.py
+
+# folder
+__pycache__/
+
+#openmc/
+
