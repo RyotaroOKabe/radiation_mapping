@@ -133,8 +133,9 @@ def solve_one(m,cji_list,yj_list):
     return x
 
 
-def mapping(fig_folder, fig_header, recordpath, factor=factor1, save_process=True, savedata=True):
+def mapping(fig_folder, fig_header, recordpath, map_geometry, factor=factor1, save_process=True, savedata=True):
     recordpath = record_path+'_cal'   #!20220331
+    map_horiz, map_vert  = map_geometry
     files=os.listdir(recordpath)
     files=sorted(files)
     # figurepath = 'mapping_data/save_fig/' + fig_header

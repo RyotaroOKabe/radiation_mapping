@@ -136,7 +136,7 @@ class Model(object):
                 for param in net.parameters():
                     pass
                 optim.step()
-                timer.end('optimizer step');
+                timer.end('optimizer step')
             train_loss=0.
             val_loss=0.
             timer.start('eval')

@@ -23,11 +23,11 @@ import openmc
 from utils.mcsimulation_tetris import *
 
 num_sources = 1
-shape_name = 'T' # Tetris shape
-num_data = 10000 # the number of the generated data
+shape_name = 'S' # Tetris shape
+num_data = 5000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
 dist_min = 10   # minimum distance between the radiation source and the detector (cm).
-dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
+dist_max = 500 #500 # maximum distance between the radiation source and the detector (cm).
 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 num_particles = 10000 #!20000   # The number of photon

@@ -23,11 +23,11 @@ import openmc
 from utils.mcsimulation_square import *
 
 num_sources = 2
-a_num = 10   # The shape of the detector: a x a square 
-num_data = 10000 # the number of the generated data
+a_num = 5   # The shape of the detector: a x a square 
+num_data = 3000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist_min = 10   # minimum distance between the radiation source and the detector (cm).
-dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
+dist_min = 20   # minimum distance between the radiation source and the detector (cm).
+dist_max = 500 #500 # maximum distance between the radiation source and the detector (cm).
 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 num_particles = 20000 #!20000   # The number of photon
@@ -67,7 +67,7 @@ for i in range(num_data):
         print(f"energy {i}/{j}: ", sources_d_th[j][2])
         source_pos.append([x_pos,y_pos])
     before_openmc(a_num, sources_d_th, num_particles)
-    run_openmc()
+    openmc.run()
     mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)
     json.dump(source_pos, open(f'{folder}/source_positions.json', 'w'))
     if save_fig:

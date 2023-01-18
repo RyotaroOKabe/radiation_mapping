@@ -339,7 +339,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             ax2.axes.get_yaxis().set_visible(False)
 
             # fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
-            fig.suptitle('Real Angle: ' + str(round(ags, 5)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!
+            fig.suptitle('Real Angle: ' + str([round(a, 4) for a in ags]) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)

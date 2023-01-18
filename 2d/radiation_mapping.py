@@ -21,7 +21,7 @@ from utils.mapping import mapping, gen_gif
 # fig_folder = f'mapping_data/save_fig/'
 # fig_header = f'A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5.1'
 # record_path = f'mapping_data/mapping_A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5'   #'mapping_data/mapping_A20220804_10x10_v1.7'
-fig_header = f"221227-001319"
+fig_header = "230103-003600"    # f"221227-001319"
 recordpath = f'./save/mapping_data/{fig_header}'
 fig_folder = f'./save/radiation_mapping/{fig_header}'
 th_level = 0.2
@@ -29,7 +29,7 @@ map_horiz = [-15,15,30]
 map_vert = [-5,25,30]
 
 #%%
-mapping(fig_folder, fig_header, recordpath, save_process=True, savedata=True)
+mapping(fig_folder, fig_header, recordpath, map_geometry = [map_horiz, map_vert], save_process=True, savedata=True)
 # test()
 gen_gif(fig_folder)
 

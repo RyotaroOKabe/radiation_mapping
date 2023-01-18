@@ -31,10 +31,10 @@ tetris_mode=False
 
 # else:
 #     from utils.mcsimulation_square import *
-a_num =2
+a_num =10
 num_sources = 1
 seg_angles = 64
-file_header = f"221227-001319"
+file_header = "230103-003600"    #f"221227-001319"
 recordpath = f'./save/mapping_data/{file_header}'
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
@@ -44,7 +44,7 @@ matrix_shape = [a_num, a_num]
 DT = 0.1  # time tick [s]
 SIM_TIME = 70.0
 STATE_SIZE = 4
-RSID = np.array([[1.0,2.0,0.5e6]])  #,[-3.0,14.0,0.5e6]])
+RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]]) #np.array([[1.0,2.0,0.5e6]])  #,[-3.0,14.0,0.5e6]])
 source_energies = [0.5e6 for _ in range(RSID.shape[0])]
 SIM_STEP=10
 rot_ratio = 0
