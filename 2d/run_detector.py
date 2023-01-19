@@ -34,7 +34,8 @@ tetris_mode=False
 a_num =10
 num_sources = 1
 seg_angles = 64
-file_header = "230103-003600"    #f"221227-001319"
+# file_header = "230103-003600"    #f"221227-001319"    #!
+file_header = "{data_name}_{filter_name}"  # save_name = f"{data_name}" #!
 recordpath = f'./save/mapping_data/{file_header}'
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)

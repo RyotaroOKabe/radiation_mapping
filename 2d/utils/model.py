@@ -74,6 +74,11 @@ class MyNet2(nn.Module):
         out = F.softmax(x,dim=1)
         return out
 
+def loglinspace(rate, step, end=None):  #!
+    t = 0
+    while end is None or t <= end:
+        yield t
+        t = int(t + 1 + step*(1 - math.exp(-t*rate/step)))
 
 class Model(object):
     def __init__(self, net, loss_train, loss_val, reg=0.):
@@ -103,6 +108,10 @@ class Model(object):
         else:
             evaluation=acc_func
         record_lines = []
+        
+        checkpoint_generator = loglinspace(0.3, 5)
+        checkpoint = next(checkpoint_generator)
+        
         for i in range(epochs):
             tr_set, va_set = train_set.split(split_fold=split_fold, step=i)
             times=int(math.ceil(tr_set.data_size/float(batch_size)))
@@ -162,17 +171,22 @@ class Model(object):
             # print("record_line:", type(record_line))
             record_lines.append(record_line)
             # if verbose and i%verbose==0:  #!
-            print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))    #!
-            self.train_loss_history=train_loss_history  #!
-            self.val_loss_history=val_loss_history  #!
-            self.plot_train_curve(save_name)    #!
-            self.save('save/models/' + save_name[-13:]) #!
-            loss_avg = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name)    #!
-            text_file = open(f"{save_name}/log.txt", "w")
-            text_file.write(record_header + "\n")
-            for line in record_lines:
-                text_file.write(line + "\n")
-            text_file.write(f"Average loss dist: {loss_avg}\n")
+            
+            if i == checkpoint:
+                print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))    #!
+                self.train_loss_history=train_loss_history  #!
+                self.val_loss_history=val_loss_history  #!
+                checkpoint = next(checkpoint_generator)
+
+                self.plot_train_curve(save_name)    #!
+                # self.save('save/models/' + save_name[-13:]) #!
+                self.save('save/models/' + save_name[-27:]) #!
+                loss_avg = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name)    #!
+                text_file = open(f"{save_name}/log.txt", "w")
+                text_file.write(record_header + "\n")
+                for line in record_lines:
+                    text_file.write(line + "\n")
+                text_file.write(f"Average loss dist: {loss_avg}\n")
         writer.export_scalars_to_json(f"{save_name}/all_scalars.json")
         writer.close()
         # t2=time.time()

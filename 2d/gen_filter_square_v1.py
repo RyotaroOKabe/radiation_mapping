@@ -23,13 +23,13 @@ import openmc
 from utils.mcsimulation_square import *
 
 num_sources = 1
-a_num = 2   # The shape of the detector: a x a square
+a_num = 10   # The shape of the detector: a x a square
 num_data = 64 # the number of the generated data
 seg_angles = num_data # The number of angle sectors (resolution: 360 deg/seg_angles)
 # dist_min = 10   # minimum distance between the radiation source and the detector (cm).
 # dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
 source_energies = [0.5e6 for l in range(num_sources)]    # Photon energy [eV]
-header_dist_particles_dict = {'near': [50, 20000], 'far': [500, 20000]}    # [distance (cm), distance Photon energy [eV]] # {'near': [50, 50000], 'far': [500, 50000]}
+header_dist_particles_dict = {'near': [50, 200000], 'far': [500, 200000]}    # [distance (cm), distance Photon energy [eV]] # {'near': [50, 50000], 'far': [500, 50000]}
 openmc_dir = 'save/openmc_filter/'
 save_fig = True
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())

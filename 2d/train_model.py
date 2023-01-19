@@ -28,11 +28,11 @@ save_dir = "./save/training"
 # tetris_shape = 'L'
 num_sources = 1
 seg_angles = 64
-epochs = 500
-data_name = '230117-002622' #'221228-174929' # '221227-001319'
-filter_name = '230117-203449'
+epochs = 200
+data_name = '230116-110142' #'221228-174929' # '221227-001319'
+filter_name = '230117-224106'
 #=========================================================
-save_name = f"{data_name}"
+save_name = f"{data_name}_{filter_name}"  # save_name = f"{data_name}"
 save_header = f"{save_dir}/{save_name}"
 #save_name = f"openmc_tetris{tetris_shape}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220821_v1.1"
 #=========================================================
