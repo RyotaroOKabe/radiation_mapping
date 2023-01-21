@@ -22,8 +22,8 @@ from utils.mapping import mapping, gen_gif
 # fig_header = f'A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5.1'
 # record_path = f'mapping_data/mapping_A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5'   #'mapping_data/mapping_A20220804_10x10_v1.7'
 # fig_header = "230103-003600"    # f"221227-001319"    #!
-fig_header = "{data_name}_{filter_name}"  # save_name = f"{data_name}"  #!
-recordpath = f'./save/mapping_data/{fig_header}'
+fig_header = "230118-203413_230120-224603"  # save_name = f"{data_name}"  #!
+recordpath = f'./save/mapping_data/{fig_header}'       # add index if necessary
 fig_folder = f'./save/radiation_mapping/{fig_header}'
 th_level = 0.2
 map_horiz = [-15,15,30]

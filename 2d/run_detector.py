@@ -25,27 +25,20 @@ from utils.cal_param import *   #!20221023
 from utils.move_detector import main
 from utils.unet import *
 
-tetris_mode=False
-# if tetris_mode:
-#     from utils.mcsimulation_tetris import *
-
-# else:
-#     from utils.mcsimulation_square import *
-a_num =10
-num_sources = 1
+tetris_mode=True
+input_shape ='S' # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64
 # file_header = "230103-003600"    #f"221227-001319"    #!
-file_header = "{data_name}_{filter_name}"  # save_name = f"{data_name}" #!
-recordpath = f'./save/mapping_data/{file_header}'
+file_header = "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
+recordpath = f'./save/mapping_data/{file_header}'   # add index if necessary
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
-num_panels=a_num**2
-matrix_shape = [a_num, a_num]
 
 DT = 0.1  # time tick [s]
 SIM_TIME = 70.0
 STATE_SIZE = 4
-RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]]) #np.array([[1.0,2.0,0.5e6]])  #,[-3.0,14.0,0.5e6]])
+# RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]]) #np.array([[1.0,2.0,0.5e6]])  #,[-3.0,14.0,0.5e6]])
+RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]]) #
 source_energies = [0.5e6 for _ in range(RSID.shape[0])]
 SIM_STEP=10
 rot_ratio = 0
@@ -96,11 +89,6 @@ else:
 DEFAULT_DTYPE = torch.double
 
 #%%
-# colormap
-from matplotlib.colors import ListedColormap
-# N = 256
-
-# main(recordpath, tetris_mode, a_num, seg_angles, model, sim_parameters, device=DEFAULT_DEVICE)
-main(recordpath, tetris_mode, a_num, seg_angles, model, sim_parameters, colors_parameters, device=DEFAULT_DEVICE)
+main(recordpath, tetris_mode, input_shape, seg_angles, model, sim_parameters, colors_parameters, device=DEFAULT_DEVICE)
 write_data(seg_angles, recordpath, map_horiz, map_vert)
 

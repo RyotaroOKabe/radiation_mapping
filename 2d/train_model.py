@@ -29,8 +29,8 @@ save_dir = "./save/training"
 num_sources = 1
 seg_angles = 64
 epochs = 200
-data_name = '230116-110142' #'221228-174929' # '221227-001319'
-filter_name = '230117-224106'
+data_name = '230118-005847' #'221228-174929' # '221227-001319'
+filter_name = '230120-214857'
 #=========================================================
 save_name = f"{data_name}_{filter_name}"  # save_name = f"{data_name}"
 save_header = f"{save_dir}/{save_name}"

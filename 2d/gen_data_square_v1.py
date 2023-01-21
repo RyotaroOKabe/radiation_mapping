@@ -23,7 +23,7 @@ import openmc
 from utils.mcsimulation_square import *
 
 num_sources = 2
-a_num = 5  # The shape of the detector: a x a square 
+a_num = 10  # The shape of the detector: a x a square 
 num_data = 3000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
 dist_min = 20   # minimum distance between the radiation source and the detector (cm).

@@ -222,8 +222,9 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
                 y=d*np.sin(angle)
                 x_dir=d*np.cos(angle_dir)
                 y_dir=d*np.sin(angle_dir)
-                rate=RSID[i,2]
-                source_list.append([x,y,rate])
+                # rate=RSID[i,2]
+                # source_list.append([x,y,rate])
+                source_list.append([x,y,source_energies[i]])
                 src_xy = [x, y]
                 source_x_y_c = {}
                 source_x_y_c['position']=src_xy
