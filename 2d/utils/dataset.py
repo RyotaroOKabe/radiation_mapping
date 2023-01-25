@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 import json
 import os
 import openmc
+from copy import copy
 
 def gen_materials(panel_density):
     panel = openmc.Material(name='CdZnTe')
@@ -75,7 +76,7 @@ def output_process(mean, digits, folder, file, sources, seg_angles, norm, savefi
     data_json={}
     data_json['source']=sources
     data_json['output']=[round(s, digits) for s in get_output(sources, seg_angles).tolist()]    #!
-    data_json['num_sources']=num_sources
+    data_json['num_sources']=num_sources    # maybe we can remove. 
     data_json['seg_angles']=seg_angles
     mean_list=mean.T.reshape((1, -1)).tolist()
     data_json['input']=[round(m, digits) for m in mean_list[0]]
@@ -83,7 +84,7 @@ def output_process(mean, digits, folder, file, sources, seg_angles, norm, savefi
         json.dump(data_json, f)
     if savefig:
         folder2 = folder + '_fig'
-        mean_show  = np.flip(mean, 0)
+        mean_show  = np.flip(copy(mean), 0)   # np.flip(mean, 0) #! 230123
         plt.imshow(mean_show, interpolation='nearest', cmap='gist_gray')#"plasma")   #!20221128
         ds_ag_list = file.split('_')[1:]
         ds_ag_title = ''

@@ -29,8 +29,8 @@ save_dir = "./save/training"
 num_sources = 1
 seg_angles = 64
 epochs = 200
-data_name = '230118-005847' #'221228-174929' # '221227-001319'
-filter_name = '230120-214857'
+data_name = '230124-151035' #'221228-174929' # '221227-001319'
+filter_name = '230124-163902'
 #=========================================================
 save_name = f"{data_name}_{filter_name}"  # save_name = f"{data_name}"
 save_header = f"{save_dir}/{save_name}"
@@ -46,7 +46,7 @@ filterpath = f'./save/openmc_filter/{filter_name}'    #!20220716
 # filterpath ='openmc/filter_2x2_64_data_20221003_v2.1'    #!20220716
 
 filter_data2 = FilterData2(filterpath)
-test_size = 300
+test_size = 100
 k_fold = 5
 print(save_name)
 output_fun = get_output

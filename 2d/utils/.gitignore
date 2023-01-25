@@ -1,6 +1,7 @@
 
 #files
 *copy.py
+*check.py
 
 # folder
 __pycache__/

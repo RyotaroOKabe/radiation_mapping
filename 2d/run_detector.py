@@ -26,10 +26,10 @@ from utils.move_detector import main
 from utils.unet import *
 
 tetris_mode=True
-input_shape ='S' # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
+input_shape ='J' # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64
 # file_header = "230103-003600"    #f"221227-001319"    #!
-file_header = "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
+file_header = "230121-192203_230121-161457" # "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
 recordpath = f'./save/mapping_data/{file_header}'   # add index if necessary
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
@@ -42,6 +42,7 @@ RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]]) #
 source_energies = [0.5e6 for _ in range(RSID.shape[0])]
 SIM_STEP=10
 rot_ratio = 0
+num_particles = 50000
 sim_parameters = {
     'DT': DT,
     'SIM_TIME': SIM_TIME,
@@ -49,7 +50,8 @@ sim_parameters = {
     'RSID':RSID,
     'source_energies':source_energies,
     'SIM_STEP':SIM_STEP,
-    'rot_ratio': rot_ratio
+    'rot_ratio': rot_ratio, 
+    'num_particles': num_particles
 }
 
 # Map

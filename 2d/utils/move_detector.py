@@ -128,8 +128,8 @@ def hex2rgb(value):
     return [int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)]
 
 
-def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, jsonpath):  #!20220717
-    num_particles = 10000 #50000
+def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, num_particles, jsonpath):  #!20220717
+    # num_particles = 10000 #50000
     num_sources = len(sources_d_th)
     for i in range(num_sources):
         sources_d_th[i][0] *= 100
@@ -159,6 +159,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
     source_energies = sim_parameters['source_energies']
     SIM_STEP = sim_parameters['SIM_STEP']
     rot_ratio = sim_parameters['rot_ratio'] #!20221023
+    num_particles = sim_parameters['num_particles']
     colors_max, pred_rgb, real_rgb = [hex2rgb(colors_parameters[l]) for l in ['array_hex', 'pred_hex', 'real_hex']] #!
     time=0
     step=0
@@ -250,7 +251,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             print("source")
             print(source_list)
             # openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, jsonpath)
-            det_output=openmc_simulation(tetris_mode, input, sources_d_th, 'STEP%.3d'%step, seg_angles, jsonpath)
+            det_output=openmc_simulation(tetris_mode, input, sources_d_th, 'STEP%.3d'%step, seg_angles, num_particles, jsonpath)
             print('det_output')
             print(type(det_output))
             print(det_output.shape)

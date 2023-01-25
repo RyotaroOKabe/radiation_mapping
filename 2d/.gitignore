@@ -22,6 +22,7 @@ train_torch_openmc_tetris_2x3_v2.py
 train_torch_openmc_tetris_axa_v1.py
 filter_visualization.py
 train_model_*
+*check.py
 
 # folder
 wandb/
