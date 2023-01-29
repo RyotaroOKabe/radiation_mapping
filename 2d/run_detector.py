@@ -25,20 +25,20 @@ from utils.cal_param import *   #!20221023
 from utils.move_detector import main
 from utils.unet import *
 
-tetris_mode=True
-input_shape ='J' # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
+tetris_mode=False
+input_shape = 5  # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64
 # file_header = "230103-003600"    #f"221227-001319"    #!
-file_header = "230121-192203_230121-161457" # "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
+file_header = "230119-231253_230120-144924" # "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
 recordpath = f'./save/mapping_data/{file_header}'   # add index if necessary
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
 
 DT = 0.1  # time tick [s]
-SIM_TIME = 70.0
+SIM_TIME = 60.0
 STATE_SIZE = 4
 # RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]]) #np.array([[1.0,2.0,0.5e6]])  #,[-3.0,14.0,0.5e6]])
-RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]]) #
+RSID =  np.array([[1.0,2.0],[-3.0,14.0]])  #　np.array([[-4.0,11.0]])
 source_energies = [0.5e6 for _ in range(RSID.shape[0])]
 SIM_STEP=10
 rot_ratio = 0
@@ -60,7 +60,7 @@ map_vert = [-5,25,30]
 
 colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
 
-recordpath = './save/mapping_data/' + file_header
+# recordpath = './save/mapping_data/' + file_header
 if __name__ == '__main__' and record_data:
     if not os.path.isdir(recordpath):
         os.mkdir(recordpath)

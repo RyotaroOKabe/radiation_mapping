@@ -109,7 +109,7 @@ from utils.cal_param import *   #!20221023
 
 
 if torch.cuda.is_available() and not USE_CPU:
-    DEFAULT_DEVICE = torch.device("cuda:1")
+    DEFAULT_DEVICE = torch.device("cuda")
     torch.set_default_tensor_type(torch.cuda.DoubleTensor)
 else:
     DEFAULT_DEVICE = torch.device("cpu")
@@ -341,7 +341,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             ax2.axes.get_yaxis().set_visible(False)
 
             # fig.suptitle('Real Angle: ' + str(round(360-ag, 5)) + ', \nPredicted Angle: ' + str(360-pred_out) + ' [deg]', fontsize=60)  ##!20220822
-            fig.suptitle('Real Angle: ' + str([round(a, 4) for a in ags]) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!
+            fig.suptitle('Real Angle: ' + str(round(ags[-1], 4)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!
+            # fig.suptitle('Real Angle: ' + str([round(a, 4) for a in ags]) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)  ##!
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)

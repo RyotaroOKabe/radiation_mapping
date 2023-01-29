@@ -73,6 +73,14 @@ class Map(object):
         self.intensity_list=np.zeros(self.x_num*self.y_num)
         self.intensity=self.intensity_list.reshape((self.x_num,self.y_num))
 
+    def normalize(self):    #!
+        self.intensity = self.intensity/np.max(self.intensity)  #!
+        
+    def threshold(self, threshold): #!
+        # self.intensity = np.maximum(self.intensity, threshold)  #!
+        mask = self.intensity>threshold
+        self.intensity = np.maximum(self.intensity-threshold, 0) + threshold*mask #!
+
     # def plot(self,ax=plt.gca()):
     def plot(self,ax=plt.gca(), fig_folder='XX', fig_header='XX'):
         X, Y = np.meshgrid(self.x_list, self.y_list)
@@ -119,8 +127,8 @@ def solve_one(m,cji_list,yj_list):
     for i in range(len(cji_list)):
         cji=cji_list[i]
         yj=yj_list[i]
-        dd=cji.dot(xi)-yj
-        mp.AddQuadraticCost(dd.dot(dd))  #!!!!
+        dd=cji.dot(xi)-yj #+ 1e-2
+        mp.AddQuadraticCost(dd.dot(dd))  #!!!! mp.AddQuadraticCost(dd.dot(dd))  #!!!!
         # print('cji: ', cji.shape)
         # print('yj: ', cji.shape)
         # print('dd.dot(dd): ', dd.dot(dd).shape)
@@ -132,8 +140,8 @@ def solve_one(m,cji_list,yj_list):
     # print(x.shape)
     return x
 
-
-def mapping(fig_folder, fig_header, record_path, map_geometry, factor=factor1, save_process=True, savedata=True):
+# def mapping(fig_folder, fig_header, record_path, map_geometry, factor=factor1, save_process=True, savedata=True):
+def mapping(fig_folder, fig_header, record_path, map_geometry, threshold, factor=factor1, save_process=True, savedata=True):
     recordpath = record_path+'_cal'   #!20220331
     map_horiz, map_vert  = map_geometry
     files=os.listdir(recordpath)
@@ -170,7 +178,7 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, factor=factor1, s
 
         cji=data['cji']
         yj=data['yj'].reshape(-1)
-        yj_new = abs(yj)*factor1    #!20220515
+        yj_new = abs(yj)*factor    #!20220515
 
         cji_list.append(cji)
         yj_list.append(yj_new)
@@ -204,6 +212,9 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, factor=factor1, s
             arrow_y0 = 1*np.sin(pos_dir)
             arrow_x1 = 1*np.cos(pos_ang)
             arrow_y1 = 1*np.sin(pos_ang)
+            m.normalize()
+            m.threshold(threshold)
+            print(m.intensity)
             m.plot(fig_folder=fig_folder, fig_header=fig_header)
             for i in range(RSID.shape[0]):
                 plt.plot(RSID[i, 0],RSID[i, 1],"xk",markersize=20)  #!20220804 multi sources

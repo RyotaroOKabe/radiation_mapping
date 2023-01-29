@@ -5,6 +5,7 @@
 
 # folder
 __pycache__/
+archive/
 
 #openmc/
 
