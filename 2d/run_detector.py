@@ -25,12 +25,12 @@ from utils.cal_param import *   #!20221023
 from utils.move_detector import main
 from utils.unet import *
 
-tetris_mode=False
-input_shape = 5  # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
+tetris_mode=True
+input_shape = 'J'  # int for square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64
 # file_header = "230103-003600"    #f"221227-001319"    #!
-file_header = "230119-231253_230120-144924" # "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
-recordpath = f'./save/mapping_data/{file_header}'   # add index if necessary
+file_header = "230118-203413_230120-224603" # "230118-203413_230120-224603"  # save_name = f"{data_name}" #!
+recordpath = f'./save/mapping_data/{file_header}_v2.2'   # add index if necessary
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
 
@@ -38,7 +38,7 @@ DT = 0.1  # time tick [s]
 SIM_TIME = 60.0
 STATE_SIZE = 4
 # RSID = np.array([[1.0,2.0,0.5e6],[-3.0,14.0,0.5e6]]) #np.array([[1.0,2.0,0.5e6]])  #,[-3.0,14.0,0.5e6]])
-RSID =  np.array([[1.0,2.0],[-3.0,14.0]])  #　np.array([[-4.0,11.0]])
+RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  #　
 source_energies = [0.5e6 for _ in range(RSID.shape[0])]
 SIM_STEP=10
 rot_ratio = 0

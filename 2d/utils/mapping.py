@@ -221,8 +221,8 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold, factor
             # plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2, color='#66CCCC')
             # plt.arrow(hxTrue_data[0,-2], hxTrue_data[1, -2], arrow_x, arrow_y, head_width = 0.8, width=0.1)
             # plt.arrow(pos_x, pos_y, arrow_x1, arrow_y1, head_width = 0.8, width=0.1, color='#D58B70')   # front side
-            plt.arrow(pos_x, pos_y, arrow_x0, arrow_y0, head_width = 0.8, width=0.1, color='#64ADB1')   # moving direction
-            plt.arrow(pos_x, pos_y, arrow_x1, arrow_y1, head_width = 0.8, width=0.1, color='#D58B70')   # front side
+            plt.arrow(pos_x, pos_y, arrow_x0, arrow_y0, head_width = 0.8, width=0.1, color='#77AE51')   # moving direction
+            plt.arrow(pos_x, pos_y, arrow_x1, arrow_y1, head_width = 0.8, width=0.1, color='#8851AE')   # front side
             # plt.plot(hxTrue_data[0,-1], hxTrue_data[1, -1],"o", color='blue', markersize=7)
             # plt.plot(pos_x, pos_y,"o", color='blue', markersize=7)
             plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2, color='#66CCCC') #  trajectory
