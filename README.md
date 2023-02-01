@@ -1,4 +1,4 @@
-# radiation_mapping
+# Tetris-inspired detector with neural network for radiation mapping
 
 # Starting OpenMC
 
