@@ -1,0 +1,29 @@
+# file
+*sh
+*xml
+*h5
+*out
+plot_check.py
+predict_static.py
+train_model_2.py
+train_model_S.py
+use_filter_visualization.py
+
+
+# folder
+3d/
+archive/
+figure_making/
+figures/
+mapping_data/
+openmc/
+runs/
+save_fig/
+save_model/
+save_record/
+slurm/
+space4/
+wandb/
+
+
+
