@@ -37,18 +37,18 @@ $ conda env create -f radmap.yml
 
 # radiation_mapping (2D)
 
-## MC simulation to get training data
-gen_data_v1.py
+## MC simulation to get training data (env=openmc-train)
+gen_data_square_v1.py (or gen_data_tetris_v1.py)
 
-## MC simulation to get Filtering Layer
-gen_filter_v1.py
+## MC simulation to get Filtering Layer (env=openmc-train)
+gen_filter_square_v1.py (or gen_filter_tetris_v1.py)
 
-## Training 
-train_v1.py
+## Training (env=openmc-train)
+train_model.py
 
-## Simulation with a moving detector
-move_detector_square_v1.py
+## Simulation with a moving detector (env=openmc-train)
+run_detector.py
 
-## Mapping
-mapping_v1.py
+## Mapping (env=radmap)
+radiation_mapping.py
 
