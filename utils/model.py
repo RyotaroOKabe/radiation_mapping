@@ -1,9 +1,4 @@
 #%%
-"""
-Created on 2022/12/27
-@author: R.Okabe
-"""
-
 import os
 import time
 import math
@@ -12,21 +7,15 @@ import matplotlib
 import numpy as np
 import json
 import sys
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 import torchvision
 import tensorboardX as tbx
-
 from torchvision import datasets, transforms
 writer = tbx.SummaryWriter('runs')
-
 from utils.dataset import get_output, FilterData2, load_data
-
 from utils.time_record import Timer
-
 from utils.unet import *
 
 GPU_INDEX = 1#0
@@ -74,7 +63,7 @@ class MyNet2(nn.Module):
         out = F.softmax(x,dim=1)
         return out
 
-def loglinspace(rate, step, end=None):  #!
+def loglinspace(rate, step, end=None):
     t = 0
     while end is None or t <= end:
         yield t
@@ -91,14 +80,13 @@ class Model(object):
         else:
             self.loss_val = loss_val
 
-    # def train(self, optim, train_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
     def train(self, optim, train_set, test_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
         net = self.net
         loss_train = self.loss_train
         loss_val = self.loss_val
         t1=time.time()
-        timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','optimizer step','eval'])    #!20220104
-        if not os.path.isdir(save_name):    #!
+        timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','optimizer step','eval'])
+        if not os.path.isdir(save_name):
             os.mkdir(save_name)
         record_header = '%s\t%s\t%s\t%s'%('Epochs',"train_loss","val_loss", "Time")
         train_loss_history=[]
@@ -116,9 +104,7 @@ class Model(object):
             tr_set, va_set = train_set.split(split_fold=split_fold, step=i)
             times=int(math.ceil(tr_set.data_size/float(batch_size)))
             datas=[]
-            # print('checkpoint1')
             net.train()
-            # print('checkpoint2')
             for j in range(times):
                 timer.start('load data') 
                 data_x, data_y, data_z=tr_set.get_batch(batch_size)
@@ -150,7 +136,6 @@ class Model(object):
             val_loss=0.
             timer.start('eval')
             net.eval()
-            # print('checkpoint3')
             with torch.no_grad():
                 for data in datas:
                     output = net(data[0])
@@ -166,22 +151,19 @@ class Model(object):
             timer.end('eval')
             train_loss_history.append(train_loss)
             val_loss_history.append(val_loss)
-            t2=time.time()  #!
+            t2=time.time()
             record_line = '%d\t%f\t%f\t%f'%(i,train_loss,val_loss,t2-t1)
-            # print("record_line:", type(record_line))
             record_lines.append(record_line)
-            # if verbose and i%verbose==0:  #!
             
             if i == checkpoint:
-                print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))    #!
-                self.train_loss_history=train_loss_history  #!
-                self.val_loss_history=val_loss_history  #!
+                print('\t\tSTEP %d\t%f\t%f'%(i,train_loss,val_loss))
+                self.train_loss_history=train_loss_history
+                self.val_loss_history=val_loss_history
                 checkpoint = next(checkpoint_generator)
 
-                self.plot_train_curve(save_name)    #!
-                # self.save('save/models/' + save_name[-13:]) #!
-                self.save('save/models/' + save_name[-27:]) #!
-                loss_avg = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name)    #!
+                self.plot_train_curve(save_name)
+                self.save('save/models/' + save_name[-27:])
+                loss_avg = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name)
                 text_file = open(f"{save_name}/log.txt", "w")
                 text_file.write(record_header + "\n")
                 for line in record_lines:
@@ -189,14 +171,7 @@ class Model(object):
                 text_file.write(f"Average loss dist: {loss_avg}\n")
         writer.export_scalars_to_json(f"{save_name}/all_scalars.json")
         writer.close()
-        # t2=time.time()
-        # print('\t\tEPOCHS %d\t%f\t%f'%(epochs, train_loss, val_loss))
         print('\t\tFinished in %.1fs'%(t2-t1))
-        # self.train_loss_history=train_loss_history
-        # self.val_loss_history=val_loss_history
-        # text_file = open(f"{save_name}/log.txt", "w")
-        # for line in record_lines:
-        #     text_file.write(line + "\n")
         text_file.close()
 
     def plot_train_curve(self, save_name):
@@ -214,13 +189,11 @@ class Model(object):
         fig.savefig(fname=f"{save_name}/train.pdf")
         plt.close()
 
-
     def save(self,name):
         data = {"tran_loss_hist":self.train_loss_history,"val_loss_hist":self.val_loss_history}
         torch.save(data,name+'_log.pt')
         torch.save(self.net,name+'_model.pt')
 
-    # def plot_test(self,test,test_size, seg_angles,loss_fn, save_dir):
     def plot_test(self,test,loss_fn,save_dir):
 
         if not os.path.isdir(save_dir):
@@ -229,38 +202,31 @@ class Model(object):
         seg_angles = test.y_size
         total_loss = 0
         for indx in range(test_size):
-            test_x,test_y,test_z=test.get_batch(1,indx) #!
-            # print('testz: ', test_z.shape)
+            test_x,test_y,test_z=test.get_batch(1,indx)
             self.net.eval()
             with torch.no_grad():
                 predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy()
-
             pred_loss = loss_fn(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
-            # print('pred_loss: ', pred_loss)
             total_loss += pred_loss
             fig = plt.figure(figsize=(6, 6), facecolor='white')
             ax1 = fig.add_subplot(1,1,1)
-            #plt.figure()
             ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
             ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
-            #ax1.legend(['Real','Prediction'])
             ax1.legend()
             ax1.set_xlabel('deg')
             ax1.set_xlim([-180,180])
             ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
-            # ax1.set_title(f'Dist (cm): {round(test_z[0], 4)}, Ang (deg): {round(test_z[1], 4)}, Loss: {pred_loss}')
             ax1.set_title(f'Dist (cm): {test_z[0,0]} / Ang (deg): {test_z[0,1]}\nLoss: {pred_loss}')
             fig.show()
             fig.savefig(fname=f"{save_dir}/test_{indx}.png")
             fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
             plt.close()
         loss_avg = total_loss/test_size
-        # print('Average loss dist: ', loss_avg)
-        return loss_avg #!
+        return loss_avg
 
 
 from pyemd import emd
-n=64    # 40
+n=64
 M1=np.zeros([n,n])
 M2=np.zeros([n,n])
 for i in range(n):

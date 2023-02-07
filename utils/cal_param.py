@@ -3,13 +3,13 @@ import pickle as pkl
 import numpy as np
 import torch
 import math
-from utils.geo import *   #!20220206
-from utils.model import *  #!20220717
+from utils.geo import *
+from utils.model import *
 record_data=True
-DEFAULT_DEVICE = "cuda:1" #torch.device("cpu")
+DEFAULT_DEVICE = "cuda:0"
 DEFAULT_DTYPE = torch.double
 
-def pi_2_pi(angle): #change 0<=theta<2pi to -pi<=theta<pi (move the pi<=theta<2pi to -pi<=theta<0) 
+def pi_2_pi(angle):
     return (angle + math.pi) % (2 * math.pi) - math.pi
 
 def pipi_2_cw(angle): #change -pi<=theta<pi to 0<=theta<2pi 
@@ -25,7 +25,7 @@ def calc_input(time):
     Output: control input of the robot
     '''
 
-    if time <= 0.:  # wait at first
+    if time <= 0.:
         v = 0.0
         yawrate = 0.0
     else:
@@ -35,26 +35,6 @@ def calc_input(time):
     u = np.array([v, yawrate]).reshape(2, 1)
     return u
 
-# def motion_model(x, u, sim_parameters):
-#     '''
-#     a simplified motion model of the robot that the detector is installed on.
-#     Input: x is the state (pose) of the robot at previous step, u is the control input of the robot
-#     Output: x is the state of the robot for the next step
-#     '''
-#     DT = sim_parameters['DT']
-
-#     F = np.array([[1.0, 0, 0],
-#                   [0, 1.0, 0],
-#                   [0, 0, 1.0]])
-
-#     B = np.array([[DT * math.cos(x[2, 0]), 0],
-#                   [DT * math.sin(x[2, 0]), 0],
-#                   [0.0, DT]])
-
-#     x = np.dot(F, x) + np.dot(B, u)
-
-#     x[2, 0] = pi_2_pi(x[2, 0])
-#     return x
 
 def motion_model(X, u, sim_parameters, rot_ratio=0):
     '''
@@ -65,7 +45,7 @@ def motion_model(X, u, sim_parameters, rot_ratio=0):
                 rotate by rot_ratio*x[2, 0]
     '''
     DT = sim_parameters['DT']
-    x = X[:3, 0].reshape((3,1)) #[[X[0, 0]],[X[1, 0]],[X[2, 0]]]# X[:3, 0]    #!20221923
+    x = X[:3, 0].reshape((3,1))
     print(x)
     print(x[2, 0])
 
@@ -85,11 +65,6 @@ def motion_model(X, u, sim_parameters, rot_ratio=0):
         X[3, 0] = np.pi/2
     else:
         X[3, 0] = pi_2_pi(x[2, 0]*(1+rot_ratio)) 
-    # X[3, 0] = pi_2_pi(x[2, 0]*(1+rot_ratio)) 
-    # print('----x----')
-    # print(x)
-    # print('====X====')
-    # print(X)
     return X
 
 
@@ -299,7 +274,7 @@ def cal_yj(input_data,output_data):
 
     pass
 #%%
-def test(seg_angles):   #!20220729
+def test(seg_angles):
     plt.figure()
 
     cmap = matplotlib.cm.get_cmap('gray')
@@ -318,7 +293,7 @@ def test(seg_angles):   #!20220729
     ss=Point(pose[0,0],pose[1,0])
     r_start=Ray(ss,start_angle)
     r_end=Ray(ss,end_angle)
-    print(cji[j,:]) #!20220206
+    print(cji[j,:])
     for i in range(m.size):
 
         m.square_list[i].plot(ax=plt.gca(), facecolor=cmap(1-cji[j,i]))
@@ -344,7 +319,7 @@ def test2():
     end_angle=pi_2_pi(start_angle+dtheta)
 
     ss=Point(pose[0,0],pose[1,0])
-    print(m.square_list[i].contain_point(ss))    #!20220206
+    print(m.square_list[i].contain_point(ss))
     r_start=Ray(ss,start_angle)
     r_end=Ray(ss,end_angle)
     c=square_intersect(m.square_list[i],r_start,r_end)
@@ -353,7 +328,7 @@ def test2():
     r_start.plot(10,color='r')
     r_end.plot(10,color='b')
 
-    print('c',c)     #!20220206
+    print('c',c)
 
     pass
 
@@ -366,7 +341,7 @@ def write_data(seg_angles, recordpath, horiz, vert):
 
     for filename in files:
         
-        try:    #!20220510
+        try:
             with open(os.path.join(recordpath,filename),'rb') as f:
                 data=pkl.load(f, encoding="latin1")
         except EOFError:

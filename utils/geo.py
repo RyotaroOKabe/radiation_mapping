@@ -16,7 +16,6 @@ class Point(tuple):
         return super(Point, self).__new__(self, tuple([float(x),float(y)]))
 
     def __init__(self, x,y):
-        #super(Point, self).__init__(tuple(x,y))
         self.x = float(x)
         self.y = float(y)
 
@@ -30,7 +29,6 @@ class Edge(tuple):
         return super(Edge, self).__new__(self, tuple([p1,p2]))
 
     def __init__(self, p1,p2):
-        #super(Edge, self).__init__()
         self.x1 = p1.x
         self.y1 = p1.y
         self.x2 = p2.x
@@ -48,7 +46,6 @@ class Ray(tuple):
         return super(Ray, self).__new__(self, tuple([p1,p2]))
 
     def __init__(self, p1 , arg):
-        #super(Edge, self).__init__()
         self.arg=arg
         self.x1 = p1.x
         self.y1 = p1.y      
@@ -79,8 +76,6 @@ class Polygon(object):
         pass
     
     def plot(self,rotation=None,ax=None,**args):
-        #apex=np.array(self.apex+[self.apex[0]])
-        #plt.plot(apex[:,0],apex[:,1])
         if not ax:ax=plt.gca()
 
         apexes=[]
@@ -118,17 +113,12 @@ def get_crossing(line1,line2):
     elif type(line2)==Ray:
         ff=inSegment_ray
         l1=line2;l2=line1
-    #print inSegment(p,line1,line2)
     if ff(p,line1,line2):
-
-        #print(p)
         return p
     else:
         if getLineLength(p,l1[0]) ==0 or getLineLength(p,l1[1]) ==0:
-            #print 'haha',p,l1,l2
             pass
-            
-            #return None
+
         return None
 
 def cross_line_polygon2(line,poly):
@@ -136,7 +126,6 @@ def cross_line_polygon2(line,poly):
     for line2 in poly.edge:
         p=get_crossing(line,line2)
         if p:
-            #print line2
             ps.append(p)
     ps=sorted(ps,key=lambda p:get_len(line[0],p))
     return ps
@@ -181,13 +170,6 @@ def get_len(*args):
     return sqrt((p1[0]-p2[0])**2+(p1[1]-p2[1])**2)
 
 if __name__ == '__main_':
-    
-    #lv3=EL3s-Ls
-    #print lv3.var(),Ls.var()-EL3s.var()
-
-
-    #figure=plt.figure()
-    #fig,ax=plt.figure()
     a=Point(1.99,2.29)
     b=Point(3.4,5.56)
     c=Point(2.3,5)
@@ -197,16 +179,10 @@ if __name__ == '__main_':
     f=Point(3.2,6.3)
 
     cmap = matplotlib.cm.get_cmap('hot')
-
-    #sb=Edge(e,f)
     sb=Ray(Point(-1,-0.45),0.1)
     sb=Edge(Point(-1,-0.45),Point(-1+2.0*math.cos(0.1),-0.45+2.*math.sin(0.1)))
-    #sb=Ray(e,1.19028994968)
     sb.plot()
     jb=Polygon([a,d,b,c])
-    #sb=Polygon([a,c,d])
-    
-
     jb=Polygon([Point(-0.2955555555555555, -0.3977777777777778), Point(-0.2955555555555555, 0.3177777777777778), Point(-0.21555555555555553, -0.3177777777777778), Point(-0.21555555555555553, -0.3977777777777778)])
     jb.plot(facecolor=cmap(0.6))
     print(cross_line_polygon2(sb,jb))
@@ -214,46 +190,14 @@ if __name__ == '__main_':
 
     l1=Ray(a,3.14/3)
     l2=Edge(c,d)
-    #print get_arg(e,f)
-    #print get_crossing(l1,l2)
-    #print get_arg(a,b)
-    #sb.plot('red')
-    #print jb.edge
-    #print sb
     plt.show()
 
 if __name__ == '__main__':
-    #main()
-    #sb=Edge(Point(-1,-0.45),Point(-1+2.0*math.cos(0.1),-0.45+2.*math.sin(0.1)))
-    # sb=Ray(Point(-1,-0.45),0.1)
-    # l1=Edge(Point(-0.2955555555555555, -0.3977777777777778), Point(-0.2955555555555555, -0.3177777777777778))
-    # print(get_crossing(sb,l1))
-
     poly=Polygon([Point(3.0, -2.0), Point(2.0, -2.0), Point(2.0, -3.0), Point(3.0, -3.0)])
-    #poly.plot()
-
     line2=Edge(Point(2.0, -2.0), Point(2.0, -3.0))
-
     line2.plot()
-
     r=Ray(Point(2.0, 2.0), -1.25663706144)
     r.plot(4)
-
-    #print get_crossing(line2,r)    #!20220206
-    #print inSegment_ray(Point(2.0, 2.0),r,line2)       #!20220206
-    print(get_crossing(line2,r))     #!20220206
-    print(inSegment_ray(Point(2.0, 2.0),r,line2))        #!20220206
-
+    print(get_crossing(line2,r))
+    print(inSegment_ray(Point(2.0, 2.0),r,line2))
     plt.show()
-
-    # sb=Ray(Point(0.4946851206573646, 0.7284614059783813),-np.pi/2)
-    # size_x=1.#0.5
-    # size_y=1.#0.5
-    # med_margin=0.01#0.0015
-    # med_x=size_x/2+med_margin
-    # med_y=size_y/2+med_margin
-    # l1=Edge(Point(-med_x,med_y),Point(med_x,med_y))
-    # sb.plot(2)
-    # l1.plot()
-    # plt.show()
-    # print(get_crossing(sb,l1))

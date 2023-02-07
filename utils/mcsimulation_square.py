@@ -1,9 +1,4 @@
 #%%
-"""
-Created on 2022/12/27
-@author: R.Okabe
-"""
-
 import glob
 import matplotlib.pyplot as plt
 import os
@@ -12,7 +7,7 @@ import openmc
 digits = 10
 
 def gen_materials_geometry_tallies(a_num, panel_density):
-    panel, insulator, outer = gen_materials(panel_density)  #! remove outer
+    panel, insulator, outer = gen_materials(panel_density)
 
     min_x = openmc.XPlane(x0=-100000, boundary_type='transmission')
     max_x = openmc.XPlane(x0=+100000, boundary_type='transmission')
@@ -60,30 +55,19 @@ def gen_materials_geometry_tallies(a_num, panel_density):
     root_universe.add_cell(arrays_cell)
     root_universe.add_cell(root_cell)
     root_universe.add_cell(outer_cell)
-    # root_universe.plot(width=(22, 22), basis='xy')
-    # plt.show()
-    # plt.savefig('save_fig/geometry.png')
-    # plt.savefig('save_fig/geometry.pdf')
-    # plt.close()
-    # Create Geometry and export to "geometry.xml"
     geometry = openmc.Geometry(root_universe)
     geometry.export_to_xml()
-    # Instantiate an empty Tallies object
-    tallies = openmc.Tallies()
-    # Instantiate a tally Mesh
-    mesh = openmc.RegularMesh(mesh_id=1)
+    tallies = openmc.Tallies()  # Instantiate an empty Tallies object
+    mesh = openmc.RegularMesh(mesh_id=1)    # Instantiate a tally Mesh
     mesh.dimension = [a_num, a_num]
     mesh.lower_left = [-a_num/2, -a_num/2]
     mesh.width = [1, 1]
     mesh_filter = openmc.MeshFilter(mesh)
-    # Instantiate the Tally
-    tally = openmc.Tally(name='mesh tally')
+    tally = openmc.Tally(name='mesh tally') # Instantiate the Tally
     tally.filters = [mesh_filter]
     tally.scores = ["absorption"]
-    # Add mesh and Tally to Tallies
-    tallies.append(tally)  #! check some com,mented out fucntions related to tallies. 
+    tallies.append(tally)  # Add mesh and Tally to Tallies 
     tallies.export_to_xml()
-    # Remove old HDF5 (summary, statepoint) files
     os.system('rm statepoint.*')
     os.system('rm summary.*')
 
@@ -91,9 +75,7 @@ def process_aft_openmc(a_num, folder, file, sources, seg_angles, norm, savefig=F
     statepoints = glob.glob('statepoint.*.h5')
     sp = openmc.StatePoint(statepoints[-1])
     tally = sp.get_tally(name='mesh tally')
-    # data = tally.get_values()
     df = tally.get_pandas_dataframe(nuclides=False)
-    #? pd.options.display.float_format = '{:.2e}'.format
     fiss = df[df['score'] == 'absorption']
     mean = fiss['mean'].values.reshape((a_num, a_num))
     mean = output_process(mean, digits, folder, file, sources, seg_angles, norm, savefig)
@@ -114,8 +96,6 @@ def after_openmc(a_num, sources_d_th, folder, seg_angles, header, record=None, s
     d_a_seq = ""
     for i in range(num_sources):
         d_a_seq += '_' + str(round(sources_d_th[i][0], 5)) + '_' + str(round(sources_d_th[i][1], 5))
-    # file1=header + d_a_seq + '.json'
-    # file2=header + d_a_seq + '.png'
     file =header + d_a_seq
     isExist1 = os.path.exists(folder)
     if not isExist1:

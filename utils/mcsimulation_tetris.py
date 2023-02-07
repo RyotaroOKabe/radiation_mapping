@@ -1,9 +1,4 @@
 #%%
-"""
-Created on 2022/12/27
-@author: R.Okabe
-"""
-
 import glob
 import matplotlib.pyplot as plt
 import os
@@ -11,9 +6,8 @@ from utils.dataset import gen_materials, get_sources, gen_settings, output_proce
 import openmc
 digits = 10
 
-
 def gen_materials_geometry_tallies(use_panels, panel_density):
-    panel, insulator, outer = gen_materials(panel_density)  #! remove outer
+    panel, insulator, outer = gen_materials(panel_density)
 
     min_x = openmc.XPlane(x0=-100000, boundary_type='transmission')
     max_x = openmc.XPlane(x0=+100000, boundary_type='transmission')
