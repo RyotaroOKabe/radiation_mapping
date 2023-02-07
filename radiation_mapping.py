@@ -1,4 +1,3 @@
-#%%
 # -*- coding: utf-8 -*-
 import numpy as np
 from pydrake.all import MathematicalProgram, Solve
@@ -14,26 +13,13 @@ import dill #!20220316
 import imageio
 from utils.mapping import mapping, gen_gif
 
-# factor1 = 1e+24
-# a_num = 2
-# num_sources = 1
-# seg_angles = 64
-# fig_folder = f'mapping_data/save_fig/'
-# fig_header = f'A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5.1'
-# record_path = f'mapping_data/mapping_A20221024_{a_num}x{a_num}_{num_sources}src_{seg_angles}_v3.5'   #'mapping_data/mapping_A20220804_10x10_v1.7'
-# fig_header = "230103-003600"    # f"221227-001319"    #!
-th_level = 0.3
-fig_header = "230121-003247_230120-184107"  # save_name = f"{data_name}"  #!
-recordpath = f'./save/mapping_data/{fig_header}'       # add index if necessary
-fig_folder = f'./save/radiation_mapping/{fig_header}.X_{th_level}'
-map_horiz = [-15,15,30]
-map_vert = [-5,25,30]
-# factor1 = 1e+24
+th_level = 0.3  # Threshold level of the map
+fig_header = "S_230118-203413_230120-224603"    # TThe name of the data that is same as the one in 'run-detector..py'
+recordpath = f'./save/mapping_data/{fig_header}'
+fig_folder = f'./save/radiation_mapping/{fig_header}_{th_level}'
+map_horiz = [-15,15,30]     # map geometry (horizontal) [m]
+map_vert = [-5,25,30]   # map geometry (vertical) [m]
 
-#%%
 mapping(fig_folder, fig_header, recordpath, map_geometry = [map_horiz, map_vert], threshold=th_level)   #,
-         #factor=factor1, save_process=True, savedata=True)
-# test()
 gen_gif(fig_folder)
 
-# %%
