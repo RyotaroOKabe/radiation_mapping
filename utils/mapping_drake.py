@@ -1,7 +1,6 @@
 #%%
 # -*- coding: utf-8 -*-
 import numpy as np
-from scipy.optimize import minimize #!
 
 from pydrake.all import MathematicalProgram, Solve
 
@@ -20,7 +19,7 @@ import os,sys
 import dill #!20220316
 import imageio
 
-factor1 = 1e+15 #1e+24
+factor1 = 1e+24
 save_process = True
 savedata=True
 
@@ -66,25 +65,20 @@ def map(xi, cji, yj, reg):
     dd=cji.dot(xi)-yj
     return dd.dot(dd) + xi.dot(xi)*reg
 
-def solve_one(m, cji_list, yj_list):
-    # print('m', m)
-    # print('cji_list: ', cji_list)
-    # print('yj_list: ', yj_list)
-    n = m.size
-    x0 = np.zeros(n)  # Initial guess for the optimization variables
-    def objective(x):
-        reg = 0.1
-        obj = np.dot(x, x) * reg
-        for cji, yj in zip(cji_list, yj_list):
-            dd = np.dot(cji, x) - yj
-            obj += np.dot(dd, dd)
-        # print('obj: ', obj)
-        return obj
-    def constraint(x):
-        return x
-    bounds = [(0, None)] * n  # Non-negativity constraints for each variable
-    result = minimize(objective, x0, bounds=bounds, constraints={'type': 'ineq', 'fun': constraint})
-    x = result.x
+def solve_one(m,cji_list,yj_list):
+    mp = MathematicalProgram()
+    xi=mp.NewContinuousVariables(m.size, "xi")
+    for i in range(m.size):
+        mp.AddLinearConstraint(xi[i] >= 0.)
+    reg=0.1
+    mp.AddQuadraticCost(xi.dot(xi)*reg)
+    for i in range(len(cji_list)):
+        cji=cji_list[i]
+        yj=yj_list[i]
+        dd=cji.dot(xi)-yj
+        mp.AddQuadraticCost(dd.dot(dd))
+    result = Solve(mp)
+    x=result.GetSolution(xi)
     return x
 
 def mapping(fig_folder, fig_header, record_path, map_geometry, threshold, factor=factor1, save_process=True, savedata=True):

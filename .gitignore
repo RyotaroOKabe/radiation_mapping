@@ -8,6 +8,8 @@ predict_static.py
 train_model_2.py
 train_model_S.py
 use_filter_visualization.py
+cc.py
+cam.py
 
 
 # folder

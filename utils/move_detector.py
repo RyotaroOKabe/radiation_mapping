@@ -221,6 +221,9 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)
             print(step,'simulation end')
+            
+            
+            
         if record_data:
             data_dump={
             'RSID':RSID,

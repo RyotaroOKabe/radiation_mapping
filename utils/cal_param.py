@@ -84,9 +84,13 @@ def point_between_rays(p,r1,r2):
     else:
         arg1=r1.arg
         arg2=r2.arg+2*np.pi
-        if theta < r1.arg:
+        # if theta < r1.arg:
+        #     return False
+        # if theta > r2.arg:
+        #     return False
+        if theta < arg1:  #! 230618
             return False
-        if theta > r2.arg:
+        if theta > arg2:
             return False
         return True
     pass
@@ -249,7 +253,7 @@ def cal_cji(m,pose,out_size=40):
     dtheta=2*np.pi/out_size
 
     for j in range(out_size):
-        start_angle=pi_2_pi(pose[2,0]-np.pi+j*dtheta)
+        # start_angle=pi_2_pi(pose[2,0]-np.pi+j*dtheta)   #! 230618 comment out
         start_angle=pi_2_pi(pose[-1,0]-np.pi+j*dtheta)
         end_angle=pi_2_pi(start_angle+dtheta)
 
