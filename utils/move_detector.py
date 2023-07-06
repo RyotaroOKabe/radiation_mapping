@@ -222,8 +222,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             ax2.axes.get_yaxis().set_visible(False)
             if ang_step_curves: #!
                 ax3 = fig.add_subplot(133, polar=True)
-                theta3 = - np.linspace(-0.5*np.pi, 1.5*np.pi, len(output1)) + np.pi/2 #np.linspace(-90, 270, seg_angles) + 180 #theta #(theta+180)#//360
-                # theta3 = -theta3 + np.pi/2
+                theta3 = -np.linspace(-0.5*np.pi, 1.5*np.pi, len(output1)) + np.pi/2 #np.linspace(-90, 270, seg_angles) + 180 #theta #(theta+180)#//360
+                theta3 = -theta3 + np.pi/2
                 ax3.plot(theta3, output1, drawstyle='steps', linestyle='-', color='red')
                 ax3.plot(theta3,output2, drawstyle='steps', linestyle='-', color='blue')  
                 ax3.set_yticklabels([])  # Hide radial tick labels
