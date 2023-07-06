@@ -386,4 +386,15 @@ def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,sour
             test_size_gen,source_num=source_num,prob=prob,seed=seed)
     return train_set,test_set
 
+
+def compute_accuracy(real, pred):
+    # Convert tensors to numpy arrays
+    real = real.detach().cpu()#.numpy()
+    pred = pred.detach().cpu()#.numpy()
+    # Compute the element-wise absolute difference
+    diff = abs(real - pred)
+    # Compute the accuracy as the average of correct predictions
+    accuracy = 1.0 - (diff.sum() / diff.size(0))
+    return accuracy
+
 # %%

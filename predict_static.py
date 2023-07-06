@@ -15,7 +15,7 @@ import openmc
 from utils.cal_param import *   #!20221023
 from utils.move_detector import main
 from utils.unet import *
-from utils.dataset import get_output, FilterData2, load_data
+from utils.dataset import get_output, FilterData2, load_data, compute_accuracy
 from utils.emd_ring_torch import emd_loss_ring
 
 tetris_mode=True    # True if the detector is Tetris-inspired detector. False if it is a square detector
@@ -40,7 +40,12 @@ if not os.path.isdir(recordpath):
 test_size = test_set.data_size
 seg_angles = test_set.y_size
 total_loss = 0
+
+
 #%%
+loss_list = []
+acc_list = []
+ang_list = []
 
 for indx in range(test_size):
     test_x,test_y,test_z=test_set.get_batch(1,indx)
@@ -50,17 +55,54 @@ for indx in range(test_size):
     print(predict_test.shape)
     pred_loss = loss_fn(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
     total_loss += pred_loss
-    fig = plt.figure(figsize=(6, 6), facecolor='white')
-    ax1 = fig.add_subplot(1,1,1)
-    ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
-    ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
-    ax1.legend()
-    ax1.set_xlabel('deg')
-    ax1.set_xlim([-180,180])
-    ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
-    ax1.set_title(f'Dist (cm): {test_z[0,0]} / Ang (deg): {test_z[0,1]}\nLoss: {pred_loss}')
-    fig.show()
-    fig.savefig(fname=f"{recordpath}/test_{indx}.png")
-    fig.savefig(fname=f"{recordpath}/test_{indx}.pdf")
+    loss_list.append(pred_loss)
+    ang_list.append(test_z[0][-1])
+    acc_list.append(compute_accuracy(torch.Tensor(test_y[0]).reshape(-1), torch.Tensor(predict_test[0])))
+    # fig = plt.figure(figsize=(6, 6), facecolor='white')
+    # ax1 = fig.add_subplot(1,1,1)
+    # ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
+    # ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
+    # ax1.legend()
+    # ax1.set_xlabel('deg')
+    # ax1.set_xlim([-180,180])
+    # ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
+    # ax1.set_title(f'Dist (cm): {test_z[0,0]} / Ang (deg): {test_z[0,1]}\nLoss: {pred_loss}')
+    # fig.show()
+    # fig.savefig(fname=f"{recordpath}/test_{indx}.png")
+    # fig.savefig(fname=f"{recordpath}/test_{indx}.pdf")
+
+sorted_AB = sorted(zip(ang_list, loss_list, acc_list), reverse=False)
+sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
+plt.plot(ang_list, loss_list)
+plt.plot(sorted_ang, sorted_loss)
+
+fig = plt.figure(figsize=(6, 6), facecolor='white')
+ax = fig.add_subplot(111, polar=True)
+ax.plot([np.pi*a/180 for a in sorted_ang], sorted_loss, drawstyle='steps', linestyle='-', color='red')
+# ax.plot(theta3,output2, drawstyle='steps', linestyle='-', color='blue')  
+ax.set_yticklabels([])  # Hide radial tick labels
+# Add the radial axis
+# ax.set_rticks(np.linspace(0, 1, 20))  # Adjust the range and number of radial ticks as needed
+ax.spines['polar'].set_visible(True)  # Show the radial axis line
+# Set the theta direction to clockwise
+ax.set_theta_direction(-1)
+# Set the theta zero location to the top
+ax.set_theta_zero_location('N')
+
+
+fig = plt.figure(figsize=(6, 6), facecolor='white')
+ax = fig.add_subplot(111, polar=True)
+ax.plot([np.pi*a/180 for a in sorted_ang], sorted_acc, drawstyle='steps', linestyle='-', color='red')
+# ax.plot(theta3,output2, drawstyle='steps', linestyle='-', color='blue')  
+ax.set_yticklabels([])  # Hide radial tick labels
+# Add the radial axis
+ax.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
+ax.spines['polar'].set_visible(True)  # Show the radial axis line
+# Set the theta direction to clockwise
+ax.set_theta_direction(-1)
+# Set the theta zero location to the top
+ax.set_theta_zero_location('N')
 
 #%%
+
+
