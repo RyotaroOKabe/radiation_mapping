@@ -19,6 +19,7 @@ if torch.cuda.is_available() and not USE_CPU:
 else:
     DEFAULT_DEVICE = torch.device("cpu")
 DEFAULT_DTYPE = torch.double
+ang_step_curves = True   #!
 
 #%%
 # colormap
@@ -154,7 +155,10 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
-            fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(40,20))
+            if ang_step_curves: #!
+                fig, (ax1, ax2, ax3) = plt.subplots(1, 3,figsize=(63,20))
+            else:
+                fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(42,20))
             xdata_show = np.flip(xdata_original, 0)
             xdata_show = np.flip(xdata_show, 1)
             adjust_ratio = 0.85
@@ -216,12 +220,28 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             ax2.set_ylim((-1.2,1.2))
             ax2.axes.get_xaxis().set_visible(False)
             ax2.axes.get_yaxis().set_visible(False)
+            if ang_step_curves: #!
+                ax3 = fig.add_subplot(133, polar=True)
+                theta3 = - np.linspace(-0.5*np.pi, 1.5*np.pi, len(output1)) + np.pi/2 #np.linspace(-90, 270, seg_angles) + 180 #theta #(theta+180)#//360
+                # theta3 = -theta3 + np.pi/2
+                ax3.plot(theta3, output1, drawstyle='steps', linestyle='-', color='red')
+                ax3.plot(theta3,output2, drawstyle='steps', linestyle='-', color='blue')  
+                ax3.set_yticklabels([])  # Hide radial tick labels
+                # Add the radial axis
+                ax3.set_rticks(np.linspace(0, 1, 20))  # Adjust the range and number of radial ticks as needed
+                ax3.spines['polar'].set_visible(True)  # Show the radial axis line
+                # Set the theta direction to clockwise
+                ax3.set_theta_direction(-1)
+
+                # Set the theta zero location to the top
+                ax3.set_theta_zero_location('N')
+                # fig.savefig(predictpath + 'STEP%.3d'%step + "_predict_c.png")
+                
             fig.suptitle('Real Angle: ' + str(round(ags[-1], 4)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)
             print(step,'simulation end')
-            
             
             
         if record_data:
