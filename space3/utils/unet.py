@@ -59,7 +59,7 @@ class UNet(nn.Module):
         x = self.up_conv3(x, x1)
         x = self.out_conv(x)
         return x
-
+        pass
 #%%
 if __name__ == '__main__':
     net = UNet()

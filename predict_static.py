@@ -53,7 +53,6 @@ loss_list = []  #?
 acc_list = []   #?
 ang_list = []   #?
 num_dist = test_set.data_size//seg_angles   #?
-rmax = 40
 
 for indx in range(test_size):   #?
     test_x,test_y,test_z=test_set.get_batch(1,indx)
@@ -79,19 +78,29 @@ for indx in range(test_size):   #?
         fig.savefig(fname=f"{save_header}/test_{indx}.png")
         fig.savefig(fname=f"{save_header}/test_{indx}.pdf")
 
+#%%
 sorted_AB = sorted(zip(ang_list, loss_list, acc_list), reverse=False)
 sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
-plt.plot(sorted_ang, sorted_loss)
-
-
+# plt.plot(sorted_ang, sorted_loss)
+rmax = 8
 fig = plt.figure(figsize=(6, 6), facecolor='white')
 ax = fig.add_subplot(111, polar=True)
 for j in range(num_dist):
-    ax.plot([np.pi*a/180 for a in sorted_ang][j:][::num_dist], sorted_loss[j:][::num_dist], drawstyle='steps', linestyle='-', color=colors[j]) 
+    losses = sorted_loss[j:][::num_dist]
+    angs = sorted_ang[j:][::num_dist]
+    max_loss_index = losses.index(max(losses))
+    angle_with_max_loss = angs[max_loss_index]
+    print(f"[{j}] Angle with the largest loss:", angle_with_max_loss, '\tloss_max: ', max(losses))
+    min_loss_index = losses.index(min(losses))
+    angle_with_min_loss = angs[min_loss_index]
+    print(f"[{j}] Angle with the smallest loss:", angle_with_min_loss, '\tloss_min: ', min(losses))
+    print(f"[{j}] Average loss:", np.mean(losses))
+    ax.plot([np.pi*a/180 for a in angs], losses, drawstyle='steps', linestyle='-', color=colors[j]) 
 ax.set_yticklabels([])  # Hide radial tick labels
 # Add the radial axis
 ax.set_rticks(np.linspace(0, rmax, 10))  # Adjust the range and number of radial ticks as needed
 ax.set_rlim([0, rmax])
+# ax.set_rscale('log')
 ax.spines['polar'].set_visible(True)  # Show the radial axis line
 # Set the theta direction to clockwise
 ax.set_theta_direction(-1)
