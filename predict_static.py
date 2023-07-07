@@ -53,6 +53,7 @@ loss_list = []  #?
 acc_list = []   #?
 ang_list = []   #?
 num_dist = test_set.data_size//seg_angles   #?
+rmax = 40
 
 for indx in range(test_size):   #?
     test_x,test_y,test_z=test_set.get_batch(1,indx)
@@ -82,42 +83,21 @@ sorted_AB = sorted(zip(ang_list, loss_list, acc_list), reverse=False)
 sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
 plt.plot(sorted_ang, sorted_loss)
 
+
 fig = plt.figure(figsize=(6, 6), facecolor='white')
 ax = fig.add_subplot(111, polar=True)
 for j in range(num_dist):
     ax.plot([np.pi*a/180 for a in sorted_ang][j:][::num_dist], sorted_loss[j:][::num_dist], drawstyle='steps', linestyle='-', color=colors[j]) 
 ax.set_yticklabels([])  # Hide radial tick labels
 # Add the radial axis
-ax.set_rticks(np.linspace(0, 30, 10))  # Adjust the range and number of radial ticks as needed
+ax.set_rticks(np.linspace(0, rmax, 10))  # Adjust the range and number of radial ticks as needed
+ax.set_rlim([0, rmax])
 ax.spines['polar'].set_visible(True)  # Show the radial axis line
 # Set the theta direction to clockwise
 ax.set_theta_direction(-1)
 # Set the theta zero location to the top
 ax.set_theta_zero_location('N')
 
-# fig = plt.figure(figsize=(6, 6), facecolor='white')
-# ax = fig.add_subplot(111, polar=True)
-# ax.plot([np.pi*a/180 for a in sorted_ang], sorted_loss, drawstyle='steps', linestyle='-', color='red')
-# ax.set_yticklabels([])  # Hide radial tick labels
-# # Add the radial axis
-# # ax.set_rticks(np.linspace(0, 1, 20))  # Adjust the range and number of radial ticks as needed
-# ax.spines['polar'].set_visible(True)  # Show the radial axis line
-# # Set the theta direction to clockwise
-# ax.set_theta_direction(-1)
-# # Set the theta zero location to the top
-# ax.set_theta_zero_location('N')
-
-# fig = plt.figure(figsize=(6, 6), facecolor='white')
-# ax = fig.add_subplot(111, polar=True)
-# ax.plot([np.pi*a/180 for a in sorted_ang], sorted_acc, drawstyle='steps', linestyle='-', color='red') 
-# ax.set_yticklabels([])  # Hide radial tick labels
-# # Add the radial axis
-# ax.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
-# ax.spines['polar'].set_visible(True)  # Show the radial axis line
-# # Set the theta direction to clockwise
-# ax.set_theta_direction(-1)
-# # Set the theta zero location to the top
-# ax.set_theta_zero_location('N')
 
 #%%
 
