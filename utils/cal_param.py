@@ -276,7 +276,6 @@ def cal_yj(input_data,output_data):
     yj=output_data*np.mean(input_data)
     return yj
 
-    pass
 #%%
 def test(seg_angles):
     plt.figure()
@@ -316,8 +315,6 @@ def test2():
     j=35
     i=66
 
-
-
     dtheta=2*np.pi/40.
     start_angle=pi_2_pi(pose[2,0]-np.pi+j*dtheta)
     end_angle=pi_2_pi(start_angle+dtheta)
@@ -333,8 +330,6 @@ def test2():
     r_end.plot(10,color='b')
 
     print('c',c)
-
-    pass
 
 #%%
 
@@ -376,5 +371,4 @@ def write_data(seg_angles, recordpath, horiz, vert):
         except EOFError:
             print('EOFError: ' + recordpath+'_cal/'+filename)
 
-    pass
 

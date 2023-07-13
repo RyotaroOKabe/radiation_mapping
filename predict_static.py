@@ -82,7 +82,7 @@ for indx in range(test_size):   #?
 sorted_AB = sorted(zip(ang_list, loss_list, acc_list), reverse=False)
 sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
 # plt.plot(sorted_ang, sorted_loss)
-rmax = 8
+rmax = 5
 fig = plt.figure(figsize=(6, 6), facecolor='white')
 ax = fig.add_subplot(111, polar=True)
 for j in range(num_dist):

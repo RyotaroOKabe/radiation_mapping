@@ -49,12 +49,45 @@ class Filterlayer2(nn.Module):
         out = out.view(out.shape[0], 2, out.shape[1]//2)
         return out
 
+class Filterlayer1(nn.Module):
+    """docstring for Filterlayer"""
+    def __init__(self, seg_angles, out_features, filterdata):
+        super(Filterlayer1, self).__init__()
+        self.Wn1 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
+        # self.Wn2 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
+        temp = torch.torch.from_numpy(filterdata.data.reshape((1,seg_angles,-1)))
+        self.weight1 = torch.nn.Parameter(data=torch.t(temp[0,:,:]), requires_grad=True)
+        # self.weight2 = torch.nn.Parameter(data=torch.t(temp[1,:,:]), requires_grad=True)
+        self.bias1 = torch.nn.Parameter(data=torch.zeros(1,out_features), requires_grad=True)
+        # self.bias2 = torch.nn.Parameter(data=torch.zeros(1,out_features//2), requires_grad=True)
+        self.Wn1_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
+        # self.Wn2_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
+
+    def forward(self,x):
+        out1 = torch.matmul(x,self.weight1)/self.Wn1 + self.bias1
+        # out2 = torch.matmul(x,self.weight2)/self.Wn2 + self.bias2
+        out = out1  #torch.cat([out1,out2],dim=1)
+        out = out.view(out.shape[0], 2, out.shape[1]//2)
+        return out
 
 class MyNet2(nn.Module):
     def __init__(self, seg_angles, filterdata):
         super(MyNet2, self).__init__()
         self.l1 = Filterlayer2(seg_angles=seg_angles, out_features=2*seg_angles, filterdata=filterdata)
         self.unet = UNet(c1 = 32)
+
+    def forward(self, x):
+        x = self.l1(x)
+        x = self.unet(x)
+        x = x.squeeze(1)
+        out = F.softmax(x,dim=1)
+        return out
+
+class MyNet1(nn.Module):
+    def __init__(self, seg_angles, filterdata):
+        super(MyNet1, self).__init__()
+        self.l1 = Filterlayer1(seg_angles=seg_angles, out_features=seg_angles, filterdata=filterdata)
+        self.unet = UNet(in_channels=1, c1 = 32)
 
     def forward(self, x):
         x = self.l1(x)
