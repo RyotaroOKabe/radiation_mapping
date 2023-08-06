@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure   
 from matplotlib.patches import Wedge
 from matplotlib.colors import ListedColormap
+from matplotlib.colors import to_hex
 import imageio
 import openmc
 from utils.cal_param import *
@@ -28,6 +29,13 @@ def hex2rgb(value):
     value = value.lstrip('#')
     lv = len(value)
     return [int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)]
+
+def rgb_to_hex(rgb):
+    # Normalize RGB values to be within 0-1 range
+    r, g, b = [val / 255.0 for val in rgb]
+    # Convert to hexadecimal representation
+    hex_color = to_hex((r, g, b))
+    return hex_color
 
 def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, num_particles, jsonpath):
     num_sources = len(sources_d_th)
@@ -155,10 +163,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
-            if ang_step_curves: #!
-                fig, (ax1, ax2, ax3) = plt.subplots(1, 3,figsize=(63,20))
-            else:
-                fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(42,20))
+            fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(42,20))
             xdata_show = np.flip(xdata_original, 0)
             xdata_show = np.flip(xdata_show, 1)
             adjust_ratio = 0.85
@@ -196,46 +201,54 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             theta = np.linspace(-90, 270, seg_angles)   #!20220729
             output1 = predict
             output2 = ydata.tolist()
-            for i in range(len(theta)-1):
-                ax2.add_artist(
-                    Wedge((0, 0), 1, theta[i], theta[i+1], width=0.3, 
-                          color=((255-(255-pred_rgb[0])*output1[i])/255, 
-                                 (255-(255-pred_rgb[1])*output1[i])/255, 
-                                 (255-(255-pred_rgb[2])*output1[i])/255)),
-                )
-                ax2.add_artist(
-                    Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, 
-                          color=((255-(255-real_rgb[0])*output2[i])/255, 
-                                 (255-(255-real_rgb[1])*output2[i])/255, 
-                                 (255-(255-real_rgb[2])*output2[i])/255)),
-                )
 
-            c1 = plt.Circle((0, 0), 1, color='k', lw=5, fill=False)
-            c2 = plt.Circle((0, 0), 0.7, color='k', lw=5, fill=False)
-            c3 = plt.Circle((0, 0), 0.4, color='k', lw=5, fill=False)
-            ax2.add_patch(c1)
-            ax2.add_patch(c2)
-            ax2.add_patch(c3)
-            ax2.set_xlim((-1.2,1.2))
-            ax2.set_ylim((-1.2,1.2))
-            ax2.axes.get_xaxis().set_visible(False)
-            ax2.axes.get_yaxis().set_visible(False)
             if ang_step_curves: #!
-                ax3 = fig.add_subplot(133, polar=True)
-                theta3 = -np.linspace(-0.5*np.pi, 1.5*np.pi, len(output1)) + np.pi/2 #np.linspace(-90, 270, seg_angles) + 180 #theta #(theta+180)#//360
-                theta3 = -theta3 + np.pi/2
-                ax3.plot(theta3, output1, drawstyle='steps', linestyle='-', color='red')
-                ax3.plot(theta3,output2, drawstyle='steps', linestyle='-', color='blue')  
-                ax3.set_yticklabels([])  # Hide radial tick labels
+            #     ax2 = fig.add_subplot(122, polar=True)
+                ax2 = plt.subplot(1, 2, 2, polar=True)
+                theta_rad = theta * np.pi/180
+                ax2.plot(theta_rad, output1, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
+                ax2.plot(theta_rad,output2, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
+                ax2.set_yticklabels([])  # Hide radial tick labels
+                ax2.tick_params(axis='x', labelsize=30)
                 # Add the radial axis
-                ax3.set_rticks(np.linspace(0, 1, 20))  # Adjust the range and number of radial ticks as needed
-                ax3.spines['polar'].set_visible(True)  # Show the radial axis line
-                # Set the theta direction to clockwise
-                ax3.set_theta_direction(-1)
+                ax2.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
+                ax2.spines['polar'].set_visible(True)  # Show the radial axis line
 
+                # Set the theta direction to clockwise
+                ax2.set_theta_direction(-1)
                 # Set the theta zero location to the top
-                ax3.set_theta_zero_location('N')
-                # fig.savefig(predictpath + 'STEP%.3d'%step + "_predict_c.png")
+                ax2.set_theta_zero_location('N')
+                ax2.set_rlabel_position(-22.5)
+                ax2.set_theta_offset(np.pi / 2.0)
+                ax2.tick_params(axis='x', which='major', pad=50, labelsize=40)
+                ax2.grid(True)
+                # ax2.set_frame_on(False)
+
+            else:
+                for i in range(len(theta)-1):
+                    ax2.add_artist(
+                        Wedge((0, 0), 1, theta[i], theta[i+1], width=0.3, 
+                            color=((255-(255-pred_rgb[0])*output1[i])/255, 
+                                    (255-(255-pred_rgb[1])*output1[i])/255, 
+                                    (255-(255-pred_rgb[2])*output1[i])/255)),
+                    )
+                    ax2.add_artist(
+                        Wedge((0, 0), 0.7, theta[i], theta[i+1], width=0.3, 
+                            color=((255-(255-real_rgb[0])*output2[i])/255, 
+                                    (255-(255-real_rgb[1])*output2[i])/255, 
+                                    (255-(255-real_rgb[2])*output2[i])/255)),
+                    )
+
+                c1 = plt.Circle((0, 0), 1, color='k', lw=5, fill=False)
+                c2 = plt.Circle((0, 0), 0.7, color='k', lw=5, fill=False)
+                c3 = plt.Circle((0, 0), 0.4, color='k', lw=5, fill=False)
+                ax2.add_patch(c1)
+                ax2.add_patch(c2)
+                ax2.add_patch(c3)
+                ax2.set_xlim((-1.2,1.2))
+                ax2.set_ylim((-1.2,1.2))
+                ax2.axes.get_xaxis().set_visible(False)
+                ax2.axes.get_yaxis().set_visible(False)
                 
             fig.suptitle('Real Angle: ' + str(round(ags[-1], 4)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
