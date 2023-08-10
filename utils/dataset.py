@@ -361,6 +361,36 @@ class FilterData2(object):
         self.data=filter_data
         self.size=filter_data.shape[0]
 
+class FilterData1(object):
+    """docstring for FilterData"""
+    def __init__(self, filterpath):
+        super(FilterData1, self).__init__()
+        self.path=filterpath
+        # filter_data=[]
+        filter_data=[[]]
+        files=os.listdir(filterpath)
+        # filter_types = ['far', 'near']
+        # for i in filter_types:
+        # filter_data.append([])
+        for filename in files:
+            if not filename.endswith('.json'):continue
+            if filename.startswith('source'):continue
+            with open(os.path.join(filterpath,filename),'r') as f:
+                data=json.load(f)
+                # for i,filter_type in enumerate(filter_types):
+                #     if filter_type in filename:
+                # filter_data[i].append(data['input'])
+                filter_data[0].append(data['input'])
+        filter_data=np.array(filter_data)
+        filter_data = filter_data.reshape((-1,filter_data.shape[-1]))
+        mm=filter_data[:,:].mean(axis=1,keepdims=True)
+        vv=filter_data[:,:].var(axis=1,keepdims=True)
+        mm=np.tile(mm,(1,filter_data.shape[1]))
+        vv=np.tile(vv,(1,filter_data.shape[1]))
+        filter_data=(filter_data[:,:]-mm[:,:])/np.sqrt(vv[:,:])
+
+        self.data=filter_data
+        self.size=filter_data.shape[0]
 
 def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,source_num,prob,seed):
     if test_size_gen is None:

@@ -6,11 +6,11 @@ import sys,os
 import pickle as pkl
 sys.path.append('./')
 from utils.model import *
+from utils.utils import *
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure   
 from matplotlib.patches import Wedge
 from matplotlib.colors import ListedColormap
-from matplotlib.colors import to_hex
 import imageio
 import openmc
 from utils.cal_param import *
@@ -23,19 +23,7 @@ DEFAULT_DTYPE = torch.double
 ang_step_curves = True   #!
 
 #%%
-# colormap
 N = 256
-def hex2rgb(value):
-    value = value.lstrip('#')
-    lv = len(value)
-    return [int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)]
-
-def rgb_to_hex(rgb):
-    # Normalize RGB values to be within 0-1 range
-    r, g, b = [val / 255.0 for val in rgb]
-    # Convert to hexadecimal representation
-    hex_color = to_hex((r, g, b))
-    return hex_color
 
 def openmc_simulation(tetris_mode, input, sources_d_th, header, seg_angles, num_particles, jsonpath):
     num_sources = len(sources_d_th)

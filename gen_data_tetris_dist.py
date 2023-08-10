@@ -17,13 +17,13 @@ import openmc
 from utils.mcsimulation_tetris import *
 
 num_sources = 2
-shape_name = 'S' # Tetris shape
+shape_name = 'J' # Tetris shape
 num_data = 4000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist = 500 #500 # maximum distance between the radiation source and the detector (cm).
+dist = 200 #500 # maximum distance between the radiation source and the detector (cm).
 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
-num_particles = 20000 # The number of photon
+num_particles = 50000 # The number of photon
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
 header = 'data'
 openmc_dir = 'save/openmc_data/'

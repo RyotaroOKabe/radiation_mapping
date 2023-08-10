@@ -17,6 +17,7 @@ writer = tbx.SummaryWriter('runs')
 from utils.dataset import get_output, FilterData2, load_data
 from utils.time_record import Timer
 from utils.unet import *
+from utils.utils import *
 
 GPU_INDEX = 1#0
 USE_CPU = False
@@ -27,6 +28,8 @@ else:
     DEFAULT_DEVICE = torch.device("cpu")
 
 DEFAULT_DTYPE = torch.double
+colors_parameters = {'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
+pred_rgb, real_rgb = [hex2rgb(colors_parameters[l]) for l in ['pred_hex', 'real_hex']]
 
 class Filterlayer2(nn.Module):
     """docstring for Filterlayer"""
@@ -67,7 +70,8 @@ class Filterlayer1(nn.Module):
         out1 = torch.matmul(x,self.weight1)/self.Wn1 + self.bias1
         # out2 = torch.matmul(x,self.weight2)/self.Wn2 + self.bias2
         out = out1  #torch.cat([out1,out2],dim=1)
-        out = out.view(out.shape[0], 2, out.shape[1]//2)
+        # out = out.view(out.shape[0], 2, out.shape[1]//2)
+        out = out.view(out.shape[0], 1, out.shape[1]//1)
         return out
 
 class MyNet2(nn.Module):
@@ -196,12 +200,13 @@ class Model(object):
 
                 self.plot_train_curve(save_name)
                 self.save('save/models/' + save_name[-27:])
-                loss_avg = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name)
+                loss_profile = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name, loss_out=True)
                 text_file = open(f"{save_name}/log.txt", "w")
                 text_file.write(record_header + "\n")
                 for line in record_lines:
                     text_file.write(line + "\n")
-                text_file.write(f"Average loss dist: {loss_avg}\n")
+                # text_file.write(f"loss : {loss_avg}\n")
+                text_file.write(f"loss profile : {loss_profile}\n")
         writer.export_scalars_to_json(f"{save_name}/all_scalars.json")
         writer.close()
         print('\t\tFinished in %.1fs'%(t2-t1))
@@ -227,35 +232,82 @@ class Model(object):
         torch.save(data,name+'_log.pt')
         torch.save(self.net,name+'_model.pt')
 
-    def plot_test(self,test,loss_fn,save_dir):
-
+    def plot_test(self, test, loss_fn, save_dir, loss_out=False):
         if not os.path.isdir(save_dir):
-            os.mkdir(save_dir)
+            os.mkdir(save_dir) 
         test_size = test.data_size
         seg_angles = test.y_size
         total_loss = 0
+        loss_list = []
+        max_loss = float('-inf')
+        min_loss = float('inf')
+        argmax_loss = None
+        argmin_loss = None
         for indx in range(test_size):
-            test_x,test_y,test_z=test.get_batch(1,indx)
+            test_x, test_y, test_z = test.get_batch(1, indx)
             self.net.eval()
             with torch.no_grad():
                 predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy()
+            
             pred_loss = loss_fn(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
             total_loss += pred_loss
-            fig = plt.figure(figsize=(6, 6), facecolor='white')
-            ax1 = fig.add_subplot(1,1,1)
-            ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
-            ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
-            ax1.legend()
-            ax1.set_xlabel('deg')
-            ax1.set_xlim([-180,180])
-            ax1.set_xticks([-180,-135,-90,-45,0,45,90,135,180])
-            ax1.set_title(f'Dist (cm): {test_z[0,0]} / Ang (deg): {test_z[0,1]}\nLoss: {pred_loss}')
-            fig.show()
+            loss_list.append(pred_loss)
+            if loss_out:
+                if pred_loss > max_loss:
+                    max_loss = pred_loss
+                    argmax_loss = test_z[0, 1]  # Assuming the angle is stored in test_z[0, 1]
+                if pred_loss < min_loss:
+                    min_loss = pred_loss
+                    argmin_loss = test_z[0, 1]
+            # fig = plt.figure(figsize=(6, 6), facecolor='white')
+            # ax1 = fig.add_subplot(1, 1, 1)
+            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0], label='Simulated')
+            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0], label='Predicted')
+            # ax1.legend()
+            # ax1.set_xlabel('deg')
+            # ax1.set_xlim([-180, 180])
+            # ax1.set_xticks([-180, -135, -90, -45, 0, 45, 90, 135, 180])
+            # ax1.set_title(f'Dist (cm): {test_z[0, 0]} / Ang (deg): {test_z[0, 1]}\nLoss: {pred_loss}')
+            # fig.show()
+            # fig.savefig(fname=f"{save_dir}/test_{indx}.png")
+            # fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
+            # plt.close()
+            
+            fig, ax = plt.subplots(1, 1,figsize=(10,10))
+            ax = plt.subplot(1, 1, 1, polar=True)
+            theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
+            
+            ax.plot(theta_rad, predict_test[0]+1e-4, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
+            ax.plot(theta_rad,test_y[0]+1e-4, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
+            ax.set_yticklabels([])  # Hide radial tick labels
+            ax.tick_params(axis='x', labelsize=30)
+            print('A', np.log(predict_test[0]))
+            print('B', np.log(test_y[0]+1e-4))
+            # Add the radial axis
+            # ax.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
+            ax.set_rscale('log')
+            ax.set_rticks([5e-11, 5e-6, 5e-1])
+            
+            ax.spines['polar'].set_visible(True)  # Show the radial axis line
+
+            # Set the theta direction to clockwise
+            ax.set_theta_direction(-1)
+            # Set the theta zero location to the top
+            ax.set_theta_zero_location('N')
+            ax.set_rlabel_position(-22.5)
+            ax.set_theta_offset(np.pi / 2.0)
+            ax.tick_params(axis='x', which='major', pad=50, labelsize=40)
+            ax.grid(True)
             fig.savefig(fname=f"{save_dir}/test_{indx}.png")
             fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
             plt.close()
-        loss_avg = total_loss/test_size
-        return loss_avg
+            # ax2.set_frame_on(False)
+            # print('check!!')
+
+        loss_avg = total_loss / test_size
+        if loss_out:
+            return {'avg': loss_avg, 'max': max_loss, 'argmax': argmax_loss, 'min': min_loss, 'argmin': argmin_loss, 'list': loss_list}
+        return {'avg': loss_avg}
 
 
 from pyemd import emd
