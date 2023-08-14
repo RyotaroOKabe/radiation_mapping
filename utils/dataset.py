@@ -363,7 +363,7 @@ class FilterData2(object):
 
 class FilterData1(object):
     """docstring for FilterData"""
-    def __init__(self, filterpath):
+    def __init__(self, filterpath, header=None):
         super(FilterData1, self).__init__()
         self.path=filterpath
         # filter_data=[]
@@ -373,6 +373,8 @@ class FilterData1(object):
         # for i in filter_types:
         # filter_data.append([])
         for filename in files:
+            if header is not None:
+                if not filename.startswith(header):continue
             if not filename.endswith('.json'):continue
             if filename.startswith('source'):continue
             with open(os.path.join(filterpath,filename),'r') as f:

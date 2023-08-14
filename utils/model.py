@@ -241,8 +241,8 @@ class Model(object):
         loss_list = []
         max_loss = float('-inf')
         min_loss = float('inf')
-        argmax_loss = None
-        argmin_loss = None
+        idx_argmax = None
+        idx_argmin = None
         for indx in range(test_size):
             test_x, test_y, test_z = test.get_batch(1, indx)
             self.net.eval()
@@ -255,58 +255,63 @@ class Model(object):
             if loss_out:
                 if pred_loss > max_loss:
                     max_loss = pred_loss
-                    argmax_loss = test_z[0, 1]  # Assuming the angle is stored in test_z[0, 1]
+                    idx_argmax= indx 
                 if pred_loss < min_loss:
                     min_loss = pred_loss
-                    argmin_loss = test_z[0, 1]
-            # fig = plt.figure(figsize=(6, 6), facecolor='white')
-            # ax1 = fig.add_subplot(1, 1, 1)
-            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0], label='Simulated')
-            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0], label='Predicted')
-            # ax1.legend()
-            # ax1.set_xlabel('deg')
-            # ax1.set_xlim([-180, 180])
-            # ax1.set_xticks([-180, -135, -90, -45, 0, 45, 90, 135, 180])
-            # ax1.set_title(f'Dist (cm): {test_z[0, 0]} / Ang (deg): {test_z[0, 1]}\nLoss: {pred_loss}')
-            # fig.show()
-            # fig.savefig(fname=f"{save_dir}/test_{indx}.png")
-            # fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
-            # plt.close()
-            
-            fig, ax = plt.subplots(1, 1,figsize=(10,10))
-            ax = plt.subplot(1, 1, 1, polar=True)
-            theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
-            
-            ax.plot(theta_rad, predict_test[0]+1e-4, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
-            ax.plot(theta_rad,test_y[0]+1e-4, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
-            ax.set_yticklabels([])  # Hide radial tick labels
-            ax.tick_params(axis='x', labelsize=30)
-            print('A', np.log(predict_test[0]))
-            print('B', np.log(test_y[0]+1e-4))
-            # Add the radial axis
-            # ax.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
-            ax.set_rscale('log')
-            ax.set_rticks([5e-11, 5e-6, 5e-1])
-            
-            ax.spines['polar'].set_visible(True)  # Show the radial axis line
-
-            # Set the theta direction to clockwise
-            ax.set_theta_direction(-1)
-            # Set the theta zero location to the top
-            ax.set_theta_zero_location('N')
-            ax.set_rlabel_position(-22.5)
-            ax.set_theta_offset(np.pi / 2.0)
-            ax.tick_params(axis='x', which='major', pad=50, labelsize=40)
-            ax.grid(True)
+                    idx_argmin= indx 
+            fig = plt.figure(figsize=(6, 6), facecolor='white')
+            ax1 = fig.add_subplot(1, 1, 1)
+            ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0], label='Simulated', color=rgb_to_hex(real_rgb))
+            ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0], label='Predicted', color=rgb_to_hex(pred_rgb))
+            ax1.legend()
+            ax1.set_xlabel('deg')
+            ax1.set_xlim([-180, 180])
+            ax1.set_xticks([-180, -135, -90, -45, 0, 45, 90, 135, 180])
+            ax1.set_title(f'Dist (cm): {test_z[0, 0]} / Ang (deg): {test_z[0, 1]}\nLoss: {pred_loss}')
+            # ax1.set_yscale('log')
+            fig.show()
             fig.savefig(fname=f"{save_dir}/test_{indx}.png")
             fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
             plt.close()
-            # ax2.set_frame_on(False)
-            # print('check!!')
+            
+            # fig, ax = plt.subplots(1, 1,figsize=(10,10))
+            # ax = plt.subplot(1, 1, 1, polar=True)
+            # fig = plt.figure(figsize=(6, 6), facecolor='white')
+            # ax = fig.add_subplot(111, polar=True)
+            # theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
+            # r_pred = np.log(predict_test[0]+1e-4)
+            # r_real = np.log(test_y[0]+1e-4)
+            # ax.plot(theta_rad, r_pred, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
+            # ax.plot(theta_rad,r_real, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
+            # ax.set_yticklabels([])  # Hide radial tick labels
+            # ax.tick_params(axis='x', labelsize=30)
+            # print('A', np.max(np.exp(r_pred)), np.min(np.exp(r_pred)))
+            # print('B', np.max(np.exp(r_real)), np.min(np.exp(r_real)))
+            # # Add the radial axis
+            # # ax.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
+            # ax.set_rscale('log')
+            # # ax.set_rticks([5e-6, 5e-5, 5e-4, 5e-3, 5e-2, 5e-1])
+            # ax.set_rticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1], labels=['1e-5', '1e-4', '1e-3', '1e-2', '1e-1'])
+            # # ax.set_rmax(5e-1)
+            
+            # ax.spines['polar'].set_visible(True)  # Show the radial axis line
+
+            # # Set the theta direction to clockwise
+            # ax.set_theta_direction(-1)
+            # # Set the theta zero location to the top
+            # ax.set_theta_zero_location('N')
+            # # ax.set_rlabel_position(-22.5)
+            # ax.set_theta_offset(np.pi / 2.0)
+            # ax.tick_params(axis='x', which='major', pad=50, labelsize=40)
+            # # ax.grid(True)
+            # fig.savefig(fname=f"{save_dir}/test_{indx}.png")
+            # fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
+            # plt.close()
+            # # ax2.set_frame_on(False)
 
         loss_avg = total_loss / test_size
         if loss_out:
-            return {'avg': loss_avg, 'max': max_loss, 'argmax': argmax_loss, 'min': min_loss, 'argmin': argmin_loss, 'list': loss_list}
+            return {'avg': loss_avg, 'max': max_loss, 'argmax': idx_argmax, 'min': min_loss, 'argmin': idx_argmin, 'list': loss_list}
         return {'avg': loss_avg}
 
 
