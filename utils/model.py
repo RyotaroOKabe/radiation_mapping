@@ -117,12 +117,13 @@ class Model(object):
         else:
             self.loss_val = loss_val
 
-    def train(self, optim, train_set, test_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_name='output_record'):
+    def train(self, optim, train_set, test_set, epochs,batch_size, split_fold, acc_func=None, check_overfit_func=None,verbose=10, save_dir='./save/training', save_file='output_record'):
         net = self.net
         loss_train = self.loss_train
         loss_val = self.loss_val
         t1=time.time()
         timer = Timer(['init','load data', 'forward', 'loss','cal reg', 'backward','optimizer step','eval'])
+        save_name = os.path.join(save_dir, save_file)
         if not os.path.isdir(save_name):
             os.mkdir(save_name)
         record_header = '%s\t%s\t%s\t%s'%('Epochs',"train_loss","val_loss", "Time")
@@ -199,7 +200,7 @@ class Model(object):
                 checkpoint = next(checkpoint_generator)
 
                 self.plot_train_curve(save_name)
-                self.save('save/models/' + save_name[-27:])
+                self.save('save/models/' + save_file)
                 loss_profile = self.plot_test(test_set,loss_fn=loss_val,save_dir=save_name, loss_out=True)
                 text_file = open(f"{save_name}/log.txt", "w")
                 text_file.write(record_header + "\n")

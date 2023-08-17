@@ -3,21 +3,21 @@
 import numpy as np
 from scipy.optimize import minimize #!
 
-from pydrake.all import MathematicalProgram, Solve
+# from pydrake.all import MathematicalProgram, Solve
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon as matplotlib_polygon
 import matplotlib
 import math
 
-from pydrake.math import sin, cos, sqrt
+# from pydrake.math import sin, cos, sqrt
 
 import pickle as pkl
 
 from scipy.interpolate import interp2d
 
 import os,sys
-import dill #!20220316
+# import dill #!20220316
 import imageio
 
 factor1 = 1e+15 #1e+24

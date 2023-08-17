@@ -17,8 +17,8 @@ import openmc
 from utils.mcsimulation_tetris import *
 
 num_sources = 2
-shape_name = 'J' # Tetris shape
-num_data = 4000 # the number of the generated data
+shape_name = 'S' # Tetris shape
+num_data = 10 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
 dist = 200 #500 # maximum distance between the radiation source and the detector (cm).
 

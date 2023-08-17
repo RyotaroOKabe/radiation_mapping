@@ -18,7 +18,7 @@ from utils.unet import *
 from utils.dataset import get_output, FilterData2, load_data, compute_accuracy, Dataset, Testset
 from utils.emd_ring_torch import emd_loss_ring
 colors = ['r', 'b', 'g', 'y']
-plot_test = False
+plot_test = True
 tetris_mode=True   # True if the detector is Tetris-inspired detector. False if it is a square detector
 input_shape = 'S'  #? [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
@@ -29,7 +29,7 @@ data_name = '230706-182456' #'230706-133717' #'230124-214356'   #?
 data_path = f'./save/openmc_data/{data_name}'   #?
 
 save_dir = "./save/training"
-save_name = f"{data_name}"    #?
+save_name = f"{data_name}_kk"    #?
 save_header = f"{save_dir}/{save_name}_{input_shape}"   #?
 
 model =torch.load(model_path)   #?

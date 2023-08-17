@@ -207,7 +207,10 @@ def process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm, save
     sp = openmc.StatePoint(statepoints[-1])
     tally = sp.get_tally(name='mesh tally')
     # data = tally.get_values()
+    print('sp: ', sp)
+    print('tally: ', tally)
     df = tally.get_pandas_dataframe(nuclides=False)
+    print('df: ', df)
     #? pd.options.display.float_format = '{:.2e}'.format
     fiss = df[df['score'] == 'absorption']
     mean = fiss['mean'].values.reshape((3, 2))
@@ -254,7 +257,7 @@ def after_openmc(use_panels, sources_d_th, folder, seg_angles, header, record=No
             os.makedirs(folder2)
             print("The new directory "+ folder2 +" is created!")
     sources=get_sources(sources_d_th)
-    mm = process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm=True, savefig=savefig)
+    mm = process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm=False, savefig=savefig)
     return mm
 
 def get_position_from_panelID(panel_id):

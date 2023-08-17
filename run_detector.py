@@ -16,10 +16,10 @@ from utils.move_detector import main
 from utils.unet import *
 
 tetris_mode=True    # True if the detector is Tetris-inspired detector. False if it is a square detector
-input_shape = 'S'  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
+input_shape = 'T'  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
-file_header = "S_230118-203413_230120-224603" # save name of the model
-recordpath = f'./save/mapping_data/{file_header}xxx'
+file_header = "230124-214356_230121-165924_far_200_1" # save name of the model
+recordpath = f'./save/mapping_data/{file_header}'
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
 RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
