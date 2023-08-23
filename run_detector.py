@@ -15,10 +15,10 @@ from utils.cal_param import *   #!20221023
 from utils.move_detector import main
 from utils.unet import *
 
-tetris_mode=True    # True if the detector is Tetris-inspired detector. False if it is a square detector
-input_shape = 'T'  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
+tetris_mode=True   # True if the detector is Tetris-inspired detector. False if it is a square detector
+input_shape = 'J'  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
-file_header = "230124-214356_230121-165924_far_200_1" # save name of the model
+file_header = '230121-192203_230121-161457_200_1' # save name of the model
 recordpath = f'./save/mapping_data/{file_header}'
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)

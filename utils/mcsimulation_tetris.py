@@ -207,10 +207,10 @@ def process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm, save
     sp = openmc.StatePoint(statepoints[-1])
     tally = sp.get_tally(name='mesh tally')
     # data = tally.get_values()
-    print('sp: ', sp)
-    print('tally: ', tally)
+    # print('sp: ', sp)
+    # print('tally: ', tally)
     df = tally.get_pandas_dataframe(nuclides=False)
-    print('df: ', df)
+    # print('df: ', df)
     #? pd.options.display.float_format = '{:.2e}'.format
     fiss = df[df['score'] == 'absorption']
     mean = fiss['mean'].values.reshape((3, 2))

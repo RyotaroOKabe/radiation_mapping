@@ -21,6 +21,7 @@ else:
     DEFAULT_DEVICE = torch.device("cpu")
 DEFAULT_DTYPE = torch.double
 ang_step_curves = True   #!
+round_digit=5
 
 #%%
 N = 256
@@ -148,7 +149,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
 
             xdata_original=det_output.reshape(matrix_shape)
             ydata = get_output(sources_x_y_c, seg_angles)
-            pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
+            # pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
+            pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(calculate_expectation(np.arange(len(predict)), predict)-seg_angles/2))
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
             fig, (ax1, ax2) = plt.subplots(1, 2,figsize=(42,20))
@@ -193,7 +195,7 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             if ang_step_curves: #!
             #     ax2 = fig.add_subplot(122, polar=True)
                 ax2 = plt.subplot(1, 2, 2, polar=True)
-                theta_rad = theta * np.pi/180
+                theta_rad = np.linspace(180, -180, seg_angles) * np.pi/180
                 ax2.plot(theta_rad, output1, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
                 ax2.plot(theta_rad,output2, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
                 ax2.set_yticklabels([])  # Hide radial tick labels
@@ -238,7 +240,8 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
                 ax2.axes.get_xaxis().set_visible(False)
                 ax2.axes.get_yaxis().set_visible(False)
                 
-            fig.suptitle('Real Angle: ' + str(round(ags[-1], 4)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)
+            # fig.suptitle('Real Angle: ' + str(round(ags[-1], 4)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)
+            fig.suptitle('Real Angle: ' + str(round(ags[-1], round_digit)) + ', \nPredicted Angle: ' + str(round(pred_out, round_digit)) + ' [deg]', fontsize=60)
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
             fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
             plt.close(fig)

@@ -18,14 +18,14 @@ from utils.mcsimulation_square import *
 
 num_sources = 1
 a_num = 2  # The shape of the detector: a x a square 
-num_data = 3000 # the number of the generated data
+num_data = 5532 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist_min = 20   # minimum distance between the radiation source and the detector (cm).
-dist_max = 500 #500 # maximum distance between the radiation source and the detector (cm).
+dist_min = 5   # minimum distance between the radiation source and the detector (cm).
+dist_max = 2000 #500 # maximum distance between the radiation source and the detector (cm).
 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 num_particles = 50000 # The number of photon
-run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
+run_name = '230817-184401'# time.strftime('%y%m%d-%H%M%S', time.localtime())
 header = 'data'
 openmc_dir = 'save/openmc_data/'
 save_fig = True

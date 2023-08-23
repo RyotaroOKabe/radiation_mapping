@@ -23,25 +23,21 @@ save_dir = "./save/training"
 
 #%%
 
-
-# a_num = 2
-# tetris_shape = 'L'
 num_sources = 1
 seg_angles = 64
 epochs = 200
-data_name = '230118-005847' 
-filter_name = '230120-214857'
+data_name = '230817-184532' 
+filter_name = '230818-113025'
 filter_header='far'
 #=========================================================
 save_name = f"{data_name}_{filter_name}_{filter_header}_{epochs}_{num_sources}"   # save_name = f"{data_name}"
 save_header = f"{save_dir}/{save_name}"
-#save_name = f"openmc_tetris{tetris_shape}_{num_sources}src_{seg_angles}_ep{epochs}_bs256_20220821_v1.1"
 #=========================================================
 path = f'./save/openmc_data/{data_name}'
 filterpath = f'./save/openmc_filter/{filter_name}'
 
 filter_data1 = FilterData1(filterpath, filter_header)
-test_size = 300
+test_size = 1000
 k_fold = 5
 print(save_name)
 output_fun = get_output
@@ -70,7 +66,7 @@ optim = torch.optim.Adam([
     ], lr=0.001)
 
 # model.train(optim,train_set,test_set,epochs,batch_size=256,acc_func=None, verbose=10, save_name=save_name)
-model.train(optim,train_set,test_set, epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_name=save_header)
+model.train(optim,train_set,test_set, epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_dir=save_dir, save_file=save_name)
 # model.save('save/models/' + save_name)
 
 # model.plot_train_curve(save_name=save_header)
