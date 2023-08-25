@@ -3,7 +3,7 @@ import os
 import time
 import math
 import matplotlib.pyplot as plt
-import matplotlib
+from matplotlib.colors import ListedColormap
 import numpy as np
 import json
 import sys
@@ -28,8 +28,9 @@ else:
     DEFAULT_DEVICE = torch.device("cpu")
 
 DEFAULT_DTYPE = torch.double
-colors_parameters = {'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
-pred_rgb, real_rgb = [hex2rgb(colors_parameters[l]) for l in ['pred_hex', 'real_hex']]
+colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
+colors_max, pred_rgb, real_rgb = [hex2rgb(colors_parameters[l]) for l in ['array_hex', 'pred_hex', 'real_hex']]
+N = 255
 
 class Filterlayer2(nn.Module):
     """docstring for Filterlayer"""
@@ -249,7 +250,6 @@ class Model(object):
             self.net.eval()
             with torch.no_grad():
                 predict_test = self.net(torch.as_tensor(test_x)).cpu().detach().numpy()
-            
             pred_loss = loss_fn(torch.Tensor(test_y[0]).reshape((1, -1)), torch.Tensor(predict_test[0]).reshape((1, -1)))
             total_loss += pred_loss
             loss_list.append(pred_loss)
@@ -260,55 +260,72 @@ class Model(object):
                 if pred_loss < min_loss:
                     min_loss = pred_loss
                     idx_argmin= indx 
-            fig = plt.figure(figsize=(6, 6), facecolor='white')
-            ax1 = fig.add_subplot(1, 1, 1)
-            ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0], label='Simulated', color=rgb_to_hex(real_rgb))
-            ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0], label='Predicted', color=rgb_to_hex(pred_rgb))
+            xdata_show = test_x
+            # print('xdata_show.shape: ', xdata_show.shape)
+            rgbs = np.ones((N, 3))
+            adjust_ratio = 0.85
+            matrix_len=xdata_show.flatten().shape[0]
+            # print('matrix_len: ', matrix_len)
+            if matrix_len==6:
+                num_panels=4
+                matrix_shape = [2,3]
+            else:
+                num_panels=matrix_len
+                dsize=int(np.sqrt(matrix_len))
+                matrix_shape = [dsize, dsize]
+            # print(num_panels, matrix_shape)
+            xdata_show = xdata_show.reshape(matrix_shape[::-1])
+            xdata_show = np.transpose(xdata_show)
+            xdata_show = np.flip(xdata_show, 0)
+            xdata_show = np.flip(xdata_show, 1) #!
+            xx = max(colors_max)*(1-adjust_ratio)*((num_panels/matrix_len)==1)#70
+            rgbs[:, 0] = np.linspace(((colors_max[0]-255)/N*xx+255)/255, colors_max[0]/255, N) # R
+            rgbs[:, 1] = np.linspace(((colors_max[1]-255)/N*xx+255)/255, colors_max[1]/255, N) # G
+            rgbs[:, 2] = np.linspace(((colors_max[2]-255)/N*xx+255)/255, colors_max[2]/255, N)  # B
+            own_cmp = ListedColormap(rgbs)
+            fig = plt.figure(figsize=(18, 6), facecolor='white')
+            ax0 = fig.add_subplot(1, 3, 1)
+            ax0.imshow(xdata_show, interpolation='nearest', cmap=own_cmp)
+            ax0.axes.get_xaxis().set_visible(False)
+            ax0.axes.get_yaxis().set_visible(False)
+            ax1 = fig.add_subplot(1, 3, 2)
+            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0], label='Simulated', color=rgb_to_hex(real_rgb))
+            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0], label='Predicted', color=rgb_to_hex(pred_rgb))
+            ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0][::-1], label='Simulated', color=rgb_to_hex(real_rgb))  #!
+            ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0][::-1], label='Predicted', color=rgb_to_hex(pred_rgb))
             ax1.legend()
             ax1.set_xlabel('deg')
             ax1.set_xlim([-180, 180])
             ax1.set_xticks([-180, -135, -90, -45, 0, 45, 90, 135, 180])
             ax1.set_title(f'Dist (cm): {test_z[0, 0]} / Ang (deg): {test_z[0, 1]}\nLoss: {pred_loss}')
-            # ax1.set_yscale('log')
             fig.show()
             fig.savefig(fname=f"{save_dir}/test_{indx}.png")
             fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
             plt.close()
-            
-            # fig, ax = plt.subplots(1, 1,figsize=(10,10))
-            # ax = plt.subplot(1, 1, 1, polar=True)
-            # fig = plt.figure(figsize=(6, 6), facecolor='white')
-            # ax = fig.add_subplot(111, polar=True)
-            # theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
-            # r_pred = np.log(predict_test[0]+1e-4)
-            # r_real = np.log(test_y[0]+1e-4)
-            # ax.plot(theta_rad, r_pred, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
-            # ax.plot(theta_rad,r_real, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
-            # ax.set_yticklabels([])  # Hide radial tick labels
-            # ax.tick_params(axis='x', labelsize=30)
-            # print('A', np.max(np.exp(r_pred)), np.min(np.exp(r_pred)))
-            # print('B', np.max(np.exp(r_real)), np.min(np.exp(r_real)))
-            # # Add the radial axis
-            # # ax.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
-            # ax.set_rscale('log')
-            # # ax.set_rticks([5e-6, 5e-5, 5e-4, 5e-3, 5e-2, 5e-1])
-            # ax.set_rticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1], labels=['1e-5', '1e-4', '1e-3', '1e-2', '1e-1'])
-            # # ax.set_rmax(5e-1)
-            
-            # ax.spines['polar'].set_visible(True)  # Show the radial axis line
 
-            # # Set the theta direction to clockwise
-            # ax.set_theta_direction(-1)
-            # # Set the theta zero location to the top
-            # ax.set_theta_zero_location('N')
-            # # ax.set_rlabel_position(-22.5)
-            # ax.set_theta_offset(np.pi / 2.0)
-            # ax.tick_params(axis='x', which='major', pad=50, labelsize=40)
-            # # ax.grid(True)
-            # fig.savefig(fname=f"{save_dir}/test_{indx}.png")
-            # fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
-            # plt.close()
-            # # ax2.set_frame_on(False)
+            ax = fig.add_subplot(1, 3, 3, polar=True)
+            theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
+            # r_pred = predict_test[0][::-1]
+            # r_real = test_y[0][::-1]
+            r_pred = predict_test[0][::-1]  #!
+            r_real = test_y[0][::-1]
+            ax.plot(theta_rad,r_real, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=2)  
+            ax.plot(theta_rad, r_pred, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=2)
+            ax.set_yticklabels([])  # Hide radial tick labels
+            ax.set_rticks(np.linspace(0, 1, 10))   
+            ax.spines['polar'].set_visible(True)  # Show the radial axis line
+            # Set the theta direction to clockwise
+            ax.set_theta_direction(-1)
+            # Set the theta zero location to the top
+            ax.set_theta_zero_location('N')
+            # ax.set_rlabel_position(-22.5)
+            ax.set_theta_offset(np.pi / 2.0)
+            ax.tick_params(axis='x', which='major', pad=14, labelsize=13)
+            # ax.grid(True)
+            fig.savefig(fname=f"{save_dir}/test_{indx}.png")
+            fig.savefig(fname=f"{save_dir}/test_{indx}.pdf")
+            plt.close()
+            # ax2.set_frame_on(False)
 
         loss_avg = total_loss / test_size
         if loss_out:

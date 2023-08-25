@@ -18,22 +18,23 @@ from utils.unet import *
 from utils.dataset import get_output, FilterData2, load_data, compute_accuracy, Dataset, Testset
 from utils.emd_ring_torch import emd_loss_ring
 colors = ['r', 'b', 'g', 'y']
-plot_test = True
+plot_test = False
 tetris_mode=True   # True if the detector is Tetris-inspired detector. False if it is a square detector
 input_shape = 'S'  #? [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
 model_header = "S_230118-203413_230120-224603" #? save name of the model
 model_path = f'./save/models/{model_header}_model.pt'   #?
 
-data_name = '230706-182456' #'230706-133717' #'230124-214356'   #?
+data_name = '230706-182456'    #?
 data_path = f'./save/openmc_data/{data_name}'   #?
 
 save_dir = "./save/training"
-save_name = f"{data_name}_kk"    #?
+save_name = f"{data_name}"    #?
 save_header = f"{save_dir}/{save_name}_{input_shape}"   #?
 
 model =torch.load(model_path)   #?
 loss_fn = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()
+rmax = 15
 
 #%%
 # Load the test dataset
@@ -82,7 +83,6 @@ for indx in range(test_size):   #?
 sorted_AB = sorted(zip(ang_list, loss_list, acc_list), reverse=False)
 sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
 # plt.plot(sorted_ang, sorted_loss)
-rmax = 5
 fig = plt.figure(figsize=(6, 6), facecolor='white')
 ax = fig.add_subplot(111, polar=True)
 for j in range(num_dist):
@@ -106,6 +106,8 @@ ax.spines['polar'].set_visible(True)  # Show the radial axis line
 ax.set_theta_direction(-1)
 # Set the theta zero location to the top
 ax.set_theta_zero_location('N')
+fig.savefig(fname=f"{save_header}/test_{indx}.png")
+fig.savefig(fname=f"{save_header}/test_{indx}.pdf")
 
 
 #%%

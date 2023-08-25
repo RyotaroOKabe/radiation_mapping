@@ -20,7 +20,7 @@ import os,sys
 # import dill #!20220316
 import imageio
 
-factor1 = 1e+15 #1e+24
+factor1 = 1e+10 #1e+15
 save_process = True
 savedata=True
 

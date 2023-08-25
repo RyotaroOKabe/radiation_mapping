@@ -20,7 +20,7 @@ if torch.cuda.is_available() and not USE_CPU:
 else:
     DEFAULT_DEVICE = torch.device("cpu")
 DEFAULT_DTYPE = torch.double
-ang_step_curves = True   #!
+ang_step_curves = True
 round_digit=5
 
 #%%
@@ -135,19 +135,24 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             det_output=openmc_simulation(tetris_mode, input, sources_d_th, 'STEP%.3d'%step, seg_angles, num_particles, jsonpath)
             print('det_output')
             print(type(det_output))
-            print(det_output.shape)
+            print('det_output.shape: ', det_output.shape)
             '''
             The simulation function simulate the detector response given the radiation source position and intensity.
             The input of this function is a list of sources location (in detector frame, (0,0) is the center of the detector) and intensity eg, [[x1,y1,I1], [x2, y2, I2], ...]
             The output is an 1d array with shape (100,) that record the response of each single pad detector
             '''
             network_input = (det_output-det_output.mean())/np.sqrt(det_output.var())    # normalize
+            print('network_input.shape: ', network_input.shape)
+            print('network_input: ', network_input)
             network_input = np.transpose(network_input)
+            print('network_input2.shape: ', network_input.shape)
             network_input = network_input.reshape(1,-1)
+            print('network_input: ', network_input)
             network_input = torch.from_numpy(network_input).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
             predict=model(network_input.to(device)).detach().cpu().numpy().reshape(-1)
 
             xdata_original=det_output.reshape(matrix_shape)
+            print('xdata_original.shape: ', xdata_original.shape)
             ydata = get_output(sources_x_y_c, seg_angles)
             # pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(calculate_expectation(np.arange(len(predict)), predict)-seg_angles/2))
@@ -188,16 +193,16 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             plt.ylabel('y')
             ax1.set_xlabel('x')
             ax1.set_ylabel('y')
-            theta = np.linspace(-90, 270, seg_angles)   #!20220729
+            theta = np.linspace(-90, 270, seg_angles)
             output1 = predict
             output2 = ydata.tolist()
 
-            if ang_step_curves: #!
+            if ang_step_curves:
             #     ax2 = fig.add_subplot(122, polar=True)
                 ax2 = plt.subplot(1, 2, 2, polar=True)
                 theta_rad = np.linspace(180, -180, seg_angles) * np.pi/180
-                ax2.plot(theta_rad, output1, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
                 ax2.plot(theta_rad,output2, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
+                ax2.plot(theta_rad, output1, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
                 ax2.set_yticklabels([])  # Hide radial tick labels
                 ax2.tick_params(axis='x', labelsize=30)
                 # Add the radial axis

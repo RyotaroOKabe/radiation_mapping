@@ -13,10 +13,10 @@ import os,sys
 import imageio
 from utils.mapping import mapping, gen_gif
 
-th_level = 0.3  # Threshold level of the map
-fig_header = "230124-214356_230121-165924_far_200_1"    # TThe name of the data that is same as the one in 'run-detector..py'
+th_level = 0.7  # Threshold level of the map
+fig_header = "230118-203413_230120-224603_200_1"    # TThe name of the data that is same as the one in 'run-detector..py'
 recordpath = f'./save/mapping_data/{fig_header}'
-fig_folder = f'./save/radiation_mapping/{fig_header}_{th_level}_v2'
+fig_folder = f'./save/radiation_mapping/{fig_header}_{th_level}_v1.1'
 map_horiz = [-15,15,30]     # map geometry (horizontal) [m]
 map_vert = [-5,25,30]   # map geometry (vertical) [m]
 
