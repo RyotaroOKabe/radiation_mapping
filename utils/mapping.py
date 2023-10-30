@@ -112,7 +112,10 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold, factor
         yj_new = abs(yj)*factor
         cji_list.append(cji)
         yj_list.append(yj_new)
-        RSID=data['RSID']
+        try:
+            RSID=data['RSID']
+        except:
+            RSID=None
         x=solve_one(m,cji_list,yj_list)
         print(filename)
         x_max = np.max(x)
@@ -140,8 +143,9 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold, factor
             m.threshold(threshold)
             print(m.intensity)
             m.plot(fig_folder=fig_folder, fig_header=fig_header)
-            for i in range(RSID.shape[0]):
-                plt.plot(RSID[i, 0],RSID[i, 1],"xk",markersize=20)
+            if RSID is not None:
+                for i in range(RSID.shape[0]):
+                    plt.plot(RSID[i, 0],RSID[i, 1],"xk",markersize=20)
             plt.arrow(pos_x, pos_y, arrow_x0, arrow_y0, head_width = 0.8, width=0.1, color='#77AE51')   # moving direction
             plt.arrow(pos_x, pos_y, arrow_x1, arrow_y1, head_width = 0.8, width=0.1, color='#8851AE')   # front side
             plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2, color='#66CCCC')
