@@ -2,6 +2,7 @@
 #files
 *copy.py
 *check.py
+jv_data.py
 
 # folder
 __pycache__/

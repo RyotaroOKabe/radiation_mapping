@@ -329,7 +329,7 @@ class Model(object):
 
         loss_avg = total_loss / test_size
         if loss_out:
-            return {'avg': loss_avg, 'max': max_loss, 'argmax': idx_argmax, 'min': min_loss, 'argmin': idx_argmin, 'list': loss_list}
+            return {'avg': loss_avg, 'max': max_loss, 'argmax': idx_argmax, 'min': min_loss, 'argmin': idx_argmin}  #, 'list': loss_list}
         return {'avg': loss_avg}
 
 

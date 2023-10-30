@@ -10,6 +10,7 @@ train_model_S.py
 use_filter_visualization.py
 cc.py
 cam.py
+load_h5.py
 
 
 # folder
@@ -27,6 +28,7 @@ slurm/
 space4/
 space3/
 wandb/
+jayson/
 
 
 

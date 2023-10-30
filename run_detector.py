@@ -1,3 +1,4 @@
+#%%
 # -*- coding: utf-8 -*-
 import numpy as np
 import math
@@ -23,7 +24,7 @@ model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
 RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  # single source: np.array([[-4.0,11.0]]), double source: np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
 rot_ratio = 0 # rotation ratio X, where \phi = X\theta
-recordpath = f'./save/mapping_data/{file_header}'
+recordpath = f'./save/mapping_data/{file_header}_b'
 
 DT = 0.1
 SIM_TIME = 60.0
@@ -48,6 +49,7 @@ map_vert = [-5,25,30]
 
 colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
 
+#%%
 # recordpath = './save/mapping_data/' + file_header
 if __name__ == '__main__' and record_data:
     if not os.path.isdir(recordpath):
@@ -78,6 +80,9 @@ else:
 
 DEFAULT_DTYPE = torch.double
 
+#%%
 main(recordpath, tetris_mode, input_shape, seg_angles, model, sim_parameters, colors_parameters, device=DEFAULT_DEVICE)
 write_data(seg_angles, recordpath, map_horiz, map_vert)
 
+
+#%%

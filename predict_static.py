@@ -25,7 +25,7 @@ seg_angles = 64 # segment of angles
 model_header = "S_230118-203413_230120-224603" #? save name of the model
 model_path = f'./save/models/{model_header}_model.pt'   #?
 
-data_name = '230706-182456'    #?
+data_name = '230707-125927'    #?
 data_path = f'./save/openmc_data/{data_name}'   #?
 
 save_dir = "./save/training"
@@ -68,8 +68,10 @@ for indx in range(test_size):   #?
     if plot_test:
         fig = plt.figure(figsize=(6, 6), facecolor='white')
         ax1 = fig.add_subplot(1,1,1)
-        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
-        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
+        # ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
+        # ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
+        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0][::-1],label='Simulated')  #! LR
+        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0][::-1],label='Predicted')  #! LR
         ax1.legend()
         ax1.set_xlabel('deg')
         ax1.set_xlim([-180,180])
@@ -85,8 +87,9 @@ sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
 # plt.plot(sorted_ang, sorted_loss)
 fig = plt.figure(figsize=(6, 6), facecolor='white')
 ax = fig.add_subplot(111, polar=True)
-for j in range(num_dist):
-    losses = sorted_loss[j:][::num_dist]
+for j in range(num_dist)[::-1]:
+    # losses = sorted_loss[j:][::num_dist]
+    losses = sorted_loss[j:][::num_dist][::-1]    #! LR
     angs = sorted_ang[j:][::num_dist]
     max_loss_index = losses.index(max(losses))
     angle_with_max_loss = angs[max_loss_index]
