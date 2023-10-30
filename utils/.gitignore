@@ -3,6 +3,7 @@
 *copy.py
 *check.py
 jv_data.py
+*jv.py
 
 # folder
 __pycache__/
