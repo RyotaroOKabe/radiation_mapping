@@ -234,7 +234,7 @@ def before_openmc(use_panels, sources_d_th, num_particles):
     sources = get_sources(sources_d_th)
     gen_settings(src_energy=src_E, src_strength=src_Str, en_prob=energy_prob, num_particles=num_particles, batch_size=batches, sources=sources) 
 
-def after_openmc(use_panels, sources_d_th, folder, seg_angles, header, record=None, savefig=False):
+def after_openmc(use_panels, sources_d_th, folder, seg_angles, header, norm=True, record=None, savefig=False):
     num_sources = len(sources_d_th)
     d_a_seq = ""
     for i in range(num_sources):
@@ -257,7 +257,7 @@ def after_openmc(use_panels, sources_d_th, folder, seg_angles, header, record=No
             os.makedirs(folder2)
             print("The new directory "+ folder2 +" is created!")
     sources=get_sources(sources_d_th)
-    mm = process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm=False, savefig=savefig)
+    mm = process_aft_openmc(use_panels, folder, file, sources, seg_angles, norm, savefig=savefig)
     return mm
 
 def get_position_from_panelID(panel_id):

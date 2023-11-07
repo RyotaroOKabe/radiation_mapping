@@ -18,17 +18,18 @@ from utils.mcsimulation_square import *
 
 num_sources = 1
 a_num =2  # The shape of the detector: a x a square 
-num_data = 4000 # the number of the generated data
+num_data = 3000 # the number of the generated data
 seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
 dist = 200 #500 # maximum distance between the radiation source and the detector (cm).
 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
-num_particles = 100000 # The number of photon
+num_particles = 5000 # The number of photon
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
 header = 'data'
 openmc_dir = 'save/openmc_data/'
 save_fig = True
 folder=f'{openmc_dir}{run_name}'
+normalize=False
 
 record = [f"run_name: {run_name}",
           f"folder: {folder}",
@@ -58,7 +59,7 @@ for i in range(num_data):
         source_pos.append([x_pos,y_pos])
     before_openmc(a_num, sources_d_th, num_particles)
     openmc.run()
-    mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)
+    mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, norm=normalize, record=record, savefig=save_fig)
     json.dump(source_pos, open(f'{folder}/source_positions.json', 'w'))
     # if save_fig:
     #     fig, ax = plt.subplots(1,1, figsize=(10, 10))

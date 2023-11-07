@@ -20,7 +20,6 @@ from utils.jv_data import *
 
 #%%
 # load model, data
-tetris_mode=False # True if the detector is Tetris-inspired detector. False if it is a square detector
 input_shape = 2  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
 file_header = '230118-005847_230120-214857' # save name of the model
@@ -28,10 +27,11 @@ model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
 # RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  # single source: np.array([[-4.0,11.0]]), double source: np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
 # rot_ratio = 0 # rotation ratio X, where \phi = X\theta
-file_idx=2
+file_idx=6
+jrad = 3
 data_folder = './data/jayson/'
 jvdict = load_jvdata(file_idx, data_folder)
-recordpath = f'./save/mapping_data/jvdata{file_idx}'
+recordpath = f'./save/mapping_data/jvdata{file_idx}_r{jrad}_v2.5'
 
 #%%
 # DT = 0.1
@@ -54,8 +54,10 @@ round_digit=5
 # }
 
 # Map
-map_horiz = [2,12,20]
-map_vert = [1,9,20]
+# map_horiz = [2,12,20]
+# map_vert = [-1,9,20]
+map_horiz = [4,14,20]# [0,10,20]
+map_vert = [-5,5,20]
 
 colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
 
@@ -121,14 +123,18 @@ def main_jv(recordpath, jvdict, seg_angles, model, colors_parameters, device):
     # rotation axis
     zvecs = axes / np.linalg.norm(axes, axis=-1)[:, None]
     Zx, Zy, Zz = zvecs[:, 0], zvecs[:, 1], zvecs[:, 2]
-    dvecs = rotation_end_points(angles, axes)
+    # dvecs = rotation_end_points(angles, axes)
+    dvecs = rotation_end_points(angles+np.pi/2, axes)   #!
     yvecs = dvecs / np.linalg.norm(dvecs, axis=-1)[:, None]
     Yx, Yy, Yz = yvecs[:, 0], yvecs[:, 1], yvecs[:, 2]
     Y_reshaped = yvecs[:, :, None]
     Z_reshaped = zvecs[:, None, :]
     xvecs = np.cross(yvecs, zvecs)
     Xx, Xy, Xz = xvecs[:, 0], xvecs[:, 1], xvecs[:, 2]
-    for step, t in enumerate(times):
+    # for step, t in enumerate(times):  #!
+    jall = range(jrad, len(times)-jrad)
+    step = 0
+    for j in jall:
         xTrue = np.array([px[step], py[step]]).reshape(-1, 1) #motion_model(xTrue, u, sim_parameters, rot_ratio=rot_ratio)
         # hxTrue: (4, ntimes). 4 rows: px, py, direction of X vec, direction of Y vec. 
         hxTrue = np.concatenate((pcoords[:step+1, :2].transpose(),  np.arctan2(Xy, Xx)[:step+1].reshape((1,-1)), np.arctan2(Yy, Yx)[:step+1].reshape((1,-1))), axis=0)
@@ -141,21 +147,27 @@ def main_jv(recordpath, jvdict, seg_angles, model, colors_parameters, device):
             source_list=[]
             relsrc_line = []
             relsrc_dir_line = []
-            d_record_line = [step]
-            angle_line = [step]
             sources_d_th = []
             sources_x_y_c = []
+            angle_line = [step]
 
             '''
             The simulation function simulate the detector response given the radiation source position and intensity.
             The input of this function is a list of sources location (in detector frame, (0,0) is the center of the detector) and intensity eg, [[x1,y1,I1], [x2, y2, I2], ...]
             The output is an 1d array with shape (100,) that record the response of each single pad detector
             '''
-            signal = jvdata[step, :, :].sum(axis=0)
-            print(step, 'signal', signal)
+            # signal = jvdata[step, :, :].sum(axis=0)
+            jmin, jmax = j-jrad, j+jrad
+            jrange = range(jmin, jmax+1)
+            jnum = len(jrange)
+            signal = np.zeros_like(jvdata[j, :, :].sum(axis=0))
+            for j_ in jrange:
+                signal += jvdata[j_, :, :].sum(axis=0)/jnum
+            print([step, j], 'signal', signal)
             signal = signal.reshape((2,2), order='F')
             # print(signal)
-            signal = np.flip(signal, axis=0)
+            # signal = np.flip(signal, axis=0) 
+            signal = np.flip(signal, axis=1)
             det_output = signal
             network_input = (det_output-det_output.mean())/np.sqrt(det_output.var())    # normalize
             print('network_input.shape: ', network_input.shape)
@@ -169,7 +181,7 @@ def main_jv(recordpath, jvdict, seg_angles, model, colors_parameters, device):
 
             xdata_original=det_output.reshape(matrix_shape)
             print('xdata_original.shape: ', xdata_original.shape)
-            # ydata = get_output(sources_x_y_c, seg_angles) #! no GT
+            # ydata = get_output(sources_x_y_c, seg_angles)
             # pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(calculate_expectation(np.arange(len(predict)), predict)-seg_angles/2))
             predout_record.append([step, pred_out])
@@ -263,8 +275,8 @@ def main_jv(recordpath, jvdict, seg_angles, model, colors_parameters, device):
                 
             # fig.suptitle('Real Angle: ' + str(round(ags[-1], 4)) + ', \nPredicted Angle: ' + str(pred_out) + ' [deg]', fontsize=60)
             fig.suptitle('Real Angle: ' + str(round(ags[-1], round_digit)) + ', \nPredicted Angle: ' + str(round(pred_out, round_digit)) + ' [deg]', fontsize=60)
-            fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.png")
-            fig.savefig(predictpath + 'STEP%.3d'%step + "_predict.pdf")
+            fig.savefig(predictpath + 'STEP%.4d'%step + "_predict.png")
+            fig.savefig(predictpath + 'STEP%.4d'%step + "_predict.pdf")
             plt.close(fig)
             print(step,'simulation end')
             
@@ -276,14 +288,16 @@ def main_jv(recordpath, jvdict, seg_angles, model, colors_parameters, device):
             'det_output':det_output,
             'predict_list':predict
             }
-            with open(os.path.join(recordpath,'STEP%.3d.pkl'%step),'wb') as f:
+            with open(os.path.join(recordpath,'STEP%.4d.pkl'%step),'wb') as f:
                 pkl.dump(data_dump,f)
             try:
-                with open(os.path.join(recordpath,'STEP%.3d.pkl'%step),'rb') as f:
+                with open(os.path.join(recordpath,'STEP%.4d.pkl'%step),'rb') as f:
                     data=pkl.load(f, encoding="latin1")
-                print('File pickle success: ' + 'STEP%.3d.pkl'%step)
+                print('File pickle success: ' + 'STEP%.4d.pkl'%step)
             except EOFError:
-                print('EOFError: ' + 'STEP%.3d.pkl'%step)
+                print('EOFError: ' + 'STEP%.4d.pkl'%step)
+        
+        step += 1
     
     xTrue_data = np.array(xTrue_record)
     plt.plot(xTrue_data[:,0], xTrue_data[:,1])

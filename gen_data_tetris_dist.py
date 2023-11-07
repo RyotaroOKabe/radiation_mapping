@@ -30,6 +30,7 @@ openmc_dir = 'save/openmc_data/'
 save_fig = True
 folder=f'{openmc_dir}{run_name}'
 use_panels = get_tetris_shape(shape_name)
+normalize=False
 
 record = [f"run_name: {run_name}",
           f"folder: {folder}",
@@ -59,7 +60,7 @@ for i in range(num_data):
         source_pos.append([x_pos,y_pos])
     before_openmc(use_panels, sources_d_th, num_particles)
     openmc.run()
-    mm = after_openmc(use_panels, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)
+    mm = after_openmc(use_panels, sources_d_th, folder, seg_angles, header, normalize, record, savefig=save_fig)
     json.dump(source_pos, open(f'{folder}/source_positions.json', 'w'))
     # if save_fig:
     #     fig, ax = plt.subplots(1,1, figsize=(10, 10))

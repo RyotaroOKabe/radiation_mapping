@@ -27,6 +27,7 @@ save_fig = True
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
 folder=f'{openmc_dir}{run_name}'
 angle_list = [0.1+a*360/num_data -180 for a in range(num_data)]
+normalize=False
 record = [f"run_name: {run_name}",
           f"folder: {folder}",
           f"num_sources: {num_sources}",
@@ -48,4 +49,4 @@ for header in header_dist_particles_dict.keys():
             print(f"energy {i}: " + str(sources_d_th[i][2]))
         before_openmc(a_num, sources_d_th, num_particles)
         openmc.run()
-        mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, record, savefig=save_fig)
+        mm = after_openmc(a_num, sources_d_th, folder, seg_angles, header, normalize, record, savefig=save_fig)
