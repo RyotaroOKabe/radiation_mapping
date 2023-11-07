@@ -19,7 +19,7 @@ recordpath = f'./save/mapping_data/{fig_header}'
 fig_folder = f'./save/radiation_mapping/{fig_header}_{th_level}_v1.1'
 map_horiz = [-15,15,30]     # map geometry (horizontal) [m]
 map_vert = [-5,25,30]   # map geometry (vertical) [m]
-
-mapping(fig_folder, fig_header, recordpath, map_geometry = [map_horiz, map_vert], threshold=th_level)   #,
+acolors =['#77AE51', '#8851AE'] # arrows (moving direction, front side)
+mapping(fig_folder, fig_header, recordpath, map_geometry = [map_horiz, map_vert], threshold=th_level, colors=acolors)   #,
 gen_gif(fig_folder)
 
