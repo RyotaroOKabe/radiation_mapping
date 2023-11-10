@@ -129,7 +129,7 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
         if save_process:
             m.intensity=x.reshape(m.x_num,m.y_num).T
             hxTrue_data = np.array(data['hxTrue'])
-            pos_x, pos_y, pos_dir, pos_ang = hxTrue_data[0,-1], hxTrue_data[1, -1], hxTrue_data[2, -1], hxTrue_data[3, -1]
+            pos_x, pos_y, pos_dir, pos_ang = hxTrue_data[0,-1], hxTrue_data[1, -1], hxTrue_data[-2, -1], hxTrue_data[-1, -1]
             mxwid, mywid = m.x_max - m.x_min, m.y_max - m.y_min
             aratio = np.sqrt(mxwid**2+mywid**2)/np.sqrt(2*30**2)
             arrow_x0 = aratio*np.cos(pos_dir)

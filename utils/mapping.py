@@ -136,7 +136,7 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
         if save_process:
             m.intensity=x.reshape(m.x_num,m.y_num).T
             hxTrue_data = np.array(data['hxTrue'])
-            pos_x, pos_y, pos_dir, pos_ang = hxTrue_data[0,-1], hxTrue_data[1, -1], hxTrue_data[2, -1], hxTrue_data[3, -1]
+            pos_x, pos_y, pos_dir, pos_ang = hxTrue_data[0,-1], hxTrue_data[1, -1], hxTrue_data[-2, -1], hxTrue_data[-1, -1]
             mxwid, mywid = m.x_max - m.x_min, m.y_max - m.y_min
             aratio = np.sqrt(mxwid**2+mywid**2)/np.sqrt(2*30**2)
             arrow_x0 = aratio*np.cos(pos_dir)
@@ -154,12 +154,16 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
             plt.arrow(pos_x, pos_y, arrow_x1, arrow_y1, head_width = 0.8*aratio, width=0.1*aratio, color=colors[1])   # front side
             plt.plot(hxTrue_data[0,:], hxTrue_data[1, :], linewidth=2, color='#66CCCC')
             plt.plot(pos_x, pos_y,"o", color='#64ADB1', markersize=12)  # detector position
-            plt.title('STEP: ' + filename[4:7], fontsize=20)
+            plt.title('STEP: ' + filename[4:-4], fontsize=20)
             plt.tick_params(axis='both', which='major', labelsize=15)
             plt.tick_params(axis='both', which='minor', labelsize=15)
-            plt.savefig(fname=fig_folder+'/'+filename[:7] +".png")
-            plt.savefig(fname=fig_folder+'/'+filename[:7] +".pdf")
+            plt.savefig(fname=fig_folder+'/'+filename[:-4] +".png")
+            plt.savefig(fname=fig_folder+'/'+filename[:-4] +".pdf")
             plt.show()
+        if savedata:
+            archive = {'m': m, 'x': x, 'cji': cji, 'yj': yj_new, 'RSID': RSID, 'hxTrue_data': hxTrue_data, 'intensity': m.intensity, }
+            with open(fig_folder+'/data_'+filename[:-4] +".pkl", 'wb') as file:
+                pkl.dump(archive, file)
 
 def gen_gif(fig_folder):
     with imageio.get_writer(f'{fig_folder}/mapping.gif', mode='I') as writer:

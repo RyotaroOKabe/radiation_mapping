@@ -27,11 +27,11 @@ model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
 # RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  # single source: np.array([[-4.0,11.0]]), double source: np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
 # rot_ratio = 0 # rotation ratio X, where \phi = X\theta
-file_idx=6
+file_idx=2
 jrad = 3
 data_folder = './data/jayson/'
 jvdict = load_jvdata(file_idx, data_folder)
-recordpath = f'./save/mapping_data/jvdata{file_idx}_r{jrad}_v2.5'
+recordpath = f'./save/mapping_data/jvdata{file_idx}_r{jrad}_v3.1'
 
 #%%
 # DT = 0.1
@@ -54,10 +54,10 @@ round_digit=5
 # }
 
 # Map
-# map_horiz = [2,12,20]
-# map_vert = [-1,9,20]
-map_horiz = [4,14,20]# [0,10,20]
-map_vert = [-5,5,20]
+map_horiz = [2,12,20]
+map_vert = [-1,9,20]
+# map_horiz = [4,14,20]# [0,10,20]
+# map_vert = [-5,5,20]
 
 colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
 
@@ -137,7 +137,8 @@ def main_jv(recordpath, jvdict, seg_angles, model, colors_parameters, device):
     for j in jall:
         xTrue = np.array([px[step], py[step]]).reshape(-1, 1) #motion_model(xTrue, u, sim_parameters, rot_ratio=rot_ratio)
         # hxTrue: (4, ntimes). 4 rows: px, py, direction of X vec, direction of Y vec. 
-        hxTrue = np.concatenate((pcoords[:step+1, :2].transpose(),  np.arctan2(Xy, Xx)[:step+1].reshape((1,-1)), np.arctan2(Yy, Yx)[:step+1].reshape((1,-1))), axis=0)
+        # hxTrue = np.concatenate((pcoords[:step+1, :2].transpose(),  np.arctan2(Xy, Xx)[:step+1].reshape((1,-1)), np.arctan2(Yy, Yx)[:step+1].reshape((1,-1))), axis=0)
+        hxTrue = np.concatenate((pcoords[:step+1, :3].transpose(),  np.arctan2(Xy, Xx)[:step+1].reshape((1,-1)), np.arctan2(Yy, Yx)[:step+1].reshape((1,-1))), axis=0)
 
         det_output=None
         predict=None
