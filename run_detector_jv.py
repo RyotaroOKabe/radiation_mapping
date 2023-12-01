@@ -31,7 +31,7 @@ file_idx=2
 jrad = 3
 data_folder = './data/jayson/'
 jvdict = load_jvdata(file_idx, data_folder)
-recordpath = f'./save/mapping_data/jvdata{file_idx}_r{jrad}_v3.1'
+recordpath = f'./save/mapping_data/jvdata{file_idx}_r{jrad}_v4.4'
 
 #%%
 # DT = 0.1
@@ -54,10 +54,14 @@ round_digit=5
 # }
 
 # Map
-map_horiz = [2,12,20]
-map_vert = [-1,9,20]
+# map_horiz = [2,12,20]
+# map_vert = [-1,9,20]
 # map_horiz = [4,14,20]# [0,10,20]
 # map_vert = [-5,5,20]
+# map_horiz = [-5,15,20]
+# map_vert = [-5,15,20]
+map_horiz = [-2.5,12.5,30]
+map_vert = [-2.5,12.5,30]
 
 colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
 

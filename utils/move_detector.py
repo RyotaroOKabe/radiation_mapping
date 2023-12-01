@@ -317,6 +317,5 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             if figurename.endswith('png'):
                 image = imageio.imread(predictpath + "/" +figurename)
                 writer.append_data(image)
-    pass
 
 

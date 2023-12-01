@@ -19,12 +19,12 @@ from utils.unet import *
 tetris_mode=False # True if the detector is Tetris-inspired detector. False if it is a square detector
 input_shape = 2  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
-file_header = '230118-005847_230120-214857_200_1'    #'230118-203413_230120-224603_200_1' # save name of the model
+file_header = '230124-214356_230121-165924_200_1'    #'230118-005847_230120-214857_200_1'    #'230118-203413_230120-224603_200_1' # save name of the model
 model_path = f'./save/models/{file_header}_model.pt'
 model =torch.load(model_path)
-RSID = np.array([[8.0,1.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  # single source: np.array([[-4.0,11.0]]), double source: np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
+RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  # single source: np.array([[-4.0,11.0]]), double source: np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
 rot_ratio = 0 # rotation ratio X, where \phi = X\theta
-recordpath = f'./save/mapping_data/{file_header}_out'
+recordpath = f'./save/mapping_data/{file_header}'
 
 DT = 0.1
 SIM_TIME = 60.0
