@@ -5,57 +5,53 @@ import math
 import matplotlib.pyplot as plt
 import sys,os
 import pickle as pkl
-sys.path.append('./')   #!20220331
+sys.path.append('./')
 from utils.model import * 
-import matplotlib.pyplot as plt #!20220509
-from matplotlib.figure import Figure   
-from matplotlib.patches import Wedge
-import imageio  #!20220520
-import openmc
-from utils.cal_param import *   #!20221023
+import matplotlib.pyplot as plt
+from utils.cal_param import *
 from utils.move_detector import main
 from utils.unet import *
-from utils.dataset import get_output, FilterData2, load_data, compute_accuracy, Dataset, Testset
+from utils.dataset import get_output, compute_accuracy, Dataset, Testset
 from utils.emd_ring_torch import emd_loss_ring
 colors = ['r', 'b', 'g', 'y']
 plot_test = False
 tetris_mode=True   # True if the detector is Tetris-inspired detector. False if it is a square detector
 input_shape = 'S'  #? [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 seg_angles = 64 # segment of angles
-model_header = "S_230118-203413_230120-224603" #? save name of the model
-model_path = f'./save/models/{model_header}_model.pt'   #?
+model_header = "230118-203413_230120-224603" #? save name of the model
+model_path = f'./save/models/{model_header}_model.pt'
 
-data_name = '230707-125927'    #?
-data_path = f'./save/openmc_data/{data_name}'   #?
+data_name = '230707-125927'
+data_path = f'./save/openmc_data/{data_name}'
 
 save_dir = "./save/training"
-save_name = f"{data_name}"    #?
-save_header = f"{save_dir}/{save_name}_{input_shape}"   #?
+save_name = f"{data_name}"
+save_header = f"{save_dir}/{save_name}_{input_shape}"
 
-model =torch.load(model_path)   #?
+model =torch.load(model_path) 
 loss_fn = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()
 rmax = 15
 
 #%%
 # Load the test dataset
-data_set=Dataset(seg_angles,output_fun=get_output,path=data_path)   #?
-test_set=Testset(data_set.xdata,data_set.ydata,data_set.zdata,test_size=None)   #?
+data_set=Dataset(seg_angles,output_fun=get_output,path=data_path)   
+test_set=Testset(data_set.xdata,data_set.ydata,data_set.zdata,test_size=None)   
 
 #%%
 # Perform inference on the test dataset
-if not os.path.isdir(save_header):os.mkdir(save_header) #?
-test_size = test_set.data_size  #?
-seg_angles = test_set.y_size    #?
-total_loss = 0  #?
+if not os.path.isdir(save_header):os.mkdir(save_header) 
+test_size = test_set.data_size  
+seg_angles = test_set.y_size    
+total_loss = 0  
 
 
 #%%
-loss_list = []  #?
-acc_list = []   #?
-ang_list = []   #?
-num_dist = test_set.data_size//seg_angles   #?
+loss_list = []  
+acc_list = []   
+ang_list = []   
+num_dist = test_set.data_size//seg_angles   
 
-for indx in range(test_size):   #?
+for indx in range(test_size):   
     test_x,test_y,test_z=test_set.get_batch(1,indx)
     model.eval()
     with torch.no_grad():
@@ -68,10 +64,8 @@ for indx in range(test_size):   #?
     if plot_test:
         fig = plt.figure(figsize=(6, 6), facecolor='white')
         ax1 = fig.add_subplot(1,1,1)
-        # ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0],label='Simulated')
-        # ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0],label='Predicted')
-        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0][::-1],label='Simulated')  #! LR
-        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0][::-1],label='Predicted')  #! LR
+        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],test_y[0][::-1],label='Simulated')  
+        ax1.plot(np.linspace(-180,180,seg_angles+1)[0:seg_angles],predict_test[0][::-1],label='Predicted')  
         ax1.legend()
         ax1.set_xlabel('deg')
         ax1.set_xlim([-180,180])
@@ -84,12 +78,10 @@ for indx in range(test_size):   #?
 #%%
 sorted_AB = sorted(zip(ang_list, loss_list, acc_list), reverse=False)
 sorted_ang, sorted_loss, sorted_acc = zip(*sorted_AB)
-# plt.plot(sorted_ang, sorted_loss)
 fig = plt.figure(figsize=(6, 6), facecolor='white')
 ax = fig.add_subplot(111, polar=True)
 for j in range(num_dist)[::-1]:
-    # losses = sorted_loss[j:][::num_dist]
-    losses = sorted_loss[j:][::num_dist][::-1]    #! LR
+    losses = sorted_loss[j:][::num_dist][::-1]    
     angs = sorted_ang[j:][::num_dist]
     max_loss_index = losses.index(max(losses))
     angle_with_max_loss = angs[max_loss_index]

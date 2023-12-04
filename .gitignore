@@ -12,6 +12,44 @@ cc.py
 cam.py
 load_h5.py
 *jv.py
+radmap_plot_jv.py
+radiation_mapping_drake_jv.py
+radiation_mapping_jv.py
+
+
+radmap_plot_jv.py
+train_model_te_single2.py
+gen_data_square_dist.py
+gen_data_tetris_dist.py
+gen_filter_tetris_single.py
+gen_test_tetris.py
+train_model_2.py
+train_model_te_single.py
+use_filter_visualization.py
+cam.py 
+cc.py
+load_h5_archive.py
+radiation_mapping_drake_jv.py
+radiation_mapping_jv.py
+train_model_S.py
+load_h5.py
+plot_check.py
+train_model_sq_single2.py
+gen_filter_square_single.py 
+predict_noisy.py
+run_detector_jv.py
+train_model_sq_single.py
+
+
+
+openmc/
+save_fig/
+wandb/
+data/
+save_model/
+figure_making/
+mapping_data/
+save_record/
 
 
 # folder
@@ -26,6 +64,7 @@ save_fig/
 save_model/
 save_record/
 slurm/
+space4/
 space4/
 space3/
 wandb/

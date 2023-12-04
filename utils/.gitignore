@@ -4,6 +4,7 @@
 *check.py
 jv_data.py
 *jv.py
+mcsimulation.py
 
 # folder
 __pycache__/
