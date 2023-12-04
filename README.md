@@ -29,7 +29,7 @@ OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation
 ```
 
 
-# Other env setting
+# Other env setting (If you use Drake for MAP analysis)
 You need to set up another conda env to run mapping_*.py program
 ```
 $ conda env create -f radmap.yml
@@ -59,6 +59,10 @@ $ run_detector.py
 
 ## Mapping (env=radmap)
 ```
-$ radiation_mapping.py
+# If you use Drake  
+$ radiation_mapping_drake.py  
+  
+# Else  
+$ radiation_mapping.py  
 ```
 
