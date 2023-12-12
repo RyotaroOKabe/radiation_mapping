@@ -39,6 +39,7 @@ gen_filter_square_single.py
 predict_noisy.py
 run_detector_jv.py
 train_model_sq_single.py
+env_config.py
 
 
 

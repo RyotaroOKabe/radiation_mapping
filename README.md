@@ -1,5 +1,7 @@
 # Tetris-inspired detector with neural network for radiation mapping
 
+![](https://github.com/RyotaroOKabe/radiation_mapping/assets/move_detector_S.gif)
+
 # Starting OpenMC
 
 reference: https://docs.openmc.org/en/stable/quickinstall.html
@@ -26,8 +28,8 @@ $ mv mcnp_endfb71/ openmc_library/
 In .bashrc or .profile, add the line shown below:  
 ```
 OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation_mapping/openmc_library/cross_sections.xml" 
-```
-
+```   
+(temporary) You can assign the path to crosssections.xml by setting env_config.py. You can duplicate the file env_config_template.py, rename it to env_config.py, and assign the path to OPENMC_CROSS_SECTIONS. 
 
 # Other env setting (If you use Drake for MAP analysis)
 You need to set up another conda env to run mapping_*.py program
