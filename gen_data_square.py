@@ -15,7 +15,7 @@ dist_min = 20   # minimum distance between the radiation source and the detector
 dist_max = 500 # maximum distance between the radiation source and the detector (cm).
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 num_particles = 50000 # The number of photon in MC simulation
-run_name = time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
+run_name = 'sq2_1_data'  #time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
 #=================================================================
 
 header = 'data'

@@ -2,7 +2,7 @@
 from utils.mapping import mapping, gen_gif
 
 th_level = 0.7  # Threshold level of the map
-fig_header = '230118-005847_230120-214857_200_1_out'  # The name of the data that is same as the one in 'run-detector..py'
+fig_header = 'sq2_1'     #'230118-005847_230120-214857_200_1_out'  # The name of the data that is same as the one in 'run-detector..py'
 map_horiz = [-15,15,30]     # map geometry (horizontal) [m]
 map_vert = [-5,25,30]   # map geometry (vertical) [m]
 acolors =['#77AE51', '#8851AE'] # arrow colors (moving direction, front side)

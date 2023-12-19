@@ -13,7 +13,7 @@ num_data = 64 # the number of the generated data
 seg_angles = num_data # The number of angle sectors ( augnlar resolution: 360 deg/seg_angles)
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 header_dist_particles_dict = {'near': [50, 50000], 'far': [500, 50000]} 
-run_name = time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
+run_name = 's_1_filter'   #time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
 #=================================================================
 
 openmc_dir = 'save/openmc_test/'
