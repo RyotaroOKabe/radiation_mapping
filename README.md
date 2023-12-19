@@ -43,12 +43,12 @@ If you want to skip MC simulation or training model, you can use the archive dat
 
 Detector | MC data | MC filter | Model | Epochs | Note
 --- | --- | --- | --- |--- |--- 
-2x2 square | save/openmc_data/sq2_1_data/ | save/openmc_filter/sq2_1_filter/ | save/models/sq2_1_model.pt | 200 | Predict 1 source.
-S-shape | save/openmc_data/s_1_data/ | save/openmc_filter/s_1_filter/ | save/models/s_1_model.pt | 200 | Predict 1 source.
-J-shape | save/openmc_data/j_1_data/ | save/openmc_filter/j_1_filter/ | save/models/j_1_model.pt | 200 | Predict 1 source.
-T-shape | save/openmc_data/t_1_data/ | save/openmc_filter/t_1_filter/ | save/models/t_1_model.pt | 200 | Predict 1 source.
-10x10 square | save/openmc_data/sq10_2_data/ | save/openmc_filter/sq10_1_filter/ | save/models/sq10_2_model.pt | 200 | Predict 2 source.
-5x5 square | save/openmc_data/sq5_2_data/ | save/openmc_filter/sq5_1_filter/ | save/models/sq5_2_model.pt | 200 | Predict 2 source.
+2x2 square | save/openmc_data/sq2_1_data/ | save/openmc_filter/sq2_1_filter/ | save/models/sq2_1_model.pt | 200 | 1 source.
+S-shape | save/openmc_data/s_1_data/ | save/openmc_filter/s_1_filter/ | save/models/s_1_model.pt | 200 | 1 source.
+J-shape | save/openmc_data/j_1_data/ | save/openmc_filter/j_1_filter/ | save/models/j_1_model.pt | 200 | 1 source.
+T-shape | save/openmc_data/t_1_data/ | save/openmc_filter/t_1_filter/ | save/models/t_1_model.pt | 200 | 1 source.
+10x10 square | save/openmc_data/sq10_2_data/ | save/openmc_filter/sq10_1_filter/ | save/models/sq10_2_model.pt | 200 | 2 sources.
+5x5 square | save/openmc_data/sq5_2_data/ | save/openmc_filter/sq5_1_filter/ | save/models/sq5_2_model.pt | 200 | 2 sources.
 
 
 
