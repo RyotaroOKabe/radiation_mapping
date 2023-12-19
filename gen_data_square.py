@@ -1,37 +1,27 @@
 # -*- coding: utf-8 -*-
-from contextlib import redirect_stderr
-import glob
-import imp
-from IPython.display import Image
-from matplotlib.colors import Normalize
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-import scipy.stats
 import numpy as np
-import pandas as pd
-import os
 import json
-import time, timeit
-from datetime import datetime
 import openmc
 from utils.mcsimulation_square import *
 
-num_sources = 1
-a_num = 2  # The shape of the detector: a x a square 
+#=========================set values here==========================
+num_sources = 1 # the number of radiation sources to place.
+a_num = 2  # The parameter for the configuration of the detector: a x a square shape
 num_data = 3000 # the number of the generated data
-seg_angles = 64 # The number of angle sectors (resolution: 360 deg/seg_angles)
-dist_min = 5   # minimum distance between the radiation source and the detector (cm).
-dist_max = 1000 #500 # maximum distance between the radiation source and the detector (cm).
-
+seg_angles = 64 # The number of angle sectors ( augnlar resolution: 360 deg/seg_angles)
+dist_min = 20   # minimum distance between the radiation source and the detector (cm).
+dist_max = 500 # maximum distance between the radiation source and the detector (cm).
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
-num_particles = 50000 # The number of photon
-run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
+num_particles = 50000 # The number of photon in MC simulation
+run_name = time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
+#=================================================================
+
 header = 'data'
 openmc_dir = 'save/openmc_data/'
 save_fig = True
 folder=f'{openmc_dir}{run_name}'
 normalize=False
-
 record = [f"run_name: {run_name}",
           f"folder: {folder}",
           f"num_sources: {num_sources}",
@@ -43,7 +33,7 @@ record = [f"run_name: {run_name}",
           f"num_particles: {num_particles}"]
 print([r+"\n" for r in record])
 
-source_pos = [] # N * (x,y)
+source_pos = [] 
 for i in range(num_data):
     sources_d_th = [[np.random.randint(dist_min, dist_max), 
                      float(np.random.randint(0, 360) + np.random.random(1)), 
@@ -65,7 +55,7 @@ for i in range(num_data):
     if save_fig:
         fig, ax = plt.subplots(1,1, figsize=(10, 10))
         ax.scatter(np.array(source_pos)[:,0], np.array(source_pos)[:,1], s=15, color='#64ADB1')
-        ax.scatter(0,0, marker="s", color='k', s=30)  #!20220804 multi sources
+        ax.scatter(0,0, marker="s", color='k', s=30)
         circle_max = plt.Circle((0, 0), dist_max, color='k', lw=1, fill=False)
         circle_min = plt.Circle((0, 0), dist_min, color='k', lw=1, fill=False)
         ax.add_patch(circle_max)

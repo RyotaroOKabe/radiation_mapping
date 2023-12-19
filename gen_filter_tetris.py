@@ -1,27 +1,21 @@
 # -*- coding: utf-8 -*-
-from contextlib import redirect_stderr
-import glob
-import imp
-from IPython.display import Image
-from matplotlib.colors import Normalize
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-import scipy.stats
 import numpy as np
-import pandas as pd
-import os
 import json
-import time, timeit
-from datetime import datetime
+import time
 import openmc
 from utils.mcsimulation_tetris import *
 
-num_sources = 1
-shape_name = 'J' # Tetris shape
+#=========================set values here==========================
+num_sources = 1 # the number of radiation sources to place.
+shape_name = 'S' # Tetris shape ['S', 'J', 'T', 'L', 'Z']
 num_data = 64 # the number of the generated data
-seg_angles = num_data # The number of angle sectors (resolution: 360 deg/seg_angles)
-source_energies = [0.5e6 for l in range(num_sources)]    # Photon energy [eV]
-header_dist_particles_dict = {'near': [50, 80000], 'far': [500, 80000]}    # [distance (cm), the number of photon]
+seg_angles = num_data # The number of angle sectors ( augnlar resolution: 360 deg/seg_angles)
+source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
+header_dist_particles_dict = {'near': [50, 50000], 'far': [500, 50000]} 
+run_name = time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
+#=================================================================
+
 openmc_dir = 'save/openmc_test/'
 save_fig = True
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
