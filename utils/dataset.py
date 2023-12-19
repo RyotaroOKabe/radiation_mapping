@@ -32,7 +32,7 @@ def gen_settings(src_energy, src_strength, en_prob, num_particles, batch_size, s
         point = openmc.stats.Point((sources[i]['position'][0], sources[i]['position'][1], 0))
         source = openmc.Source(space=point, particle='photon', energy=src_energy, strength=src_strength)  #!20220204    #!20220118
         source.energy = openmc.stats.Discrete(x=(sources[i]['counts']), p=en_prob)
-        sources_list.append(source) #, source2, source3]     #!20220118
+        sources_list.append(source)
 
     settings = openmc.Settings()
     settings.run_mode = 'fixed source'
@@ -84,7 +84,7 @@ def output_process(mean, digits, folder, file, sources, seg_angles, norm, savefi
         plt.imshow(mean_show, interpolation='nearest', cmap='gist_gray')
         ds_ag_list = file.split('_')[1:]
         ds_ag_title = ''
-        for i in range(num_sources):    #! make this part smarter
+        for i in range(num_sources):
             ds, ag = ds_ag_list[2*i], ds_ag_list[2*i+1]
             ds_ag_line = f'dist{i}: {ds},  angle{i}: {ag}'
             if i != num_sources-1:
@@ -366,12 +366,8 @@ class FilterData1(object):
     def __init__(self, filterpath, header=None):
         super(FilterData1, self).__init__()
         self.path=filterpath
-        # filter_data=[]
         filter_data=[[]]
         files=os.listdir(filterpath)
-        # filter_types = ['far', 'near']
-        # for i in filter_types:
-        # filter_data.append([])
         for filename in files:
             if header is not None:
                 if not filename.startswith(header):continue
@@ -379,9 +375,7 @@ class FilterData1(object):
             if filename.startswith('source'):continue
             with open(os.path.join(filterpath,filename),'r') as f:
                 data=json.load(f)
-                # for i,filter_type in enumerate(filter_types):
-                #     if filter_type in filename:
-                # filter_data[i].append(data['input'])
+
                 filter_data[0].append(data['input'])
         filter_data=np.array(filter_data)
         filter_data = filter_data.reshape((-1,filter_data.shape[-1]))
@@ -394,14 +388,12 @@ class FilterData1(object):
         self.data=filter_data
         self.size=filter_data.shape[0]
 
-def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,source_num,prob,seed):
-    if test_size_gen is None:
-        if source_num==[1]:
-            test_size_gen=test_size
-        else:
-            test_size_gen=test_size*test_size*2  #source_num[0]
+def load_data(test_ratio,test_size_gen,seg_angles,output_fun,path,source_num,prob,seed):
     data_set=Dataset(seg_angles,output_fun=output_fun,path=path)
     data_size=data_set.data_size
+    test_size = int(test_ratio*data_size)
+    if test_size_gen is None:
+        test_size_gen=test_size
 
     data_y = data_set.ydata
     print(f'Check process with {data_y.shape[0]} data!')
@@ -420,12 +412,9 @@ def load_data(test_size,train_size,test_size_gen,seg_angles,output_fun,path,sour
 
 
 def compute_accuracy(real, pred):
-    # Convert tensors to numpy arrays
-    real = real.detach().cpu()#.numpy()
-    pred = pred.detach().cpu()#.numpy()
-    # Compute the element-wise absolute difference
+    real = real.detach().cpu()
+    pred = pred.detach().cpu()
     diff = abs(real - pred)
-    # Compute the accuracy as the average of correct predictions
     accuracy = 1.0 - (diff.sum() / diff.size(0))
     return accuracy
 

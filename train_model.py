@@ -18,35 +18,31 @@ DEFAULT_DTYPE = torch.double
 save_dir = "./save/training"
 
 # %%
+#=========================set values here==========================
 num_sources = 1
 seg_angles = 64
 epochs = 200
-data_name = '230118-005847' # '221227-001319'
-filter_name = '230120-214857'
-#=========================================================
+data_name = '230118-005847' # training data folder name
+filter_name = '230120-214857'   # filter folder name
 save_name = f"{data_name}_{filter_name}"
-save_header = f"{save_dir}/{save_name}"
-#=========================================================
+save_header = f"{save_dir}/{save_name}"     #!
 path = f'./save/openmc_data/{data_name}'
 filterpath = f'./save/openmc_filter/{filter_name}' 
 
 filter_data2 = FilterData2(filterpath)
-test_size = 300
-k_fold = 5
+test_ratio = 0.1 # The number of data used for testing the model
+k_fold = 5  # k-fold cross validation
 print(save_name)
 output_fun = get_output
-net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2)
-net = net.to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
+net = MyNet2(seg_angles=seg_angles, filterdata=filter_data2).to(device=DEFAULT_DEVICE, dtype=DEFAULT_DTYPE)
 
 kld_loss = torch.nn.KLDivLoss(size_average=None, reduction='batchmean')
 loss_train = lambda  y, y_pred: emd_loss_ring(y, y_pred, r=2)
-# loss_train = lambda y, y_pred: emd_loss_sinkhorn(y, y_pred, M2)
-# loss_train = lambda y, y_pred: kld_loss(y_pred.log(),y
 source_num, prob = [1 for _ in range(num_sources)], [1. for _ in range(num_sources)]
 
 loss_val = lambda y, y_pred: emd_loss_ring(y, y_pred, r=1).item()
 model = Model(net, loss_train, loss_val,reg=0.001)
-train_set,test_set=load_data(test_size=test_size,train_size=None,test_size_gen=None,seg_angles=seg_angles,
+train_set,test_set=load_data(test_ratio=test_ratio,test_size_gen=None,seg_angles=seg_angles,
                                 output_fun=output_fun,path=path,source_num=source_num,prob=prob,seed=None)
 
 optim = torch.optim.Adam([
@@ -59,7 +55,11 @@ optim = torch.optim.Adam([
     {"params": net.l1.Wn1, 'lr': 3e-5}
     ], lr=0.001)
 
-model.train(optim,train_set,test_set, epochs,batch_size=256,split_fold=k_fold,acc_func=None, verbose=10, save_dir=save_dir, save_file=save_name)
+#=================================================================
 
+#%%
+# training
+model.train(optim,train_set,test_set, epochs,batch_size=256,
+            split_fold=k_fold,acc_func=None, verbose=10, save_dir=save_dir, 
+            save_file=save_name)
 
-# %%

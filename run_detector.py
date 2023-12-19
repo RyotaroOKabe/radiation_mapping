@@ -1,37 +1,42 @@
 #%%
 # -*- coding: utf-8 -*-
 import numpy as np
-import math
-import matplotlib.pyplot as plt
 import sys,os
-import pickle as pkl
-sys.path.append('./')   #!20220331
+sys.path.append('./')
 from utils.model import * 
-import matplotlib.pyplot as plt #!20220509
-from matplotlib.figure import Figure   
-from matplotlib.patches import Wedge
-import imageio  #!20220520
-import openmc
-from utils.cal_param import *   #!20221023
+from utils.cal_param import *
 from utils.move_detector import main
 from utils.unet import *
 
-tetris_mode=False # True if the detector is Tetris-inspired detector. False if it is a square detector
-input_shape = 2  # [2, 5, 10, etc] (int) the size of the square detector. ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
-seg_angles = 64 # segment of angles
-file_header = '230124-214356_230121-165924_200_1'    #'230118-005847_230120-214857_200_1'    #'230118-203413_230120-224603_200_1' # save name of the model
-model_path = f'./save/models/{file_header}_model.pt'
+#=========================set values here==========================
+# Load models
+input_shape = 2  # [2, 5, 10, etc] (int) the size of the square detector. Or ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
+tetris_mode = True if isinstance(input_shape, str) else False   # True if the detector is Tetris-inspired detector. False if it is a square detector
+seg_angles = 64 # The number of angle sectors ( augnlar resolution: 360 deg/seg_angles). Make sure to use the same value as those of training data and filters
+model_name = '230124-214356_230121-165924_200_1_model.pt' # model name trained with the code 'train_model.py'
+file_header = model_name.replace('_model.pt', '')  # The folder name header for saving files
+model_path = './save/models/' + model_name
 model =torch.load(model_path)
-RSID = np.array([[-4.0,11.0]]) # np.array([[1.0,2.0],[-3.0,14.0]])  # single source: np.array([[-4.0,11.0]]), double source: np.array([[1.0,2.0],[-3.0,14.0]])  #　The locations of radiation sources / an array with shape (n, 2)  (n: the number of radiation sources)
-rot_ratio = 0 # rotation ratio X, where \phi = X\theta
-recordpath = f'./save/mapping_data/{file_header}'
 
-DT = 0.1
-SIM_TIME = 60.0
-STATE_SIZE = 4
-source_energies = [0.5e6 for _ in range(RSID.shape[0])]
-SIM_STEP=10
-num_particles = 50000
+# Detector motion setting 
+RSID = np.array([[-4.0,11.0]]) #  The position of radiation source(s). The shape of the array is (n, 2), where n is the number of radiation sources.
+rot_ratio = 0 # rotation ratio \chi , where \phi = \chi * \theta
+DT = 0.1    # digit of time (s)
+SIM_TIME = 60.0 # The total simulation time (s)
+STATE_SIZE = 4  # state size
+source_energies = [0.5e6 for _ in range(RSID.shape[0])] # source energy (eV).
+SIM_STEP=10 # simulation time step each of which we save pkl files.
+num_particles = 50000   # The number of photon in MC simulation
+
+# Specify area for radiation map
+map_horiz = [-15,15,30] # map geometry (horizontal) [m]
+map_vert = [-5,25,30] # map geometry (vertical) [m]
+
+# Color setting 
+colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
+#=================================================================
+
+#%%
 sim_parameters = {
     'DT': DT,
     'SIM_TIME': SIM_TIME,
@@ -43,30 +48,21 @@ sim_parameters = {
     'num_particles': num_particles
 }
 
-# Map
-map_horiz = [-15,15,30]
-map_vert = [-5,25,30]
+recordpath = f'./save/mapping_data/{file_header}'
+jsonpath = recordpath + "_json/"
+figurepath = recordpath + "_figure/"
+predictpath = recordpath + "_predicted/"
 
-colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
-
-#%%
-# recordpath = './save/mapping_data/' + file_header
 if __name__ == '__main__' and record_data:
     if not os.path.isdir(recordpath):
         os.mkdir(recordpath)
     os.system('rm ' + recordpath + "/*")
-jsonpath = recordpath + "_json/"
-if __name__ == '__maintribution__' and record_data:
     if not os.path.isdir(jsonpath):
         os.mkdir(jsonpath)
     os.system('rm ' + jsonpath + "*")
-figurepath = recordpath + "_figure/"
-if __name__ == '__main__' and record_data:
     if not os.path.isdir(figurepath):
         os.mkdir(figurepath)
     os.system('rm ' + figurepath + "*")
-predictpath = recordpath + "_predicted/"
-if __name__ == '__main__' and record_data:
     if not os.path.isdir(predictpath):
         os.mkdir(predictpath)
     os.system('rm ' + predictpath + "*")
@@ -84,5 +80,3 @@ DEFAULT_DTYPE = torch.double
 main(recordpath, tetris_mode, input_shape, seg_angles, model, sim_parameters, colors_parameters, device=DEFAULT_DEVICE)
 write_data(seg_angles, recordpath, map_horiz, map_vert)
 
-
-#%%

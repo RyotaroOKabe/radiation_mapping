@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+import time
 import openmc
 from utils.mcsimulation_square import *
 
@@ -38,7 +39,6 @@ for i in range(num_data):
     sources_d_th = [[np.random.randint(dist_min, dist_max), 
                      float(np.random.randint(0, 360) + np.random.random(1)), 
                      source_energies[ii]] for ii in range(num_sources)]
-    #?print("dist: " + str(rad_dist))
     for j in range(num_sources):
         distance = sources_d_th[j][0] # [cm]
         angle = sources_d_th[j][1] # [deg]

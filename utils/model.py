@@ -58,20 +58,14 @@ class Filterlayer1(nn.Module):
     def __init__(self, seg_angles, out_features, filterdata):
         super(Filterlayer1, self).__init__()
         self.Wn1 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
-        # self.Wn2 = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
         temp = torch.torch.from_numpy(filterdata.data.reshape((1,seg_angles,-1)))
         self.weight1 = torch.nn.Parameter(data=torch.t(temp[0,:,:]), requires_grad=True)
-        # self.weight2 = torch.nn.Parameter(data=torch.t(temp[1,:,:]), requires_grad=True)
         self.bias1 = torch.nn.Parameter(data=torch.zeros(1,out_features), requires_grad=True)
-        # self.bias2 = torch.nn.Parameter(data=torch.zeros(1,out_features//2), requires_grad=True)
         self.Wn1_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
-        # self.Wn2_test = torch.nn.Parameter(data = torch.ones(1), requires_grad=True)
 
     def forward(self,x):
         out1 = torch.matmul(x,self.weight1)/self.Wn1 + self.bias1
-        # out2 = torch.matmul(x,self.weight2)/self.Wn2 + self.bias2
-        out = out1  #torch.cat([out1,out2],dim=1)
-        # out = out.view(out.shape[0], 2, out.shape[1]//2)
+        out = out1 
         out = out.view(out.shape[0], 1, out.shape[1]//1)
         return out
 
@@ -277,7 +271,7 @@ class Model(object):
             xdata_show = xdata_show.reshape(matrix_shape[::-1])
             xdata_show = np.transpose(xdata_show)
             xdata_show = np.flip(xdata_show, 0)
-            xdata_show = np.flip(xdata_show, 1) #!
+            xdata_show = np.flip(xdata_show, 1)
             xx = max(colors_max)*(1-adjust_ratio)*((num_panels/matrix_len)==1)#70
             rgbs[:, 0] = np.linspace(((colors_max[0]-255)/N*xx+255)/255, colors_max[0]/255, N) # R
             rgbs[:, 1] = np.linspace(((colors_max[1]-255)/N*xx+255)/255, colors_max[1]/255, N) # G
@@ -307,7 +301,7 @@ class Model(object):
             theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
             # r_pred = predict_test[0][::-1]
             # r_real = test_y[0][::-1]
-            r_pred = predict_test[0][::-1]  #!
+            r_pred = predict_test[0][::-1]
             r_real = test_y[0][::-1]
             ax.plot(theta_rad,r_real, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=2)  
             ax.plot(theta_rad, r_pred, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=2)

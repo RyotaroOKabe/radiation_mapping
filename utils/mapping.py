@@ -1,23 +1,13 @@
 #%%
 # -*- coding: utf-8 -*-
+import os
 import numpy as np
-from scipy.optimize import minimize #!
-
-# from pydrake.all import MathematicalProgram, Solve
-
+import pickle as pkl
+from scipy.optimize import minimize 
+from scipy.interpolate import interp2d
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon as matplotlib_polygon
-import matplotlib
-import math
-
-# from pydrake.math import sin, cos, sqrt
-
-import pickle as pkl
-
-from scipy.interpolate import interp2d
-
-import os,sys
-# import dill #!20220316
 import imageio
 
 factor1 = 1e+5  #1e+10 #1e+15
@@ -97,7 +87,7 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
         if not os.path.isdir(fig_folder):
             os.mkdir( fig_folder)
         os.system('rm -r ' +  fig_folder + "/*")
-    m=Map(map_horiz, map_vert)   #!20220516 
+    m=Map(map_horiz, map_vert) 
     cji_list=[]
     yj_list=[]
     for filename in files:
