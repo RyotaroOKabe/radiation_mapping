@@ -38,11 +38,11 @@ OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation
 ```   
 (temporary) You can assign the path to crosssections.xml by setting env_config.py. You can duplicate the file env_config_template.py, rename it to env_config.py, and assign the path to OPENMC_CROSS_SECTIONS. 
 
-# Other env setting (If you use Drake for MAP analysis)
+<!-- # Other env setting (If you use Drake for MAP analysis)
 You need to set up another conda env to run mapping_*.py program
 ```
 $ conda env create -f radmap.yml
-```
+``` -->
 
 # radiation_mapping (2D)
 
@@ -82,11 +82,12 @@ $ run_detector.py
 ```
 
 ## Mapping (env=radmap)
-```
+<!-- ```
 # If you use Drake  
 $ radiation_mapping_drake.py  
   
-# Else  
+# Else   -->
+```
 $ radiation_mapping.py  
 ```
 
