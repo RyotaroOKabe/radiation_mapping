@@ -1,11 +1,11 @@
 # Tetris-inspired detector with neural network for radiation mapping
 
-<p align="center">
+<!-- <p align="center">
   <img src="assets/SupplementaryMovie01.png" /> 
-</p>
+</p> -->
 
 <p align="center">
-  <img src="assets/SupplementaryMovie01.gif" width="200">
+  <img src="assets/SupplementaryMovie01.gif" width="500">
 </p>
 
 
