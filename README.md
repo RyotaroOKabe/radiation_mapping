@@ -42,7 +42,7 @@ $ conda env create -f radmap.yml
 If you want to skip MC simulation or training model, you can use the archive data/models below.   
 
 Detector | MC data | MC filter | Model | Epochs | Note
---- | --- | --- | --- |--- |--- 
+----- | --- | --- | --- |--- |----- 
 2x2 square | save/openmc_data/sq2_1_data/ | save/openmc_filter/sq2_1_filter/ | save/models/sq2_1_model.pt | 200 | 1 source.
 S-shape | save/openmc_data/s_1_data/ | save/openmc_filter/s_1_filter/ | save/models/s_1_model.pt | 200 | 1 source.
 J-shape | save/openmc_data/j_1_data/ | save/openmc_filter/j_1_filter/ | save/models/j_1_model.pt | 200 | 1 source.
