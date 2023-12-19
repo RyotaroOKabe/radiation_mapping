@@ -1,12 +1,12 @@
 # Tetris-inspired detector with neural network for radiation mapping
 
-![](https://github.com/RyotaroOKabe/radiation_mapping/assets/move_detector_S.gif)
+<p align="center">
+  <img src="assets/SupplementaryMovie01.png" /> 
+</p>
 
-[Download Video](assets/SupplementryMovie01.mp4)  
-<video width="320" height="240" controls>
-  <source src="assets/SupplementryMovie01.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<p align="center">
+  <img src="assets/SupplementaryMovie01.gif" width="200">
+</p>
 
 
 # Starting OpenMC
