@@ -1,0 +1,8 @@
+run_name: 230121-165924
+folder: save/openmc_filter/230121-165924
+num_sources: 1
+shape_name: T
+num_data: 64
+seg_angles: 64
+source_energies: [500000.0]
+header_dist_particles_dict: {'near': [50, 80000], 'far': [500, 80000]}
