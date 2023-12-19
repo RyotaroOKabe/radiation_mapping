@@ -87,6 +87,7 @@ $ run_detector.py
 $ radiation_mapping_drake.py  
   
 # Else   -->
+If you come across 'NaN' in the output maps, please adjust the value 'factor1' in utils/mapping.py.
 ```
 $ radiation_mapping.py  
 ```
