@@ -1,8 +1,0 @@
-run_name: 230120-144924
-folder: save/openmc_filter/230120-144924
-num_sources: 1
-a_num: 5
-num_data: 64
-seg_angles: 64
-source_energies: [500000.0]
-header_dist_particles_dict: {'near': [50, 80000], 'far': [500, 80000]}

@@ -1,9 +1,0 @@
-run_name: 230121-003247
-folder: save/openmc_data/230121-003247
-num_sources: 2
-a_num: 10
-num_data: 3000
-seg_angles: 64
-Dist range: [20, 500]
-source_energies: [500000.0, 500000.0]
-num_particles: 50000

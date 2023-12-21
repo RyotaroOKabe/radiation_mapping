@@ -1,9 +1,0 @@
-run_name: 230124-214356
-folder: save/openmc_data/230124-214356
-num_sources: 1
-shape_name: T
-num_data: 3000
-seg_angles: 64
-Dist range: [20, 500]
-source_energies: [500000.0]
-num_particles: 50000

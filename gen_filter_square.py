@@ -5,6 +5,7 @@ import json
 import time
 import openmc
 from utils.mcsimulation_square import *
+from env_config import *    #!
 
 #=========================set values here==========================
 num_sources = 1 # the number of radiation sources to place.
