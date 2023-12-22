@@ -19,7 +19,7 @@ from utils.time_record import Timer
 from utils.unet import *
 from utils.utils import *
 
-GPU_INDEX = 1#0
+# GPU_INDEX = 1#0
 USE_CPU = False
 if torch.cuda.is_available() and not USE_CPU:
     DEFAULT_DEVICE = torch.device("cuda")

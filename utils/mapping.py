@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon as matplotlib_polygon
 import imageio
 
-factor1 = 1e+5  #1e+10 #1e+15
+factor1 = 15 #1e+5  #1e+10 #1e+15 # adjust values in the input vectors so that scipy.optimize.minimize can handle it. In default, we automatically set it inside mapping() function. 
 save_process = True
 savedata=True
 
@@ -78,7 +78,7 @@ def solve_one(m, cji_list, yj_list):
     return x
 
 def mapping(fig_folder, fig_header, record_path, map_geometry, threshold, 
-            factor=factor1, save_process=True, savedata=True, colors=['#77AE51', '#8851AE']):
+            factor=None, save_process=True, savedata=True, colors=['#77AE51', '#8851AE']):
     recordpath = record_path+'_cal'
     map_horiz, map_vert  = map_geometry
     files=os.listdir(recordpath)
@@ -90,6 +90,9 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
     m=Map(map_horiz, map_vert) 
     cji_list=[]
     yj_list=[]
+    # yj_list_orig=[]
+    denominator=None
+    count = 0
     for filename in files:
         try:
             with open(os.path.join(recordpath,filename),'rb') as f:
@@ -100,7 +103,17 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
             continue
         cji=data['cji']
         yj=data['yj'].reshape(-1)
-        yj_new = abs(yj)*factor
+        # yj_list_orig.append(abs(yj))
+        yj_max = np.max(np.array(abs(yj)))
+        if factor is not None:
+            denominator=10**(-factor)
+        else:
+            if count==0:
+                denominator=10**(int(np.log10(yj_max)))
+            count+=1
+        # factor=np.log10(np.max(np.array(yj_list_old))) 
+        # yj_new = abs(yj)*(10**factor)
+        yj_new = abs(yj)/denominator
         cji_list.append(cji)
         yj_list.append(yj_new)
         try:
@@ -112,7 +125,9 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
         x_max = np.max(x)
         x=x/x_max
         print(f'[{filename}] x: ', x)
-        print(f'[{filename}] yj_list: ', yj_list)
+        # print(f'[{filename}] yj_orig: min ({np.min(np.array(yj_list_orig))}), max ({np.max(np.array(yj_list_orig))})', yj_list_orig)
+        # print(f'[{filename}] yj_list min ({np.min(np.array(yj_list))}), max ({np.max(np.array(yj_list))}): ', yj_list)
+        # print(f'[{filename}] cji_list: ', cji_list)
         if savedata:
             data['xi']=x
             if not os.path.isdir(recordpath+'_final'):

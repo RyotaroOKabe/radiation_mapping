@@ -24,7 +24,7 @@ $ conda activate openmc-env
 $ conda install openmc -c conda-forge
 
 ```
-
+   
 other libraries
 ```
 scikit-learn==1.2.0
@@ -34,7 +34,9 @@ torchvision=0.12.0
 protobuf=3.19.4
 pyemd=0.5.1
 imageio=2.19.2
-
+scipy=1.11.4
+numpy=1.26.2
+matplotlib=3.8.2
 ```
 
 <!-- .. or create from the exported env
@@ -49,12 +51,13 @@ $ tar -xf d359skd2w6wrm86om2997a1bxgigc8pu.xz
 $ mv mcnp_endfb71/ openmc_library/ 
 ```
 
-[3] Set the path of crosssections.xml file  
+[3] Set the path of `crosssections.xml` file  
 In .bashrc or .profile, add the line shown below:  
 ```
 OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation_mapping/openmc_library/cross_sections.xml" 
 ```   
-(temporary) You can assign the path to crosssections.xml by setting env_config.py. You can duplicate the file env_config_template.py, rename it to env_config.py, and assign the path to OPENMC_CROSS_SECTIONS. 
+(temporary) You can assign the path to `crosssections.xml` by setting `env_config.py`.
+Make a copy of the `env_config_temprate.py` file and rename it to `env_config.py`. Modify the following environment variables in `env_config.py`.
 
 ```  
 os.environ['CUDA_VISIBLE_DEVICES']="/The directory where the source code is located/radiation_mapping/openmc_library/cross_sections.xml" 
@@ -75,7 +78,7 @@ We use the folders below for storing files:
 **Intermediate data for radiation mapping**: ./save/mapping_data/
 **Output for radiation mapping**: ./save/radiation_mapping/
 
-If you want to skip MC simulation or training model, you can use our data/models below. You can copy the file/folder from the folder 'saved_files' to the path shown above.   
+MAke sure to check the file/folder names for loading/saving outputs when you run each program. If you want to skip MC simulation or training model, you can use our data/models below. You can copy the file/folder from the folder 'saved_files' to the path shown above.   
 
 Detector | MC data | MC filter | Model | Epochs | Note
 ----- | --- | --- | --- |--- |----- 
@@ -113,7 +116,7 @@ $ python run_detector.py
 $ radiation_mapping_drake.py  
   
 # Else   -->
-If you come across 'NaN' in the output maps, please adjust the value 'factor1' in utils/mapping.py.
+<!-- If you come across 'NaN' in the output maps, please adjust the value 'factor1' in utils/mapping.py. -->
 ```
 $ python radiation_mapping.py  
 ```
