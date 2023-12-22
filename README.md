@@ -86,31 +86,31 @@ T-shape | t_1_data/ | t_1_filter/ | t_1_model.pt | 200 | 1 source.
 
 ## MC simulation to get training data (env=openmc-train)
 ```
-# Set proper `run_name`.
+# Set proper 'run_name'.
 $ python gen_data_tetris.py (or gen_data_square.py)
 ```
 
 ## MC simulation to get Filtering Layer (env=openmc-train)
 ```
-# Set proper `run_name`.
+# Set proper 'run_name'.
 $ python gen_filter_tetris.py (or gen_filter_square.py)
 ```
 
 ## Training
 ```
-# Set proper `data_name` and `filter_name`.
+# Set proper 'data_name' and 'filter_name'.
 $ python train_model.py
 ```
 
 ## Simulation with a moving detector (env=openmc-train)
 ```
-# Set proper `model_name`.
+# Set proper 'model_name'.
 $ python run_detector.py
 ```
 
 ## Mapping
 ```
-# Set proper `fig_header`.
+# Set proper 'fig_header'.
 $ python radiation_mapping.py  
 ```
 
