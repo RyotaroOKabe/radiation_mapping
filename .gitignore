@@ -49,7 +49,7 @@ wandb/
 data/
 save_model/
 figure_making/
-mapping_data/
+mapping_data_archive/
 save_record/
 2d/
 
@@ -59,7 +59,6 @@ three_dim/
 archive/
 figure_making/
 figures/
-mapping_data/
 openmc/
 runs/
 save_fig/

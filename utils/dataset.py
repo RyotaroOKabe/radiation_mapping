@@ -392,11 +392,12 @@ def load_data(test_ratio,test_size_gen,seg_angles,output_fun,path,source_num,pro
     data_set=Dataset(seg_angles,output_fun=output_fun,path=path)
     data_size=data_set.data_size
     test_size = int(test_ratio*data_size)
+    train_size=data_size-test_size
     if test_size_gen is None:
         test_size_gen=test_size
 
     data_y = data_set.ydata
-    print(f'Check process with {data_y.shape[0]} data!')
+    print(f'Total datasize: {data_y.shape[0]}')
     for k in range(data_y.shape[0]):
         suml = np.sum(data_y[k,:])
         if suml <0.5:
