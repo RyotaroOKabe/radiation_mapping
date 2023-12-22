@@ -9,7 +9,7 @@ In recent years, radiation mapping has attracted widespread research attention a
 </p>
 
 
-# Starting OpenMC
+# OpenMC setup
 [1] Create conda environment for openmc simulations (Linux/Mac)
 reference: https://docs.openmc.org/en/stable/quickinstall.html
 
@@ -63,7 +63,7 @@ export OPENMC_CROSS_SECTIONS="path to the folder that contains this repo/radiati
 
 
 
-# radiation_mapping workflow
+# Radiation mapping workflow
 
 We use the folders below for storing files:
 **Training data**: ./save/openmc_data/   
