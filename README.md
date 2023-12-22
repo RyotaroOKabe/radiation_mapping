@@ -1,5 +1,7 @@
 # Tetris-inspired detector with neural network for radiation mapping
-In recent years, radiation mapping has attracted widespread research attention and increased public concerns on environmental monitoring. In terms of both materials and their configurations, radiation detectors have been developed to locate the directions and positions of the radiation sources. In this process, algorithm is essential in converting detector signals to radiation source information. However, due to the complex mechanisms of radiation-matter interaction and the current limitation of data collection, high-performance, low-cost radiation mapping is still challenging. Here we present a computational framework using Tetris-inspired detector pixels and machine learning for radiation mapping. Using inter-pixel padding to increase the contrast between pixels and neural network to analyze the detector readings, a detector with as few as four pixels can achieve high-resolution directional mapping. By further imposing Maximum a Posteriori (MAP) with a moving detector, further radiation position localization is achieved. Non-square, Tetris-shaped detector can further improve performance beyond the conventional grid-shaped detector. Our framework offers a new avenue for high quality radiation mapping with least number of detector pixels possible, and is anticipated to be capable to deploy for real-world radiation detection with moderate validation.
+In recent years, radiation mapping has attracted widespread research attention and increased public concerns on environmental monitoring. In terms of both materials and their configurations, radiation detectors have been developed to locate the directions and positions of the radiation sources. In this process, algorithm is essential in converting detector signals to radiation source information. However, due to the complex mechanisms of radiation-matter interaction and the current limitation of data collection, high-performance, low-cost radiation mapping is still challenging. Here we present a computational framework using Tetris-inspired detector pixels and machine learning for radiation mapping. Using inter-pixel padding to increase the contrast between pixels and neural network to analyze the detector readings, a detector with as few as four pixels can achieve high-resolution directional mapping. By further imposing Maximum a Posteriori (MAP) with a moving detector, further radiation position localization is achieved. Non-square, Tetris-shaped detector can further improve performance beyond the conventional grid-shaped detector. Our framework offers a new avenue for high quality radiation mapping with least number of detector pixels possible, and is anticipated to be capable to deploy for real-world radiation detection with moderate validation.   
+
+[[Paper]](https://arxiv.org/abs/2302.07099)   
 
 
 <p align="center">
@@ -8,41 +10,37 @@ In recent years, radiation mapping has attracted widespread research attention a
 
 
 # Starting OpenMC
-
+[1] Create conda environment for openmc simulations (Linux/Mac)
 reference: https://docs.openmc.org/en/stable/quickinstall.html
 
-[1] Create conda environment for openmc simulations
-```
-$ conda create -n openmc-env openmc python==3.9.9
-$ conda activate openmc-env  
-```
-
-If above does not work, try the following commands.
 ```
 $ conda create --name openmc-env python=3.9.9
 $ conda activate openmc-env
 $ conda install openmc -c conda-forge
 
 ```
+
+You can also do the installation with the following commands:
+```
+$ conda create -n openmc-env openmc python==3.9.9
+$ conda activate openmc-env  
+```
+
    
 other libraries
 ```
 scikit-learn==1.2.0
-torch=1.11.0
-tensorboardX=2.5
-torchvision=0.12.0
-protobuf=3.19.4
-pyemd=0.5.1
-imageio=2.19.2
-scipy=1.11.4
-numpy=1.26.2
-matplotlib=3.8.2
+torch==1.11.0
+tensorboardX==2.5
+torchvision==0.12.0
+protobuf==3.19.4
+pyemd==0.5.1
+imageio==2.19.2
+scipy==1.11.4
+numpy==1.26.2
+matplotlib==3.8.2
 ```
 
-<!-- .. or create from the exported env
-```
-$ conda env create -f openmc-train.yml
-``` -->
 [2] Download the OpenMC Library
 
 ```
@@ -52,22 +50,18 @@ $ mv mcnp_endfb71/ openmc_library/
 ```
 
 [3] Set the path of `crosssections.xml` file  
-In .bashrc or .profile, add the line shown below:  
+Assign the path to `crosssections.xml` by setting `env_config.py`.   
+Make a copy of the `env_config_temprate.py` file and rename it to `env_config.py`. Modify the following environment variables in `env_config.py`.   
+```  
+os.environ['CUDA_VISIBLE_DEVICES']="path to the folder that contains this repo/radiation_mapping/openmc_library/cross_sections.xml" 
+```  
+
+You can also specify the path by adding the following line to .bashrc or .profile. 
 ```
-OPENMC_CROSS_SECTIONS="/The directory where the source code is located/radiation_mapping/openmc_library/cross_sections.xml" 
+export OPENMC_CROSS_SECTIONS="path to the folder that contains this repo/radiation_mapping/openmc_library/cross_sections.xml" 
 ```   
-(temporary) You can assign the path to `crosssections.xml` by setting `env_config.py`.
-Make a copy of the `env_config_temprate.py` file and rename it to `env_config.py`. Modify the following environment variables in `env_config.py`.
 
-```  
-os.environ['CUDA_VISIBLE_DEVICES']="/The directory where the source code is located/radiation_mapping/openmc_library/cross_sections.xml" 
-```  
 
-<!-- # Other env setting (If you use Drake for MAP analysis)
-You need to set up another conda env to run mapping_*.py program
-```
-$ conda env create -f radmap.yml
-``` -->
 
 # radiation_mapping workflow
 
