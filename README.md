@@ -17,6 +17,20 @@ $ conda create -n openmc-env openmc python==3.9.9
 $ conda activate openmc-env  
 ```
 
+If above does not work, try the following commands.
+```
+$ conda create --name openmc-env python=3.9.9
+$ conda activate openmc-env
+$ conda install openmc -c conda-forge
+
+```
+
+other libraries
+```
+scikit-learn==1.2.0
+
+```
+
 <!-- .. or create from the exported env
 ```
 $ conda env create -f openmc-train.yml
@@ -55,7 +69,7 @@ We use the folders below for storing files:
 **Intermediate data for radiation mapping**: ./save/mapping_data/
 **Output for radiation mapping**: ./save/radiation_mapping/
 
-If you want to skip MC simulation or training model, you can use our data/models below. You can copy the file/folder from the folder 'archive' to the path shown above.   
+If you want to skip MC simulation or training model, you can use our data/models below. You can copy the file/folder from the folder 'saved_files' to the path shown above.   
 
 Detector | MC data | MC filter | Model | Epochs | Note
 ----- | --- | --- | --- |--- |----- 
