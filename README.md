@@ -66,13 +66,13 @@ export OPENMC_CROSS_SECTIONS="path to the folder that contains this repo/radiati
 # radiation_mapping workflow
 
 We use the folders below for storing files:
-**Training data**: ./save/openmc_data/
-**Filter layers**: ./save/openmc_data/
-**Models**: ./save/openmc_data/
-**Intermediate data for radiation mapping**: ./save/mapping_data/
-**Output for radiation mapping**: ./save/radiation_mapping/
+**Training data**: ./save/openmc_data/   
+**Filter layers**: ./save/openmc_data/   
+**Models**: ./save/openmc_data/   
+**Intermediate data for radiation mapping**: ./save/mapping_data/   
+**Output for radiation mapping**: ./save/radiation_mapping/   
 
-MAke sure to check the file/folder names for loading/saving outputs when you run each program. If you want to skip MC simulation or training model, you can use our data/models below. You can copy the file/folder from the folder 'saved_files' to the path shown above.   
+MAke sure to check the file/folder names for loading/saving outputs when you run each program. If you want to skip MC simulation or training model, you can use our data/models below. You can copy the file/folder from the folder `saved_files/` to the path shown above.   
 
 Detector | MC data | MC filter | Model | Epochs | Note
 ----- | --- | --- | --- |--- |----- 
@@ -86,32 +86,31 @@ T-shape | t_1_data/ | t_1_filter/ | t_1_model.pt | 200 | 1 source.
 
 ## MC simulation to get training data (env=openmc-train)
 ```
+# Set proper `run_name`.
 $ python gen_data_tetris.py (or gen_data_square.py)
 ```
 
 ## MC simulation to get Filtering Layer (env=openmc-train)
 ```
+# Set proper `run_name`.
 $ python gen_filter_tetris.py (or gen_filter_square.py)
 ```
 
-## Training (env=openmc-train)
+## Training
 ```
+# Set proper `data_name` and `filter_name`.
 $ python train_model.py
 ```
 
 ## Simulation with a moving detector (env=openmc-train)
 ```
+# Set proper `model_name`.
 $ python run_detector.py
 ```
 
 ## Mapping
-<!-- ```
-# If you use Drake  
-$ radiation_mapping_drake.py  
-  
-# Else   -->
-<!-- If you come across 'NaN' in the output maps, please adjust the value 'factor1' in utils/mapping.py. -->
 ```
+# Set proper `fig_header`.
 $ python radiation_mapping.py  
 ```
 
