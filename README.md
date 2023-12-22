@@ -28,6 +28,12 @@ $ conda install openmc -c conda-forge
 other libraries
 ```
 scikit-learn==1.2.0
+torch=1.11.0
+tensorboardX=2.5
+torchvision=0.12.0
+protobuf=3.19.4
+pyemd=0.5.1
+imageio=2.19.2
 
 ```
 
@@ -83,22 +89,22 @@ T-shape | t_1_data/ | t_1_filter/ | t_1_model.pt | 200 | 1 source.
 
 ## MC simulation to get training data (env=openmc-train)
 ```
-$ gen_data_tetris.py (or gen_data_square.py)
+$ python gen_data_tetris.py (or gen_data_square.py)
 ```
 
 ## MC simulation to get Filtering Layer (env=openmc-train)
 ```
-$ gen_filter_tetris.py (or gen_filter_square.py)
+$ python gen_filter_tetris.py (or gen_filter_square.py)
 ```
 
 ## Training (env=openmc-train)
 ```
-$ train_model.py
+$ python train_model.py
 ```
 
 ## Simulation with a moving detector (env=openmc-train)
 ```
-$ run_detector.py
+$ python run_detector.py
 ```
 
 ## Mapping
@@ -109,6 +115,6 @@ $ radiation_mapping_drake.py
 # Else   -->
 If you come across 'NaN' in the output maps, please adjust the value 'factor1' in utils/mapping.py.
 ```
-$ radiation_mapping.py  
+$ python radiation_mapping.py  
 ```
 

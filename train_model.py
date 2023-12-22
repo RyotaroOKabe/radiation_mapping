@@ -1,7 +1,7 @@
 #%%
 import torch
-import tensorboardX as tbx
-writer = tbx.SummaryWriter('runs')
+# import tensorboardX as tbx
+# writer = tbx.SummaryWriter('runs')
 from utils.dataset import get_output, FilterData2, load_data
 from utils.unet import *
 from utils.model import MyNet2, Model

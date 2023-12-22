@@ -17,7 +17,7 @@ header_dist_particles_dict = {'near': [50, 50000], 'far': [500, 50000]}
 run_name = 's_1_filter'   #time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
 #=================================================================
 
-openmc_dir = 'save/openmc_test/'
+openmc_dir = 'save/openmc_filter/'
 save_fig = True
 run_name = time.strftime('%y%m%d-%H%M%S', time.localtime())
 folder=f'{openmc_dir}{run_name}'
