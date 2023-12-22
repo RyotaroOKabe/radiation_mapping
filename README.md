@@ -84,13 +84,13 @@ T-shape | t_1_data/ | t_1_filter/ | t_1_model.pt | 200 | 1 source.
 5x5 square | sq5_2_data/ | sq5_1_filter/ | sq5_2_model.pt | 200 | 2 sources.
 
 
-## MC simulation to get training data (env=openmc-train)
+## MC simulation to get training data
 ```
 # Set proper 'run_name'.
 $ python gen_data_tetris.py (or gen_data_square.py)
 ```
 
-## MC simulation to get Filtering Layer (env=openmc-train)
+## MC simulation to get Filtering Layer
 ```
 # Set proper 'run_name'.
 $ python gen_filter_tetris.py (or gen_filter_square.py)
@@ -102,7 +102,7 @@ $ python gen_filter_tetris.py (or gen_filter_square.py)
 $ python train_model.py
 ```
 
-## Simulation with a moving detector (env=openmc-train)
+## Simulation with a moving detector
 ```
 # Set proper 'model_name'.
 $ python run_detector.py
