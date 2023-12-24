@@ -7,6 +7,7 @@ from utils.model import *
 from utils.cal_param import *
 from utils.move_detector import main
 from utils.unet import *
+from env_config import * 
 
 #=========================set values here==========================
 # Load models
