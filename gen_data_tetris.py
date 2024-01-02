@@ -7,7 +7,7 @@ import openmc
 from utils.mcsimulation_tetris import *
 from env_config import *    
 
-#=========================set values here==========================
+#=========================set values below==========================
 num_sources = 1 # the number of radiation sources to place.
 shape_name = 'S' # Tetris shape ['S', 'J', 'T', 'L', 'Z']
 num_data = 3000 # the number of the generated data
@@ -17,7 +17,7 @@ dist_max = 500 # maximum distance between the radiation source and the detector 
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 num_particles = 50000 # The number of photon in MC simulation
 run_name = 's_1_data'   time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
-#=================================================================
+#=========================set values above==========================
 
 header = 'data'
 openmc_dir = 'save/openmc_data/'

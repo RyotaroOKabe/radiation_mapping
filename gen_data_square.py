@@ -7,7 +7,7 @@ import openmc
 from utils.mcsimulation_square import *
 from env_config import * 
 
-#=========================set values here==========================
+#=========================set values below==========================
 num_sources = 1 # the number of radiation sources to place.
 a_num = 2  # The parameter for the configuration of the detector: a x a square shape
 num_data = 3000 # the number of the generated data
@@ -16,8 +16,8 @@ dist_min = 20   # minimum distance between the radiation source and the detector
 dist_max = 500 # maximum distance between the radiation source and the detector (cm).
 source_energies = [0.5e6 for _ in range(num_sources)]    # Photon energy [eV]
 num_particles = 50000 # The number of photon in MC simulation
-run_name = 'sq2_1_data'  #time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   #!
-#=================================================================
+run_name = 'sq2_1_data'  #time.strftime('%y%m%d-%H%M%S', time.localtime()) # the folder name   
+#=========================set values below==========================
 
 header = 'data'
 openmc_dir = 'save/openmc_data/'

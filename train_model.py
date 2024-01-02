@@ -18,7 +18,7 @@ DEFAULT_DTYPE = torch.double
 save_dir = "./save/training"
 
 # %%
-#=========================set values here==========================
+#=========================set values below==========================
 num_sources = 1
 seg_angles = 64
 epochs = 200
@@ -55,7 +55,7 @@ optim = torch.optim.Adam([
     {"params": net.l1.Wn1, 'lr': 3e-5}
     ], lr=0.001)
 
-#=================================================================
+#=========================set values above==========================
 
 #%%
 # training

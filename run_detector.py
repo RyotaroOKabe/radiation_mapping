@@ -9,7 +9,7 @@ from utils.move_detector import main
 from utils.unet import *
 from env_config import * 
 
-#=========================set values here==========================
+#=========================set values below==========================
 # Load models
 input_shape = 2  # [2, 5, 10, etc] (int) the size of the square detector. Or ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
 tetris_mode = True if isinstance(input_shape, str) else False   # True if the detector is Tetris-inspired detector. False if it is a square detector
@@ -35,7 +35,7 @@ map_vert = [-5,25,30] # map geometry (vertical) [m]
 
 # Color setting 
 colors_parameters = {'array_hex':'#EEAD0E', 'pred_hex':'#CA6C4A' , 'real_hex': '#77C0D2'}
-#=================================================================
+#=========================set values above==========================
 
 #%%
 sim_parameters = {
