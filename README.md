@@ -27,7 +27,7 @@ $ conda activate openmc-env
 ```
 
    
-other libraries
+other libraries (All of them can be installed in a short time. You can use cuda)
 ```
 scikit-learn==1.2.0
 torch==1.11.0
@@ -114,3 +114,12 @@ $ python run_detector.py
 $ python radiation_mapping.py  
 ```
 
+## Citation
+```
+@article{okabe2023tetris,
+  title={Tetris-inspired detector with neural network for radiation mapping},
+  author={Okabe, Ryotaro and Xue, Shangjie and Yu, Jiankai and Liu, Tongtong and Forget, Benoit and Jegelka, Stefanie and Kohse, Gordon and Hu, Lin-wen and Li, Mingda},
+  journal={arXiv preprint arXiv:2302.07099},
+  year={2023}
+}
+```
