@@ -255,11 +255,9 @@ class Model(object):
                     min_loss = pred_loss
                     idx_argmin= indx 
             xdata_show = test_x
-            # print('xdata_show.shape: ', xdata_show.shape)
             rgbs = np.ones((N, 3))
             adjust_ratio = 0.85
             matrix_len=xdata_show.flatten().shape[0]
-            # print('matrix_len: ', matrix_len)
             if matrix_len==6:
                 num_panels=4
                 matrix_shape = [2,3]
@@ -267,7 +265,6 @@ class Model(object):
                 num_panels=matrix_len
                 dsize=int(np.sqrt(matrix_len))
                 matrix_shape = [dsize, dsize]
-            # print(num_panels, matrix_shape)
             xdata_show = xdata_show.reshape(matrix_shape[::-1])
             xdata_show = np.transpose(xdata_show)
             xdata_show = np.flip(xdata_show, 0)
@@ -283,8 +280,6 @@ class Model(object):
             ax0.axes.get_xaxis().set_visible(False)
             ax0.axes.get_yaxis().set_visible(False)
             ax1 = fig.add_subplot(1, 3, 2)
-            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0], label='Simulated', color=rgb_to_hex(real_rgb))
-            # ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0], label='Predicted', color=rgb_to_hex(pred_rgb))
             ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], test_y[0][::-1], label='Simulated', color=rgb_to_hex(real_rgb))  #!
             ax1.plot(np.linspace(-180, 180, seg_angles + 1)[0:seg_angles], predict_test[0][::-1], label='Predicted', color=rgb_to_hex(pred_rgb))
             ax1.legend()
@@ -299,8 +294,6 @@ class Model(object):
 
             ax = fig.add_subplot(1, 3, 3, polar=True)
             theta_rad = np.linspace(-180, 180, seg_angles + 1)[0:seg_angles] * np.pi/180
-            # r_pred = predict_test[0][::-1]
-            # r_real = test_y[0][::-1]
             r_pred = predict_test[0][::-1]
             r_real = test_y[0][::-1]
             ax.plot(theta_rad,r_real, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=2)  
@@ -353,4 +346,3 @@ def emd_loss_sinkhorn(y, y_pred, M, reg=1.5, iter_num=80):
     return loss
 
 
-# %%

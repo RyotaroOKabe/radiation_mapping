@@ -154,7 +154,6 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             xdata_original=det_output.reshape(matrix_shape)
             print('xdata_original.shape: ', xdata_original.shape)
             ydata = get_output(sources_x_y_c, seg_angles)
-            # pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(np.argmax(predict)-seg_angles/2))
             pred_out = 180/math.pi*pipi_2_cw((2*math.pi/seg_angles)*(calculate_expectation(np.arange(len(predict)), predict)-seg_angles/2))
             predout_record.append([step, pred_out])
             print("Result: " + str(pred_out) + " deg")
@@ -198,17 +197,14 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
             output2 = ydata.tolist()
 
             if ang_step_curves:
-            #     ax2 = fig.add_subplot(122, polar=True)
                 ax2 = plt.subplot(1, 2, 2, polar=True)
                 theta_rad = np.linspace(180, -180, seg_angles) * np.pi/180
                 ax2.plot(theta_rad,output2, drawstyle='steps', linestyle='-', color=rgb_to_hex(real_rgb), linewidth=7)  
                 ax2.plot(theta_rad, output1, drawstyle='steps', linestyle='-', color=rgb_to_hex(pred_rgb), linewidth=7)
                 ax2.set_yticklabels([])  # Hide radial tick labels
                 ax2.tick_params(axis='x', labelsize=30)
-                # Add the radial axis
                 ax2.set_rticks(np.linspace(0, 1, 10))  # Adjust the range and number of radial ticks as needed
                 ax2.spines['polar'].set_visible(True)  # Show the radial axis line
-
                 # Set the theta direction to clockwise
                 ax2.set_theta_direction(-1)
                 # Set the theta zero location to the top
@@ -217,7 +213,6 @@ def main(recordpath, tetris_mode, input, seg_angles, model, sim_parameters, colo
                 ax2.set_theta_offset(np.pi / 2.0)
                 ax2.tick_params(axis='x', which='major', pad=50, labelsize=40)
                 ax2.grid(True)
-                # ax2.set_frame_on(False)
 
             else:
                 for i in range(len(theta)-1):

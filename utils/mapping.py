@@ -57,9 +57,6 @@ def map(xi, cji, yj, reg):
     return dd.dot(dd) + xi.dot(xi)*reg
 
 def solve_one(m, cji_list, yj_list):
-    # print('m', m)
-    # print('cji_list: ', cji_list)
-    # print('yj_list: ', yj_list)
     n = m.size
     x0 = np.zeros(n)  # Initial guess for the optimization variables
     def objective(x):
@@ -111,7 +108,6 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
             if count==0:
                 denominator=10**(int(np.log10(yj_max)))
             count+=1
-        # factor=np.log10(np.max(np.array(yj_list_old))) 
         # yj_new = abs(yj)*(10**factor)
         yj_new = abs(yj)/denominator
         cji_list.append(cji)
@@ -125,9 +121,6 @@ def mapping(fig_folder, fig_header, record_path, map_geometry, threshold,
         x_max = np.max(x)
         x=x/x_max
         print(f'[{filename}] x: ', x)
-        # print(f'[{filename}] yj_orig: min ({np.min(np.array(yj_list_orig))}), max ({np.max(np.array(yj_list_orig))})', yj_list_orig)
-        # print(f'[{filename}] yj_list min ({np.min(np.array(yj_list))}), max ({np.max(np.array(yj_list))}): ', yj_list)
-        # print(f'[{filename}] cji_list: ', cji_list)
         if savedata:
             data['xi']=x
             if not os.path.isdir(recordpath+'_final'):
