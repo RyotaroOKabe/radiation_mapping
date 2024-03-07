@@ -144,7 +144,7 @@ We generate an input files for radiation mapping. We consider the situation wher
 $ python run_detector.py
 ```
 
-## Mapping
+## Radiation mapping
 The code produces the images of radiation mapping at each timestamp. After finishing processing the data of all time, it generata the image visualizing the mappping process.      
 **fig_header**: The folder name header where run_detector.py saved pkl files.   
 **th_level**: Threshold level of the map. We regard the map value zero at each pixel if the value after normalization is below this threshold level.    
