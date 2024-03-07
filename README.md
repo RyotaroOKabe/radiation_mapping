@@ -27,7 +27,7 @@ $ conda activate openmc-env
 ```
 
    
-other libraries (All of them can be installed in a short time. You can use cuda)
+other libraries (All of them can be installed in a short time. You can use cuda for pytorch model training)
 ```
 scikit-learn==1.2.0
 torch==1.11.0
@@ -85,36 +85,78 @@ T-shape | t_1_data/ | t_1_filter/ | t_1_model.pt | 200 | 1 source.
 
 
 ## MC simulation to get training data
+We generate the training data for our direction prediction. Using [OpenMC](https://docs.openmc.org/en/stable/) library, we simulate the radiation detector of square (or Tetris) configurations absorbing radiation from source(s) of random positions in specified dstances. You need to set the following parameters.   
+**num_sources**: The number of radiation sources to place in the field.    
+**a_num** (only for the square detector): The parameter for the configuration of the detector: a x a square shape   
+**shape_name** (only for the Tetris detector):  Tetris shape ['S', 'J', 'T', 'L', 'Z']
+**num_data**: The number of the generated data.
+**seg_angles**: The number of angle sectors ( augnlar resolution: 360 deg/seg_angles).
+**dist_min**: Minimum distance between the radiation source and the detector (cm).
+**dist_max**: Maximum distance between the radiation source and the detector (cm).
+**source_energies**: Photon energy of the radiation (eV)
+**num_particles**: The number of photon in MC simulation
+**run_name**: The folder name to save the simulation results. 
 ```
-# Set proper 'run_name'.
 $ python gen_data_tetris.py (or gen_data_square.py)
 ```
 
 ## MC simulation to get Filtering Layer
+We generate the filterlayers for our direction prediction. Using OpenMC library, we simulate the radiation detector of Tetris (or square) configurations absorbing radiation from source(s). You need to set the following parameters.   
+**a_num** (only for the square detector): The parameter for the configuration of the detector: a x a square shape   
+**shape_name** (only for the Tetris detector):  Tetris shape ['S', 'J', 'T', 'L', 'Z']
+**num_data**: The number of the generated data. Use the same number as 'seg_angles' in training data generation. 
+**source_energies**: Photon energy of the radiation (eV)
+**num_particles**: The number of photon in MC simulation
+**header_dist_particles_dict**: The profile of the distance and the number of photons for each set of filterlayers.   
+**run_name**: The folder name to save the filterlayer files. 
 ```
-# Set proper 'run_name'.
 $ python gen_filter_tetris.py (or gen_filter_square.py)
 ```
 
 ## Training
+We train the U-Net architecture with filterlayers for predicting the directions of the radiation sources. We use the simulation data and filterlayers generated above. You need to set the following parameters.     
+**num_sources**: The number of radiation sources to place in the field. Set the same value as the one you used for generating training data.    
+**seg_angles**: The number of the generated data. Use the same number as 'seg_angles' in training data *generation.    
+**epochs**: The total iterations to train the model.    
+**data_name**: Training data folder name. Set it same as the folder name you used in gen_data_tetris.py (gen_data_square.py)   
+**test_ratio**: The ratio of data used as the testing dataset.
+**k_fold**: The number setting for k-fold cross validation.
+**filter_name**: Filterlayer data folder name. Set it same as the folder name you used in gen_filter_tetris.py (gen_filter_square.py)   
+**save_name**: The name for saving the model.   
 ```
-# Set proper 'data_name' and 'filter_name'.
 $ python train_model.py
 ```
 
 ## Simulation with a moving detector
+We generate an input files for radiation mapping. We consider the situation where the radiation source(s) is placed at the fixed position(s), and the detector move on the trajector to map the radiation.
+**input_shape**: (int) the size of the square detector (a_num),  or ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector (shape_name).   
+**seg_angles**: The number of angle sectors (augnlar resolution: 360 deg/seg_angles). Make sure to use the same value as those of training data and filters.   
+**model_name**: Model name trained with the code 'train_model.py'.   
+**RSID**: The position of radiation source(s) in 2D space. The shape of the array is (n, 2), where n is the number of radiation sources.   
+**rot_ratio** Rotation ratio \chi , where \phi = \chi * \theta   
+**DT**: The digit of time (s).   
+**SIM_TIME**: The total simulation time (s).   
+**SIM_STEP** The simulation time step each of which we save pkl files.   
+**num_particles**: The number of photon in MC simulation.   
+# Specify area for radiation map   
+**map_horiz**: The map geometry in the horizontal axis (m). (The bottom position, the top position, the number of pixels).   
+**map_vert**: The map geometry in the vertical axis (m). (The left position, the right position, the number of pixels).   
 ```
-# Set proper 'model_name'.
 $ python run_detector.py
 ```
 
 ## Mapping
+The code produces the images of radiation mapping at each timestamp. After finishing processing the data of all time, it generata the image visualizing the mappping process.   
+**fig_header**: The folder name header where run_detector.py saved pkl files.
+**th_level**: Threshold level of the map. We regard the map value zero at each pixel if the value after normalization is below this threshold level. 
+**map_horiz**: The map geometry in the horizontal axis (m). (The bottom position, the top position, the number of pixels). Set the same values as 'run_detector.py'.
+**map_vert**: The map geometry in the vertical axis (m). (The left position, the right position, the number of pixels). Set the same values as 'run_detector.py'.
 ```
-# Set proper 'fig_header'.
 $ python radiation_mapping.py  
 ```
 
-## Citation
+
+## Citation of this work
 ```
 @article{okabe2023tetris,
   title={Tetris-inspired detector with neural network for radiation mapping},

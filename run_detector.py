@@ -12,9 +12,9 @@ from env_config import *
 #=========================set values below==========================
 # Load models
 input_shape = 2  # [2, 5, 10, etc] (int) the size of the square detector. Or ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector.
-tetris_mode = True if isinstance(input_shape, str) else False   # True if the detector is Tetris-inspired detector. False if it is a square detector
+tetris_mode = True if isinstance(input_shape, str) else False   # True if the detector is Tetris-inspired detector. False if it is a square detector.
 seg_angles = 64 # The number of angle sectors ( augnlar resolution: 360 deg/seg_angles). Make sure to use the same value as those of training data and filters
-model_name = 'sq2_1_model.pt' #'230124-214356_230121-165924_200_1_model.pt' # model name trained with the code 'train_model.py'
+model_name = 'sq2_1_model.pt' # model name trained with the code 'train_model.py'
 file_header = model_name.replace('_model.pt', '')  # The folder name header for saving files
 model_path = './save/models/' + model_name
 model =torch.load(model_path)
