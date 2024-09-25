@@ -82,7 +82,7 @@ export OPENMC_CROSS_SECTIONS="path to the folder that contains this repo/radiati
 
 
 
-# Radiation mapping workflow
+# Radiation Mapping Workflow
 
 We use the folders below for storing files:   
 **Training data**: ./save/openmc_data/      
@@ -146,7 +146,7 @@ We train the U-Net architecture with filterlayers for predicting the directions 
 $ python train_model.py
 ```
 
-## Simulation with a moving detector
+## Simulation with a Moving Detector
 We generate an input files for radiation mapping. We consider the situation where the radiation source(s) is placed at the fixed position(s), and the detector move on the trajector to map the radiation.   
 **input_shape**: (int) the size of the square detector (a_num),  or ['J', 'L', 'S', 'T', 'Z'] (string) for tetris detector (shape_name).     
 **seg_angles**: The number of angle sectors (augnlar resolution: 360 deg/seg_angles). Make sure to use the same value as those of training data and filters.     
@@ -163,7 +163,7 @@ We generate an input files for radiation mapping. We consider the situation wher
 $ python run_detector.py
 ```
 
-## Radiation mapping
+## Radiation Mapping
 The code produces the images of radiation mapping at each timestamp. After finishing processing the data of all time, it generata the image visualizing the mappping process.      
 **fig_header**: The folder name header where run_detector.py saved pkl files.   
 **th_level**: Threshold level of the map. We regard the map value zero at each pixel if the value after normalization is below this threshold level.    
@@ -174,7 +174,7 @@ $ python radiation_mapping.py
 ```
 
 
-## Citation of this work
+## Citation
 ### Main Publication
 - **Tetris-inspired detector with neural network for radiation mapping**  
   *Nature Communications* (2024)  
