@@ -1,33 +1,52 @@
-# Tetris-inspired detector with neural network for radiation mapping
-In recent years, radiation mapping has attracted widespread research attention and increased public concerns on environmental monitoring. In terms of both materials and their configurations, radiation detectors have been developed to locate the directions and positions of the radiation sources. In this process, algorithm is essential in converting detector signals to radiation source information. However, due to the complex mechanisms of radiation-matter interaction and the current limitation of data collection, high-performance, low-cost radiation mapping is still challenging. Here we present a computational framework using Tetris-inspired detector pixels and machine learning for radiation mapping. Using inter-pixel padding to increase the contrast between pixels and neural network to analyze the detector readings, a detector with as few as four pixels can achieve high-resolution directional mapping. By further imposing Maximum a Posteriori (MAP) with a moving detector, further radiation position localization is achieved. Non-square, Tetris-shaped detector can further improve performance beyond the conventional grid-shaped detector. Our framework offers a new avenue for high quality radiation mapping with least number of detector pixels possible, and is anticipated to be capable to deploy for real-world radiation detection with moderate validation.   
+# Tetris-inspired Detector with Neural Network for Radiation Mapping
 
-[[Paper]](https://arxiv.org/abs/2302.07099)   
+In recent years, radiation mapping has attracted widespread research attention and increased public concerns on environmental monitoring. In terms of both materials and their configurations, radiation detectors have been developed to locate the directions and positions of the radiation sources. In this process, algorithms are essential in converting detector signals to radiation source information. However, due to the complex mechanisms of radiation-matter interaction and the current limitation of data collection, high-performance, low-cost radiation mapping is still challenging. 
 
+Here, we present a computational framework using Tetris-inspired detector pixels and machine learning for radiation mapping. By using inter-pixel padding to increase the contrast between pixels and a neural network to analyze the detector readings, a detector with as few as four pixels can achieve high-resolution directional mapping. Furthermore, by imposing Maximum a Posteriori (MAP) with a moving detector, enhanced radiation position localization is achieved. Non-square, Tetris-shaped detectors further improve performance beyond conventional grid-shaped detectors. 
+
+This framework offers a new avenue for high-quality radiation mapping with the fewest number of detector pixels and can be applied to real-world radiation detection with moderate validation.
+
+[[Paper]](https://arxiv.org/abs/2302.07099)
 
 <p align="center">
   <img src="assets/SupplementaryMovie01.gif" width="500">
 </p>
 
+---
 
-# OpenMC setup
-[1] Create conda environment for openmc simulations (Linux/Mac)
-reference: https://docs.openmc.org/en/stable/quickinstall.html
+## Table of Contents
+1. [OpenMC Setup](#openmc-setup)
+2. [Radiation Mapping Workflow](#radiation-mapping-workflow)
+3. [MC Simulation to Get Training Data](#mc-simulation-to-get-training-data)
+4. [MC Simulation to Get Filtering Layer](#mc-simulation-to-get-filtering-layer)
+5. [Training](#training)
+6. [Simulation with a Moving Detector](#simulation-with-a-moving-detector)
+7. [Radiation Mapping](#radiation-mapping)
+8. [Citation](#citation)
 
-```
+---
+
+# OpenMC Setup
+
+### Step 1: Create Conda Environment for OpenMC Simulations (Linux/Mac)
+
+Reference: https://docs.openmc.org/en/stable/quickinstall.html
+
+```bash
 $ conda create --name openmc-env python=3.9.9
 $ conda activate openmc-env
 $ conda install openmc -c conda-forge
 
 ```
 
-You can also do the installation with the following commands:
+Alternatively, you can install OpenMC with:   
 ```
 $ conda create -n openmc-env openmc python==3.9.9
 $ conda activate openmc-env  
 ```
 
-   
-other libraries (All of them can be installed in a short time. You can use cuda for pytorch model training)
+### Step 2: Install Additional Libraries    
+These can be installed quickly. CUDA can be used for PyTorch model training:   
 ```
 scikit-learn==1.2.0
 torch==1.11.0
@@ -41,7 +60,7 @@ numpy==1.26.2
 matplotlib==3.8.2
 ```
 
-[2] Download the OpenMC Library
+### Step 3: Download the OpenMC Library   
 
 ```
 $ wget -c https://anl.box.com/shared/static/d359skd2w6wrm86om2997a1bxgigc8pu.xz
@@ -49,14 +68,14 @@ $ tar -xf d359skd2w6wrm86om2997a1bxgigc8pu.xz
 $ mv mcnp_endfb71/ openmc_library/ 
 ```
 
-[3] Set the path of `crosssections.xml` file  
+### Step 4: Set the Path for `crosssections.xml` File  
 Assign the path to `crosssections.xml` by setting `env_config.py`.   
 Make a copy of the `env_config_temprate.py` file and rename it to `env_config.py`. Modify the following environment variables in `env_config.py`.   
 ```  
 os.environ['CUDA_VISIBLE_DEVICES']="path to the folder that contains this repo/radiation_mapping/openmc_library/cross_sections.xml" 
 ```  
 
-You can also specify the path by adding the following line to .bashrc or .profile. 
+Alternatively, you can specify the path by adding the following line to `.bashrc` or `.profile`. 
 ```
 export OPENMC_CROSS_SECTIONS="path to the folder that contains this repo/radiation_mapping/openmc_library/cross_sections.xml" 
 ```   
@@ -156,11 +175,26 @@ $ python radiation_mapping.py
 
 
 ## Citation of this work
+### Main Publication
+- **Tetris-inspired detector with neural network for radiation mapping**  
+  *Nature Communications* (2024)  
+  [Read the full paper](https://www.nature.com/articles/s43588-024-00661-0)
+
+### MIT News
+- **With inspiration from “Tetris,” MIT researchers develop a better radiation detector**  
+  [Read the MIT News article](https://news.mit.edu/2024/mit-researchers-develop-tetris-inspired-radiation-detector-0410)
+
+If you find this code or dataset useful, please cite the following paper:
+
 ```
-@article{okabe2023tetris,
+@article{okabe2024tetris,
   title={Tetris-inspired detector with neural network for radiation mapping},
-  author={Okabe, Ryotaro and Xue, Shangjie and Yu, Jiankai and Liu, Tongtong and Forget, Benoit and Jegelka, Stefanie and Kohse, Gordon and Hu, Lin-wen and Li, Mingda},
-  journal={arXiv preprint arXiv:2302.07099},
-  year={2023}
+  author={Okabe, Ryotaro and Xue, Shangjie and Vavrek, Jayson R and Yu, Jiankai and Pavlovsky, Ryan and Negut, Victor and Quiter, Brian J and Cates, Joshua W and Liu, Tongtong and Forget, Benoit and others},
+  journal={Nature Communications},
+  volume={15},
+  number={1},
+  pages={3061},
+  year={2024},
+  publisher={Nature Publishing Group UK London}
 }
 ```
